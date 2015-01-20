@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="orthopaedicsApp">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Orthopaedics</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="css/plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/scrolling-nav.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Framework Angular.JS -->
+    <script src="/js/vendor/angular.min.js"></script>
+    <script src="/js/vendor/angular-animate.min.js"></script>
+    <script src="/js/vendor/angular-route.min.js"></script>
+    <script src="/js/vendor/angular-cookies.min.js"></script>
+    <script src="/js/vendor/angular-resource.min.js"></script>
+
+    <script src="/js/services.js"></script>
+    <script src="/js/controllers.js"></script>
+    <script src="/js/app.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand page-scroll" href="#page-top">
+                <div class="imglogo">
+                    <img src="img/emory-logo.png">
+                </div>
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                <li class="hidden">
+                    <a class="page-scroll" href="#page-top"></a>
+                </li>
+<!--                 <li>
+                    <a class="page-scroll" href="#about">Check-in</a>
+                </li> -->
+                <li>
+                    <a class="page-scroll" style="color:white" href="#">Schedule</a>
+                </li>
+                <li>
+                    <a class="page-scroll" style="color:white" href="#">Physicians</a>
+                </li>
+                <li>
+                    <a class="page-scroll" style="color:white" href="#">Patients</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+<div ng-view></div>
+
+
+<!-- jQuery -->
+<script src="js/vendor/jquery.js"></script>
+
+<!-- Other Plugins -->
+<script src="js/vendor/underscore.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="js/vendor/bootstrap.min.js"></script>
+<script src="/js/vendor/ui-bootstrap-tpls-0.12.0.min.js"></script>
+
+<!-- Scrolling Nav JavaScript -->
+<script src="js/vendor/jquery.easing.min.js"></script>
+<script src="js/vendor/scrolling-nav.js"></script>
+
+<!-- DataTables JavaScript -->
+<script src="js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+
+<!-- My JavaScript -->
+<script src="js/main.js"></script>
+
+
+<script type="text/javascript">
+    function onCollapseText(collapseButton){
+        if($(collapseButton).text().trim() == "Expand"){
+            $(collapseButton).text("Collapse");
+        }
+        else{
+            $(collapseButton).text("Expand");
+        }
+    }
+</script>
+</body>
+
+</html>

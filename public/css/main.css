@@ -1,0 +1,42 @@
+.imglogo {
+	width: 169px;
+	height: 50px;
+	margin-top: -20px;
+	margin-left: -25%;
+}
+
+.imglogo img {
+	width: 100%;
+	height: 100%;
+}
+
+.cardDischarged {
+	background-color: #E6E7E9;
+	border-left-width: 10px; 
+	border-left-color: #E6E7E9;
+}
+
+.card {
+	background-color: #FFF; 
+	border-left-width: 10px; 
+}
+
+.cardDelay {
+	border-left-color: #F79E49;
+}
+
+.cardOnTime {
+	border-left-color: #72C394;
+}
+
+.cardNotChecked {
+	background-color: #FFF; 
+}
+
+.textDelay {
+	color: #F79E49;
+}
+
+.textOnTime {
+	color: #72C394;
+}

@@ -1,0 +1,7 @@
+{
+	"host": "127.0.0.1",
+	"expressPort": 8181,
+	"transcoderURL": "http://localhost:8282",
+	"databaseURL": "mongodb://localhost:27017/orthopaedics",
+	"tmpFolder": "tmp/"
+}
