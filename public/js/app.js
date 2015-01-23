@@ -30,7 +30,7 @@ orthopaedicsApp.config(['$routeProvider','$locationProvider',
         else {
           $rootScope.message = 'You need to log in.';
           $timeout(function(){deferred.reject();}, 0);
-          $location.url('/');
+          $location.url('/login');
         }
       });
 
@@ -39,29 +39,27 @@ orthopaedicsApp.config(['$routeProvider','$locationProvider',
 
 // ========================= NAVIGATION ===================
     $routeProvider
-      .when('/', {  // THIS IS TEMPORARY, WHIE LOGIN IS FINISHED
-        templateUrl: '/partials/schedule.html',
-        controller: 'scheduleCtrl',
-        routeName:"0"
-      }) // end of temp code
+      // .when('/', {  // THIS IS TEMPORARY, WHIE LOGIN IS FINISHED
+      //   templateUrl: '/partials/schedule.html',
+      //   controller: 'scheduleCtrl'
+      // }) // end of temp code
 
       .when('/login', {
         templateUrl: '/partials/login.html',
-        controller: 'loginCtrl',
-        routeName:"0"
+        controller: 'loginCtrl'
       })
       .when('/schedule', {
         templateUrl: '/partials/schedule.html',
         controller: 'scheduleCtrl',
-        routeName:"1"
+        resolve: {
+          loggedin: checkLoggedin
+        }
       })
       .when('/physicians', {
         templateUrl: '/partials/physicians.html',
-        controller: 'physiciansCtrl',
-        routeName:"2"
+        controller: 'physiciansCtrl'
+      })
+      .otherwise({
+        redirectTo: '/login'
       });
-      // .otherwise({
-      //   redirectTo: '/login'
-      // })
-
 }]);

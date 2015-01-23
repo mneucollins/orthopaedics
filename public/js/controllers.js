@@ -4,13 +4,13 @@ var orthopaedicsControllers = angular.module('orthopaedicsControllers', ['ui.boo
 // ========================= HEADER ==================
 // =======================================================
 
-  // spicaControllers.controller('headerCtrl', ['$scope', 'AuthService',
-  //   function($scope, AuthService){
-  //     $scope.$watch(AuthService.isLoggedIn, function ( isLoggedIn ) {
-  //       $scope.isLoggedIn = isLoggedIn;
-  //       $scope.currentUser = AuthService.currentUser();
-  //     });
-  // }]);
+  orthopaedicsControllers.controller('headerCtrl', ['$scope', 'AuthService',
+    function($scope, AuthService){
+      $scope.$watch(AuthService.isLoggedIn, function ( isLoggedIn ) {
+        $scope.isLoggedIn = isLoggedIn;
+        $scope.currentUser = AuthService.currentUser();
+      });
+  }]);
 
 // =====================================================================================
 // ================================ NAVEGACION =========================================
@@ -19,11 +19,13 @@ var orthopaedicsControllers = angular.module('orthopaedicsControllers', ['ui.boo
 // =============================== LOGIN CTRL ===================================
 
 orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthService',
-	function($scope, $location, Video, AuthService) {
+	function($scope, $location, AuthService) {
+
+    $("nav").addClass("hidden");
 
 		$scope.login = function () {
-        AuthService.login($scope.usuario, function(user) {
-          alert("Welcome " + user.nombre);
+        AuthService.login($scope.user, function(user) {
+          alert("Welcome " + user.name);
           $location.path("/schedule");
       }, function (err) {
         alert("hakuna matata!");
@@ -37,6 +39,7 @@ orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthSer
 orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$rootScope',  'Patient',
   function($scope, $location, $rootScope, Patient) {
 
+    $("nav").removeClass("hidden");
     $scope.currentTime = new Date();
 
     setInterval(function minuteUpdate () {
