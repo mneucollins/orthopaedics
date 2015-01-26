@@ -36,12 +36,12 @@
         <tbody style="text-align:left; white-space: nowrap; font-weight: bold; color:#BEBEBE;">
             <tr ng-repeat="patient in patientList">
                 <td style="padding: 2% 0% 2% 0.5%;background-color:white; border-top:transparent;"></td>
+                <td style="padding: 2% 0% 2% 0.5%;"></td>
                 <td style="padding: 2% 0% 2% 0.5%;">{{ patient.fullName }}</td>
-                <td style="padding: 2% 0% 2% 0.5%;">{{ patient.fullName }}</td>
+                <td style="padding: 2% 0% 2% 0.5%;">{{ patient.physician.name }}</td>
+                <td style="padding: 2% 0% 2% 0.5%;">{{ patient.dateBirth | date:'MM/dd/yyyy'}}</td>
                 <td style="padding: 2% 0% 2% 0.5%;"></td>
-                <td style="padding: 2% 0% 2% 0.5%;"></td>
-                <td style="padding: 2% 0% 2% 0.5%;"></td>
-                <td style="padding: 2% 0% 2% 0.5%;"></td>
+                <td style="padding: 2% 0% 2% 0.5%;">{{ patient.currentState }}</td>
                 <td style="padding: 2% 0% 2% 0.5%;"></td>
                 <td style="padding: 2%;text-align:right;"></td>
             </tr>

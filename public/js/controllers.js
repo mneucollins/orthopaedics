@@ -47,21 +47,9 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     }, 1000);
     $scope.$watch('currentTime', function (newValue, oldValue) { console.log("data updated") });
 
-    $scope.groupedPatientList = [];
-    var patientList = Patient.query(function (patients) {
-      var pList = _.groupBy(patients, function(patient){ return new Date(patient.apptTime).getHours(); });
-      pList = _.each(pList, function (value, key, list) {
-        $scope.groupedPatientList.push({hour: key, patientList: value});
-      });
-    });
-
-    //prueba para patien list
-    $scope.patientList = [];
-    var patientList = Patient.query(function (patients) {
-      var pList = _.sortBy(patients, function(patient){ return new Date(patient.apptTime).getHours(); });
-      pList = _.each(pList, function (value, key, list) {
-        $scope.patientList.push({patientList: value});
-      });
+    Patient.query(function (patients) {
+      var pList = _.sortBy(patients, function(patient){ return new Date(patient.apptTime).getHours(); });  // sort by appt time (hours)
+      $scope.patientList = pList;
     });
 
     $scope.getNormalizedHour = function (hour) {
