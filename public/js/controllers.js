@@ -55,6 +55,15 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
       });
     });
 
+    //prueba para patien list
+    $scope.patientList = [];
+    var patientList = Patient.query(function (patients) {
+      var pList = _.sortBy(patients, function(patient){ return new Date(patient.apptTime).getHours(); });
+      pList = _.each(pList, function (value, key, list) {
+        $scope.patientList.push({patientList: value});
+      });
+    });
+
     $scope.getNormalizedHour = function (hour) {
       if(hour == 12)
         return hour + " M";

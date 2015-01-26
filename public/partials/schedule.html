@@ -1,8 +1,5 @@
-
-
-
 <!-- Sub Navigation -->
-<div class="panel panel-default panel-subnavi">
+<!-- <div class="panel panel-default panel-subnavi">
   <div class="panel-body panel-bodysubnavi">
     <div class="row">
         <div class="col-md-2">Schedule</div>
@@ -14,12 +11,43 @@
         </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <!-- Intro Section -->
 <section id="dashboard" class="intro-section">
 
     <h3><p align="left">{{ currentTime | date: 'h:mm a MMMM d, yyyy'}}</p></h3>
+    <br>
+
+    <table class="table table-striped">
+        <thead style="text-align:left; white-space: nowrap; font-weight: bold;">
+            <tr>
+                <th style="width:5%; border-bottom:transparent"></th>
+                <th style="color:#719DF0">Appt Time</th>
+                <th>Patient Name</th>
+                <th>Physician</th>
+                <th>DOB</th>
+                <th>Imaging</th>
+                <th>Status</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody style="text-align:left; white-space: nowrap; font-weight: bold; color:#BEBEBE;">
+            <tr ng-repeat="patient in patientList">
+                <td style="padding: 2% 0% 2% 0.5%;background-color:white; border-top:transparent;"></td>
+                <td style="padding: 2% 0% 2% 0.5%;">{{ patient.fullName }}</td>
+                <td style="padding: 2% 0% 2% 0.5%;">{{ patient.fullName }}</td>
+                <td style="padding: 2% 0% 2% 0.5%;"></td>
+                <td style="padding: 2% 0% 2% 0.5%;"></td>
+                <td style="padding: 2% 0% 2% 0.5%;"></td>
+                <td style="padding: 2% 0% 2% 0.5%;"></td>
+                <td style="padding: 2% 0% 2% 0.5%;"></td>
+                <td style="padding: 2%;text-align:right;"></td>
+            </tr>
+        </tbody>
+    </table>
+
     <br>
     <div class="row" style="text-align:left; white-space: nowrap;">
         <div class="col-md-2">Appt Time <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></div>
