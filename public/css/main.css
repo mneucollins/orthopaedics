@@ -12,6 +12,11 @@ body { padding-top: 60px; }
 	height: 100%;
 }
 
+.imgdoc img {
+	width: 50%;
+	height: 50%;
+}
+
 .cardDischarged {
 	background-color: #E6E7E9;
 	border-left-width: 10px; 
