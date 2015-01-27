@@ -33,22 +33,76 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody style="text-align:left; white-space: nowrap; font-weight: bold; color:#BEBEBE;">
-            <tr ng-repeat="patient in patientList">
+        <tbody style="text-align:left; white-space: nowrap; font-weight: bold; color:#BEBEBE;" ng-repeat="patient in patientList">
+            <tr>
                 <td style="padding: 2% 0% 2% 0.5%;background-color:white; border-top:transparent;"></td>
-                <td style="padding: 2% 0% 2% 0.5%;"></td>
+                <td style="padding: 2% 0% 2% 0.5%;">{{ getNormalizedHour(patient.apptTime) }}</td>
                 <td style="padding: 2% 0% 2% 0.5%;">{{ patient.fullName }}</td>
                 <td style="padding: 2% 0% 2% 0.5%;">{{ patient.physician.name }}</td>
                 <td style="padding: 2% 0% 2% 0.5%;">{{ patient.dateBirth | date:'MM/dd/yyyy'}}</td>
-                <td style="padding: 2% 0% 2% 0.5%;"></td>
-                <td style="padding: 2% 0% 2% 0.5%;">{{ patient.currentState }}</td>
-                <td style="padding: 2% 0% 2% 0.5%;"></td>
-                <td style="padding: 2%;text-align:right;"></td>
+                <td style="padding: 2% 0% 2% 0.5%;"><img src="{{ getImagingState(patient) }}" /></td>
+                <td style="padding: 2% 0% 2% 0.5%;">{{ getCurrentStatus(patient) }}</td>
+                <td style="padding: 2% 0% 2% 0.5%;"><div class="roundMiniBox">{{ getTotalTime(patient) }}</div></td>
+                <td style="padding: 2%;text-align:right;"><img src="img/expandIcon.png" class="imageButton"  data-toggle="collapse" data-target="{{ '#miniform' + patient._id }}" onclick="onCollapseButton(this);"/></td>
+            </tr>
+            <tr id="{{ 'miniform' + patient._id }}" class="accordian-body collapse ">
+                <td style="padding: 2% 0% 2% 0.5%;background-color:white; "></td>
+                <td colspan="8" >
+
+                    <div>
+                        <div class="well">
+                            <div class="row">
+                                <div class="col-md-6" style="font-weight: bold; text-align:left">Message</div>
+                                <div class="col-md-5" style="font-weight: bold; text-align:left">Appointment History</div>
+                                <div class="col-md-1">See all ></div>
+                            </div>
+                            <br/>
+                            <div class="row" style="text-align:left">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12"><textarea class="form-control" rows="5" id="comment"></textarea></div>
+                                    </div>
+                                    <br/>
+                                    <div class="row">
+                                        <div class="col-md-2" style="color:#72C394; font-weight: bold;">Custom</div>
+                                        <div class="col-md-2">Default</div>
+                                        <div class="col-md-4"></div>
+                                        <div class="col-md-2" style="font-weight: bold;">Cancel</div>
+                                        <div class="col-md-2 btn btn-default" style="background-color: #72C394; color: white; font-weight: bold; width: 14%; margin-top: -1%;">Send</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">Tuesday, September 2, 2014</div>
+                                        <div class="col-md-3">10am</div>
+                                        <div class="col-md-1" style="text-align:right"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></div>
+                                        <div class="col-md-2" style="text-align:left"></div>
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-md-6">Tuesday, August 2, 2014</div>
+                                        <div class="col-md-3">10am</div>
+                                        <div class="col-md-1" style="text-align:right"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></div>
+                                        <div class="col-md-2" style="text-align:left">+30</div>
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-md-6">Tuesday, July 2, 2014</div>
+                                        <div class="col-md-3">10am</div>
+                                        <div class="col-md-1" style="text-align:right"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></div>
+                                        <div class="col-md-2" style="text-align:left">-30</div>
+                                    </div>
+                                </div>
+                            </diV>
+                        </div>
+                    </div>
+
+                </td>
             </tr>
         </tbody>
     </table>
 
-    <br>
+<!--     <br>
     <div class="row" style="text-align:left; white-space: nowrap;">
         <div class="col-md-2">Appt Time <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></div>
         <div class="col-md-1" style="left: -2%;">Patient <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></div>
@@ -58,10 +112,10 @@
         <div class="col-md-1">DOB <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></div>
         <div class="col-md-2" style="padding-left: 3%;">MNR <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></div>
     </div>
-    <br />
+    <br /> -->
 
     <!-- TODO - Hacer que aparezcan de manera dinámica -->
-    <div ng-repeat="patientGroup in groupedPatientList">
+ <!--    <div ng-repeat="patientGroup in groupedPatientList">
     <div class="row">
         <div class="col-md-1">{{ getNormalizedHour(patientGroup.hour) }}</div>
         <div class="col-md-11"><hr /></div>
@@ -135,7 +189,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     </div>
 
 <!--     <div class="row">

@@ -113,12 +113,13 @@
 
 
 <script type="text/javascript">
-    function onCollapseText(collapseButton){
-        if($(collapseButton).text().trim() == "Expand"){
-            $(collapseButton).text("Collapse");
+    function onCollapseButton(collapseButton){
+        var collapseIcon = $(collapseButton).attr('src');
+        if(collapseIcon == "img/expandIcon.png"){
+            $(collapseButton).attr('src','img/collapseIcon.png');
         }
         else{
-            $(collapseButton).text("Expand");
+            $(collapseButton).attr('src','img/expandIcon.png');
         }
     }
 </script>
