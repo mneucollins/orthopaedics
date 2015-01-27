@@ -37,17 +37,16 @@ orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthSer
 
 // =============================== SCHEDULE CTRL ===================================
 
-orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$rootScope',  'Patient',
-  function($scope, $location, $rootScope, Patient) {
+orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$rootScope',  '$interval', 'Patient',
+  function($scope, $location, $rootScope, $interval, Patient) {
 
     $("nav").removeClass("hidden");
     $("body").removeClass("body-login");
     $scope.currentTime = new Date();
 
-    setInterval(function minuteUpdate () {
+    $interval(function minuteUpdate () {
       $scope.currentTime = new Date();
-    }, 1000);
-    $scope.$watch('currentTime', function (newValue, oldValue) { console.log("data updated") });
+    }, 500);
 
     Patient.query(function (patients) {
       var pList = _.sortBy(patients, function(patient){ return new Date(patient.apptTime).getHours(); });  // sort by appt time (hours)
@@ -106,9 +105,28 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
 
       return classes;
     }
-
   }]);
 
+// =============================== SCHEDULE OLD CTRL ===================================
+
+orthopaedicsControllers.controller('scheduleOldCtrl', ['$scope', '$location', '$rootScope',  '$interval', 'Patient',
+  function($scope, $location, $rootScope, $interval, Patient) {
+
+    $("nav").removeClass("hidden");
+    $("body").removeClass("body-login");
+    $scope.currentTime = new Date();
+
+    $interval(function minuteUpdate () {
+      $scope.currentTime = new Date();
+    }, 500);
+
+    // Patient.query(function (patients) {
+    //   var pList = _.sortBy(patients, function(patient){ return new Date(patient.apptTime).getHours(); });  // sort by appt time (hours)
+    //   $scope.patientList = pList;
+    // });
+
+
+  }]);
 // =============================== PHYSICIANS CTRL ===================================
 
 orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$rootScope',  'Patient',
