@@ -129,8 +129,18 @@ orthopaedicsControllers.controller('scheduleOldCtrl', ['$scope', '$location', '$
   }]);
 // =============================== PHYSICIANS CTRL ===================================
 
-orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$rootScope',  'Patient',
-  function($scope, $location, $rootScope, Patient) {
+orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$rootScope', '$window', 'Patient',
+  function($scope, $location, $rootScope, $window, Patient) {
 
+    $(".physiciansSidebar").css("height", $window.innerHeight - 60);
+
+    $scope.tooglePhysiciansList = function () {
+      var currentPos = $(".physiciansList").css("left");
+
+      if(currentPos.charAt(0) == "-") // it's hidden
+        $(".physiciansList").css("left", "83px");
+      else
+        $(".physiciansList").css("left", "-374px");
+    }
 
   }]);
