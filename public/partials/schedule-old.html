@@ -1,0 +1,299 @@
+
+<!-- Intro Section -->
+<section id="dashboard" class="intro-section">
+
+    <h3><p align="left">{{ currentTime | date: 'h:mm a MMMM d, yyyy'}}</p></h3>
+    <br>
+
+
+    <!-- TODO - Hacer que aparezcan de manera dinámica -->
+    <div>
+    <div class="row">
+        <div class="col-md-1">9 AM</div>
+        <div class="col-md-11"><hr /></div>
+    </div>
+    <div class="row" style="padding-left: 5%;">
+        <div class="panel panel-default panel-rows col-md-offset-1 col-md-11" class="card cardOnTime">
+            <div class="panel-body panel-bodyrowsUp" style="white-space: nowrap;">
+                <div class="col-md-2" style="font-weight: bold;" ng-class="textOnTime">Bilbo Baggins</div>
+                <div class="col-md-1" ng-class="loadTextClasses(patient)">9:00 - 10:00 AM</div>
+                <div class="col-md-3" ng-class="loadTextClasses(patient)">Waiting Room</span></div>
+                <div class="col-md-1">Dr. Jhones</div>
+                <div class="col-md-2">VTR</div>
+                <div class="col-md-1">01/26/1765</div>
+                <div class="col-md-2">4353453453453</div>
+            </div>
+            <hr />
+            <div class="panel-body panel-bodyrowsDown">
+                <div class="col-md-2"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;&nbsp;Contact</div>
+                <div class="col-md-2"><span class="glyphicon glyphicon-open" aria-hidden="true"></span>&nbsp;&nbsp;Discharge</div>
+                <div class="col-md-offset-6 col-md-2">
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapsibleTest" aria-expanded="false" aria-controls="collapsibleTest" onclick="onCollapseText(this)">
+                        Expand
+                    </button>
+                </div>
+            </div>
+            <div class="collapse" id="collapsibleTest">
+                <div class="well">
+                    <div class="row">
+                        <div class="col-md-6" style="font-weight: bold; text-align:left">Message</div>
+                        <div class="col-md-5" style="font-weight: bold; text-align:left">Appointment History</div>
+                        <div class="col-md-1">See all ></div>
+                    </div>
+                    <br/>
+                    <div class="row" style="text-align:left">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-12"><textarea class="form-control" rows="5" id="comment"></textarea></div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-md-2" style="color:#72C394; font-weight: bold;">Custom</div>
+                                <div class="col-md-2">Default</div>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-2" style="font-weight: bold;">Cancel</div>
+                                <div class="col-md-2 btn btn-default" style="background-color: #72C394; color: white; font-weight: bold; width: 14%; margin-top: -1%;">Send</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-6">Tuesday, September 2, 2014</div>
+                                <div class="col-md-3">10am</div>
+                                <div class="col-md-1" style="text-align:right"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></div>
+                                <div class="col-md-2" style="text-align:left"></div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-6">Tuesday, August 2, 2014</div>
+                                <div class="col-md-3">10am</div>
+                                <div class="col-md-1" style="text-align:right"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></div>
+                                <div class="col-md-2" style="text-align:left">+30</div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-6">Tuesday, July 2, 2014</div>
+                                <div class="col-md-3">10am</div>
+                                <div class="col-md-1" style="text-align:right"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></div>
+                                <div class="col-md-2" style="text-align:left">-30</div>
+                            </div>
+                        </div>
+                    </diV>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+<!--     <div class="row">
+        <div class="col-md-1" >9 am</div>
+        <div class="col-md-11"><hr /></div>
+    </div>
+    <div class="row" style="padding-left: 5%;">
+        <div class="panel panel-default panel-rows col-md-offset-1 col-md-11 cardWithPhysician">
+            <div class="panel-body panel-bodyrowsUp" style="white-space: nowrap;">
+                <div class="col-md-2" style="color: #72C394;font-weight: bold;">Kurt Russel</div>
+                <div class="col-md-1" style="color: #72C394;">9 - 10 am</div>
+                <div class="col-md-3" style="color: #72C394;">With Physician</span></div>
+                <div class="col-md-1">Dr. Smith</div>
+                <div class="col-md-2">RPV</div>
+                <div class="col-md-1">11/27/1987</div>
+                <div class="col-md-2">1002653743</div>
+            </div>
+            <hr />
+            <div class="panel-body panel-bodyrowsDown">
+                <div class="col-md-2"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;&nbsp;Contact</div>
+                <div class="col-md-2"><span class="glyphicon glyphicon-open" aria-hidden="true"></span>&nbsp;&nbsp;Discharge</div>
+                <div class="col-md-offset-6 col-md-2">
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" onclick="onCollapseText(this)">
+                        Expand
+                    </button>
+                </div>
+            </div>
+            <div class="collapse" id="collapseExample">
+                <div class="well">
+                    <div class="row">
+                        <div class="col-md-6" style="font-weight: bold; text-align:left">Message</div>
+                        <div class="col-md-5" style="font-weight: bold; text-align:left">Appointment History</div>
+                        <div class="col-md-1">See all ></div>
+                    </div>
+                    <br/>
+                    <div class="row" style="text-align:left">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-12"><textarea class="form-control" rows="5" id="comment"></textarea></div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-md-2" style="color:#72C394; font-weight: bold;">Custom</div>
+                                <div class="col-md-2">Default</div>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-2" style="font-weight: bold;">Cancel</div>
+                                <div class="col-md-2 btn btn-default" style="background-color: #72C394; color: white; font-weight: bold; width: 14%; margin-top: -1%;">Send</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-6">Tuesday, September 2, 2014</div>
+                                <div class="col-md-3">10am</div>
+                                <div class="col-md-1" style="text-align:right"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></div>
+                                <div class="col-md-2" style="text-align:left"></div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-6">Tuesday, August 2, 2014</div>
+                                <div class="col-md-3">10am</div>
+                                <div class="col-md-1" style="text-align:right"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></div>
+                                <div class="col-md-2" style="text-align:left">+30</div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-6">Tuesday, July 2, 2014</div>
+                                <div class="col-md-3">10am</div>
+                                <div class="col-md-1" style="text-align:right"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></div>
+                                <div class="col-md-2" style="text-align:left">-30</div>
+                            </div>
+                        </div>
+                    </diV>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">10 am</div>
+        <div class="col-md-11"><hr /></div>
+    </div>
+    <div class="row" style="padding-left: 5%;">
+        <div class="panel panel-default panel-rows col-md-offset-1 col-md-11 cardWaitRoom">
+            <div class="panel-body panel-bodyrowsUp" style="white-space: nowrap;">
+                <div class="col-md-2" style="color: #F79E49;font-weight: bold;">Meryk Streep</div>
+                <div class="col-md-1" style="color: #F79E49;">10 - 11 am</div>
+                <div class="col-md-3" style="color: #F79E49;">Waiting Room -5min</span></div>
+                <div class="col-md-1">Dr. Smith</div>
+                <div class="col-md-2">RPV</div>
+                <div class="col-md-1">11/27/1987</div>
+                <div class="col-md-2">1002653743</div>
+            </div>
+            <hr />
+            <div class="panel-body panel-bodyrowsDown">
+                <div class="col-md-2"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;&nbsp;Contact</div>
+                <div class="col-md-2"><span class="glyphicon glyphicon-open" aria-hidden="true"></span>&nbsp;&nbsp;Discharge</div>
+                <div class="col-md-6"></div>
+                <div class="col-md-2">Expand</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">11 am</div>
+        <div class="col-md-11"><hr /></div>
+    </div>
+    <div class="row" style="padding-left: 5%;">
+        <div class="panel panel-default panel-rows col-md-offset-1 col-md-11" style="background-color: #FFF; border-left-width: 10px; border-left-color: #72C394;">
+            <div class="panel-body panel-bodyrowsUp" style="white-space: nowrap;">
+                <div class="col-md-2" style="color: #72C394;font-weight: bold;">Natalie Portman</div>
+                <div class="col-md-1" style="color: #72C394;">11am - 12pm</div>
+                <div class="col-md-3" style="color: #72C394;">Waiting Room +10min</span></div>
+                <div class="col-md-1">Dr. Smith</div>
+                <div class="col-md-2">RPV</div>
+                <div class="col-md-1">11/27/1987</div>
+                <div class="col-md-2">1002653743</div>
+            </div>
+            <hr />
+            <div class="panel-body panel-bodyrowsDown">
+                <div class="col-md-2"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;&nbsp;Contact</div>
+                <div class="col-md-2"><span class="glyphicon glyphicon-open" aria-hidden="true"></span>&nbsp;&nbsp;Discharge</div>
+                <div class="col-md-offset-6 col-md-2">Expand</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">12 pm</div>
+        <div class="col-md-11"><hr /></div>
+    </div>
+    <div class="row" style="padding-left: 5%;">
+        <div class="panel panel-default panel-rows col-md-offset-1 col-md-11">
+            <div class="panel-body panel-bodyrowsUp" style="white-space: nowrap;">
+                <div class="col-md-2" style="color: #72C394;font-weight: bold;">Anne Hatheway</div>
+                <div class="col-md-1" style="color: #72C394;">12 - 1 pm</div>
+                <div class="col-md-3" style="color: #72C394;">Checked-In +5min</span></div>
+                <div class="col-md-1">Dr. Smith</div>
+                <div class="col-md-2">RPV</div>
+                <div class="col-md-1">11/27/1987</div>
+                <div class="col-md-2">1002653743</div>
+            </div>
+            <hr />
+            <div class="panel-body panel-bodyrowsDown">
+                <div class="col-md-2"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;&nbsp;Contact</div>
+                <div class="col-md-2"><span class="glyphicon glyphicon-open" aria-hidden="true"></span>&nbsp;&nbsp;Discharge</div>
+                <div class="col-md-6"></div>
+                <div class="col-md-2">Expand</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">1 pm</div>
+        <div class="col-md-11"><hr /></div>
+    </div>
+    <div class="row" style="padding-left: 5%;">
+        <div class="panel panel-default panel-rows col-md-offset-1 col-md-11 cardNotChecked">
+            <div class="panel-body panel-bodyrowsUp" style="white-space: nowrap;">
+                <div class="col-md-2" style="font-weight: bold;">Tom Hanks</div>
+                <div class="col-md-1">1 - 2 pm</div>
+                <div class="col-md-3">Not checked In</span></div>
+                <div class="col-md-1">Dr. Smith</div>
+                <div class="col-md-2">RPV</div>
+                <div class="col-md-1">11/27/1987</div>
+                <div class="col-md-2">1002653743</div>
+            </div>
+            <hr />
+            <div class="panel-body panel-bodyrowsDown">
+                <div class="col-md-2"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;&nbsp;Contact</div>
+                <div class="col-md-2"><span class="glyphicon glyphicon-open" aria-hidden="true"></span>&nbsp;&nbsp;Discharge</div>
+                <div class="col-md-2"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>&nbsp;&nbsp;Register</div>
+                <div class="col-md-4"></div>
+                <div class="col-md-2">Expand</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">2 pm</div>
+        <div class="col-md-11"><hr /></div>
+    </div>
+    <div class="row" style="padding-left: 5%;">
+        <div class="panel panel-default panel-rows col-md-offset-1 col-md-11 cardNotChecked">
+            <div class="panel-body panel-bodyrowsUp" style="white-space: nowrap;">
+                <div class="col-md-2" style="font-weight: bold;">Ryan Gosling</div>
+                <div class="col-md-1"> </div>
+                <div class="col-md-3">Not checked In</span></div>
+                <div class="col-md-1">Dr. Smith</div>
+                <div class="col-md-2">RPV</div>
+                <div class="col-md-1">11/27/1987</div>
+                <div class="col-md-2">1002653743</div>
+            </div>
+            <hr />
+            <div class="panel-body panel-bodyrowsDown">
+                <div class="col-md-2"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;&nbsp;Contact</div>
+                <div class="col-md-2"><span class="glyphicon glyphicon-open" aria-hidden="true"></span>&nbsp;&nbsp;Discharge</div>
+                <div class="col-md-2"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>&nbsp;&nbsp;Register</div>
+                <div class="col-md-4"></div>
+                <div class="col-md-2">Expand</div>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- <div class="row">
+        <div class="panel panel-default col-md-offset-1 col-md-11">
+            <div class="panel-body">
+                lalalala
+            </div>
+            <div class="panel-footer">
+                lalalalal
+            </div>
+        </div>
+    </div> -->
+
+</section>

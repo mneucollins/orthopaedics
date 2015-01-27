@@ -37,6 +37,8 @@ PatientSchema.set('toJSON', {
     virtuals: true
 });
 
+var patientModel = mongoose.model('patients', PatientSchema);
+
 //////////////////////////////////////////////////////////////////////////////
 ////////////////////////////// Virtual Fields ////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
@@ -50,4 +52,18 @@ PatientSchema.virtual('apptEndTime').get(function () {
 	return endDate;
 });
 
-module.exports = mongoose.model('patients', PatientSchema);
+//////////////////////////////////////////////////////////////////////////////
+///////////////////////////// Virtual Methods ////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
+PatientSchema.method('getPriorAppts', function (callback) {
+	patientModel.find({medicalRecordNumber: this.medicalRecordNumber}, function (err, appts) {
+		if(err) callback(err);
+		else if(appts.length > 0)
+			return callback(null, appts);
+		else
+			return callback(null, []);
+	});
+});
+
+module.exports = patientModel;

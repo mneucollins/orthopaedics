@@ -88,3 +88,13 @@ of those sections to manage the look and feel of the site. */
     margin-left: -5%;
     margin-bottom: 0%;
 }
+
+.left-sidebar {
+    background: #F8F9FB;
+    vertical-align:text-top;
+}
+
+.physician-container{
+    max-width: 600px;
+    
+}
