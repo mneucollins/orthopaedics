@@ -108,7 +108,6 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
 
       return classes;
     }
-<<<<<<< HEAD
 
     $scope.getImagingState = function (patient){
       var imagingStateIcon = "";
@@ -130,32 +129,26 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
 
     $scope.getCurrentStatus = function (patient){
       var current_Status = "";
-      
+      var wrDate = new Date(patient.WRTimestamp);
+      var exDate = new Date(patient.EXTimestamp);
+      var dcDate = new Date(patient.DCTimestamp);
+      var nowDate = new Date();
+
       if(patient.currentState == "NCI"){
         current_Status = "WR 0min - EX 0min"
       }
       else if(patient.currentState == "WR"){
-        var wrDate = new Date(patient.WRTimestamp);
-        var nowDate = new Date();
         var minutes = Math.round((nowDate - wrDate) / (60*1000));
         
         current_Status = "WR " + minutes + "min - EX 0min";
       }
       else if(patient.currentState == "EX"){
-        var wrDate = new Date(patient.WRTimestamp);
-        var exDate = new Date(patient.EXTimestamp);
-        var nowDate = new Date();
-
         var minutesWR = Math.round((exDate - wrDate) / (60*1000));
         var minutesEX = Math.round((nowDate - exDate) / (60*1000));
 
         current_Status = "WR " + minutesWR + "min - EX " + minutesEX + "min";
       }
       else if(patient.currentState == "DC"){
-        var wrDate = new Date(patient.WRTimestamp);
-        var exDate = new Date(patient.EXTimestamp);
-        var dcDate = new Date(patient.DCTimestamp);
-
         var minutesWR = Math.round((exDate - wrDate) / (60*1000));
         var minutesEX = Math.round((dcDate - exDate) / (60*1000));
 
@@ -166,34 +159,25 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     }
 
      $scope.getTotalTime = function (patient){
-      var totalTime = "aa";
       var wrDate = new Date(patient.WRTimestamp);
       var exDate = new Date(patient.EXTimestamp);
       var dcDate = new Date(patient.DCTimestamp);
+      var nowDate = new Date();
 
       if(wrDate != "Invalid Date"){
         if(exDate != "Invalid Date"){
           if(dcDate != "Invalid Date"){
-            var wrDate = new Date(patient.WRTimestamp);
-            var exDate = new Date(patient.EXTimestamp);
-            var dcDate = new Date(patient.DCTimestamp);
-
             var minutesWR = Math.round((exDate - wrDate) / (60*1000));
             var minutesEX = Math.round((dcDate - exDate) / (60*1000));
             totalTime = minutesWR + minutesEX + " min";
           }
           else{
-            var wrDate = new Date(patient.WRTimestamp);
-            var exDate = new Date(patient.EXTimestamp);
-            var nowDate = new Date();
             var minutesWR = Math.round((exDate - wrDate) / (60*1000));
             var minutesEX = Math.round((nowDate - exDate) / (60*1000));
             totalTime = minutesWR + minutesEX + " min";
           }
         }
         else{
-          var wrDate = new Date(patient.WRTimestamp);
-          var nowDate = new Date();
           var minutes = Math.round((nowDate - wrDate) / (60*1000));
           totalTime = minutes + " min";
         }
@@ -206,8 +190,6 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
       return totalTime;
      }
 
-=======
->>>>>>> 437bc20d968bbf650e0c47e18d9bcae3978cd885
   }]);
 
 // =============================== SCHEDULE OLD CTRL ===================================
