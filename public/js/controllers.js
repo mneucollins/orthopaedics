@@ -22,6 +22,7 @@ orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthSer
 	function($scope, $location, AuthService) {
 
     $("nav").addClass("hidden");
+    $("body").addClass("body-login");
 
 		$scope.login = function () {
         AuthService.login($scope.user, function(user) {
@@ -40,6 +41,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
   function($scope, $location, $rootScope, Patient) {
 
     $("nav").removeClass("hidden");
+    $("body").removeClass("body-login");
     $scope.currentTime = new Date();
 
     setInterval(function minuteUpdate () {
