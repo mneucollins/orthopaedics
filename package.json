@@ -16,6 +16,7 @@
     "passport-local": "~0.1.6",
     "request": "^2.50.0",
     "serve-favicon": "^2.1.7",
+    "twilio": "^1.10.0",
     "underscore": "^1.7.0"
   }
 }

@@ -3,5 +3,9 @@
 	"expressPort": 8181,
 	"transcoderURL": "http://localhost:8282",
 	"databaseURL": "mongodb://localhost:27017/orthopaedics",
-	"tmpFolder": "tmp/"
+	"tmpFolder": "tmp/",
+	"accountSid": "XXXXXXX",
+	"authToken": "XXXXXXX",
+	"fromNumber": "+12562934298",
+	"numberPrefix": "+1"
 }

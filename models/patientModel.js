@@ -22,14 +22,16 @@ var PatientSchema   = new Schema({
 		enum: "NCI WR EX DC".split(" "), // Not Checked In, Waiting Room, Exam Room, Discharged
 		default: "NCI"
 	},
-	WRTimestamp: Date,
-	EXTimestamp: Date,
-	DCTimestamp: Date,
 	needsImaging: {
 		type: Boolean,
 		default: false
 	},
+	WRTimestamp: Date,
+	EXTimestamp: Date,
+	DCTimestamp: Date,
 	imagingTimestamp: Date,
+	enterTimestamp: Date,
+	exitTimestamp: Date,
 	timestamp: { type: Date, default: Date.now }
 });
 
