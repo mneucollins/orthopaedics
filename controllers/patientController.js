@@ -21,6 +21,11 @@ function nuevoPatient(newPatient, callback) {
   patient.apptDuration = newPatient.apptDuration;
   patient.physician = newPatient.physician;
 
+
+  patient.WRTimestamp = newPatient.WRTimestamp;
+  patient.EXTimestamp = newPatient.EXTimestamp;
+  patient.DCTimestamp = newPatient.DCTimestamp;
+
   patient.currentState = newPatient.currentState; // delete after testing
 
   patient.save(function(err) {
@@ -46,9 +51,9 @@ function obtenerPatient(id, callback) {
 }
 
 function actualizarPatient(id, updPatient, callback) {
-  patientModel.findByIdAndUpdate(id, updPatient, function (err, video) {
+  patientModel.findByIdAndUpdate(id, updPatient, function (err, patient) {
     if (err) callback(err);
-    else callback(null, { message: 'Patient Updated!' });
+    else callback(null, patient);
   });
 }
 

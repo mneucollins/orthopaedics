@@ -69,46 +69,6 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
       // TODO load patient history
     }
 
-    $scope.loadCardClasses = function (patient) {
-      
-      var classes = "";
-
-      if(patient.currentState == 'WR') {
-
-        classes = "card cardOnTime";
-      }
-      else if(patient.currentState == 'EX') {
-
-        classes = "card cardDelay";
-      }
-      if(patient.currentState == 'DC') {
-
-        classes = "cardDischarged";
-      }
-      else if(patient.currentState == 'NCI') {
-
-        classes = "cardNotChecked";
-      }
-
-      return classes;
-    }
-
-    $scope.loadTextClasses = function (patient) {
-      
-      var classes = "";
-
-      if(patient.currentState == 'WR') {
-
-        classes = "textOnTime";
-      }
-      else if(patient.currentState == 'EX') {
-
-        classes = "textDelay";
-      }
-
-      return classes;
-    }
-
     $scope.getImagingState = function (patient){
         var imagingStateIcon = "";
 
@@ -121,6 +81,30 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
             imagingStateIcon = "img/nicon.png";
         
         return imagingStateIcon;
+    }
+
+    $scope.toogleImagingState = function (patient){
+        
+        if(!$scope.isImagingClickable(patient)) return;
+
+        if(patient.needsImaging)
+            Patient.update({patientId: patient.id}, {needsImaging: false, imagingRequestedTimestamp: null}, patientImagingUpdated);
+        else
+            Patient.update({patientId: patient.id}, {needsImaging: true, imagingRequestedTimestamp: new Date()}, patientImagingUpdated);
+        
+        function patientImagingUpdated (updatedPatient) {
+            var index = $scope.patientList.indexOf(patient); 
+            $scope.patientList[index].needsImaging = updatedPatient.needsImaging;
+        }
+    }
+
+    $scope.isImagingClickable = function (patient) {
+        if(patient.needsImaging && patient.imagingTimestamp)
+            return false;
+        else if(patient.currentState == "NCI" || patient.currentState == "DC")
+            return false;
+        else
+            return true;
     }
 
     $scope.getWRTime = function (patient) {
@@ -186,26 +170,66 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         var nMins = 0;
 
         if(type == "WR") {
-            if(patient.currentState == "EX" || patient.currentState == "DC") 
+            if(patient.currentState == "NCI" || patient.currentState == "EX" || patient.currentState == "DC") 
                 return "timer-not-started";
             nMins = $scope.getWRTime(patient);
         }
         if(type == "EX") {
-            if(patient.currentState == "DC") 
+            if(patient.currentState == "NCI" || patient.currentState == "WR" || patient.currentState == "DC") 
                 return "timer-not-started";
             nMins = $scope.getEXTime(patient);
         }
 
-        if(nMins == 0)
-            return "timer-not-started";
-        else if(nMins <= 15)
+        if(nMins <= 15)
             return "timer-on-time";
-        else if(nMins > 15)
+        else if(nMins > 15 && nMins <= 30)
             return "timer-delay-15";
-        else if(nMins > 30)
+        else if(nMins > 30 && nMins <= 45)
             return "timer-delay-30";
         else if(nMins > 45)
             return "timer-delay-45";
+    }
+
+    $scope.register = function (patient) {
+        Patient.update({patientId: patient.id}, 
+            {
+                currentState: "WR",
+                WRTimestamp: new Date()
+            }, 
+            function patientWaitingRoom (updatedPatient) {
+                var index = $scope.patientList.indexOf(patient); 
+                $scope.patientList[index].currentState = updatedPatient.currentState;
+                $scope.patientList[index].WRTimestamp = updatedPatient.WRTimestamp;
+            }
+        );
+    }
+
+    $scope.callBack = function (patient) {
+        Patient.update({patientId: patient.id}, 
+            {
+                currentState: "EX",
+                EXTimestamp: new Date()
+            }, 
+            function patientExamRoom (updatedPatient) {
+                var index = $scope.patientList.indexOf(patient); 
+                $scope.patientList[index].currentState = updatedPatient.currentState;
+                $scope.patientList[index].EXTimestamp = updatedPatient.EXTimestamp;
+            }
+        );
+    }
+
+    $scope.discharge = function (patient) {
+        Patient.update({patientId: patient.id}, 
+            {
+                currentState: "DC",
+                DCTimestamp: new Date()
+            }, 
+            function patientDischarged (updatedPatient) {
+                var index = $scope.patientList.indexOf(patient); 
+                $scope.patientList[index].currentState = updatedPatient.currentState;
+                $scope.patientList[index].DCTimestamp = updatedPatient.DCTimestamp;
+            }
+        );
     }
 
   }]);

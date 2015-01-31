@@ -29,6 +29,7 @@ var PatientSchema   = new Schema({
 	WRTimestamp: Date,
 	EXTimestamp: Date,
 	DCTimestamp: Date,
+	imagingRequestedTimestamp: Date,
 	imagingTimestamp: Date,
 	enterTimestamp: Date,
 	exitTimestamp: Date,

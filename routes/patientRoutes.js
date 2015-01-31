@@ -8,12 +8,12 @@ module.exports = function (router) {
     var patientController = require('../controllers/patientController');
 
     // UNCOMMENT ON PRODUCTION
-    // router.use(function (req, res, next) {
-    //     if (tools.isLoggedIn(req, res))
-    //         next();
-    //     else
-    //         tools.sendUnauthorized(err, req, res);
-    // });
+    router.use(function (req, res, next) {
+        if (tools.isLoggedIn(req, res))
+            next();
+        else
+            tools.sendUnauthorized(err, req, res);
+    });
 
     router.route('/patients')
     .post(function(req, res) { 

@@ -103,3 +103,7 @@ span.timer-delay-30 {
 span.timer-delay-45 {
 	color: #E8454A;
 }
+
+.clickable {
+	cursor: pointer;
+}

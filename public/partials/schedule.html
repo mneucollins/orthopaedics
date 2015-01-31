@@ -36,16 +36,16 @@
         <tbody style="text-align:left; white-space: nowrap; font-weight: bold; color:#BEBEBE;" ng-repeat="patient in patientList">
             <tr>
                 <td style="padding: 2% 0% 2% 0.5%;background-color:white; border-top:transparent;">
-                    <button type="button" ng-show="patient.currentState == 'EX'" class="btn btn-default">Discharge</button>
-                    <button type="button" class="btn btn-primary" ng-show="patient.currentState == 'WR'">Call Back</button>
-                    <button type="button" class="btn btn-primary" ng-show="patient.currentState == 'NCI'">Register</button>
+                    <button type="button" ng-show="patient.currentState == 'EX'" class="btn btn-default" ng-click="discharge(patient)">Discharge</button>
+                    <button type="button" class="btn btn-primary" ng-show="patient.currentState == 'WR'" ng-click="callBack(patient)">Call Back</button>
+                    <button type="button" class="btn btn-default" ng-show="patient.currentState == 'NCI'" ng-click="register(patient)">Register</button>
                 </td>
-                <td style="padding: 2% 0% 2% 0.5%;">{{ getNormalizedHour(patient.apptTime) }}</td>
+                <td style="padding: 2% 0% 2% 0.5%;">{{ patient.apptTime | date:'hh:mm a'}}</td>
                 <td style="padding: 2% 0% 2% 0.5%;">{{ patient.fullName }}</td>
                 <td style="padding: 2% 0% 2% 0.5%;">{{ patient.physician.name }}</td>
                 <td style="padding: 2% 0% 2% 0.5%;">{{ patient.dateBirth | date:'MM/dd/yyyy'}}</td>
-                <td style="padding: 2% 0% 2% 0.5%;"><img src="{{ getImagingState(patient) }}" /></td>
-                <td style="padding: 2% 0% 2% 0.5%;"><span ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }}min </span>-<span ng-class="getTimerColor('EX', patient)"> EX {{ getEXTime(patient) }}min</span></td>
+                <td style="padding: 2% 0% 2% 0.5%;"><img ng-src="{{ getImagingState(patient) }}" ng-click="toogleImagingState(patient)" ng-class="{clickable: isImagingClickable(patient)}"/></td>
+                <td style="padding: 2% 0% 2% 0.5%;"><span ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }} min </span>-<span ng-class="getTimerColor('EX', patient)"> EX {{ getEXTime(patient) }} min</span></td>
                 <td style="padding: 2% 0% 2% 0.5%;"><div class="roundMiniBox">{{ getTotalTime(patient) }}</div></td>
                 <td style="padding: 2%;text-align:right;"><img src="img/expandIcon.png" class="imageButton"  data-toggle="collapse" data-target="{{ '#miniform' + patient._id }}" onclick="onCollapseButton(this);"/></td>
             </tr>
