@@ -88,33 +88,18 @@ body {
 //////////////////////////////////////////////////////////////////////
 */
 
-.cardDischarged {
-	background-color: #E6E7E9;
-	border-left-width: 10px; 
-	border-left-color: #E6E7E9;
+span.timer-not-started {
+	color: #CBC9CA;
 }
-
-.card {
-	background-color: #FFF; 
-	border-left-width: 10px; 
+span.timer-on-time {
+	color: #5CC092;
 }
-
-.cardDelay {
-	border-left-color: #F79E49;
+span.timer-delay-15 {
+	color: #9472B2;
 }
-
-.cardOnTime {
-	border-left-color: #72C394;
+span.timer-delay-30 {
+	color: #FAA31B;
 }
-
-.cardNotChecked {
-	background-color: #FFF; 
-}
-
-.textDelay {
-	color: #F79E49;
-}
-
-.textOnTime {
-	color: #72C394;
+span.timer-delay-45 {
+	color: #E8454A;
 }

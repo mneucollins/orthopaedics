@@ -110,85 +110,103 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     }
 
     $scope.getImagingState = function (patient){
-      var imagingStateIcon = "";
+        var imagingStateIcon = "";
 
-      if(patient.needsImaging){
-        if(patient.imagingTimestamp){
-          imagingStateIcon = "img/ok1icon.png";
-        }
-        else{
-          imagingStateIcon = "img/yicon.png";
-        }
-      }
-      else{
-        imagingStateIcon = "img/nicon.png";
-      }
-
-      return imagingStateIcon;
-    }
-
-    $scope.getCurrentStatus = function (patient){
-      var current_Status = "";
-      var wrDate = new Date(patient.WRTimestamp);
-      var exDate = new Date(patient.EXTimestamp);
-      var dcDate = new Date(patient.DCTimestamp);
-      var nowDate = new Date();
-
-      if(patient.currentState == "NCI"){
-        current_Status = "WR 0min - EX 0min"
-      }
-      else if(patient.currentState == "WR"){
-        var minutes = Math.round((nowDate - wrDate) / (60*1000));
+        if(patient.needsImaging)
+            if(patient.imagingTimestamp)
+                imagingStateIcon = "img/ok1icon.png";   
+            else
+                imagingStateIcon = "img/yicon.png";
+        else
+            imagingStateIcon = "img/nicon.png";
         
-        current_Status = "WR " + minutes + "min - EX 0min";
-      }
-      else if(patient.currentState == "EX"){
-        var minutesWR = Math.round((exDate - wrDate) / (60*1000));
-        var minutesEX = Math.round((nowDate - exDate) / (60*1000));
-
-        current_Status = "WR " + minutesWR + "min - EX " + minutesEX + "min";
-      }
-      else if(patient.currentState == "DC"){
-        var minutesWR = Math.round((exDate - wrDate) / (60*1000));
-        var minutesEX = Math.round((dcDate - exDate) / (60*1000));
-
-        current_Status = "WR " + minutesWR + "min - EX " + minutesEX + "min";
-      }
-
-      return current_Status;
+        return imagingStateIcon;
     }
 
-     $scope.getTotalTime = function (patient){
-      var wrDate = new Date(patient.WRTimestamp);
-      var exDate = new Date(patient.EXTimestamp);
-      var dcDate = new Date(patient.DCTimestamp);
-      var nowDate = new Date();
+    $scope.getWRTime = function (patient) {
 
-      if(wrDate != "Invalid Date"){
-        if(exDate != "Invalid Date"){
-          if(dcDate != "Invalid Date"){
-            var minutesWR = Math.round((exDate - wrDate) / (60*1000));
-            var minutesEX = Math.round((dcDate - exDate) / (60*1000));
-            totalTime = minutesWR + minutesEX + " min";
-          }
-          else{
-            var minutesWR = Math.round((exDate - wrDate) / (60*1000));
-            var minutesEX = Math.round((nowDate - exDate) / (60*1000));
-            totalTime = minutesWR + minutesEX + " min";
-          }
-        }
-        else{
-          var minutes = Math.round((nowDate - wrDate) / (60*1000));
-          totalTime = minutes + " min";
-        }
-      }
-      else
-      {
-        totalTime = "0 min";
-      }
+        if(patient.currentState == "NCI") return 0;
 
-      return totalTime;
-     }
+        var wrDate = new Date(patient.WRTimestamp);
+        var apptDate = new Date(patient.apptTime);
+        var exDate = new Date(patient.EXTimestamp);
+        var nowDate = new Date();
+
+        if(patient.currentState == "WR")
+            if(nowDate.getTime() < apptDate.getTime()) // starts counting up at appointment time
+                return 0;
+            else
+                if(apptDate.getTime() < wrDate.getTime()) // in the case patient arrived late
+                    return Math.round((nowDate.getTime() - wrDate.getTime()) / (60*1000));
+                else
+                    return Math.round((nowDate.getTime() - apptDate.getTime()) / (60*1000));
+        else 
+            if(apptDate.getTime() < wrDate.getTime())
+                return Math.round((exDate.getTime() - wrDate.getTime()) / (60*1000));
+            else
+                return Math.round((exDate.getTime() - apptDate.getTime()) / (60*1000));
+}
+
+    $scope.getEXTime = function (patient) {
+
+        if(patient.currentState == "NCI" || patient.currentState == "WR") return 0;
+
+        var exDate = new Date(patient.EXTimestamp);
+        var dcDate = new Date(patient.DCTimestamp);
+        var nowDate = new Date();
+
+        if(patient.currentState == "EX")
+            return Math.round((nowDate.getTime() - exDate.getTime()) / (60*1000));
+        else 
+            return Math.round((dcDate.getTime() - exDate.getTime()) / (60*1000));
+    }    
+
+    $scope.getTotalTime = function (patient){
+
+        if(patient.currentState == "NCI") return 0;  
+
+        var wrDate = new Date(patient.WRTimestamp);
+        var apptDate = new Date(patient.apptTime);
+        var dcDate = new Date(patient.DCTimestamp);
+        var nowDate = new Date();
+
+        if(patient.currentState == "EX" || patient.currentState == "WR")
+            if(apptDate.getTime() < wrDate.getTime())
+                return Math.round((nowDate.getTime() - wrDate.getTime()) / (60*1000));
+            else
+                return Math.round((nowDate.getTime() - apptDate.getTime()) / (60*1000));
+        else 
+            if(apptDate.getTime() < wrDate.getTime())
+                return Math.round((dcDate.getTime() - wrDate.getTime()) / (60*1000));
+            else
+                return Math.round((dcDate.getTime() - apptDate.getTime()) / (60*1000));
+    }
+
+    $scope.getTimerColor = function (type, patient) {
+        var nMins = 0;
+
+        if(type == "WR") {
+            if(patient.currentState == "EX" || patient.currentState == "DC") 
+                return "timer-not-started";
+            nMins = $scope.getWRTime(patient);
+        }
+        if(type == "EX") {
+            if(patient.currentState == "DC") 
+                return "timer-not-started";
+            nMins = $scope.getEXTime(patient);
+        }
+
+        if(nMins == 0)
+            return "timer-not-started";
+        else if(nMins <= 15)
+            return "timer-on-time";
+        else if(nMins > 15)
+            return "timer-delay-15";
+        else if(nMins > 30)
+            return "timer-delay-30";
+        else if(nMins > 45)
+            return "timer-delay-45";
+    }
 
   }]);
 

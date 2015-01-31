@@ -27,11 +27,14 @@ function sendMessage (msgData, callback) {
 		else {
 
 			newMessage = new messageModel();
+			newMessage.message = msgData.message;
 			newMessage.sid = message.sid;
 			newMessage.patient = msgData.patient;
-			newMessage.message = msgData.message;
 
-			callback(null, { response: 'message sent!' , sid: message.sid});
+			newMessage.save(function messageSaved (err, message, numberAffected) {
+				if(err) callback(err);
+				else callback(null, message);
+			});
 		}
 	});
 }
