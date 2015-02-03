@@ -12,7 +12,7 @@ module.exports = function (router) {
         if (tools.isLoggedIn(req, res))
             next();
         else
-            tools.sendUnauthorized(err, req, res);
+            tools.sendUnauthorized(req, res);
     });
 
     router.route('/patients')
