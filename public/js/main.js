@@ -11,6 +11,7 @@ $(document).on("ready", function () {
     setTimeout(function() {
     	window.navigator.vibrate([200, 100, 100, 100, 200, 300, 500]);
     }, 5000);
+
 });
 
 $("#btnSendMessage").on("click", function () {

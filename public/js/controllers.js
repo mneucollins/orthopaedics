@@ -53,6 +53,57 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
       $scope.patientList = pList;
     });
 
+    $scope.sortPatientsByTime = function (){
+        var pList = _.sortBy($scope.patientList, function(patient){ return new Date(patient.apptTime).getHours(); }); 
+        $scope.patientList = pList;
+    }
+
+    $scope.sortPatientsByName = function (){
+        var pList = _.sortBy($scope.patientList, function(patient){ return patient.fullName; }); 
+        $scope.patientList = pList;
+        $scope.bla = "imageButton";
+    }
+
+    $scope.sortPatientsByPhysician = function (){
+        var pList = _.sortBy($scope.patientList, function(patient){ return patient.physician.name; }); 
+        $scope.patientList = pList;
+    }
+
+    $scope.sortPatientsByBirth = function (){
+        var pList = _.sortBy($scope.patientList, function(patient){ return patient.dateBirth; }); 
+        $scope.patientList = pList;
+    }
+
+    $scope.sortPatientsByImaging = function (){
+        var pList = _.sortBy($scope.patientList, function(patient){ 
+                if(patient.needsImaging)
+                    if(patient.imagingTimestamp)
+                        return 3;   
+                    else
+                        return 2;
+                else
+                    return 1;   
+            }); 
+
+        $scope.patientList = pList;
+    }
+
+    $scope.sortPatientsByStatus = function (){
+        var pList = _.sortBy($scope.patientList, function(patient){ 
+            var wrt = $scope.getWRTime(patient);
+            var ext = $scope.getEXTime(patient);
+            return wrt + ext; 
+        }); 
+        $scope.patientList = pList;
+    }
+
+    $scope.sortPatientsByTotal = function (){
+        var pList = _.sortBy($scope.patientList, function(patient){ 
+            return $scope.getTotalTime(patient); 
+        }); 
+        $scope.patientList = pList;
+    }
+
     $scope.getNormalizedHour = function (hour) {
       var d = new Date(hour);
       hour = d.getHours();
