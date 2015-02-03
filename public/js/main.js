@@ -3,7 +3,6 @@ var phoneNumbers = {
 	cameronDiaz: "+12344432212"
 };
 
-
 $(document).on("ready", function () {
     $('#tableReceptionist').dataTable();
     $('#tableNurse').dataTable();
