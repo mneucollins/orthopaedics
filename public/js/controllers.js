@@ -256,10 +256,14 @@ orthopaedicsControllers.controller('scheduleOldCtrl', ['$scope', '$location', '$
   }]);
 // =============================== PHYSICIANS CTRL ===================================
 
-orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$rootScope', '$window', 'Patient',
-  function($scope, $location, $rootScope, $window, Patient) {
+orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$rootScope', '$window', 'Physician',
+  function($scope, $location, $rootScope, $window, Physician) {
 
     $(".physiciansSidebar").css("height", $window.innerHeight - 60);
+
+    Physician.query(function (physicians) {
+      $scope.physicianList = physicians;
+    });
 
     $scope.tooglePhysiciansList = function () {
       var currentPos = $(".physiciansList").css("left");

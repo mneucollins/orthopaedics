@@ -7,6 +7,11 @@ orthopaedicsServices.factory('Patient', ['$resource',
 	});
 }]);
 
+orthopaedicsServices.factory('Physician', ['$resource',
+    function($resource){
+        return $resource('/api/physicians/:physicianId', {PhysicianId: "@_id"});
+}]);
+
 orthopaedicsServices.factory('Session', ['$resource',
 	function($resource){
 		return $resource('/auth', {}, {
