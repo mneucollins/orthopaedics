@@ -261,6 +261,8 @@ orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$r
 
     $(".physiciansSidebar").css("height", $window.innerHeight - 60);
 
+    setTimeout(function(){$('#physList').btsListFilter('#physicianSearch', {itemChild: 'span'})},500);
+
     Physician.query(function (physicians) {
       $scope.physicianList = physicians;
     });

@@ -8,10 +8,13 @@
 </div>
 
 <div class="col-md-3 physiciansList" >
+    <div class="row form-group panel-body">
+        <input id="physicianSearch" class="form-control" type="search" placeholder"Search..."/>
+    </div>
     <div class="row" ng-repeat="physician in physicianList">
-        <div class="panel-body panel-bodyrowsUp">
+        <div class="panel-body panel-bodyrowsUp list-group" id="physList">
             <div class="col-md-1"></div>
-            <div class="col-md-11">
+            <div class="col-md-11 list-group-item">
                 <h4>{{ physician.name }}<br>
                 <small>{{ physician.role }}</small></h4>
             </div>
