@@ -53,25 +53,52 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
       $scope.patientList = pList;
     });
 
+    $scope.filteringTime = true;
+    $scope.arrowTime = "glyphicon glyphicon-chevron-up";
+    
+    $scope.filteringList = function(selection){
+        $scope.filteringTime = false;
+        $scope.filteringName = false;
+        $scope.filteringPhys = false;
+        $scope.filteringDob = false;
+        $scope.filteringImag = false;
+        $scope.filteringStat = false;
+        $scope.filteringTot = false;
+
+        if(selection == 'time')
+            $scope.filteringTime = true;
+        if(selection == 'name')
+            $scope.filteringName = true;
+        if(selection == 'physician')
+            $scope.filteringPhys = true;
+        if(selection == 'dob')
+            $scope.filteringDob = true;
+        if(selection == 'imaging')
+            $scope.filteringImag = true;
+        if(selection == 'status')
+            $scope.filteringStat = true;
+        if(selection == 'total')
+            $scope.filteringTot = true;
+    };
+    
     $scope.sortPatientsByTime = function (){
         var pList = _.sortBy($scope.patientList, function(patient){ return new Date(patient.apptTime).getHours(); }); 
-        $scope.patientList = pList;
+        setListOrder(pList,'time');
     }
 
     $scope.sortPatientsByName = function (){
         var pList = _.sortBy($scope.patientList, function(patient){ return patient.fullName; }); 
-        $scope.patientList = pList;
-        $scope.bla = "imageButton";
+        setListOrder(pList,'name');
     }
 
     $scope.sortPatientsByPhysician = function (){
         var pList = _.sortBy($scope.patientList, function(patient){ return patient.physician.name; }); 
-        $scope.patientList = pList;
+        setListOrder(pList,'physician');
     }
 
     $scope.sortPatientsByBirth = function (){
         var pList = _.sortBy($scope.patientList, function(patient){ return patient.dateBirth; }); 
-        $scope.patientList = pList;
+        setListOrder(pList,'dob');
     }
 
     $scope.sortPatientsByImaging = function (){
@@ -85,7 +112,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                     return 1;   
             }); 
 
-        $scope.patientList = pList;
+        setListOrder(pList,'imaging');
     }
 
     $scope.sortPatientsByStatus = function (){
@@ -94,14 +121,60 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
             var ext = $scope.getEXTime(patient);
             return wrt + ext; 
         }); 
-        $scope.patientList = pList;
+        setListOrder(pList,'status');
     }
 
     $scope.sortPatientsByTotal = function (){
         var pList = _.sortBy($scope.patientList, function(patient){ 
             return $scope.getTotalTime(patient); 
         }); 
-        $scope.patientList = pList;
+        setListOrder(pList,'total');
+    }
+
+    function setListOrder(pList, filterName){
+        $scope.arrowTime = "";
+        $scope.arrowName = "";
+        $scope.arrowPhys = "";
+        $scope.arrowDOB = "";
+        $scope.arrowImag = "";
+        $scope.arrowStat = "";
+        $scope.arrowTot = "";
+
+        if(pList.length > 0 && $scope.patientList[0] == pList[0]){
+            $scope.patientList = pList.reverse();
+
+            if(filterName == "time")
+                    $scope.arrowTime = "glyphicon glyphicon-chevron-down";
+            else if(filterName == "name")
+                    $scope.arrowName = "glyphicon glyphicon-chevron-down";
+            else if(filterName == "physician")
+                    $scope.arrowPhys = "glyphicon glyphicon-chevron-down";
+            else if(filterName == "dob")
+                    $scope.arrowDOB = "glyphicon glyphicon-chevron-down";
+            else if(filterName == "imaging")
+                    $scope.arrowImag = "glyphicon glyphicon-chevron-down";
+            else if(filterName == "status")
+                    $scope.arrowStat = "glyphicon glyphicon-chevron-down";
+            else if(filterName == "total")
+                    $scope.arrowTot = "glyphicon glyphicon-chevron-down";
+        }
+        else{
+            $scope.patientList = pList;
+            if(filterName == "time")
+                    $scope.arrowTime = "glyphicon glyphicon-chevron-up";
+            else if(filterName == "name")
+                    $scope.arrowName = "glyphicon glyphicon-chevron-up";
+            else if(filterName == "physician")
+                $scope.arrowPhys = "glyphicon glyphicon-chevron-up";
+            else if(filterName == "dob")
+                    $scope.arrowDOB = "glyphicon glyphicon-chevron-up";
+            else if(filterName == "imaging")
+                    $scope.arrowImag = "glyphicon glyphicon-chevron-up";
+            else if(filterName == "status")
+                    $scope.arrowStat = "glyphicon glyphicon-chevron-up";
+            else if(filterName == "total")
+                    $scope.arrowTot = "glyphicon glyphicon-chevron-up";
+        }
     }
 
     $scope.getNormalizedHour = function (hour) {

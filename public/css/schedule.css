@@ -43,3 +43,13 @@
     border-bottom-right-radius: 15px;
     border-bottom-left-radius: 15px;
 }
+
+.blueFilter{
+    color:#719DF0;
+    cursor:pointer;
+}
+
+.blackFilter{
+    color:#000;
+    cursor:pointer;
+}
