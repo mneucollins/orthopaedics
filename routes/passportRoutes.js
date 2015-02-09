@@ -3,7 +3,7 @@ module.exports = function(router, passport) {
 
 	router.get('/logout', function(req, res) {
 		req.logout();
-		res.redirect('/');
+		res.send(200);
 	});
 
 	// process the signup form

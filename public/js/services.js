@@ -9,14 +9,22 @@ orthopaedicsServices.factory('Patient', ['$resource',
 
 orthopaedicsServices.factory('Physician', ['$resource',
     function($resource){
-        return $resource('/api/physicians/:physicianId', {PhysicianId: "@_id"});
+        return $resource('/api/physicians/:physicianId', {physicianId: "@_id"});
+}]);
+
+orthopaedicsServices.factory('Messages', ['$resource',
+    function($resource){
+        return $resource('/api/messages/:messageId', {messageId: "@_id"}, {
+            sendMessage: {method: "POST"},
+            sendWelcomeMessage: {method: "POST", url: '/api/messages/welcome'}
+        });
 }]);
 
 orthopaedicsServices.factory('Session', ['$resource',
 	function($resource){
 		return $resource('/auth', {}, {
 		login: {method: "POST", url: "/auth/login"},
-		// signup: {method: "POST", url: "/auth/signup"}
+        logout: {method: "GET", url: "/auth/logout"}
 	});
 }]);
 
@@ -32,9 +40,12 @@ orthopaedicsServices.factory('AuthService', ["Session", "$cookieStore", function
 			// $location.path("/catalogos");
 		});
 	},
-    logout: function() { 
-        currentUser = null;
-        $cookieStore.remove("currentUser");
+    logout: function(callback) { 
+        Session.logout(function () {
+            currentUser = null;
+            $cookieStore.remove("currentUser");
+            callback();
+        });
     },
     isLoggedIn: function() { 
     	if (currentUser)
@@ -57,4 +68,32 @@ orthopaedicsServices.factory('AuthService', ["Session", "$cookieStore", function
 	// }
   };
 
+}]);
+
+orthopaedicsServices.factory('AuthenticationInterceptor', ['$q', '$injector',
+  function ($q, $injector) {
+  return {
+    response: function (response) {
+      
+        var AuthService = $injector.get('AuthService');
+
+        if(response.user && response.user !== AuthService.currentUser)
+            AuthService.login(response.user);
+
+
+        return response;
+    },
+    responseError: function (response) {
+      // Sign out if the user is no longer authorized.
+      if (response.status == 401) {
+        var AuthService = $injector.get('AuthService');
+        AuthService.logout();
+      }
+      if (response.status == 500) {
+        alert("error de servidor!" + response.body);
+      }
+      
+      return $q.reject(response);
+    }
+  };
 }]);

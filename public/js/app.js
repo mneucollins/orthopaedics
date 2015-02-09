@@ -3,15 +3,17 @@ var orthopaedicsApp = angular.module('orthopaedicsApp', [
   "ngAnimate",
   "ngCookies",
   "orthopaedicsServices",
-  "orthopaedicsControllers"
+  "orthopaedicsControllers",
+  "orthopaedicsFilters"
 ]);
 
-orthopaedicsApp.config(['$routeProvider','$locationProvider',
-  function($routeProvider, $locationProvider) {
+orthopaedicsApp.config(['$routeProvider','$locationProvider', '$httpProvider',
+  function($routeProvider, $locationProvider, $httpProvider) {
     $locationProvider.html5Mode({
       enabled: true,
       requireBase: false
     });
+    $httpProvider.interceptors.push('AuthenticationInterceptor');
 
     var checkLoggedin = function($q, $timeout, $http, $location, $rootScope){
       // Initialize a new promise

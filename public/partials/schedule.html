@@ -71,7 +71,7 @@
                             <div class="row" style="text-align:left">
                                 <div class="col-md-6" style="padding-right: 30px;">
                                     <div class="row">
-                                        <div class="col-md-12"><textarea class="form-control" rows="5" id="comment" placeholder="Send text message..."></textarea></div>
+                                        <div class="col-md-12"><textarea class="form-control" rows="5" id="comment" placeholder="Send text message..." ng-model="patient.customMessage"></textarea></div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
@@ -83,7 +83,7 @@
                                         <div class="col-md-2">Default</div>
                                         <div class="col-md-4"></div>
                                         <div class="col-md-2" style="font-weight: bold; color:#7F7F7F;">Cancel</div>
-                                        <div class="col-md-2 btn btn-default" style="background-color: #72C394; color: white; font-weight: bold; width: 14%; margin-top: -1%;">Send</div>
+                                        <div class="col-md-2 btn btn-default" style="background-color: #72C394; color: white; font-weight: bold; width: 14%; margin-top: -1%;" ng-click="sendCustomMessage(patient)">Send</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6" style="border-left: thick solid #C9C9C9; border-width: 1px;">

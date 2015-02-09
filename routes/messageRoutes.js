@@ -26,4 +26,18 @@ module.exports = function (router) {
         });
     });
 
+    router.route('/messages/welcome')
+    .post(function(req, res) { 
+        
+        var msgData = req.body;
+        messageController.sendWelcomeMessage(msgData, function (err, data) {
+            if(err) {
+                tools.sendServerError(err, req, res);
+                return;
+            }
+
+            console.log(data, "New Message Sent");
+            res.json(data);
+        });
+    });
 }

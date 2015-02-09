@@ -46,6 +46,7 @@ router.get('/', function(req, res) {
 require('./routes/passportRoutes')(authRouter, passport);
 require("./routes/patientRoutes")(router);
 require("./routes/physicianRoutes")(router);
+require("./routes/messageRoutes")(router);
 
 // REGISTER OUR ROUTES -------------------------------
 app.use('/api', router);

@@ -4,13 +4,19 @@ var orthopaedicsControllers = angular.module('orthopaedicsControllers', ['ui.boo
 // ========================= HEADER ==================
 // =======================================================
 
-  orthopaedicsControllers.controller('headerCtrl', ['$scope', 'AuthService',
-    function($scope, AuthService){
-      $scope.$watch(AuthService.isLoggedIn, function ( isLoggedIn ) {
-        $scope.isLoggedIn = isLoggedIn;
-        $scope.currentUser = AuthService.currentUser();
-      });
-  }]);
+    orthopaedicsControllers.controller('headerCtrl', ['$scope', '$location', 'AuthService',
+        function($scope, $location, AuthService){
+            $scope.$watch(AuthService.isLoggedIn, function ( isLoggedIn ) {
+            $scope.isLoggedIn = isLoggedIn;
+            $scope.currentUser = AuthService.currentUser();
+        });
+
+        $scope.logout = function () {
+            AuthService.logout(function () {
+                $location.path("/login");            
+            });
+        }
+    }]);
 
 // =====================================================================================
 // ================================ NAVEGACION =========================================
@@ -24,21 +30,20 @@ orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthSer
     $("nav").addClass("hidden");
     $("body").addClass("body-login");
 
-		$scope.login = function () {
+    $scope.login = function () {
         AuthService.login($scope.user, function(user) {
-          alert("Welcome " + user.name);
-          $location.path("/schedule");
-      }, function (err) {
-        alert("hakuna matata!");
-      });
-		};
-
-	}]);
+            alert("Welcome " + user.name);
+            $location.path("/schedule");
+        }, function (err) {
+            alert("There was an arror... But remember, hakuna matata!");
+        });
+    };
+}]);
 
 // =============================== SCHEDULE CTRL ===================================
 
-orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$rootScope',  '$interval', 'Patient',
-  function($scope, $location, $rootScope, $interval, Patient) {
+orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$rootScope', '$log', '$interval', '$modal', 'Patient',
+  function($scope, $location, $rootScope, $log, $interval, $modal, Patient) {
 
     $("nav").removeClass("hidden");
     $("body").removeClass("body-login");
@@ -315,31 +320,67 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     }
 
     $scope.register = function (patient) {
-        Patient.update({patientId: patient.id}, 
-            {
-                currentState: "WR",
-                WRTimestamp: new Date()
-            }, 
-            function patientWaitingRoom (updatedPatient) {
-                var index = $scope.patientList.indexOf(patient); 
-                $scope.patientList[index].currentState = updatedPatient.currentState;
-                $scope.patientList[index].WRTimestamp = updatedPatient.WRTimestamp;
+        
+        var modalInstance = $modal.open({
+            templateUrl: '/partials/registerPatient.html',
+            controller: 'registerPatientCtrl',
+            resolve: {
+                patient: function () {
+                    return patient;
+                }
             }
-        );
+        });
+
+        modalInstance.result.then(function (patient) {
+            Patient.update({patientId: patient.id}, 
+                {
+                    currentState: "WR",
+                    WRTimestamp: new Date(),
+                    cellphone: patient.cellphone
+                }, 
+                function patientWaitingRoom (updatedPatient) {
+                    var index = $scope.patientList.indexOf(patient); 
+                    $scope.patientList[index].currentState = updatedPatient.currentState;
+                    $scope.patientList[index].WRTimestamp = updatedPatient.WRTimestamp;
+                    $scope.patientList[index].cellphone = updatedPatient.cellphone;
+                }
+            );
+        }, function () {
+            $log.info('Message Modal dismissed at: ' + new Date());
+        });
     }
 
     $scope.callBack = function (patient) {
-        Patient.update({patientId: patient.id}, 
-            {
-                currentState: "EX",
-                EXTimestamp: new Date()
-            }, 
-            function patientExamRoom (updatedPatient) {
-                var index = $scope.patientList.indexOf(patient); 
-                $scope.patientList[index].currentState = updatedPatient.currentState;
-                $scope.patientList[index].EXTimestamp = updatedPatient.EXTimestamp;
+
+        var modalInstance = $modal.open({
+            templateUrl: '/partials/sendMessage.html',
+            controller: 'sendMessageCtrl',
+            resolve: {
+                patient: function () {
+                    return patient;
+                },
+                messageType: function () {
+                    return "Call";
+                }
             }
-        );
+        });
+
+        modalInstance.result.then(function () {
+            Patient.update({patientId: patient.id}, 
+                {
+                    currentState: "EX",
+                    EXTimestamp: new Date()
+                }, 
+                function patientExamRoom (updatedPatient) {
+                    var index = $scope.patientList.indexOf(patient); 
+                    $scope.patientList[index].currentState = updatedPatient.currentState;
+                    $scope.patientList[index].EXTimestamp = updatedPatient.EXTimestamp;
+                }
+            );
+        }, function () {
+            $log.info('Message Modal dismissed at: ' + new Date());
+        });
+        
     }
 
     $scope.discharge = function (patient) {
@@ -358,26 +399,49 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
 
   }]);
 
-// =============================== SCHEDULE OLD CTRL ===================================
+// =============================== MODAL DIALOGS CTRL ===================================
 
-orthopaedicsControllers.controller('scheduleOldCtrl', ['$scope', '$location', '$rootScope',  '$interval', 'Patient',
-  function($scope, $location, $rootScope, $interval, Patient) {
+orthopaedicsControllers.controller('sendMessageCtrl', ['$scope', '$modalInstance', 'Messages', 'patient', 'messageType',
+  function($scope, $modalInstance, Messages, patient, messageType) {
 
-    $("nav").removeClass("hidden");
-    $("body").removeClass("body-login");
-    $scope.currentTime = new Date();
+    $scope.patient = patient;
+    $scope.messageType = messageType;
 
-    $interval(function minuteUpdate () {
-      $scope.currentTime = new Date();
-    }, 500);
+    $scope.sendMessage = function () {
 
-    // Patient.query(function (patients) {
-    //   var pList = _.sortBy(patients, function(patient){ return new Date(patient.apptTime).getHours(); });  // sort by appt time (hours)
-    //   $scope.patientList = pList;
-    // });
+        Messages.sendMessage({
+            patient: patient,
+            message: $scope.patientMessage
+        }, function messageSent (sentMessage) {
+            alert("message sent!");
+            $modalInstance.close(sentMessage);
+        });
+    };
 
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+}]);
 
-  }]);
+orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInstance', 'Messages', 'Patient', 'patient',
+  function($scope, $modalInstance, Messages, Patient, patient) {
+
+    $scope.patient = patient;
+
+    $scope.submit = function () {
+        Messages.sendWelcomeMessage({
+            patient: patient
+        }, function messageSent (sentMessage) {
+            alert("message sent!");
+            $modalInstance.close(patient);
+        });
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+}]);
+
 // =============================== PHYSICIANS CTRL ===================================
 
 orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$rootScope', '$window', 'Physician',
