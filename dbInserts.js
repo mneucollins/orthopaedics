@@ -34,6 +34,32 @@ var testPatients = [{
 	DCTimestamp: new Date().setMinutes(new Date().getMinutes() - 20),
 	apptDuration: 15
 },{
+	firstName: "Tom",
+	lastName: "Hanks",
+	dateBirth: new Date(1987,11,26),
+	cellphone: "3185757889",
+	medicalRecordNumber: "234456123231",
+	apptType: "RPV",
+	currentState: "DC",
+	apptTime: new Date(new Date().setHours(new Date().getHours() - 2)).setDate(new Date().getDate()-1),
+	WRTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() - 100)).setDate(new Date().getDate()-1),
+	EXTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() - 90)).setDate(new Date().getDate()-1),
+	DCTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() - 20)).setDate(new Date().getDate()-1),
+	apptDuration: 15
+},{
+	firstName: "Tom",
+	lastName: "Hanks",
+	dateBirth: new Date(1987,11,26),
+	cellphone: "3185757889",
+	medicalRecordNumber: "234456123231",
+	apptType: "RPV",
+	currentState: "DC",
+	apptTime: new Date(new Date().setHours(new Date().getHours() - 3)).setDate(new Date().getDate()-2),
+	WRTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() - 90)).setDate(new Date().getDate()-2),
+	EXTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() - 60)).setDate(new Date().getDate()-2),
+	DCTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() - 10)).setDate(new Date().getDate()-2),
+	apptDuration: 15
+},{
 	firstName: "Eddy",
 	lastName: "Murphy",
 	dateBirth: new Date(1985,06,22),
@@ -80,6 +106,32 @@ var testPatients = [{
 	currentState: "WR",
 	apptTime: new Date().setMinutes(new Date().getMinutes() - 5),
 	WRTimestamp: new Date().setMinutes(new Date().getMinutes() - 3),
+	apptDuration: 15
+},{
+	firstName: "Chuck",
+	lastName: "Norris",
+	dateBirth: new Date(1987,11,26),
+	cellphone: "3185757889",
+	medicalRecordNumber: "234235465456",
+	apptType: "RPV",
+	currentState: "DC",
+	apptTime: new Date(new Date().setHours(new Date().getHours() + 2)).setDate(new Date().getDate()-2),
+	WRTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() + 119)).setDate(new Date().getDate()-2),
+	EXTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() + 130)).setDate(new Date().getDate()-2),
+	DCTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() + 160)).setDate(new Date().getDate()-2),
+	apptDuration: 15
+},{
+	firstName: "Chuck",
+	lastName: "Norris",
+	dateBirth: new Date(1987,11,26),
+	cellphone: "3185757889",
+	medicalRecordNumber: "234235465456",
+	apptType: "RPV",
+	currentState: "DC",
+	apptTime: new Date(new Date().setHours(new Date().getHours() + 5)).setDate(new Date().getDate()-4),
+	WRTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() + 270)).setDate(new Date().getDate()-4),
+	EXTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() + 310)).setDate(new Date().getDate()-4),
+	DCTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() + 350)).setDate(new Date().getDate()-4),
 	apptDuration: 15
 },{
 	firstName: "Jackie",
@@ -130,7 +182,7 @@ var testPatients = [{
 	lastName: "Gosling",
 	dateBirth: new Date(1985,06,22),
 	// cellphone: "3185757889",
-	medicalRecordNumber: "234235465456",
+	medicalRecordNumber: "234235464456",
 	apptType: "RPV",
 	currentState: "NCI",
 	apptTime: new Date().setMinutes(new Date().getMinutes() + 5),

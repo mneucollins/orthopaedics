@@ -42,6 +42,18 @@ module.exports = function (router) {
         });
 	});
 
+    router.route('/patients/today')
+    .get(function(req, res) {
+        patientController.listPatientsToday(function (err, data) {
+            if(err) {
+                tools.sendServerError(err, req, res);
+                return;
+            }
+
+            console.log("Patients listed");
+            res.json(data);
+        });
+    });
 
     router.route('/patients/:patientId')
     .get(function(req, res) {
@@ -66,6 +78,19 @@ module.exports = function (router) {
             console.log("Patient" + req.params.patientId + " Updated");
             res.json(data);
             
+        });
+    });
+
+    router.route('/patients/:patientId/history')
+    .get(function(req, res) {
+        patientController.obtenerPatientHistory(req.params.patientId, function (err, data) {
+            if(err) {
+                tools.sendServerError(err, req, res);
+                return;
+            }
+
+            console.log("Patient " + req.params.patientId + " listed");
+            res.json(data);
         });
     });
 }

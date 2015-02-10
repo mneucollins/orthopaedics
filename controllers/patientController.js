@@ -5,7 +5,9 @@ module.exports = {
   listarPatients: listarPatients,
   obtenerPatient: obtenerPatient,
   actualizarPatient: actualizarPatient,
-  eliminarPatient: eliminarPatient
+  eliminarPatient: eliminarPatient,
+  obtenerPatientHistory: obtenerPatientHistory,
+  listPatientsToday: listPatientsToday
 }
 
 function nuevoPatient(newPatient, callback) {
@@ -43,6 +45,27 @@ function listarPatients(callback) {
   });
 }
 
+function listPatientsToday(callback) {
+
+    var lowDate = new Date();
+    lowDate.setHours(0);
+    lowDate.setMinutes(0);
+    lowDate.setSeconds(0);
+
+    var highDate = new Date();
+    highDate.setHours(0);
+    highDate.setMinutes(0);
+    highDate.setSeconds(0);
+    highDate.setDate(highDate.getDate()+1);
+
+    patientModel.find({apptTime: {$gte: lowDate, $lt: highDate}})
+        .populate("physician")
+        .exec(function(err, patients) {
+            if (err) callback(err);
+            else callback(null, patients);
+    });
+}
+
 function obtenerPatient(id, callback) {
   patientModel.findById(id, function(err, patients) {
     if (err) callback(err);
@@ -64,4 +87,22 @@ function eliminarPatient(id, callback) {
     if (err) callback(err);
     else callback(null, { message: 'Patient removed!' });
   });
+}
+
+function obtenerPatientHistory (id, callback) {
+patientModel.findById(id, function(err, patient) {
+    if (err) callback(err);
+    else {
+        patientModel.find({
+            medicalRecordNumber: patient.medicalRecordNumber,
+            _id: {$ne: id}
+        }, function (err, appts) {
+            if(err) callback(err);
+            else if(appts.length > 0)
+                return callback(null, appts);
+            else
+                return callback(null, []);
+        });
+    } 
+});
 }

@@ -42,8 +42,8 @@ orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthSer
 
 // =============================== SCHEDULE CTRL ===================================
 
-orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$rootScope', '$log', '$interval', '$modal', 'Patient',
-  function($scope, $location, $rootScope, $log, $interval, $modal, Patient) {
+orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$rootScope', '$log', '$interval', '$modal', 'Patient', 'Messages',
+  function($scope, $location, $rootScope, $log, $interval, $modal, Patient, Messages) {
 
     $("nav").removeClass("hidden");
     $("body").removeClass("body-login");
@@ -53,7 +53,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
       $scope.currentTime = new Date();
     }, 500);
 
-    Patient.query(function (patients) {
+    Patient.queryToday(function (patients) {
       var pList = _.sortBy(patients, function(patient){ return new Date(patient.apptTime).getHours(); });  // sort by appt time (hours)
       $scope.patientList = pList;
     });
@@ -195,7 +195,18 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     }
 
     $scope.loadPatientHistory = function (patient) {
-      // TODO load patient history
+      Patient.getHistory({patientId: patient.id}, function (history) {
+          patient.history = history;
+      })
+    }
+
+    $scope.sendCustomMessage = function (patient) {
+        Messages.sendMessage({
+            patient: patient,
+            message: patient.customMessage
+        }, function messageSent (sentMessage) {
+            alert("message sent!");
+        });
     }
 
     $scope.getImagingState = function (patient){
