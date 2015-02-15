@@ -57,16 +57,8 @@ orthopaedicsApp.config(['$routeProvider','$locationProvider', '$httpProvider',
           loggedin: checkLoggedin
         }
       })
-      .when('/schedule-old', {
-        templateUrl: '/partials/schedule-old.html',
-        controller: 'scheduleOldCtrl',
-        resolve: {
-          loggedin: checkLoggedin
-        }
-      })
-      .when('/physicians', {
-        templateUrl: '/partials/physicians.html',
-        controller: 'physiciansCtrl'
+      .when('/dashboard1', {
+        templateUrl: '/partials/dashboard1.html'
       })
       .otherwise({
         redirectTo: '/login'

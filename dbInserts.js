@@ -7,16 +7,16 @@ var config = require("./config.json");
 mongoose.connect(config.databaseURL);
 
 var testPhysicians = [{
-	name: "Dr. Smith",
-	username: "drsmith",
+	name: "Dr. Boden",
+	username: "drboden",
 	password: "123456"
 },{
-	name: "Dr. Jones",
-	username: "drjones",
+	name: "Dr. Bradbury",
+	username: "drbradbury",
 	password: "123456"
 },{
-	name: "Dr. Premkumar",
-	username: "drpremkumar",
+	name: "Dr. X",
+	username: "drx",
 	password: "123456"
 }];
 

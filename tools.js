@@ -2,6 +2,7 @@ var _ = require("underscore");
 
 module.exports = {
 	sendServerError: sendServerError,
+	sendUnauthorized: sendUnauthorized,
 	isLoggedIn: isLoggedIn,
 	isAdmin: isAdmin
 }
