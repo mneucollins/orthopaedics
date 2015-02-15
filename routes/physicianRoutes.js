@@ -54,4 +54,17 @@ module.exports = function (router) {
             res.json(data);
         });
     });
+
+    router.route('/physicians/:physicianId/patients/today')
+    .get(function(req, res) {
+        patientController.listPatientsbyPhysicianToday(req.params.physicianId, function (err, data) {
+            if(err) {
+                tools.sendServerError(err, req, res);
+                return;
+            }
+
+            console.log("Physician's " + req.params.physicianId + " patients listed");
+            res.json(data);
+        });
+    });  
 }

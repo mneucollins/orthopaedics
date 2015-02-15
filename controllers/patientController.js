@@ -8,7 +8,8 @@ module.exports = {
   eliminarPatient: eliminarPatient,
   obtenerPatientHistory: obtenerPatientHistory,
   listPatientsToday: listPatientsToday,
-  listPatientsbyPhysician: listPatientsbyPhysician
+  listPatientsbyPhysician: listPatientsbyPhysician,
+  listPatientsbyPhysicianToday: listPatientsbyPhysicianToday
 }
 
 function nuevoPatient(newPatient, callback) {
@@ -115,4 +116,25 @@ function listPatientsbyPhysician(physicianId, callback) {
     if (err) callback(err);
     else callback(null, patients);
   });
+}
+
+function listPatientsbyPhysicianToday(physicianId, callback) {
+
+    var lowDate = new Date();
+    lowDate.setHours(0);
+    lowDate.setMinutes(0);
+    lowDate.setSeconds(0);
+
+    var highDate = new Date();
+    highDate.setHours(0);
+    highDate.setMinutes(0);
+    highDate.setSeconds(0);
+    highDate.setDate(highDate.getDate()+1);
+
+    patientModel.find({physician: physicianId, apptTime: {$gte: lowDate, $lt: highDate}})
+        .populate("physician")
+        .exec(function(err, patients) {
+            if (err) callback(err);
+            else callback(null, patients);
+    });
 }

@@ -1,12 +1,13 @@
 
-<div class="col-md-1 nopadding" ng-controller="physiciansCtrl">
-    <div class="physiciansSidebar col-md-8 nopadding">
+<div class="nopadding" ng-controller="physiciansCtrl">
+    <div class="physiciansSidebar nopadding">
         <div class="menuPhysicians retinaContainer">
             <img src="../img/physicianIcon.png" ng-click="tooglePhysiciansList()"/>
         </div>
     </div>
 
-    <div class="col-md-3 physiciansList">
+    <div class="col-md-4 physiciansList">
+        <h3>PHYSICIANS</h3>
         <form role="form" ng-submit="fillSchedules()">
             <div class="row form-group panel-body">
                 <!-- <div class="col-md-1">
@@ -30,15 +31,18 @@
                 </div>
             </div>
             <div class="row">
-                <button type="submit" class="btn btn-primary">View Schedules</button>
+                <button type="submit" class="btn btn-primary col-md-10 col-md-offset-1">View Schedules</button>
             </div>
         </form>
     </div>
 </div>
 
 
-<div class="col-md-11" ng-controller="scheduleCtrl">
+<div class="col-md-11 col-md-offset-1" ng-controller="scheduleCtrl">
     <h3><p align="left">{{ currentTime | date: 'h:mm a MMMM d, yyyy'}}</p></h3>
+    <h3 class="physiciansHeader">
+        <span ng-repeat="physician in selectedPhysicians">{{ physician.name }} <span class="roundMiniBox" ng-class="{'timer-on-time': physician.time<=15, 'timer-delay-15': physician.time>15 && physician.time<=30, 'timer-delay-30': physician.time>30 && physician.time<=45, 'timer-delay-45': physician.time>45}">{{ getPhysicianTime(physician) }}</span> ;  </span>
+    </h3>
     <br>
     <table class="table table-striped">
         <thead style="text-align:left; white-space: nowrap; font-weight: bold;">
@@ -67,7 +71,7 @@
                 <td style="padding: 2% 0% 2% 0.5%;">{{ patient.dateBirth | date:'MM/dd/yyyy'}}</td>
                 <td style="padding: 2% 0% 2% 0.5%;"><img ng-src="{{ getImagingState(patient) }}" ng-click="toogleImagingState(patient)" ng-class="{clickable: isImagingClickable(patient)}"/></td>
                 <td style="padding: 2% 0% 2% 0.5%;"><span ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }} min </span>-<span ng-class="getTimerColor('EX', patient)"> EX {{ getEXTime(patient) }} min</span></td>
-                <td style="padding: 2% 0% 2% 0.5%;"><div class="roundMiniBox">{{ getTotalTime(patient) }}</div></td>
+                <td style="padding: 2% 0% 2% 0.5%;"><div class="roundMiniBox" ng-class="{'timer-not-started': patient.currentState == 'DC' || patient.currentState == 'NCI'}">{{ getTotalTime(patient) }}</div></td>
                 <td style="padding: 2%;text-align:right;"><img src="img/expandIcon.png" class="imageButton"  data-toggle="collapse" data-target="{{ '#miniform' + patient._id }}" onclick="onCollapseButton(this);" ng-click="loadPatientHistory(patient)"/></td>
             </tr>
             <tr id="{{ 'miniform' + patient._id }}" class="accordian-body collapse " ng-repeat-end>

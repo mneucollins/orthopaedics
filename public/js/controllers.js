@@ -42,8 +42,8 @@ orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthSer
 
 // =============================== SCHEDULE CTRL ===================================
 
-orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$rootScope', '$log', '$interval', '$modal', 'Patient', 'Messages',
-  function($scope, $location, $rootScope, $log, $interval, $modal, Patient, Messages) {
+orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$rootScope', '$log', '$interval', '$modal', 'Patient', 'Messages', 'Physician',
+  function($scope, $location, $rootScope, $log, $interval, $modal, Patient, Messages, Physician) {
 
     $("nav").removeClass("hidden");
     $("body").removeClass("body-login");
@@ -53,13 +53,39 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         $scope.currentTime = new Date();
     }, 500);
 
-    Patient.queryToday(function (patients) {
-        var pList = _.sortBy(patients, function(patient){ return new Date(patient.apptTime).getHours(); });  // sort by appt time (hours)
-        $scope.patientList = pList;
+    // Physician managment
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    $rootScope.$watch("selectedPhysicians", function (newValue, oldValue) {
+        $scope.patientList = [];
+        for (var i = 0; i < newValue.length; i++) {
+            var physician = newValue[i];
+
+            Physician.getPatientsToday({physicianId: physician._id}, function (patients) {
+                var pList = _.sortBy(patients, function(patient){ return new Date(patient.apptTime).getHours(); });  // sort by appt time (hours)
+                $scope.patientList = $scope.patientList.concat(pList);
+            });
+        };
     });
 
-    $scope.filteringTime = true;
-    $scope.arrowTime = "glyphicon glyphicon-chevron-up";
+    $scope.getPhysicianTime = function (physician) {
+        var searchList = _.sortBy($scope.patientList, function(patient){ return patient.apptTime });
+        searchList = _.filter(searchList, function (patient) {
+            return patient.physician._id == physician._id && 
+                    patient.WRTimestamp && !patient.EXTimestamp; // &&
+                    // new Date(patient.WRTimestamp).getTime() <= new Date(patient.apptTime).setMinutes + (10*60*1000);
+        });
+
+        if(searchList.length <= 0) return 0;
+
+        physician.time = $scope.getWRTime(searchList[0]);
+        return physician.time;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    
+    $scope.filteringPhys = true;
+    $scope.arrowPhys = "glyphicon glyphicon-chevron-up";
     
     $scope.filteringList = function(selection){
         $scope.filteringTime = false;
@@ -483,7 +509,7 @@ orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$r
                 return physician.selected;
             });
 
-            if(selectedPhysicians.length >= 2) {
+            if(selectedPhysicians.length >= 2 && !physician.selected) {
                 alert("Only two Physicians allowed");
                 return;
             }
@@ -497,15 +523,16 @@ orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$r
         }); 
 
         $rootScope.selectedPhysicians = selectedPhysicians;
+        $(".physiciansList").css("left", "-500px");
     }
 
     $scope.tooglePhysiciansList = function () {
         var currentPos = $(".physiciansList").css("left");
 
         if(currentPos.charAt(0) == "-") // it's hidden
-            $(".physiciansList").css("left", "83px");
+            $(".physiciansList").css("left", "54px");
         else
-            $(".physiciansList").css("left", "-374px");
+            $(".physiciansList").css("left", "-500px");
     }
 
 }]);
