@@ -24,7 +24,8 @@ function nuevoPatient(newPatient, callback) {
   patient.apptType = newPatient.apptType;
   patient.apptDuration = newPatient.apptDuration;
   patient.physician = newPatient.physician;
-
+  patient.email = newPatient.email;
+  patient.adress = newPatient.adress;
 
   patient.WRTimestamp = newPatient.WRTimestamp;
   patient.EXTimestamp = newPatient.EXTimestamp;

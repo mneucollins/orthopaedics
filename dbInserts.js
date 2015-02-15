@@ -51,7 +51,9 @@ var testPatients = [{
 	WRTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() - 100)).setDate(new Date().getDate()-1),
 	EXTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() - 90)).setDate(new Date().getDate()-1),
 	DCTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() - 20)).setDate(new Date().getDate()-1),
-	apptDuration: 15
+	apptDuration: 15,
+	email: "mstreep@yahoo.com",
+	adress: "338 West 23rd Street New York City"
 },{
 	firstName: "Tom",
 	lastName: "Hanks",
@@ -64,7 +66,9 @@ var testPatients = [{
 	WRTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() - 90)).setDate(new Date().getDate()-2),
 	EXTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() - 60)).setDate(new Date().getDate()-2),
 	DCTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() - 10)).setDate(new Date().getDate()-2),
-	apptDuration: 15
+	apptDuration: 15,
+	email: "mtommy@yahoo.com",
+	adress: "20 Est 23rd Street New York City"
 },{
 	firstName: "Eddy",
 	lastName: "Murphy",
@@ -79,7 +83,9 @@ var testPatients = [{
 	// WRTimestamp: new Date().setMinutes(new Date().getMinutes() - 100),
 	// EXTimestamp: new Date().setMinutes(new Date().getMinutes() - 90),
 	// DCTimestamp: new Date().setMinutes(new Date().getMinutes() - 20),
-	apptDuration: 15
+	apptDuration: 15,
+	email: "murphy12@yahoo.com",
+	adress: "12 South 9rd Street New York City"
 },{
 	firstName: "Emma",
 	lastName: "Watson",
@@ -93,7 +99,9 @@ var testPatients = [{
 	// apptTime: new Date().setMinutes(new Date().getMinutes() - 60),
 	// WRTimestamp: new Date().setMinutes(new Date().getMinutes() - 65),
 	// EXTimestamp: new Date().setMinutes(new Date().getMinutes() - 20),
-	apptDuration: 15
+	apptDuration: 15,
+	email: "emma98@yahoo.com",
+	adress: "38 West 3rd Street New York City"
 },{
 	firstName: "Daniel",
 	lastName: "Radcliffe",
@@ -107,7 +115,9 @@ var testPatients = [{
 	// apptTime: new Date().setMinutes(new Date().getMinutes() - 60),
 	// WRTimestamp: new Date().setMinutes(new Date().getMinutes() - 70),
 	// EXTimestamp: new Date().setMinutes(new Date().getMinutes() - 30),
-	apptDuration: 15
+	apptDuration: 15,
+	email: "mdanny@yahoo.com",
+	adress: "338 West 23rd Street New York City"
 },{
 	firstName: "Chuck",
 	lastName: "Norris",
@@ -120,7 +130,9 @@ var testPatients = [{
 	apptTime: new Date().setMinutes(new Date().getMinutes() + 45 + nPlusHours*60),
 	// apptTime: new Date().setMinutes(new Date().getMinutes() - 5),
 	// WRTimestamp: new Date().setMinutes(new Date().getMinutes() - 3),
-	apptDuration: 15
+	apptDuration: 15,
+	email: "chuckgreat@yahoo.com",
+	adress: "338 West 23rd Street New York City"
 },{
 	firstName: "Chuck",
 	lastName: "Norris",
@@ -133,7 +145,9 @@ var testPatients = [{
 	WRTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() + 119)).setDate(new Date().getDate()-2),
 	EXTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() + 130)).setDate(new Date().getDate()-2),
 	DCTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() + 160)).setDate(new Date().getDate()-2),
-	apptDuration: 15
+	apptDuration: 15,
+	email: "mstreep@yahoo.com",
+	adress: "338 West 23rd Street New York City"
 },{
 	firstName: "Chuck",
 	lastName: "Norris",
@@ -146,7 +160,9 @@ var testPatients = [{
 	WRTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() + 270)).setDate(new Date().getDate()-4),
 	EXTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() + 310)).setDate(new Date().getDate()-4),
 	DCTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() + 350)).setDate(new Date().getDate()-4),
-	apptDuration: 15
+	apptDuration: 15,
+	email: "mstreep@yahoo.com",
+	adress: "338 West 23rd Street New York City"
 },{
 	firstName: "Jackie",
 	lastName: "Chan",
@@ -159,7 +175,9 @@ var testPatients = [{
 	apptTime: new Date().setMinutes(new Date().getMinutes() + 50 + nPlusHours*60),
 	// apptTime: new Date().setMinutes(new Date().getMinutes() - 11),
 	// WRTimestamp: new Date().setMinutes(new Date().getMinutes() - 15),
-	apptDuration: 15
+	apptDuration: 15,
+	email: "mstreep@yahoo.com",
+	adress: "338 West 23rd Street New York City"
 },{
 	firstName: "Jackie",
 	lastName: "Holmes",
@@ -172,7 +190,9 @@ var testPatients = [{
 	apptTime: new Date().setMinutes(new Date().getMinutes() + 60 + nPlusHours*60),
 	// apptTime: new Date().setMinutes(new Date().getMinutes() - 18),
 	// WRTimestamp: new Date().setMinutes(new Date().getMinutes() - 20),
-	apptDuration: 15
+	apptDuration: 15,
+	email: "mstreep@yahoo.com",
+	adress: "338 West 23rd Street New York City"
 },{
 	firstName: "Jackie",
 	lastName: "Jones",
@@ -185,7 +205,9 @@ var testPatients = [{
 	apptTime: new Date().setMinutes(new Date().getMinutes() + 75 + nPlusHours*60),
 	// apptTime: new Date().setMinutes(new Date().getMinutes() - 35),
 	// WRTimestamp: new Date().setMinutes(new Date().getMinutes() - 39),
-	apptDuration: 15
+	apptDuration: 15,
+	email: "mstreep@yahoo.com",
+	adress: "338 West 23rd Street New York City"
 },{
 	firstName: "Jackie",
 	lastName: "Slinger",
@@ -198,7 +220,9 @@ var testPatients = [{
 	apptTime: new Date().setMinutes(new Date().getMinutes() + 90 + nPlusHours*60),
 	// apptTime: new Date().setMinutes(new Date().getMinutes() - 57),
 	// WRTimestamp: new Date().setMinutes(new Date().getMinutes() - 60),
-	apptDuration: 15
+	apptDuration: 15,
+	email: "mstreep@yahoo.com",
+	adress: "338 West 23rd Street New York City"
 },{
 	firstName: "Ryan",
 	lastName: "Gosling",
@@ -209,7 +233,9 @@ var testPatients = [{
 	currentState: "NCI",
 	apptTime: new Date().setMinutes(new Date().getMinutes() + 100 + nPlusHours*60),
 	// apptTime: new Date().setMinutes(new Date().getMinutes() + 5),
-	apptDuration: 15
+	apptDuration: 15,
+	email: "mstreep@yahoo.com",
+	adress: "338 West 23rd Street New York City"
 },{
 	firstName: "Natalie",
 	lastName: "Portman",
@@ -220,7 +246,9 @@ var testPatients = [{
 	currentState: "NCI",
 	apptTime: new Date().setMinutes(new Date().getMinutes() + 110 + nPlusHours*60),
 	// apptTime: new Date().setMinutes(new Date().getMinutes() + 3),
-	apptDuration: 35
+	apptDuration: 35,
+	email: "mstreep@yahoo.com",
+	adress: "338 West 23rd Street New York City"
 }];
 
 var physiciansIds = [];

@@ -33,7 +33,9 @@ var PatientSchema   = new Schema({
 	imagingTimestamp: Date,
 	enterTimestamp: Date,
 	exitTimestamp: Date,
-	timestamp: { type: Date, default: Date.now }
+	timestamp: { type: Date, default: Date.now },
+	email: String,
+	adress: String
 });
 
 PatientSchema.set('toJSON', {
