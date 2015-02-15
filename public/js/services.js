@@ -3,15 +3,17 @@ var orthopaedicsServices = angular.module('orthopaedicsServices', ['ngResource',
 orthopaedicsServices.factory('Patient', ['$resource',
 	function($resource){
 		return $resource('/api/patients/:patientId', {patientId: "@_id"}, {
-		update: {method: "PUT"},
-        queryToday: {method: "GET", url: "/api/patients/today", isArray: true},
-        getHistory: {method: "GET", url: "/api/patients/:patientId/history", isArray: true}
+    		update: {method: "PUT"},
+            queryToday: {method: "GET", url: "/api/patients/today", isArray: true},
+            getHistory: {method: "GET", url: "/api/patients/:patientId/history", isArray: true}
 	});
 }]);
 
 orthopaedicsServices.factory('Physician', ['$resource',
     function($resource){
-        return $resource('/api/physicians/:physicianId', {physicianId: "@_id"});
+        return $resource('/api/physicians/:physicianId', {physicianId: "@_id"}, {
+            getPatientsToday: {method: "GET", url: "/api/physicians/:physicianId/patients/today", isArray: true},
+        });
 }]);
 
 orthopaedicsServices.factory('Messages', ['$resource',

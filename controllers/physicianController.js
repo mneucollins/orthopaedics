@@ -1,4 +1,5 @@
 var userModel = require('../models/userModel');
+var patientModel = require('../models/patientModel');
 
 module.exports = {
   listarPhysicians: listarPhysicians,
