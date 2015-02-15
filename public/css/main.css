@@ -73,14 +73,27 @@ body {
 }
 
 .physiciansList {
-	transition: all 0.7s;
 	background-color: #FFF;
+	border-right-style: solid;
 	float: left;
-	position: absolute;
 	left: -374px;
+	position: absolute;
+	transition: all 0.7s;
+	width: 374px;
 	z-index: 99;
 }
 
+.avatar {
+	width: 70px;
+}
+
+.selectedPhysician {
+	background-color: #E3EFFA;
+}
+
+#physicianSearchList .row {
+	cursor: pointer;
+}
 
 /* 
 //////////////////////////////////////////////////////////////////////

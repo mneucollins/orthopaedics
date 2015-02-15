@@ -1,0 +1,149 @@
+
+<div class="col-md-1 nopadding" ng-controller="physiciansCtrl">
+    <div class="physiciansSidebar col-md-8 nopadding">
+        <div class="menuPhysicians retinaContainer">
+            <img src="../img/physicianIcon.png" ng-click="tooglePhysiciansList()"/>
+        </div>
+    </div>
+
+    <div class="col-md-3 physiciansList">
+        <form role="form" ng-submit="fillSchedules()">
+            <div class="row form-group panel-body">
+                <!-- <div class="col-md-1">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true" style="left: -50px"></span>
+                </div>
+                <div class="col-md-11">
+                    <input id="physicianSearch" class="form-control" type="search" placeholder="Search..."/>
+                </div> -->
+                <input id="physicianSearch" class="form-control" type="search" placeholder="Search..."/>
+                <!-- <span class="glyphicon glyphicon-search" aria-hidden="true" style="top: -30px"></span> -->
+            </div>
+            <div id="physicianSearchList" class="list-group">
+                <div class="row list-group-item" ng-class="{selectedPhysician: physician.selected}" ng-click="selectPhysician(physician)" ng-repeat="physician in physicianList">
+                    <div class="col-md-6 retinaContainer avatar">
+                        <img src="../img/user.png" />
+                    </div>
+                    <div class="col-md-6">
+                            <h4><span>{{ physician.name }}</span><br>
+                            <small>{{ physician.role }}</small></h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <button type="submit" class="btn btn-primary">View Schedules</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="col-md-11" ng-controller="scheduleCtrl">
+    <h3><p align="left">{{ currentTime | date: 'h:mm a MMMM d, yyyy'}}</p></h3>
+    <br>
+    <table class="table table-striped">
+        <thead style="text-align:left; white-space: nowrap; font-weight: bold;">
+            <tr>
+                <th style="width:5%; border-bottom:transparent"></th>
+                <th ng-click="sortPatientsByTime(); filteringList ('time');" ng-class="{'blueFilter' : filteringTime, 'blackFilter' : !filteringTime}">Appt Time<span ng-class="arrowTime" aria-hidden="true"></th>
+                <th ng-click="sortPatientsByName(); filteringList ('name');" ng-class="{'blueFilter' : filteringName, 'blackFilter' : !filteringName}">Patient Name<span ng-class="arrowName" aria-hidden="true"></span></th>
+                <th ng-click="sortPatientsByPhysician(); filteringList ('physician');" ng-class="{'blueFilter' : filteringPhys, 'blackFilter' : !filteringPhys}">Physician<span ng-class="arrowPhys" aria-hidden="true"></th>
+                <th ng-click="sortPatientsByBirth(); filteringList ('dob');" ng-class="{'blueFilter' : filteringDob, 'blackFilter' : !filteringDob}">DOB<span ng-class="arrowDOB" aria-hidden="true"></th>
+                <th ng-click="sortPatientsByImaging(); filteringList ('imaging');" ng-class="{'blueFilter' : filteringImag, 'blackFilter' : !filteringImag}">Imaging<span ng-class="arrowImag" aria-hidden="true"></th>
+                <th ng-click="sortPatientsByStatus(); filteringList ('status');" ng-class="{'blueFilter' : filteringStat, 'blackFilter' : !filteringStat}">Status<span ng-class="arrowStat" aria-hidden="true"></th>
+                <th ng-click="sortPatientsByTotal(); filteringList ('total');" ng-class="{'blueFilter' : filteringTot, 'blackFilter' : !filteringTot}">Total<span ng-class="arrowTot" aria-hidden="true"></th>
+                <th ></th>
+            </tr>
+        </thead>
+        <tbody style="text-align:left; white-space: nowrap; font-weight: bold; color:#BEBEBE;" >
+            <tr ng-repeat-start="patient in patientList">
+                <td style="padding: 2% 0% 2% 0.5%;background-color:white; border-top:transparent;">
+                    <button type="button" ng-show="patient.currentState == 'EX'" class="btn btn-default" ng-click="discharge(patient)">Discharge</button>
+                    <button type="button" class="btn btn-primary" ng-show="patient.currentState == 'WR'" ng-click="callBack(patient)">Call Back</button>
+                    <button type="button" class="btn btn-default" ng-show="patient.currentState == 'NCI'" ng-click="register(patient)">Register</button>
+                </td>
+                <td style="padding: 2% 0% 2% 0.5%;">{{ patient.apptTime | date:'hh:mm a'}}</td>
+                <td style="padding: 2% 0% 2% 0.5%;">{{ patient.fullName }}</td>
+                <td style="padding: 2% 0% 2% 0.5%;">{{ patient.physician.name }}</td>
+                <td style="padding: 2% 0% 2% 0.5%;">{{ patient.dateBirth | date:'MM/dd/yyyy'}}</td>
+                <td style="padding: 2% 0% 2% 0.5%;"><img ng-src="{{ getImagingState(patient) }}" ng-click="toogleImagingState(patient)" ng-class="{clickable: isImagingClickable(patient)}"/></td>
+                <td style="padding: 2% 0% 2% 0.5%;"><span ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }} min </span>-<span ng-class="getTimerColor('EX', patient)"> EX {{ getEXTime(patient) }} min</span></td>
+                <td style="padding: 2% 0% 2% 0.5%;"><div class="roundMiniBox">{{ getTotalTime(patient) }}</div></td>
+                <td style="padding: 2%;text-align:right;"><img src="img/expandIcon.png" class="imageButton"  data-toggle="collapse" data-target="{{ '#miniform' + patient._id }}" onclick="onCollapseButton(this);" ng-click="loadPatientHistory(patient)"/></td>
+            </tr>
+            <tr id="{{ 'miniform' + patient._id }}" class="accordian-body collapse " ng-repeat-end>
+                <td style="padding: 2% 0% 2% 0.5%;background-color:white; "></td>
+                <td colspan="8" >
+
+                    <div>
+                        <div class="well">
+                            <div class="row">
+                                <div class="col-md-1" style="font-weight: bold; text-align:left;">
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" ng-click=""></span>&nbsp; Info 
+                                </div>
+                                <div class="col-md-5" style="font-weight: bold; text-align:left;" ng-click="">
+                                    <div style="color:#7F7F7F; display:inline-block;">
+                                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> &nbsp;Contact 
+                                    </div>
+                                </div>
+                                <div class="col-md-6" style="font-weight: bold; text-align:left; ">
+                                    <div style="color:#7F7F7F">Prior Appointment Wait Times</div>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row" style="text-align:left">
+                                <div class="col-md-6" style="padding-right: 30px;">
+                                    <div id="{{ 'miniformContact' + patient._id }}" >
+                                        <div class="row">
+                                            <div class="col-md-12"><textarea class="form-control" rows="5" id="comment" placeholder="Send text message..." ng-model="patient.customMessage"></textarea></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="popTriangle"></div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-2" style="color:#72C394; font-weight: bold;">Custom</div>
+                                            <div class="col-md-2">Default</div>
+                                            <div class="col-md-4"></div>
+                                            <div class="col-md-2" style="font-weight: bold; color:#7F7F7F;">Cancel</div>
+                                            <div class="col-md-2 btn btn-default" style="background-color: #72C394; color: white; font-weight: bold; width: 14%; margin-top: -1%;" ng-click="sendCustomMessage(patient)">Send</div>
+                                        </div>
+                                    </div>
+                                    <div id="{{ 'miniformInfo' + patient._id }}" >
+                                    </div>
+                                </div>
+                                <div class="col-md-6" style="border-left: thick solid #C9C9C9; border-width: 1px;">
+                                    <div class="row" ng-repeat="record in patient.history">
+                                        <div class="col-md-3">{{ record.apptTime | date: 'MM/dd/yy'}}</div>
+                                        <div class="col-md-4"><span ng-class="getTimerColor('WR', record)">WR {{ getWRTime(record) }} min </span>-<span ng-class="getTimerColor('EX', record)"> EX {{ getEXTime(record) }} min</span></div>
+                                        <div class="col-md-4"><div class="roundMiniBox" style="width: 50%;">{{ getTotalTime(record) }}</div></div>
+                                    </div>
+                                    <hr />
+                                    <!-- <div class="row">
+                                        <div class="col-md-3">9/2/14</div>
+                                        <div class="col-md-2">1WR 10min</div>
+                                        <div class="col-md-3">EX 11min</div>
+                                        <div class="col-md-4"><div class="roundMiniBox" style="width: 50%;">21 min</div></div>
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-md-3">9/2/14</div>
+                                        <div class="col-md-2">1WR 10min</div>
+                                        <div class="col-md-3">EX 11min</div>
+                                        <div class="col-md-4"><div class="roundMiniBox" style="width: 50%;">21 min</div></div>
+                                    </div>
+                                    <hr /> -->
+                                    <div style="text-align:right;color:#7F7F7F;font-weight: normal;">
+                                        See all
+                                    </div>
+                                    <br/>
+                                </div>
+                            </diV>
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

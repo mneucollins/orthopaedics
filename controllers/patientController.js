@@ -7,7 +7,8 @@ module.exports = {
   actualizarPatient: actualizarPatient,
   eliminarPatient: eliminarPatient,
   obtenerPatientHistory: obtenerPatientHistory,
-  listPatientsToday: listPatientsToday
+  listPatientsToday: listPatientsToday,
+  listPatientsbyPhysician: listPatientsbyPhysician
 }
 
 function nuevoPatient(newPatient, callback) {
@@ -90,19 +91,28 @@ function eliminarPatient(id, callback) {
 }
 
 function obtenerPatientHistory (id, callback) {
-patientModel.findById(id, function(err, patient) {
+    patientModel.findById(id, function(err, patient) {
+        if (err) callback(err);
+        else {
+            patientModel.find({
+                medicalRecordNumber: patient.medicalRecordNumber,
+                _id: {$ne: id}
+            }, function (err, appts) {
+                if(err) callback(err);
+                else if(appts.length > 0)
+                    return callback(null, appts);
+                else
+                    return callback(null, []);
+            });
+        } 
+    });
+}
+
+function listPatientsbyPhysician(physicianId, callback) {
+  patientModel.find({physician: physicianId})
+  .populate("physician")
+  .exec(function(err, patients) {
     if (err) callback(err);
-    else {
-        patientModel.find({
-            medicalRecordNumber: patient.medicalRecordNumber,
-            _id: {$ne: id}
-        }, function (err, appts) {
-            if(err) callback(err);
-            else if(appts.length > 0)
-                return callback(null, appts);
-            else
-                return callback(null, []);
-        });
-    } 
-});
+    else callback(null, patients);
+  });
 }
