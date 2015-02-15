@@ -77,11 +77,11 @@
                     <div>
                         <div class="well">
                             <div class="row">
-                                <div class="col-md-1" style="font-weight: bold; text-align:left;">
-                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" ng-click=""></span>&nbsp; Info 
+                                <div class="col-md-1" style="font-weight: bold; text-align:left;" ng-click="showMessage=false" ng-class="attentionFont ">
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>&nbsp; Info 
                                 </div>
-                                <div class="col-md-5" style="font-weight: bold; text-align:left;" ng-click="">
-                                    <div style="color:#7F7F7F; display:inline-block;">
+                                <div class="col-md-5" style="font-weight: bold; text-align:left;" ng-click="showMessage=true">
+                                    <div style="display:inline-block;" >
                                         <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> &nbsp;Contact 
                                     </div>
                                 </div>
@@ -92,7 +92,7 @@
                             <br/>
                             <div class="row" style="text-align:left">
                                 <div class="col-md-6" style="padding-right: 30px;">
-                                    <div id="{{ 'miniformContact' + patient._id }}" >
+                                    <div id="{{ 'miniformContact' + patient._id }}" ng-show="showMessage">
                                         <div class="row">
                                             <div class="col-md-12"><textarea class="form-control" rows="5" id="comment" placeholder="Send text message..." ng-model="patient.customMessage"></textarea></div>
                                         </div>
@@ -109,7 +109,11 @@
                                             <div class="col-md-2 btn btn-default" style="background-color: #72C394; color: white; font-weight: bold; width: 14%; margin-top: -1%;" ng-click="sendCustomMessage(patient)">Send</div>
                                         </div>
                                     </div>
-                                    <div id="{{ 'miniformInfo' + patient._id }}" >
+                                    <div id="{{ 'miniformInfo' + patient._id }}" ng-show="!showMessage">
+                                        MRN:<br><br>
+                                        <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span><br><br>
+                                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span><br><br>
+                                        <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span><br>
                                     </div>
                                 </div>
                                 <div class="col-md-6" style="border-left: thick solid #C9C9C9; border-width: 1px;">
