@@ -9,15 +9,18 @@ mongoose.connect(config.databaseURL);
 var testPhysicians = [{
 	name: "Dr. Boden",
 	username: "drboden",
-	password: "123456"
+	password: "123456",
+	role: "Physician"
 },{
 	name: "Dr. Bradbury",
 	username: "drbradbury",
-	password: "123456"
+	password: "123456",
+	role: "Physician"
 },{
 	name: "Dr. X",
 	username: "drx",
-	password: "123456"
+	password: "123456",
+	role: "Physician"
 }];
 
 var testPatients = [{

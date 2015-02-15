@@ -33,7 +33,7 @@ orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthSer
     $scope.login = function () {
         AuthService.login($scope.user, function(user) {
             alert("Welcome " + user.name);
-            $location.path("/schedule");
+            $location.path("/dashboard1");
         }, function (err) {
             alert("There was an arror... But remember, hakuna matata!");
         });
@@ -455,11 +455,12 @@ orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInst
 
 // =============================== PHYSICIANS CTRL ===================================
 
-orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$rootScope', '$window', 'Physician',
-  function($scope, $location, $rootScope, $window, Physician) {
+orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$rootScope', '$window', 'AuthService', 'Physician',
+  function($scope, $location, $rootScope, $window, AuthService, Physician) {
 
     $(".physiciansSidebar").css("height", $window.innerHeight - 60);
     $(".physiciansList").css("height", $window.innerHeight - 60);
+    $rootScope.selectedPhysicians = [];
 
     setTimeout(function(){
         $('#physicianSearchList').btsListFilter('#physicianSearch', {itemChild: 'span'});
@@ -473,15 +474,27 @@ orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$r
     });
 
     $scope.selectPhysician = function (physician) {
+         
+        var role = AuthService.currentUser().role;
+        if(role == "Physician" || role == "FirstProvider") {
+            var selectedPhysicians = _.filter($scope.physicianList, function (physician) {
+                return physician.selected;
+            });
+
+            if(selectedPhysicians.length >= 2) {
+                alert("Only two Physicians allowed");
+                return;
+            }
+        }
         physician.selected = !physician.selected;
     }
 
     $scope.fillSchedules = function () {
         var selectedPhysicians = _.filter($scope.physicianList, function (physician) {
             return physician.selected;
-        });
+        }); 
 
-        alert(JSON.stringify(selectedPhysicians));
+        $rootScope.selectedPhysicians = selectedPhysicians;
     }
 
     $scope.tooglePhysiciansList = function () {
