@@ -69,7 +69,13 @@
                 <td style="padding: 2% 0% 2% 0.5%;">{{ patient.fullName }}</td>
                 <td style="padding: 2% 0% 2% 0.5%;">{{ patient.physician.name }}</td>
                 <td style="padding: 2% 0% 2% 0.5%;">{{ patient.dateBirth | date:'MM/dd/yyyy'}}</td>
-                <td style="padding: 2% 0% 2% 0.5%;"><img ng-src="{{ getImagingState(patient) }}" ng-click="toogleImagingState(patient)" ng-class="{clickable: isImagingClickable(patient)}"/></td>
+                <td style="padding: 2% 0% 2% 0.5%;">
+                    <img ng-src="{{ getImagingState(patient) }}" ng-click="toogleImagingState(patient)" ng-class="{clickable: isImagingClickable(patient)}" />
+                    <div id="{{ 'imagingIcons' + patient._id }}" ng-show="patient.needsImaging" style="display:inline-block">
+                        <img src="img/emailicon.png"  />
+                        <img src="img/ok2icon.png"  />
+                    </div>
+                </td>                
                 <td style="padding: 2% 0% 2% 0.5%;"><span ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }} min </span>-<span ng-class="getTimerColor('EX', patient)"> EX {{ getEXTime(patient) }} min</span></td>
                 <td style="padding: 2% 0% 2% 0.5%;"><div class="roundMiniBox" ng-class="{'timer-not-started': patient.currentState == 'DC' || patient.currentState == 'NCI'}">{{ getTotalTime(patient) }}</div></td>
                 <td style="padding: 2%;text-align:right;"><img src="img/expandIcon.png" class="imageButton"  data-toggle="collapse" data-target="{{ '#miniform' + patient._id }}" onclick="onCollapseButton(this);" ng-click="loadPatientHistory(patient)"/></td>
@@ -97,18 +103,23 @@
                             <br/>
                             <div class="row" style="text-align:left">
                                 <div class="col-md-6" style="padding-right: 30px;">
-                                    <div id="{{ 'miniformContact' + patient._id }}" ng-show="showMessage">
-                                        <div class="row">
-                                            <div class="col-md-12"><textarea class="form-control" rows="5" id="comment" placeholder="Send text message..." ng-model="patient.customMessage"></textarea></div>
-                                        </div>
+                                    <div  ng-show="showMessage">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <div class="popTriangle"></div>
+                                                <textarea id="{{ 'miniformTextArea' + patient._id }}" class="form-control" rows="5" id="comment" placeholder="Send text message..." ng-model="patient.customMessage" ></textarea>
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-2" style="color:#72C394; font-weight: bold;">Custom</div>
-                                            <div class="col-md-2">Default</div>
+                                            <div class="col-md-12">
+                                                <div id="{{ 'miniformTriangle' + patient._id }}" style="margin-left: {{ messageSelectorPos }}%;">
+                                                    <div class="popTriangle" style="border-width: 12px 13px 0px 13px; border-color: #C9C9C9 transparent;"></div>
+                                                    <div class="popTriangle" style="margin-top: -12px; margin-left: 15px;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-2" ng-click="messageSelectorPos = '1'" ng-class="{'messageOn' : messageSelectorPos == '1'} " style="cursor: pointer;">Custom</div>
+                                            <div class="col-md-2" ng-click="messageSelectorPos = '17'" ng-class="{'messageOn' : messageSelectorPos != '1'} " style="cursor: pointer;">Default</div>
                                             <div class="col-md-4"></div>
                                             <div class="col-md-2" style="font-weight: bold; color:#7F7F7F;">Cancel</div>
                                             <div class="col-md-2 btn btn-default" style="background-color: #72C394; color: white; font-weight: bold; width: 14%; margin-top: -1%;" ng-click="sendCustomMessage(patient)">Send</div>

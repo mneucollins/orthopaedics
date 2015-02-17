@@ -239,10 +239,12 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         var imagingStateIcon = "";
 
         if(patient.needsImaging)
-            if(patient.imagingTimestamp)
-                imagingStateIcon = "img/ok1icon.png";   
-            else
+            if(patient.imagingTimestamp){
+                imagingStateIcon = "img/ok1icon.png";  
+            }
+            else{
                 imagingStateIcon = "img/yicon.png";
+            }
         else
             imagingStateIcon = "img/nicon.png";
         
@@ -254,9 +256,13 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         if(!$scope.isImagingClickable(patient)) return;
 
         if(patient.needsImaging)
+        {
             Patient.update({patientId: patient.id}, {needsImaging: false, imagingRequestedTimestamp: null}, patientImagingUpdated);
+        }
         else
+        {
             Patient.update({patientId: patient.id}, {needsImaging: true, imagingRequestedTimestamp: new Date()}, patientImagingUpdated);
+        }
         
         function patientImagingUpdated (updatedPatient) {
             var index = $scope.patientList.indexOf(patient); 
@@ -435,6 +441,8 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     }
 
     $scope.showMessage = true;
+    $scope.messageSelectorPos = '1';
+
 
   }]);
 
