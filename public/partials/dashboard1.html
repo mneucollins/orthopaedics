@@ -85,7 +85,7 @@
                     </div>
                 </td>                
                 <td style="padding: 2% 0% 2% 0.5%;"><span ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }} min </span>-<span ng-class="getTimerColor('EX', patient)"> EX {{ getEXTime(patient) }} min</span></td>
-                <td style="padding: 2% 0% 2% 0.5%;"><div class="roundMiniBox" ng-class="{'timer-not-started': patient.currentState == 'DC' || patient.currentState == 'NCI'}">{{ getTotalTime(patient) }}</div></td>
+                <td style="padding: 2% 0% 2% 0.5%;"><div class="roundMiniBox" ng-class="{'timer-not-started': patient.currentState == 'DC' || patient.currentState == 'NCI' || getTotalTime(patient) < 0}">{{ getTotalTime(patient) }}</div></td>
                 <td style="padding: 2%;text-align:right;"><img src="img/expandIcon.png" class="imageButton"  data-toggle="collapse" data-target="{{ '#miniform' + patient._id }}" onclick="onCollapseButton(this);" ng-click="loadPatientHistory(patient)"/></td>
             </tr>
             <tr id="{{ 'miniform' + patient._id }}" class="accordian-body collapse " ng-repeat-end>

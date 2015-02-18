@@ -359,8 +359,6 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         var nowDate = new Date();
 
         if(patient.currentState == "EX" || patient.currentState == "WR")
-            if(nowDate.getTime() < apptDate.getTime()) // starts counting up at appointment time
-                return 0;
             else if(apptDate.getTime() < wrDate.getTime())
                 return Math.round((nowDate.getTime() - wrDate.getTime()) / (60*1000));
             else
