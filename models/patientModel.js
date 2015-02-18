@@ -6,6 +6,8 @@ var PatientSchema   = new Schema({
 	lastName: String,
 	dateBirth: Date,
 	cellphone: String,
+	email: String,
+	adress: String,
 	medicalRecordNumber: String, // TODO talvez necesite un índice
 	apptTime: Date,
 	apptType: {
@@ -33,9 +35,7 @@ var PatientSchema   = new Schema({
 	imagingTimestamp: Date,
 	enterTimestamp: Date,
 	exitTimestamp: Date,
-	timestamp: { type: Date, default: Date.now },
-	email: String,
-	adress: String
+	timestamp: { type: Date, default: Date.now }
 });
 
 PatientSchema.set('toJSON', {

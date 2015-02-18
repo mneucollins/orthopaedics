@@ -39,7 +39,15 @@
 
 
 <div class="col-md-11 col-md-offset-1" ng-controller="scheduleCtrl">
-    <h3><p align="left">{{ currentTime | date: 'h:mm a MMMM d, yyyy'}}</p></h3>
+    <div class="row">
+        <div class="col-md-4">
+            <h3>{{ currentTime | date: 'h:mm a MMMM d, yyyy'}}</h3>
+        </div>
+        <div class="col-md-2 col-md-offset-6">
+            <button class="btn btn-default"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button>
+            <button class="btn btn-default">+ Add Patient</span></button>
+        </div>
+    </div>
     <h3 class="physiciansHeader">
         <span ng-repeat="physician in selectedPhysicians">{{ physician.name }} <span class="roundMiniBox" ng-class="{'timer-on-time': physician.time<=15, 'timer-delay-15': physician.time>15 && physician.time<=30, 'timer-delay-30': physician.time>30 && physician.time<=45, 'timer-delay-45': physician.time>45}">{{ getPhysicianTime(physician) }}</span> ;  </span>
     </h3>
@@ -71,9 +79,9 @@
                 <td style="padding: 2% 0% 2% 0.5%;">{{ patient.dateBirth | date:'MM/dd/yyyy'}}</td>
                 <td style="padding: 2% 0% 2% 0.5%;">
                     <img ng-src="{{ getImagingState(patient) }}" ng-click="toogleImagingState(patient)" ng-class="{clickable: isImagingClickable(patient)}" />
-                    <div id="{{ 'imagingIcons' + patient._id }}" ng-show="patient.needsImaging" style="display:inline-block">
-                        <img src="img/emailicon.png"  />
-                        <img src="img/ok2icon.png"  />
+                    <div id="{{ 'imagingIcons' + patient._id }}" ng-show="patient.needsImaging && !patient.imagingTimestamp" style="display:inline-block">
+                        <img src="img/emailicon.png" class="clickable" ng-click="sendImagingMessage(patient)"/>
+                        <img src="img/ok2icon.png" class="clickable" ng-click="completeImagingState(patient)"/>
                     </div>
                 </td>                
                 <td style="padding: 2% 0% 2% 0.5%;"><span ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }} min </span>-<span ng-class="getTimerColor('EX', patient)"> EX {{ getEXTime(patient) }} min</span></td>
@@ -138,7 +146,7 @@
                                 <div class="col-md-6" style="border-left: thick solid #C9C9C9; border-width: 1px;">
                                     <div class="row" ng-repeat="record in patient.history">
                                         <div class="col-md-3">{{ record.apptTime | date: 'MM/dd/yy'}}</div>
-                                        <div class="col-md-4"><span ng-class="getTimerColor('WR', record)">WR {{ getWRTime(record) }} min </span>-<span ng-class="getTimerColor('EX', record)"> EX {{ getEXTime(record) }} min</span></div>
+                                        <div class="col-md-4"><span ng-class="getTimerColor('WRH', record)">WR {{ getWRTime(record) }} min </span>-<span ng-class="getTimerColor('EXH', record)"> EX {{ getEXTime(record) }} min</span></div>
                                         <div class="col-md-4"><div class="roundMiniBox" style="width: 50%;">{{ getTotalTime(record) }}</div></div>
                                     </div>
                                     <hr />
