@@ -82,6 +82,25 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         return physician.time;
     }
 
+    // Sync
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    var socket = io.connect('http://localhost:8181');
+    socket.on('syncPatient', function (updPatient) {
+
+        var listPatient = _.find($scope.patientList, function(patient){ 
+            return patient.id == updPatient.id; 
+        }); 
+
+        if(listPatient) {
+            var index = $scope.patientList.indexOf(listPatient); 
+            $scope.patientList[index] = updPatient;
+             $scope.$apply();
+        }
+    });
+    socket.on('greetings', function (greet) {
+        console.log(JSON.stringify(greet));
+    });
+
     ///////////////////////////////////////////////////////////////////////////////////////////////
     
     $scope.filteringPhys = true;
@@ -359,7 +378,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         var nowDate = new Date();
 
         if(patient.currentState == "EX" || patient.currentState == "WR")
-            else if(apptDate.getTime() < wrDate.getTime())
+            if(apptDate.getTime() < wrDate.getTime())
                 return Math.round((nowDate.getTime() - wrDate.getTime()) / (60*1000));
             else
                 return Math.round((nowDate.getTime() - apptDate.getTime()) / (60*1000));

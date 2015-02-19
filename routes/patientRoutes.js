@@ -1,4 +1,4 @@
-module.exports = function (router) {
+module.exports = function (router, io) {
 
     var _ = require("underscore");
     var path = require("path");
@@ -6,6 +6,7 @@ module.exports = function (router) {
     var config = require('../config.json');
 
     var patientController = require('../controllers/patientController');
+    var syncController = require('../controllers/syncController');
 
     // UNCOMMENT ON PRODUCTION
     router.use(function (req, res, next) {
@@ -77,6 +78,7 @@ module.exports = function (router) {
             }
             console.log("Patient" + req.params.patientId + " Updated");
             res.json(data);
+            syncController.syncPatient(data, io);
             
         });
     });
