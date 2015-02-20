@@ -38,7 +38,8 @@ var testPatients = [{
 	// WRTimestamp: new Date().setMinutes(new Date().getMinutes() - 100),
 	// EXTimestamp: new Date().setMinutes(new Date().getMinutes() - 90),
 	// DCTimestamp: new Date().setMinutes(new Date().getMinutes() - 20),
-	apptDuration: 15
+	apptDuration: 15,
+
 },{
 	firstName: "Tom",
 	lastName: "Hanks",
@@ -53,7 +54,8 @@ var testPatients = [{
 	DCTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() - 20)).setDate(new Date().getDate()-1),
 	apptDuration: 15,
 	email: "mstreep@yahoo.com",
-	adress: "338 West 23rd Street New York City"
+	adress: "338 West 23rd Street New York City",
+	customMessage: "This is the default message"
 },{
 	firstName: "Tom",
 	lastName: "Hanks",
@@ -68,7 +70,8 @@ var testPatients = [{
 	DCTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() - 10)).setDate(new Date().getDate()-2),
 	apptDuration: 15,
 	email: "mtommy@yahoo.com",
-	adress: "20 Est 23rd Street New York City"
+	adress: "20 Est 23rd Street New York City",
+	customMessage: "This is the default message"
 },{
 	firstName: "Eddy",
 	lastName: "Murphy",
@@ -85,7 +88,8 @@ var testPatients = [{
 	// DCTimestamp: new Date().setMinutes(new Date().getMinutes() - 20),
 	apptDuration: 15,
 	email: "murphy12@yahoo.com",
-	adress: "12 South 9rd Street New York City"
+	adress: "12 South 9rd Street New York City",
+	customMessage: "This is the default message"
 },{
 	firstName: "Emma",
 	lastName: "Watson",
@@ -101,7 +105,8 @@ var testPatients = [{
 	// EXTimestamp: new Date().setMinutes(new Date().getMinutes() - 20),
 	apptDuration: 15,
 	email: "emma98@yahoo.com",
-	adress: "38 West 3rd Street New York City"
+	adress: "38 West 3rd Street New York City",
+	customMessage: "This is the default message"
 },{
 	firstName: "Daniel",
 	lastName: "Radcliffe",
@@ -117,7 +122,8 @@ var testPatients = [{
 	// EXTimestamp: new Date().setMinutes(new Date().getMinutes() - 30),
 	apptDuration: 15,
 	email: "mdanny@yahoo.com",
-	adress: "338 West 23rd Street New York City"
+	adress: "338 West 23rd Street New York City",
+	customMessage: "This is the default message"
 },{
 	firstName: "Chuck",
 	lastName: "Norris",
@@ -132,7 +138,8 @@ var testPatients = [{
 	// WRTimestamp: new Date().setMinutes(new Date().getMinutes() - 3),
 	apptDuration: 15,
 	email: "chuckgreat@yahoo.com",
-	adress: "338 West 23rd Street New York City"
+	adress: "338 West 23rd Street New York City",
+	customMessage: "This is the default message"
 },{
 	firstName: "Chuck",
 	lastName: "Norris",
@@ -147,7 +154,8 @@ var testPatients = [{
 	DCTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() + 160)).setDate(new Date().getDate()-2),
 	apptDuration: 15,
 	email: "mstreep@yahoo.com",
-	adress: "338 West 23rd Street New York City"
+	adress: "338 West 23rd Street New York City",
+	customMessage: "This is the default message"
 },{
 	firstName: "Chuck",
 	lastName: "Norris",
@@ -162,7 +170,8 @@ var testPatients = [{
 	DCTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() + 350)).setDate(new Date().getDate()-4),
 	apptDuration: 15,
 	email: "mstreep@yahoo.com",
-	adress: "338 West 23rd Street New York City"
+	adress: "338 West 23rd Street New York City",
+	customMessage: "This is the default message"
 },{
 	firstName: "Jackie",
 	lastName: "Chan",
@@ -177,7 +186,8 @@ var testPatients = [{
 	// WRTimestamp: new Date().setMinutes(new Date().getMinutes() - 15),
 	apptDuration: 15,
 	email: "mstreep@yahoo.com",
-	adress: "338 West 23rd Street New York City"
+	adress: "338 West 23rd Street New York City",
+	customMessage: "This is the default message"
 },{
 	firstName: "Jackie",
 	lastName: "Holmes",
@@ -192,7 +202,8 @@ var testPatients = [{
 	// WRTimestamp: new Date().setMinutes(new Date().getMinutes() - 20),
 	apptDuration: 15,
 	email: "mstreep@yahoo.com",
-	adress: "338 West 23rd Street New York City"
+	adress: "338 West 23rd Street New York City",
+	customMessage: "This is the default message"
 },{
 	firstName: "Jackie",
 	lastName: "Jones",
@@ -207,7 +218,8 @@ var testPatients = [{
 	// WRTimestamp: new Date().setMinutes(new Date().getMinutes() - 39),
 	apptDuration: 15,
 	email: "mstreep@yahoo.com",
-	adress: "338 West 23rd Street New York City"
+	adress: "338 West 23rd Street New York City",
+	customMessage: "This is the default message"
 },{
 	firstName: "Jackie",
 	lastName: "Slinger",
@@ -222,7 +234,8 @@ var testPatients = [{
 	// WRTimestamp: new Date().setMinutes(new Date().getMinutes() - 60),
 	apptDuration: 15,
 	email: "mstreep@yahoo.com",
-	adress: "338 West 23rd Street New York City"
+	adress: "338 West 23rd Street New York City",
+	customMessage: "This is the default message"
 },{
 	firstName: "Ryan",
 	lastName: "Gosling",
@@ -235,7 +248,8 @@ var testPatients = [{
 	// apptTime: new Date().setMinutes(new Date().getMinutes() + 5),
 	apptDuration: 15,
 	email: "mstreep@yahoo.com",
-	adress: "338 West 23rd Street New York City"
+	adress: "338 West 23rd Street New York City",
+	customMessage: "This is the default message"
 },{
 	firstName: "Natalie",
 	lastName: "Portman",
@@ -248,7 +262,8 @@ var testPatients = [{
 	// apptTime: new Date().setMinutes(new Date().getMinutes() + 3),
 	apptDuration: 35,
 	email: "mstreep@yahoo.com",
-	adress: "338 West 23rd Street New York City"
+	adress: "338 West 23rd Street New York City",
+	customMessage: "This is the default message"
 }];
 
 var physiciansIds = [];

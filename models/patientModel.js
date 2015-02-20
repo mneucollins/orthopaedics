@@ -35,7 +35,8 @@ var PatientSchema   = new Schema({
 	exitTimestamp: Date,
 	timestamp: { type: Date, default: Date.now },
 	email: String,
-	adress: String
+	adress: String,
+	customMessage: String
 });
 
 PatientSchema.set('toJSON', {
