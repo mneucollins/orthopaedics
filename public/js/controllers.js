@@ -82,6 +82,25 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         return physician.time;
     }
 
+    // Sync
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    var socket = io.connect('http://localhost:8181');
+    socket.on('syncPatient', function (updPatient) {
+
+        var listPatient = _.find($scope.patientList, function(patient){ 
+            return patient.id == updPatient.id; 
+        }); 
+
+        if(listPatient) {
+            var index = $scope.patientList.indexOf(listPatient); 
+            $scope.patientList[index] = updPatient;
+             $scope.$apply();
+        }
+    });
+    socket.on('greetings', function (greet) {
+        console.log(JSON.stringify(greet));
+    });
+
     ///////////////////////////////////////////////////////////////////////////////////////////////
     
     $scope.filteringPhys = true;
@@ -231,8 +250,10 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
             patient: patient,
             message: patient.customMessage
         }, function messageSent (sentMessage) {
+            patient.customMessage = "";
             alert("message sent!");
         });
+        alert("message on it's way...");
     }
 
     $scope.getImagingState = function (patient){
@@ -270,6 +291,14 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         }
     }
 
+    $scope.completeImagingState = function (patient){
+
+        Patient.update({patientId: patient.id}, {imagingTimestamp: new Date()}, function (updatedPatient) {
+            var index = $scope.patientList.indexOf(patient); 
+            $scope.patientList[index].imagingTimestamp = updatedPatient.imagingTimestamp;
+        });
+    }
+
     $scope.isImagingClickable = function (patient) {
         if(patient.needsImaging && patient.imagingTimestamp)
             return false;
@@ -277,6 +306,28 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
             return false;
         else
             return true;
+    }
+
+    $scope.sendImagingMessage = function (patient) {
+
+        var modalInstance = $modal.open({
+            templateUrl: '/partials/sendMessage.html',
+            controller: 'sendMessageCtrl',
+            resolve: {
+                patient: function () {
+                    return patient;
+                },
+                messageType: function () {
+                    return "IM";
+                }
+            }
+        });
+
+        modalInstance.result.then(function () {
+            $log.info('Imaging message sent!');
+        }, function () {
+            $log.info('Message Modal dismissed at: ' + new Date());
+        });  
     }
 
     $scope.getWRTime = function (patient) {
@@ -346,9 +397,15 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                 return "timer-not-started";
             nMins = $scope.getWRTime(patient);
         }
-        if(type == "EX") {
+        else if(type == "EX") {
             if(patient.currentState == "NCI" || patient.currentState == "WR" || patient.currentState == "DC") 
                 return "timer-not-started";
+            nMins = $scope.getEXTime(patient);
+        }
+        else if(type == "WRH") {
+            nMins = $scope.getWRTime(patient);
+        }
+        else if(type == "EXH") {
             nMins = $scope.getEXTime(patient);
         }
 
@@ -422,8 +479,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
             );
         }, function () {
             $log.info('Message Modal dismissed at: ' + new Date());
-        });
-        
+        });  
     }
 
     $scope.discharge = function (patient) {

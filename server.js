@@ -9,15 +9,22 @@ var bodyParser   = require('body-parser');
 var mongoose     = require('mongoose');
 var morgan       = require('morgan');
 var multipart 	 = require('connect-multiparty');
-
 var passport 	 = require('passport');
 var cookieParser = require('cookie-parser');
 var session      = require('express-session');
-
-
+var socketio 	 = require('socket.io');
 var config = require("./config.json");
-mongoose.connect(config.databaseURL);
+
+// START THE SERVER
+// =============================================================================
 var app = express();
+var server = require('http').Server(app);
+
+io = socketio.listen(server.listen(config.expressPort));
+mongoose.connect(config.databaseURL);
+
+// SYSTEM CONFIGURE
+// =============================================================================
 
 app.use(morgan('dev'));
 app.use(cookieParser()); 
@@ -43,8 +50,10 @@ router.get('/', function(req, res) {
 	res.json({ message: 'API online and ready!' });
 });
 
+// require("./controllers/syncController").init(server);
+
 require('./routes/passportRoutes')(authRouter, passport);
-require("./routes/patientRoutes")(router);
+require("./routes/patientRoutes")(router, io);
 require("./routes/physicianRoutes")(router);
 require("./routes/messageRoutes")(router);
 
@@ -62,5 +71,4 @@ app.use(function(req, res) { // manda al frontend todas las rutas no gestionadas
 
 // START THE SERVER
 // =============================================================================
-app.listen(config.expressPort);
 console.log('Orthopaedics running on port ' + config.expressPort + ' :)');
