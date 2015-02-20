@@ -6,7 +6,7 @@ var config = require("./config.json");
 
 mongoose.connect(config.databaseURL);
 
-var nPlusHours = 7;
+var nPlusHours = 6;
 var testPhysicians = [{
 	name: "Dr. Boden",
 	username: "drboden",
@@ -39,7 +39,12 @@ var testPatients = [{
 	// EXTimestamp: new Date().setMinutes(new Date().getMinutes() - 90),
 	// DCTimestamp: new Date().setMinutes(new Date().getMinutes() - 20),
 	apptDuration: 15,
+<<<<<<< HEAD
 
+=======
+	email: "mtommy@yahoo.com",
+	adress: "20 Est 23rd Street New York City"
+>>>>>>> 0b61da3d2fdeb70c28147f43614334acbe28dc66
 },{
 	firstName: "Tom",
 	lastName: "Hanks",
@@ -53,9 +58,14 @@ var testPatients = [{
 	EXTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() - 90)).setDate(new Date().getDate()-1),
 	DCTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() - 20)).setDate(new Date().getDate()-1),
 	apptDuration: 15,
+<<<<<<< HEAD
 	email: "mstreep@yahoo.com",
 	adress: "338 West 23rd Street New York City",
 	customMessage: "This is the default message"
+=======
+	email: "mtommy@yahoo.com",
+	adress: "20 Est 23rd Street New York City"
+>>>>>>> 0b61da3d2fdeb70c28147f43614334acbe28dc66
 },{
 	firstName: "Tom",
 	lastName: "Hanks",
@@ -121,9 +131,14 @@ var testPatients = [{
 	// WRTimestamp: new Date().setMinutes(new Date().getMinutes() - 70),
 	// EXTimestamp: new Date().setMinutes(new Date().getMinutes() - 30),
 	apptDuration: 15,
+<<<<<<< HEAD
 	email: "mdanny@yahoo.com",
 	adress: "338 West 23rd Street New York City",
 	customMessage: "This is the default message"
+=======
+	email: "expelliarmus@yahoo.com",
+	adress: "338 West 23rd Street New York City"
+>>>>>>> 0b61da3d2fdeb70c28147f43614334acbe28dc66
 },{
 	firstName: "Chuck",
 	lastName: "Norris",
@@ -137,9 +152,14 @@ var testPatients = [{
 	// apptTime: new Date().setMinutes(new Date().getMinutes() - 5),
 	// WRTimestamp: new Date().setMinutes(new Date().getMinutes() - 3),
 	apptDuration: 15,
+<<<<<<< HEAD
 	email: "chuckgreat@yahoo.com",
 	adress: "338 West 23rd Street New York City",
 	customMessage: "This is the default message"
+=======
+	email: "chuckthegreat@yahoo.com",
+	adress: "338 West 23rd Street New York City"
+>>>>>>> 0b61da3d2fdeb70c28147f43614334acbe28dc66
 },{
 	firstName: "Chuck",
 	lastName: "Norris",
@@ -153,9 +173,14 @@ var testPatients = [{
 	EXTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() + 130)).setDate(new Date().getDate()-2),
 	DCTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() + 160)).setDate(new Date().getDate()-2),
 	apptDuration: 15,
+<<<<<<< HEAD
 	email: "mstreep@yahoo.com",
 	adress: "338 West 23rd Street New York City",
 	customMessage: "This is the default message"
+=======
+	email: "chuckthegreat@yahoo.com",
+	adress: "338 West 23rd Street New York City"
+>>>>>>> 0b61da3d2fdeb70c28147f43614334acbe28dc66
 },{
 	firstName: "Chuck",
 	lastName: "Norris",
@@ -169,9 +194,14 @@ var testPatients = [{
 	EXTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() + 310)).setDate(new Date().getDate()-4),
 	DCTimestamp: new Date(new Date().setMinutes(new Date().getMinutes() + 350)).setDate(new Date().getDate()-4),
 	apptDuration: 15,
+<<<<<<< HEAD
 	email: "mstreep@yahoo.com",
 	adress: "338 West 23rd Street New York City",
 	customMessage: "This is the default message"
+=======
+	email: "chuckthegreat@yahoo.com",
+	adress: "338 West 23rd Street New York City"
+>>>>>>> 0b61da3d2fdeb70c28147f43614334acbe28dc66
 },{
 	firstName: "Jackie",
 	lastName: "Chan",
@@ -185,9 +215,14 @@ var testPatients = [{
 	// apptTime: new Date().setMinutes(new Date().getMinutes() - 11),
 	// WRTimestamp: new Date().setMinutes(new Date().getMinutes() - 15),
 	apptDuration: 15,
+<<<<<<< HEAD
 	email: "mstreep@yahoo.com",
 	adress: "338 West 23rd Street New York City",
 	customMessage: "This is the default message"
+=======
+	email: "chanchanchan@gmail.com",
+	adress: "338 West 23rd Street New York City"
+>>>>>>> 0b61da3d2fdeb70c28147f43614334acbe28dc66
 },{
 	firstName: "Jackie",
 	lastName: "Holmes",
@@ -201,9 +236,14 @@ var testPatients = [{
 	// apptTime: new Date().setMinutes(new Date().getMinutes() - 18),
 	// WRTimestamp: new Date().setMinutes(new Date().getMinutes() - 20),
 	apptDuration: 15,
+<<<<<<< HEAD
 	email: "mstreep@yahoo.com",
 	adress: "338 West 23rd Street New York City",
 	customMessage: "This is the default message"
+=======
+	email: "holmes32@yahoo.com",
+	adress: "338 West 23rd Street New York City"
+>>>>>>> 0b61da3d2fdeb70c28147f43614334acbe28dc66
 },{
 	firstName: "Jackie",
 	lastName: "Jones",
@@ -217,9 +257,14 @@ var testPatients = [{
 	// apptTime: new Date().setMinutes(new Date().getMinutes() - 35),
 	// WRTimestamp: new Date().setMinutes(new Date().getMinutes() - 39),
 	apptDuration: 15,
+<<<<<<< HEAD
 	email: "mstreep@yahoo.com",
 	adress: "338 West 23rd Street New York City",
 	customMessage: "This is the default message"
+=======
+	email: "jonesnbones@gmail.com",
+	adress: "338 West 23rd Street New York City"
+>>>>>>> 0b61da3d2fdeb70c28147f43614334acbe28dc66
 },{
 	firstName: "Jackie",
 	lastName: "Slinger",
@@ -233,9 +278,14 @@ var testPatients = [{
 	// apptTime: new Date().setMinutes(new Date().getMinutes() - 57),
 	// WRTimestamp: new Date().setMinutes(new Date().getMinutes() - 60),
 	apptDuration: 15,
+<<<<<<< HEAD
 	email: "mstreep@yahoo.com",
 	adress: "338 West 23rd Street New York City",
 	customMessage: "This is the default message"
+=======
+	email: "slingermasta@gmail.com",
+	adress: "338 West 23rd Street New York City"
+>>>>>>> 0b61da3d2fdeb70c28147f43614334acbe28dc66
 },{
 	firstName: "Ryan",
 	lastName: "Gosling",
@@ -247,9 +297,14 @@ var testPatients = [{
 	apptTime: new Date().setMinutes(new Date().getMinutes() + 100 + nPlusHours*60),
 	// apptTime: new Date().setMinutes(new Date().getMinutes() + 5),
 	apptDuration: 15,
+<<<<<<< HEAD
 	email: "mstreep@yahoo.com",
 	adress: "338 West 23rd Street New York City",
 	customMessage: "This is the default message"
+=======
+	email: "iamryan@yahoo.com",
+	adress: "338 West 23rd Street New York City"
+>>>>>>> 0b61da3d2fdeb70c28147f43614334acbe28dc66
 },{
 	firstName: "Natalie",
 	lastName: "Portman",
@@ -261,9 +316,14 @@ var testPatients = [{
 	apptTime: new Date().setMinutes(new Date().getMinutes() + 110 + nPlusHours*60),
 	// apptTime: new Date().setMinutes(new Date().getMinutes() + 3),
 	apptDuration: 35,
+<<<<<<< HEAD
 	email: "mstreep@yahoo.com",
 	adress: "338 West 23rd Street New York City",
 	customMessage: "This is the default message"
+=======
+	email: "natalie.portman@yahoo.com",
+	adress: "338 West 23rd Street New York City"
+>>>>>>> 0b61da3d2fdeb70c28147f43614334acbe28dc66
 }];
 
 var physiciansIds = [];
