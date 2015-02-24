@@ -245,17 +245,6 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
       })
     }
 
-    $scope.sendCustomMessage = function (patient) {
-        Messages.sendMessage({
-            patient: patient,
-            message: patient.customMessage
-        }, function messageSent (sentMessage) {
-            patient.customMessage = "";
-            alert("message sent!");
-        });
-        alert("message on it's way...");
-    }
-
     $scope.getImagingState = function (patient){
         var imagingStateIcon = "";
 
@@ -319,6 +308,36 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                 },
                 messageType: function () {
                     return "IM";
+                }
+            }
+        });
+
+        modalInstance.result.then(function () {
+            $log.info('Imaging message sent!');
+        }, function () {
+            $log.info('Message Modal dismissed at: ' + new Date());
+        });  
+    }
+
+    $scope.sendCustomMessage = function (patient) {
+        Messages.sendMessage({
+            patient: patient,
+            message: patient.customMessage
+        }, function messageSent (sentMessage) {
+            patient.customMessage = "";
+            alert("message sent!");
+        });
+        alert("message on it's way...");
+    }
+
+    $scope.sendBulkMessages = function () {
+
+        var modalInstance = $modal.open({
+            templateUrl: '/partials/sendMessageBulk.html',
+            controller: 'bulkMessageCtrl',
+            resolve: {
+                patients: function () {
+                    return $scope.patientList;
                 }
             }
         });
@@ -538,6 +557,26 @@ orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInst
             alert("message sent!");
             $modalInstance.close(patient);
         });
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+}]);
+
+orthopaedicsControllers.controller('bulkMessageCtrl', ['$scope', '$modalInstance', 'Messages', 'patients',
+  function($scope, $modalInstance, Messages, patients) {
+
+    $scope.patients = patients;
+
+    $scope.writeMessage = function () {
+
+        // Messages.sendWelcomeMessage({
+        //     patient: patient
+        // }, function messageSent (sentMessage) {
+        //     alert("message sent!");
+        //     $modalInstance.close(patient);
+        // });
     };
 
     $scope.cancel = function () {

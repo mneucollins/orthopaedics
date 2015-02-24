@@ -6,7 +6,7 @@ var config = require("./config.json");
 
 mongoose.connect(config.databaseURL);
 
-var nPlusHours = 6;
+var nPlusHours = 0;
 var testPhysicians = [{
 	name: "Dr. Boden",
 	username: "drboden",
