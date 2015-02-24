@@ -1,11 +1,13 @@
 var messageModel = require('../models/messageModel');
 var config = require("../config.json");
 var twilio = require('twilio');
+var _ = require('underscore');
 
 
 module.exports = {
-  sendMessage: sendMessage,
-  sendWelcomeMessage: sendWelcomeMessage
+	sendMessage: sendMessage,
+	sendWelcomeMessage: sendWelcomeMessage,
+	sendBulkMessages: sendBulkMessages
 }
 
 function sendMessage (msgData, callback) {
@@ -74,4 +76,38 @@ function sendWelcomeMessage (msgData, callback) {
 			}
 		});
 	});	
+}
+
+function sendBulkMessages (patientsData, callback) {
+
+	var client = twilio(config.accountSid, config.authToken);
+
+	_.each(patientsData, function (element, index, list) {
+		var toNumber = msgData.patient.cellphone;
+		toNumber = toNumber.indexOf("+") > -1 ? toNumber : config.numberPrefix + toNumber;
+
+		client.messages.create({
+			body: msgData.message,
+			to: toNumber,
+			from: config.fromNumber,
+		}, function(err, message) {
+			if(err) {
+				console.log(err);
+				callback(err);
+			} 
+			else {
+
+				newMessage = new messageModel();
+				newMessage.message = msgData.message;
+				newMessage.sid = message.sid;
+				newMessage.patient = msgData.patient.id;
+
+				newMessage.save(function messageSaved (err, message, numberAffected) {
+					if(err) console.log(err);
+				});
+			}
+		});
+	});
+
+	callback(null, true);
 }

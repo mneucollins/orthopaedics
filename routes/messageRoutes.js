@@ -40,4 +40,19 @@ module.exports = function (router) {
             res.json(data);
         });
     });
+
+    router.route('/messages/bulk')
+    .post(function(req, res) { 
+        
+        var patientsData = req.body;
+        messageController.sendWelcomeMessage(patientsData, function (err, data) {
+            if(err) {
+                tools.sendServerError(err, req, res);
+                return;
+            }
+
+            console.log(data, "New Message Sent");
+            res.json(data);
+        });
+    });
 }

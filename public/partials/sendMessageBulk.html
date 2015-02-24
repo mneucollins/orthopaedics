@@ -2,10 +2,34 @@
 	<h3 class="modal-title">Choose Recepients</h3>
 </div>
 <div class="modal-body">
+	<div class="row">
+		<div class="checkbox col-md-6">
+			<label><input type="checkbox" ng-model="allSelected" ng-change="selectAll()">Select All</label>
+		</div>
+		<div class="col-md-6">
+			Sort By:
+			<select ng-model="orderBy" ng-change="changeOrder()">
+				<option value="name" selected>Patient Name</option>
+				<option value="physician">Physician</option>
+			</select>
+		</div>
+	</div>
+	<hr>
 	<form class="form-group">
-	<div class="checkbox" ng-repeat="patient in patients">
-		<label class="col-md-6"><input type="checkbox" value="">{{ patient.fullName }}</label>
-		<p align="right"  class="col-md-6">{{ patient.cellphone }}</p>
+	<div class="row" ng-repeat="patient in patients" ng-show="orderBy == 'name'">
+		<div class="checkbox col-md-6">
+			<label><input type="checkbox" ng-model="patient.msjSelected">{{ patient.fullName }}</label>
+		</div>
+		<p align="right" class="col-md-6">xxx-xxx-xxxx</p>
+	</div>
+	<div class="row" ng-repeat="(physician, pList) in patients" ng-show="orderBy == 'physician'">
+		<h3 class="col-md-12">{{ physician }}</h3>
+		<div class="col-md-12" ng-repeat="patient in pList">
+			<div class="checkbox col-md-6">
+				<label><input type="checkbox" ng-model="patient.msjSelected">{{ patient.fullName }}</label>
+			</div>
+			<div align="right" class="col-md-6">xxx-xxx-xxxx</div>
+		</div>
 	</div>
 	</form>
 </div>

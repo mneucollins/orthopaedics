@@ -62,7 +62,10 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
             var physician = newValue[i];
 
             Physician.getPatientsToday({physicianId: physician._id}, function (patients) {
-                var pList = _.sortBy(patients, function(patient){ return new Date(patient.apptTime).getHours(); });  // sort by appt time (hours)
+                var pList = _.sortBy(patients, function(patient){ return new Date(patient.apptTime).getTime(); });  // sort by appt time (hours)
+                _.each(pList, function (element, index, list) {
+                    list[index].messageSelectorPos = 1;
+                });
                 $scope.patientList = $scope.patientList.concat(pList);
             });
         };
@@ -132,7 +135,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     };
     
     $scope.sortPatientsByTime = function (){
-        var pList = _.sortBy($scope.patientList, function(patient){ return new Date(patient.apptTime).getHours(); }); 
+        var pList = _.sortBy($scope.patientList, function(patient){ return new Date(patient.apptTime).getTime(); }); 
         setListOrder(pList,'time');
     }
 
@@ -319,12 +322,22 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         });  
     }
 
-    $scope.sendCustomMessage = function (patient) {
+    $scope.msjToCustom = function (patient) {
+        patient.messageSelectorPos = 1;
+        patient.message = "";
+    }
+
+    $scope.msjToDefault = function (patient) {
+        patient.messageSelectorPos = 17;
+        patient.message = "This is a defalt message";
+    }
+
+    $scope.sendMessage = function (patient) {
         Messages.sendMessage({
             patient: patient,
-            message: patient.customMessage
+            message: patient.message
         }, function messageSent (sentMessage) {
-            patient.customMessage = "";
+            patient.message = "";
             alert("message sent!");
         });
         alert("message on it's way...");
@@ -516,8 +529,6 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     }
 
     $scope.showMessage = true;
-    $scope.messageSelectorPos = '1';
-
 
   }]);
 
@@ -571,13 +582,39 @@ orthopaedicsControllers.controller('bulkMessageCtrl', ['$scope', '$modalInstance
 
     $scope.writeMessage = function () {
 
-        // Messages.sendWelcomeMessage({
+        // Messages.sendBulkMessages({
         //     patient: patient
         // }, function messageSent (sentMessage) {
         //     alert("message sent!");
         //     $modalInstance.close(patient);
         // });
     };
+
+    $scope.selectAll = function () {
+        if($scope.orderBy == "name") {
+            _.each($scope.patients, function (element, index, list) {
+                list[index].msjSelected = $scope.allSelected;
+            });
+        }
+        else if($scope.orderBy == "physician") {
+            _.each($scope.patients, function (value, key, list) {
+                _.each(value, function (element, index, pList) {
+                    pList[index].msjSelected = $scope.allSelected;
+                });
+
+                list[key] = value;
+            });
+        }
+    }
+
+    $scope.changeOrder = function () {
+        if($scope.orderBy == "name") {
+            $scope.patients = patients;
+        }
+        else if($scope.orderBy == "physician") {
+            $scope.patients = _.groupBy(patients, function (patient) { return patient.physician.name; });
+        }
+    }
 
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
@@ -612,10 +649,10 @@ orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$r
                 return physician.selected;
             });
 
-            if(selectedPhysicians.length >= 2 && !physician.selected) {
-                alert("Only two Physicians allowed");
-                return;
-            }
+            // if(selectedPhysicians.length >= 2 && !physician.selected) {
+            //     alert("Only two Physicians allowed");
+            //     return;
+            // }
         }
         physician.selected = !physician.selected;
     }
