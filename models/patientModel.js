@@ -35,6 +35,10 @@ var PatientSchema   = new Schema({
 	imagingTimestamp: Date,
 	enterTimestamp: Date,
 	exitTimestamp: Date,
+	timestamp: { type: Date, default: Date.now },
+	email: String,
+	adress: String,
+	customMessage: String,
 	timestamp: { type: Date, default: Date.now }
 });
 
