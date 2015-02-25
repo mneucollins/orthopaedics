@@ -1,14 +1,14 @@
-var cron         = require('cron');
+//var cron         = require('cron');
 var XLSX 		 = require('xlsx');
-var _ 		 	 = require('underscore');
+//var _ 		 	 = require('underscore');
 var mongoose     = require('mongoose');
+var patientController = require('./controllers/patientController');
 var patientModel = require('./models/patientModel');
-var surgeonModel = require('./models/surgeonModel');
 
 //JOB CREATION
 // --------------------------------------------------------------------------
 
-function createCronJob () {
+/*function createCronJob () {
 	var CronJob = cron.CronJob;
 
 	var job = new CronJob('00 58 16 * * 1-7', function(){
@@ -20,71 +20,39 @@ function createCronJob () {
 	    // This function is executed when the job stops
 	  },
 	  true /* Start the job right now */
-	);
-}
+	/*);
+}*/
 
-function escribirExcel () {
+//function leerExcel () {
 	console.log("hakuna matata");
-	mongoose.connect('mongodb://localhost:27017/fuse');
-
-	patientModel.find({surgeryDate: {'$ne': null }}).populate("surgeon").exec(function (err, patientList) {
-	if (err) 
-		return console.error(err);
-
-	// console.log(patientList);
-	console.log("base de datos leida");
+	mongoose.connect('mongodb://localhost:27017/orthopaedics');
 
 	//Load excel template
-	var workbook = XLSX.readFile('ExparelTest2.xlsx', {cellStyles:true});
+	var workbook = XLSX.readFile('proofReading.xlsx', {cellStyles:true});
 	var sheet_name_list = workbook.SheetNames;
-	var worksheet = workbook.Sheets["Hoja1"];
 
-	var range = {s: {c:0,r:0}, e:{c:19, r: patientList.length + 3}};
-	worksheet['!ref'] = XLSX.utils.encode_range(range);
-	// var range = {s: {c:2,r:0}, e:{c:19, r: 15}};
+	var result = {};
+	sheet_name_list.forEach(function(sheetName) {
+		var roa = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+		if(roa.length > 0){
+			result[sheetName] = roa;
+		}
+	});
 
-	var R = range.s.r + 3;
-	for (var i = 0; i < patientList.length; i++) {
-		var patient = patientList[i];
-		var patientJournals = _.sortBy(patient.painJournal, function (journal) { return journal.day; });
+	var list = result['Hoja1'];
+    var patient = new patientModel();
 
-		for (var j = 0; j < patientJournals.length; j++, ++R) {
-			var data = [];
-			data.push({data: patient.fuseId, tipo: "s"});
-			data.push({data: patient.surgeon.name, tipo: "s"});
-			data.push({data: patientJournals[j].day, tipo: "n"});
-			data.push({data: patientJournals[j].timestamp, tipo: "d"});
-			data.push({data: patientJournals[j].painScore, tipo: "n"});
-			data.push({data: patientJournals[j].sideEffects, tipo: "s"});
-			data.push({data: patientJournals[j].comments, tipo: "s"});
-			data.push({data: patientJournals[j].kneePoints.join(", "), tipo: "s"});
-
-			// TODO sacar por día los meds y agregarlos
-
-			console.log("datos armados");
-
-			for(var C = 0; C < data.length; C++) {
-				var cellAddr = XLSX.utils.encode_cell({c:C, r:R});
-				var cellData = {
-					t: data[C].tipo, 
-					v: data[C].data
-				};
-
-				worksheet[cellAddr] = cellData;
-			}
-		};
+	for(var k in list){
+		//console.log(k,list[k]);
+		patient.firstName = list[k].firstName;
+        
+		patientController.nuevoPatient(patient, function (err, data) {
+		    if(err) console.log(err);
+		    else console.log("Patient Added");
+		});
 	}
 
-  	XLSX.writeFile(workbook, 'out.xlsx');
-  	console.log("archivo escrito :)");
-});
+	//console.log(result);
 
-}
 
-escribirExcel();
-
-module.exports = {
-	createCronJob: createCronJob,
-	escribirExcel: escribirExcel
-};
 
