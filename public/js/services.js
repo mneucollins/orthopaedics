@@ -33,6 +33,37 @@ orthopaedicsServices.factory('Session', ['$resource',
 	});
 }]);
 
+//============================ Alert managment ==========================================
+
+orthopaedicsServices.factory('Alerts', ['$rootScope', function ($rootScope) {
+        var systemAlerts = [];
+
+        return {
+            addAlert: function (type, message) { 
+                var newAlert = {type: type, msg: message};
+                systemAlerts.push(newAlert);
+
+                function autoCloseAlert (value) {
+                    setTimeout(function () {
+                        var index = systemAlerts.indexOf(value);
+                        if(index != -1) {
+                            systemAlerts.splice(index, 1);
+                            $rootScope.$broadcast('alerts:updated',systemAlerts);
+                        }
+                    }, 5000);
+                }
+
+                autoCloseAlert(newAlert);
+            },
+            closeAlert: function (index) {
+                systemAlerts.splice(index, 1);
+            },
+            getAlerts: function () {
+                return systemAlerts;
+            }
+        };
+}]);
+
 orthopaedicsServices.factory('AuthService', ["Session", "$cookieStore", function(Session, $cookieStore) {
   var currentUser;
 
@@ -84,6 +115,7 @@ orthopaedicsServices.factory('AuthenticationInterceptor', ['$q', '$injector',
     response: function (response) {
       
         var AuthService = $injector.get('AuthService');
+        var Alerts = $injector.get('Alerts');
 
         if(response.user && response.user !== AuthService.currentUser)
             AuthService.login(response.user);
@@ -95,10 +127,14 @@ orthopaedicsServices.factory('AuthenticationInterceptor', ['$q', '$injector',
       // Sign out if the user is no longer authorized.
       if (response.status == 401) {
         var AuthService = $injector.get('AuthService');
+        var Alerts = $injector.get('Alerts');
         AuthService.logout();
+
+        if(response.data.message)
+            Alerts.addAlert("warning", response.data.message);
       }
       if (response.status == 500) {
-        alert("error de servidor!" + response.body);
+        Alerts.addAlert("error", "ups! we got an error: " + JSON.stringify(response.body));
       }
       
       return $q.reject(response);

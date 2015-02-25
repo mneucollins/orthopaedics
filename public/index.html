@@ -87,6 +87,10 @@
     </div>
     <!-- /.container -->
 </nav>
+<div ng-controller="AlertsCtrl" id="alertContainer">
+    <alert ng-repeat="alert in systemAlerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+</div>
+
 <div ng-view></div>
 
 

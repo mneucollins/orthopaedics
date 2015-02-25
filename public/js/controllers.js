@@ -18,24 +18,40 @@ var orthopaedicsControllers = angular.module('orthopaedicsControllers', ['ui.boo
         }
     }]);
 
+
+    orthopaedicsControllers.controller('AlertsCtrl', ['$scope', 'Alerts',
+        function ($scope, Alerts) {
+
+            $scope.systemAlerts = Alerts.getAlerts();
+
+            $scope.$on('alerts:updated', function (event, alerts) {
+                $scope.systemAlerts = alerts;
+                $scope.$apply();
+            });
+
+            $scope.closeAlert = function(index) {
+                Alerts.closeAlert(index);
+            };
+    }]);
+
 // =====================================================================================
 // ================================ NAVEGACION =========================================
 // =====================================================================================
 
 // =============================== LOGIN CTRL ===================================
 
-orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthService',
-	function($scope, $location, AuthService) {
+orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthService', 'Alerts',
+	function($scope, $location, AuthService, Alerts) {
 
     $("nav").addClass("hidden");
     $("body").addClass("body-login");
 
     $scope.login = function () {
         AuthService.login($scope.user, function(user) {
-            alert("Welcome " + user.name);
+            Alerts.addAlert("success", "Welcome " + user.name);
             $location.path("/dashboard1");
         }, function (err) {
-            alert("There was an arror... But remember, hakuna matata!");
+            Alerts.addAlert("error", "ups! we got an error: " + JSON.stringify(err));
         });
     };
 }]);
@@ -87,7 +103,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
 
     // Sync
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    var socket = io.connect('http://localhost:8181');
+    var socket = io.connect($location.protocol() + '://' + $location.host() + ":" + $location.port());
     socket.on('syncPatient', function (updPatient) {
 
         var listPatient = _.find($scope.patientList, function(patient){ 
@@ -95,9 +111,10 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         }); 
 
         if(listPatient) {
-            var index = $scope.patientList.indexOf(listPatient); 
+            var index = $scope.patientList.indexOf(listPatient);
+            updPatient.physician = $scope.patientList[index].physician;
             $scope.patientList[index] = updPatient;
-             $scope.$apply();
+            $scope.$apply();
         }
     });
     socket.on('greetings', function (greet) {
@@ -338,9 +355,9 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
             message: patient.message
         }, function messageSent (sentMessage) {
             patient.message = "";
-            alert("message sent!");
+            Alerts.addAlert("success", "message sent!");
         });
-        alert("message on it's way...");
+        Alerts.addAlert("success", "message on it's way...");
     }
 
     $scope.sendBulkMessages = function () {
@@ -534,8 +551,8 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
 
 // =============================== MODAL DIALOGS CTRL ===================================
 
-orthopaedicsControllers.controller('sendMessageCtrl', ['$scope', '$modalInstance', 'Messages', 'patient', 'messageType',
-  function($scope, $modalInstance, Messages, patient, messageType) {
+orthopaedicsControllers.controller('sendMessageCtrl', ['$scope', '$modalInstance', 'Messages', 'Alerts', 'patient', 'messageType',
+  function($scope, $modalInstance, Messages, Alerts, patient, messageType) {
 
     $scope.patient = patient;
     if(messageType != "Bulk")
@@ -548,8 +565,9 @@ orthopaedicsControllers.controller('sendMessageCtrl', ['$scope', '$modalInstance
                 patient: patient,
                 message: $scope.patientMessage
             }, function messageSent (sentMessage) {
-                alert("message sent!");
+                Alerts.addAlert("success", "message sent!");
             });
+            Alerts.addAlert("success", "message on it's way...");
             $modalInstance.close();
         }
         else {
@@ -557,8 +575,9 @@ orthopaedicsControllers.controller('sendMessageCtrl', ['$scope', '$modalInstance
                 patient: patient,
                 message: $scope.patientMessage
             }, function messageSent (sentMessage) {
-                alert("message sent!");
+                Alerts.addAlert("success", "message sent!");
             });
+            Alerts.addAlert("success", "message on it's way...");
             $modalInstance.close();
         }
     };
@@ -577,8 +596,9 @@ orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInst
         Messages.sendWelcomeMessage({
             patient: patient
         }, function messageSent (sentMessage) {
-            alert("message sent!");
+            Alerts.addAlert("success", "message sent!");
         });
+        Alerts.addAlert("success", "message on it's way...");
         $modalInstance.close(patient);
     };
 

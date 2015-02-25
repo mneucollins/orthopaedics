@@ -9,13 +9,26 @@ module.exports = function(router, passport) {
 	// process the signup form
 	router.post('/signup', passport.authenticate('local-signup'),
 		function (req, res) {
+			req.user.password = null;
 			res.json(req.user);
 		});
 
-	router.post('/login', passport.authenticate('local-login'),
-		function (req, res) {
-			res.json(req.user);
-		});
+	router.post('/login', function(req, res, next) {
+		passport.authenticate('local-login', function(err, user, info) {
+			if (err) { 
+				return res.send(500, "Server error"); 
+			}
+			if (!user) { 
+				return res.send(401, info); 
+			}
+			
+			req.logIn(user, function(err) {
+				if (err) { return next(err); }
+				req.user.password = null;
+				return res.json(req.user);
+			});
+		})(req, res, next);
+	});
 
 	router.get('/loggedin', function(req, res) {
 	  res.send(req.isAuthenticated() ? req.user : '0');
