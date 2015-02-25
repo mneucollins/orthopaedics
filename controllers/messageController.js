@@ -82,12 +82,12 @@ function sendBulkMessages (patientsData, callback) {
 
 	var client = twilio(config.accountSid, config.authToken);
 
-	_.each(patientsData, function (element, index, list) {
-		var toNumber = msgData.patient.cellphone;
+	_.each(patientsData.patient, function (patient, index, list) {
+		var toNumber = patient.cellphone;
 		toNumber = toNumber.indexOf("+") > -1 ? toNumber : config.numberPrefix + toNumber;
 
 		client.messages.create({
-			body: msgData.message,
+			body: patientsData.message,
 			to: toNumber,
 			from: config.fromNumber,
 		}, function(err, message) {
@@ -98,9 +98,9 @@ function sendBulkMessages (patientsData, callback) {
 			else {
 
 				newMessage = new messageModel();
-				newMessage.message = msgData.message;
+				newMessage.message = patientsData.message;
 				newMessage.sid = message.sid;
-				newMessage.patient = msgData.patient.id;
+				newMessage.patient = patient.id;
 
 				newMessage.save(function messageSaved (err, message, numberAffected) {
 					if(err) console.log(err);

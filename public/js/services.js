@@ -49,7 +49,7 @@ orthopaedicsServices.factory('AuthService', ["Session", "$cookieStore", function
         Session.logout(function () {
             currentUser = null;
             $cookieStore.remove("currentUser");
-            callback();
+            if(callback) callback();
         });
     },
     isLoggedIn: function() { 
@@ -65,7 +65,10 @@ orthopaedicsServices.factory('AuthService', ["Session", "$cookieStore", function
         }
     },
     currentUser: function() { return currentUser; },
-    setCurrentUser: function(usr) { currentUser = usr; },
+    setCurrentUser: function(usr) { 
+        $cookieStore.put("currentUser", usr);
+        currentUser = usr; 
+    },
  //    signup: function(usuario, callback) {			
 	// 	Session.signup(usuario, function (user) {
  //    		callback(user);

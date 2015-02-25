@@ -20,7 +20,7 @@
 		<div class="checkbox col-md-6">
 			<label><input type="checkbox" ng-model="patient.msjSelected">{{ patient.fullName }}</label>
 		</div>
-		<p align="right" class="col-md-6">xxx-xxx-xxxx</p>
+		<p align="right" class="col-md-6">{{ patient.cellphone }}</p>
 	</div>
 	<div class="row" ng-repeat="(physician, pList) in patients" ng-show="orderBy == 'physician'">
 		<h3 class="col-md-12">{{ physician }}</h3>
@@ -28,7 +28,7 @@
 			<div class="checkbox col-md-6">
 				<label><input type="checkbox" ng-model="patient.msjSelected">{{ patient.fullName }}</label>
 			</div>
-			<div align="right" class="col-md-6">xxx-xxx-xxxx</div>
+			<div align="right" class="col-md-6">{{ patient.cellphone }}</div>
 		</div>
 	</div>
 	</form>

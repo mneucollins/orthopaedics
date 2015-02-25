@@ -7,8 +7,8 @@ var orthopaedicsApp = angular.module('orthopaedicsApp', [
   "orthopaedicsFilters"
 ]);
 
-orthopaedicsApp.config(['$routeProvider','$locationProvider', '$httpProvider',
-  function($routeProvider, $locationProvider, $httpProvider) {
+orthopaedicsApp.config(['$routeProvider','$locationProvider', '$httpProvider', '$injector',
+  function($routeProvider, $locationProvider, $httpProvider, $injector) {
     $locationProvider.html5Mode({
       enabled: true,
       requireBase: false
@@ -18,6 +18,7 @@ orthopaedicsApp.config(['$routeProvider','$locationProvider', '$httpProvider',
     var checkLoggedin = function($q, $timeout, $http, $location, $rootScope){
       // Initialize a new promise
       var deferred = $q.defer();
+      // var AuthService = $injector.get('AuthService');
 
       // Make an AJAX call to check if the user is logged in
       $http.get('/auth/loggedin').success(function(user){
@@ -32,6 +33,7 @@ orthopaedicsApp.config(['$routeProvider','$locationProvider', '$httpProvider',
         else {
           $rootScope.message = 'You need to log in.';
           $timeout(function(){deferred.reject();}, 0);
+          // AuthService.setCurrentUser(null);
           $location.url('/login');
         }
       });

@@ -3,7 +3,7 @@
 </div>
 <div class="modal-body">
 	<form class="form-group">
-	<div class="row form-group">
+	<div class="row form-group" ng-hide="messageType == 'Bulk'">
 		<div class="col-md-3 col-md-offset-1">Patient</div>
 		<div class="col-md-7"><input type="text" class="form-control" ng-model="patient.fullName" disabled></div>
 	</div>

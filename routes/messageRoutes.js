@@ -45,7 +45,7 @@ module.exports = function (router) {
     .post(function(req, res) { 
         
         var patientsData = req.body;
-        messageController.sendWelcomeMessage(patientsData, function (err, data) {
+        messageController.sendBulkMessages(patientsData, function (err, data) {
             if(err) {
                 tools.sendServerError(err, req, res);
                 return;

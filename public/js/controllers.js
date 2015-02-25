@@ -538,17 +538,29 @@ orthopaedicsControllers.controller('sendMessageCtrl', ['$scope', '$modalInstance
   function($scope, $modalInstance, Messages, patient, messageType) {
 
     $scope.patient = patient;
-    $scope.messageType = messageType;
+    if(messageType != "Bulk")
+        $scope.messageType = messageType;
 
     $scope.sendMessage = function () {
 
-        Messages.sendMessage({
-            patient: patient,
-            message: $scope.patientMessage
-        }, function messageSent (sentMessage) {
-            alert("message sent!");
-            $modalInstance.close(sentMessage);
-        });
+        if(messageType == "Bulk") {
+            Messages.sendBulkMessages({
+                patient: patient,
+                message: $scope.patientMessage
+            }, function messageSent (sentMessage) {
+                alert("message sent!");
+            });
+            $modalInstance.close();
+        }
+        else {
+            Messages.sendMessage({
+                patient: patient,
+                message: $scope.patientMessage
+            }, function messageSent (sentMessage) {
+                alert("message sent!");
+            });
+            $modalInstance.close();
+        }
     };
 
     $scope.cancel = function () {
@@ -566,8 +578,8 @@ orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInst
             patient: patient
         }, function messageSent (sentMessage) {
             alert("message sent!");
-            $modalInstance.close(patient);
         });
+        $modalInstance.close(patient);
     };
 
     $scope.cancel = function () {
@@ -575,19 +587,36 @@ orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInst
     };
 }]);
 
-orthopaedicsControllers.controller('bulkMessageCtrl', ['$scope', '$modalInstance', 'Messages', 'patients',
-  function($scope, $modalInstance, Messages, patients) {
+orthopaedicsControllers.controller('bulkMessageCtrl', ['$scope', '$modalInstance', '$modal', '$log', 'Messages', 'patients',
+  function($scope, $modalInstance, $modal, $log, Messages, patients) {
 
-    $scope.patients = patients;
+    $scope.patients = _.filter(patients, function (patient) { return patient.cellphone; });
+    $scope.orderBy = "name";
 
     $scope.writeMessage = function () {
 
-        // Messages.sendBulkMessages({
-        //     patient: patient
-        // }, function messageSent (sentMessage) {
-        //     alert("message sent!");
-        //     $modalInstance.close(patient);
-        // });
+        var modalInstance = $modal.open({
+            templateUrl: '/partials/sendMessage.html',
+            controller: 'sendMessageCtrl',
+            resolve: {
+                patient: function () {
+                    return _.filter($scope.patients, function (patient) {
+                        return patient.msjSelected;
+                    });
+                },
+                messageType: function () {
+                    return "Bulk";
+                }
+            }
+        });
+
+        modalInstance.result.then(function () {
+            $log.info('Imaging message sent!');
+        }, function () {
+            $log.info('Message Modal dismissed at: ' + new Date());
+        });
+        
+        $modalInstance.close();
     };
 
     $scope.selectAll = function () {
