@@ -100,7 +100,9 @@ function obtenerPatientHistory (id, callback) {
             patientModel.find({
                 medicalRecordNumber: patient.medicalRecordNumber,
                 _id: {$ne: id}
-            }, function (err, appts) {
+            })
+            .limit(3)
+            .exec( function (err, appts) {
                 if(err) callback(err);
                 else if(appts.length > 0)
                     return callback(null, appts);

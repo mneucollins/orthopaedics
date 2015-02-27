@@ -282,7 +282,13 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     }
 
     $scope.toogleImagingState = function (patient){
-        
+        if(patient.imagingTimestamp){
+            var resp = confirm("Are you sure you would like to mark imaging as incomplete?");
+            if (resp == true) {
+                Patient.update({patientId: patient.id}, {needsImaging: true, imagingTimestamp: null}, patientImagingUpdateConfirmation);       
+            }
+        }
+
         if(!$scope.isImagingClickable(patient)) return;
 
         if(patient.needsImaging)
@@ -294,6 +300,12 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
             Patient.update({patientId: patient.id}, {needsImaging: true, imagingRequestedTimestamp: new Date()}, patientImagingUpdated);
         }
         
+        function patientImagingUpdateConfirmation(updatedPatient){
+            var index = $scope.patientList.indexOf(patient); 
+            $scope.patientList[index].needsImaging = updatedPatient.needsImaging;
+            $scope.patientList[index].imagingTimestamp = updatedPatient.imagingTimestamp;
+        }
+
         function patientImagingUpdated (updatedPatient) {
             var index = $scope.patientList.indexOf(patient); 
             $scope.patientList[index].needsImaging = updatedPatient.needsImaging;
