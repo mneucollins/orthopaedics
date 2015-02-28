@@ -30,7 +30,11 @@ var UsersSchema = new Schema({
   // facebook: {},
   // twitter: {},
   // google: {},
-  timestamp: { type: Date, default: Date.now }
+  timestamp: { type: Date, default: Date.now },
+  npi: {
+    type: String,
+    unique: true
+  }
 });
 
 
