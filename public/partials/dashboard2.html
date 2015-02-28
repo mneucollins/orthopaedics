@@ -82,9 +82,9 @@
                     <img ng-src="{{ getImagingState(patient) }}" />
                 </td>   
                 <td style="padding: 2% 0% 2% 0.5%;">
-                    <img ng-src="/img/phyEntered.png" ng-show="patient.enterTimestamp" ng-class="{clickable: patient.currentState == 'EX'}"/>
-                    <img ng-src="/img/phyExit.png" ng-hide="patient.enterTimestamp" ng-class="{clickable: patient.currentState == 'EX'}"/>
-                    <span ng-show="patient.enterTimestamp" ng-class="getATColor(patient)">{{ getATtimer(patient) }}</span>
+                    <img ng-src="/img/phyEntered.png" ng-show="patient.enterTimestamp" ng-class="{clickable: patient.currentState == 'EX'}" ng-click="toogleATEntry(patient)"/>
+                    <img ng-src="/img/phyExit.png" ng-hide="patient.enterTimestamp" ng-class="{clickable: patient.currentState == 'EX'}" ng-click="toogleATEntry(patient)"/>
+                    <span ng-show="patient.enterTimestamp" ng-class="{'timer-on-time': patient.enterTimestamp}">{{ getATtimer(patient) | date:'mm.ss' }}</span>
                 </td>              
                 <td style="padding: 2% 0% 2% 0.5%;"><span ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }} min </span>-<span ng-class="getTimerColor('EX', patient)"> EX {{ getEXTime(patient) }} min</span></td>
                 <td style="padding: 2% 0% 2% 0.5%;"><div class="roundMiniBox" ng-class="{'timer-not-started': patient.currentState == 'DC' || patient.currentState == 'NCI' || getTotalTime(patient) < 0}">{{ getTotalTime(patient) }}</div></td>

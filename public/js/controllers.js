@@ -279,6 +279,27 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
       })
     }
 
+    $scope.toogleATEntry = function (patient) {
+        if(patient.currentState != 'EX') return;
+
+        if(patient.enterTimestamp)
+            Patient.update({patientId: patient.id}, {enterTimestamp: null}, patientATUpdated);
+        else
+            Patient.update({patientId: patient.id}, {enterTimestamp: new Date()}, patientATUpdated);
+
+        function patientATUpdated (updatedPatient) {
+            var index = $scope.patientList.indexOf(patient); 
+            $scope.patientList[index].enterTimestamp = updatedPatient.enterTimestamp;
+        }
+    }    
+
+    $scope.getATtimer = function (patient) {
+        if(patient.enterTimestamp)
+            return new Date((new Date()).getTime() - (new Date(patient.enterTimestamp)).getTime());
+        else
+            return 0;
+    }
+
     $scope.getImagingState = function (patient){
         var imagingStateIcon = "";
 
@@ -586,7 +607,8 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         Patient.update({patientId: patient.id}, 
             {
                 currentState: "DC",
-                DCTimestamp: new Date()
+                DCTimestamp: new Date(),
+                exitTimestamp: new Date()
             }, 
             function patientDischarged (updatedPatient) {
                 var index = $scope.patientList.indexOf(patient); 
