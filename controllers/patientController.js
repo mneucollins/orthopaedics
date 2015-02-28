@@ -34,9 +34,9 @@ function nuevoPatient(newPatient, callback) {
 
   patient.currentState = newPatient.currentState; // delete after testing
 
-  patient.save(function(err) {
+  patient.save(function(err, addedPatient) {
     if (err) callback(err);
-    else callback(null, { message: 'Patient added!' });
+    else callback(null, addedPatient);
   });
 }
 
@@ -87,9 +87,9 @@ function actualizarPatient(id, updPatient, callback) {
 function eliminarPatient(id, callback) {
   patientModel.remove({
     _id: id
-  }, function(err, patients) {
+  }, function(err, patient) {
     if (err) callback(err);
-    else callback(null, { message: 'Patient removed!' });
+    else callback(null, patient);
   });
 }
 

@@ -24,6 +24,23 @@ var testPhysicians = [{
 	role: "Physician"
 }];
 
+var testUsrs = [{
+	name: "Imaging User",
+	username: "imaging",
+	password: "123456",
+	role: "Imaging"
+},{
+	name: "first Provider User",
+	username: "first",
+	password: "123456",
+	role: "FirstProvider"
+},{
+	name: "Receptionist User",
+	username: "receptionist",
+	password: "123456",
+	role: "Receptionist"
+}];
+
 var testPatients = [{
 	firstName: "Tom",
 	lastName: "Hanks",
@@ -267,6 +284,21 @@ for (var i = 0; i < testPhysicians.length; i++) {
 	    else {
 	    	physiciansIds.push(savedUsr._id);
 		    console.log("physician Added");
+	    }
+	});
+};
+
+for (var i = 0; i < testUsrs.length; i++) {
+	
+	var newUser = new User();
+	newUser.username  = testUsrs[i].username;
+	newUser.password = newUser.generateHash(testUsrs[i].password);
+	newUser.name = testUsrs[i].name;
+	newUser.role = testUsrs[i].role;
+	newUser.save(function(err, savedUsr) {
+	    if (err) console.log(err);
+	    else {
+		    console.log("test User Added");
 	    }
 	});
 };
