@@ -65,6 +65,12 @@ orthopaedicsApp.config(['$routeProvider','$locationProvider', '$httpProvider', '
           loggedin: checkLoggedin
         }
       })
+      .when('/dashboard2', {
+        templateUrl: '/partials/dashboard2.html',
+        resolve: {
+          loggedin: checkLoggedin
+        }
+      })
       .otherwise({
         redirectTo: '/login'
       });

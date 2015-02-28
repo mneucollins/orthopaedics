@@ -61,6 +61,7 @@
                 <th ng-click="sortPatientsByPhysician(); filteringList ('physician');" ng-class="{'blueFilter' : filteringPhys, 'blackFilter' : !filteringPhys}">Physician<span ng-class="arrowPhys" aria-hidden="true"></th>
                 <th ng-click="sortPatientsByBirth(); filteringList ('dob');" ng-class="{'blueFilter' : filteringDob, 'blackFilter' : !filteringDob}">DOB<span ng-class="arrowDOB" aria-hidden="true"></th>
                 <th ng-click="sortPatientsByImaging(); filteringList ('imaging');" ng-class="{'blueFilter' : filteringImag, 'blackFilter' : !filteringImag}">Imaging<span ng-class="arrowImag" aria-hidden="true"></th>
+                <th ng-click="sortPatientsByATEntry(); filteringList ('atEntry');" ng-class="{'blueFilter' : filteringAT, 'blackFilter' : !filteringAT}">AT Entry<span ng-class="filteringAT" aria-hidden="true"></th>
                 <th ng-click="sortPatientsByStatus(); filteringList ('status');" ng-class="{'blueFilter' : filteringStat, 'blackFilter' : !filteringStat}">Status<span ng-class="arrowStat" aria-hidden="true"></th>
                 <th ng-click="sortPatientsByTotal(); filteringList ('total');" ng-class="{'blueFilter' : filteringTot, 'blackFilter' : !filteringTot}">Total<span ng-class="arrowTot" aria-hidden="true"></th>
                 <th ></th>
@@ -78,12 +79,13 @@
                 <td style="padding: 2% 0% 2% 0.5%;">{{ patient.physician.name }}</td>
                 <td style="padding: 2% 0% 2% 0.5%;">{{ patient.dateBirth | date:'MM/dd/yyyy'}}</td>
                 <td style="padding: 2% 0% 2% 0.5%;">
-                    <img ng-src="{{ getImagingState(patient) }}" ng-click="toogleImagingState(patient)" ng-class="{clickable: isImagingClickable(patient)}" />
-                    <div id="{{ 'imagingIcons' + patient._id }}" ng-show="patient.needsImaging && !patient.imagingTimestamp" style="display:inline-block">
-                        <img src="img/emailicon.png" class="clickable" ng-click="sendImagingMessage(patient)"/>
-                        <img src="img/ok2icon.png" class="clickable" ng-click="completeImagingState(patient)"/>
-                    </div>
-                </td>                
+                    <img ng-src="{{ getImagingState(patient) }}" />
+                </td>   
+                <td style="padding: 2% 0% 2% 0.5%;">
+                    <img ng-src="/img/phyEntered.png" ng-show="patient.enterTimestamp" ng-class="{clickable: patient.currentState == 'EX'}" ng-click="toogleATEntry(patient)"/>
+                    <img ng-src="/img/phyExit.png" ng-hide="patient.enterTimestamp" ng-class="{clickable: patient.currentState == 'EX'}" ng-click="toogleATEntry(patient)"/>
+                    <span ng-show="patient.enterTimestamp" ng-class="{'timer-on-time': patient.enterTimestamp}">{{ getATtimer(patient) | date:'mm.ss' }}</span>
+                </td>              
                 <td style="padding: 2% 0% 2% 0.5%;"><span ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }} min </span>-<span ng-class="getTimerColor('EX', patient)"> EX {{ getEXTime(patient) }} min</span></td>
                 <td style="padding: 2% 0% 2% 0.5%;"><div class="roundMiniBox" ng-class="{'timer-not-started': patient.currentState == 'DC' || patient.currentState == 'NCI' || getTotalTime(patient) < 0}">{{ getTotalTime(patient) }}</div></td>
                 <td style="padding: 2%;text-align:right;"><img src="img/expandIcon.png" class="imageButton"  data-toggle="collapse" data-target="{{ '#miniform' + patient._id }}" onclick="onCollapseButton(this);" ng-click="loadPatientHistory(patient)"/></td>

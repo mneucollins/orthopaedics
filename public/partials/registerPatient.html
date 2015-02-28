@@ -4,12 +4,12 @@
 <div class="modal-body">
 	<form class="form-group">
 	<div class="row form-group">
-		<div class="col-md-3 col-md-offset-1">first Name</div>
-		<div class="col-md-7"><input type="text" class="form-control" ng-model="patient.firstName" disabled></div>
+		<div class="col-md-3 col-md-offset-1">First Name</div>
+		<div class="col-md-7"><input type="text" class="form-control" ng-model="patient.firstName" ng-disabled="fieldsDisabled"></div>
 	</div>
 	<div class="row form-group">
 		<div class="col-md-3 col-md-offset-1">Last Name</div>
-		<div class="col-md-7"><input type="text" class="form-control" ng-model="patient.lastName" disabled></div>
+		<div class="col-md-7"><input type="text" class="form-control" ng-model="patient.lastName" ng-disabled="fieldsDisabled"></div>
 	</div>
 	<div class="row form-group">
 		<div class="col-md-3 col-md-offset-1">Phone Number</div>
@@ -17,15 +17,22 @@
 	</div>
 	<div class="row form-group">
 		<div class="col-md-3 col-md-offset-1">Appointment Time</div>
-		<div class="col-md-7"><input type="text" class="form-control" ng-model="patient.apptTime | date: 'HH:mm'" disabled></div>
+		<div class="col-md-7">
+			<timepicker ng-model="patient.apptTime" minute-step="15" ng-hide="fieldsDisabled"></timepicker>
+			<input type="text" class="form-control" ng-model="patient.apptTime | date: 'HH:mm'" ng-disabled="fieldsDisabled" ng-show="fieldsDisabled">
+		</div>
 	</div>
 	<div class="row form-group">
 		<div class="col-md-3 col-md-offset-1">MNR Number</div>
-		<div class="col-md-7"><input type="text" class="form-control" ng-model="patient.medicalRecordNumber" disabled></div>
+		<div class="col-md-7"><input type="text" class="form-control" ng-model="patient.medicalRecordNumber" ng-disabled="fieldsDisabled"></div>
 	</div>
 	<div class="row form-group">
 		<div class="col-md-3 col-md-offset-1">Physician</div>
-		<div class="col-md-7"><input type="text" class="form-control" ng-model="patient.physician.name" disabled></div>
+		<div class="col-md-7">
+			<select class="form-control" ng-model="patient.physician"  
+				 ng-options="physician as physician.name for physician in physicians" ng-disabled="fieldsDisabled"></select>
+			<!-- <input type="text" class="form-control" ng-model="patient.physician.name" ng-disabled="fieldsDisabled"> -->
+		</div>
 	</div>
 	</form>
 </div>

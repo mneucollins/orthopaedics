@@ -34,9 +34,9 @@ function nuevoPatient(newPatient, callback) {
 
   patient.currentState = newPatient.currentState; // delete after testing
 
-  patient.save(function(err) {
+  patient.save(function(err, addedPatient) {
     if (err) callback(err);
-    else callback(null, { message: 'Patient added!' });
+    else callback(null, addedPatient);
   });
 }
 
@@ -87,9 +87,9 @@ function actualizarPatient(id, updPatient, callback) {
 function eliminarPatient(id, callback) {
   patientModel.remove({
     _id: id
-  }, function(err, patients) {
+  }, function(err, patient) {
     if (err) callback(err);
-    else callback(null, { message: 'Patient removed!' });
+    else callback(null, patient);
   });
 }
 
@@ -100,7 +100,9 @@ function obtenerPatientHistory (id, callback) {
             patientModel.find({
                 medicalRecordNumber: patient.medicalRecordNumber,
                 _id: {$ne: id}
-            }, function (err, appts) {
+            })
+            .limit(3)
+            .exec( function (err, appts) {
                 if(err) callback(err);
                 else if(appts.length > 0)
                     return callback(null, appts);
