@@ -79,12 +79,12 @@
                 <td style="padding: 2% 0% 2% 0.5%;">{{ patient.physician.name }}</td>
                 <td style="padding: 2% 0% 2% 0.5%;">{{ patient.dateBirth | date:'MM/dd/yyyy'}}</td>
                 <td style="padding: 2% 0% 2% 0.5%;">
-                    <img ng-src="{{ getImagingState(patient) }}" />
+                    <img ng-src="{{ getImagingState(patient) }}" ng-click="toogleImagingState(patient)" ng-class="{clickable: isImagingClickable(patient)}"/>
                 </td>   
                 <td style="padding: 2% 0% 2% 0.5%;">
-                    <img ng-src="/img/phyEntered.png" ng-show="patient.enterTimestamp" ng-class="{clickable: patient.currentState == 'EX'}" ng-click="toogleATEntry(patient)"/>
-                    <img ng-src="/img/phyExit.png" ng-hide="patient.enterTimestamp" ng-class="{clickable: patient.currentState == 'EX'}" ng-click="toogleATEntry(patient)"/>
-                    <span ng-show="patient.enterTimestamp" ng-class="{'timer-on-time': patient.enterTimestamp}">{{ getATtimer(patient) | date:'mm.ss' }}</span>
+                    <img ng-src="/img/phyEntered.png" ng-show="patient.enterTimestamp.length > patient.exitTimestamp.length" ng-class="{clickable: patient.currentState == 'EX'}" ng-click="toogleATEntry(patient)"/>
+                    <img ng-src="/img/phyExit.png" ng-hide="patient.enterTimestamp.length > patient.exitTimestamp.length" ng-class="{clickable: patient.currentState == 'EX'}" ng-click="toogleATEntry(patient)"/>
+                    <span ng-show="patient.enterTimestamp.length > 0" ng-class="{'timer-on-time': patient.enterTimestamp.length > patient.exitTimestamp.length}">{{ getATtimer(patient) | date:'mm.ss' }}</span>
                 </td>              
                 <td style="padding: 2% 0% 2% 0.5%;"><span ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }} min </span>-<span ng-class="getTimerColor('EX', patient)"> EX {{ getEXTime(patient) }} min</span></td>
                 <td style="padding: 2% 0% 2% 0.5%;"><div class="roundMiniBox" ng-class="{'timer-not-started': patient.currentState == 'DC' || patient.currentState == 'NCI' || getTotalTime(patient) < 0}">{{ getTotalTime(patient) }}</div></td>

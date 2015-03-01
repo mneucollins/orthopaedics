@@ -32,6 +32,9 @@ function nuevoPatient(newPatient, callback) {
   patient.EXTimestamp = newPatient.EXTimestamp;
   patient.DCTimestamp = newPatient.DCTimestamp;
 
+  patient.enterTimestamp = [];
+  patient.exitTimestamp = [];
+
   patient.currentState = newPatient.currentState; // delete after testing
 
   patient.save(function(err, addedPatient) {

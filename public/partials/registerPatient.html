@@ -18,7 +18,7 @@
 	<div class="row form-group">
 		<div class="col-md-3 col-md-offset-1">Appointment Time</div>
 		<div class="col-md-7">
-			<timepicker ng-model="patient.apptTime" minute-step="15" ng-hide="fieldsDisabled"></timepicker>
+			<timepicker ng-model="patient.apptTime" minute-step="5" ng-hide="fieldsDisabled"></timepicker>
 			<input type="text" class="form-control" ng-model="patient.apptTime | date: 'HH:mm'" ng-disabled="fieldsDisabled" ng-show="fieldsDisabled">
 		</div>
 	</div>

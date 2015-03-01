@@ -135,6 +135,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         console.log(JSON.stringify(greet));
     });
 
+    // Filters & sorting
     ///////////////////////////////////////////////////////////////////////////////////////////////
     
     $scope.filteringPhys = true;
@@ -261,17 +262,8 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         }
     }
 
-    $scope.getNormalizedHour = function (hour) {
-      var d = new Date(hour);
-      hour = d.getHours();
-      
-      if(hour == 12)
-        return hour + " M";
-      else if(hour < 12)
-        return hour + " AM";
-      else
-        return parseInt(hour) % 12 + " PM";
-    }
+    // Patient History
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     $scope.loadPatientHistory = function (patient) {
       Patient.getHistory({patientId: patient.id}, function (history) {
@@ -279,26 +271,54 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
       })
     }
 
+    // Attending Entry Management
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
     $scope.toogleATEntry = function (patient) {
         if(patient.currentState != 'EX') return;
 
-        if(patient.enterTimestamp)
-            Patient.update({patientId: patient.id}, {enterTimestamp: null}, patientATUpdated);
-        else
-            Patient.update({patientId: patient.id}, {enterTimestamp: new Date()}, patientATUpdated);
+        if(patient.enterTimestamp.length > patient.exitTimestamp.length){
+            patient.exitTimestamp.push(new Date());
+            Patient.update({patientId: patient.id}, {exitTimestamp: patient.exitTimestamp}, patientATUpdated);
+        }
+        else {
+            patient.enterTimestamp.push(new Date());
+            Patient.update({patientId: patient.id}, {enterTimestamp: patient.enterTimestamp}, patientATUpdated);
+            _.each($scope.patientList, function (ptnt, index, list) {
+                if(patient.physician._id === ptnt.physician._id && 
+                patient._id != ptnt._id && 
+                ptnt.enterTimestamp.length > ptnt.exitTimestamp.length) {
+    
+                    ptnt.exitTimestamp.push(new Date());
+                    Patient.update({patientId: ptnt.id}, {exitTimestamp: ptnt.exitTimestamp}, function (updatedPatient) {
+                        $scope.patientList[index].exitTimestamp = updatedPatient.exitTimestamp;
+                    });
+                }
+            });
+        }
 
         function patientATUpdated (updatedPatient) {
             var index = $scope.patientList.indexOf(patient); 
             $scope.patientList[index].enterTimestamp = updatedPatient.enterTimestamp;
+            $scope.patientList[index].exitTimestamp = updatedPatient.exitTimestamp;
         }
     }    
 
     $scope.getATtimer = function (patient) {
-        if(patient.enterTimestamp)
-            return new Date((new Date()).getTime() - (new Date(patient.enterTimestamp)).getTime());
-        else
-            return 0;
+
+        var counter = 0;
+        for (var i = 0; i < patient.enterTimestamp.length; i++) {
+            if(patient.exitTimestamp[i])
+                counter += (new Date(patient.exitTimestamp[i])).getTime() - (new Date(patient.enterTimestamp[i])).getTime();
+            else
+                counter += (new Date()).getTime() - (new Date(patient.enterTimestamp[i])).getTime();
+        };
+
+        return new Date(counter);
     }
+
+    // Imaging Management
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     $scope.getImagingState = function (patient){
         var imagingStateIcon = "";
@@ -364,6 +384,9 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
             return true;
     }
 
+    // Messages Management
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
     $scope.sendImagingMessage = function (patient) {
 
         var modalInstance = $modal.open({
@@ -425,6 +448,10 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
             $log.info('Message Modal dismissed at: ' + new Date());
         });  
     }
+
+
+    // Times calculation
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     $scope.getWRTime = function (patient) {
 
@@ -515,6 +542,10 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
             return "timer-delay-45";
     }
 
+
+    // New Patient
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
     $scope.newPatient = function () {
         
         var modalInstance = $modal.open({
@@ -536,6 +567,10 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
             $log.info('Message Modal dismissed at: ' + new Date());
         });
     }
+
+
+    // State Changing
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     $scope.register = function (patient) {
         
@@ -604,16 +639,18 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     }
 
     $scope.discharge = function (patient) {
+        patient.exitTimestamp.push(new Date());
         Patient.update({patientId: patient.id}, 
             {
                 currentState: "DC",
                 DCTimestamp: new Date(),
-                exitTimestamp: new Date()
+                exitTimestamp: patient.exitTimestamp
             }, 
             function patientDischarged (updatedPatient) {
                 var index = $scope.patientList.indexOf(patient); 
                 $scope.patientList[index].currentState = updatedPatient.currentState;
                 $scope.patientList[index].DCTimestamp = updatedPatient.DCTimestamp;
+                $scope.patientList[index].exitTimestamp = updatedPatient.exitTimestamp;
             }
         );
     }
@@ -673,6 +710,12 @@ orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInst
     }
     else{
         $scope.fieldsDisabled = false;
+
+        var apptDateObj = new Date();
+        apptDateObj.setMinutes(0);
+        $scope.patient = {
+            apptTime: apptDateObj
+        }
     } 
 
     $scope.submit = function () {
