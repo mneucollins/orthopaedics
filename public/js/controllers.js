@@ -26,10 +26,11 @@ var orthopaedicsControllers = angular.module('orthopaedicsControllers', ['ui.boo
                     if($scope.currentUser.role == "Physician" || $scope.currentUser.role == "FirstProvider")
                         $location.url("/dashboard2");
                 } 
-                else if(url.indexOf("dashboard2") != -1)
+                else if(url.indexOf("dashboard2") != -1) {
                     $scope.dashboard = "2";
                     if($scope.currentUser.role == "Imaging" || $scope.currentUser.role == "Receptionist") 
                         $location.url("/dashboard1");
+                }
             }, 1000);
     }]);
 
@@ -63,7 +64,12 @@ orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthSer
     $scope.login = function () {
         AuthService.login($scope.user, function(user) {
             Alerts.addAlert("success", "Welcome " + user.name);
-            $location.path("/dashboard1");
+
+            if(user.role == "Imaging" || user.role == "Receptionist")
+                $location.path("/dashboard1");
+            else
+                $location.path("/dashboard2");
+
         }, function (err) {
             Alerts.addAlert("error", "ups! we got an error: " + JSON.stringify(err));
         });
@@ -453,7 +459,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     // Times calculation
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
-    $scope.getWRTime = function (patient) {
+    $rootScope.getWRTime = function (patient) {
 
         if(patient.currentState == "NCI") return 0;
 
@@ -477,7 +483,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                 return Math.round((exDate.getTime() - apptDate.getTime()) / (60*1000));
     }
 
-    $scope.getEXTime = function (patient) {
+    $rootScope.getEXTime = function (patient) {
 
         if(patient.currentState == "NCI" || patient.currentState == "WR") return 0;
 
@@ -512,7 +518,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                 return Math.round((dcDate.getTime() - apptDate.getTime()) / (60*1000));
     }
 
-    $scope.getTimerColor = function (type, patient) {
+    $rootScope.getTimerColor = function (type, patient) {
         var nMins = 0;
 
         if(type == "WR") {
@@ -675,9 +681,9 @@ orthopaedicsControllers.controller('sendMessageCtrl', ['$scope', '$modalInstance
                 patient: patient,
                 message: $scope.patientMessage
             }, function messageSent (sentMessage) {
-                Alerts.addAlert("success", "message sent!");
+                // Alerts.addAlert("success", "message sent");
             });
-            Alerts.addAlert("success", "message on it's way...");
+            Alerts.addAlert("success", "message sent");
             $modalInstance.close();
         }
         else {
@@ -685,9 +691,9 @@ orthopaedicsControllers.controller('sendMessageCtrl', ['$scope', '$modalInstance
                 patient: patient,
                 message: $scope.patientMessage
             }, function messageSent (sentMessage) {
-                Alerts.addAlert("success", "message sent!");
+                // Alerts.addAlert("success", "message sent!");
             });
-            Alerts.addAlert("success", "message on it's way...");
+            Alerts.addAlert("success", "message sent");
             $modalInstance.close();
         }
     };
@@ -712,7 +718,8 @@ orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInst
         $scope.fieldsDisabled = false;
 
         var apptDateObj = new Date();
-        apptDateObj.setMinutes(0);
+        var mins = apptDateObj.getMinutes();
+        apptDateObj.setMinutes(Math.round(mins/10)*10);
         $scope.patient = {
             apptTime: apptDateObj
         }
@@ -723,10 +730,10 @@ orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInst
             Messages.sendWelcomeMessage({
                 patient: $scope.patient
             }, function messageSent (sentMessage) {
-                Alerts.addAlert("success", "welcome message sent!");
+                // Alerts.addAlert("success", "welcome message sent!");
             });
             $modalInstance.close($scope.patient);
-            Alerts.addAlert("success", "message on it's way...");
+            Alerts.addAlert("success", "welcome message sent");
         }
         else{
             var patientToSave = $scope.patient;
@@ -753,7 +760,8 @@ orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInst
 orthopaedicsControllers.controller('bulkMessageCtrl', ['$scope', '$modalInstance', '$modal', '$log', 'Messages', 'patients',
   function($scope, $modalInstance, $modal, $log, Messages, patients) {
 
-    $scope.patients = _.filter(patients, function (patient) { return patient.cellphone; });
+    patients = _.filter(patients, function (patient) { return patient.cellphone; });
+    $scope.patients = patients;
     $scope.orderBy = "name";
 
     $scope.writeMessage = function () {

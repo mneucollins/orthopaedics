@@ -44,13 +44,14 @@ function sendMessage (msgData, callback) {
 function sendWelcomeMessage (msgData, callback) {
 
 	require("./physicianController")
-	.getNextPatientWaitTime(msgData.patient.physician.id, function (waitTime) {
+	.getNextPatientWaitTime(msgData.patient.physician._id, function (err, waitTime) {
 		
 		var toNumber = msgData.patient.cellphone;
 		toNumber = toNumber.indexOf("+") > -1 ? toNumber : config.numberPrefix + toNumber;
 
 		var theMessage = "Welcome " + msgData.patient.fullName + 
-					", your estimated wait time is " + (waitTime + 5) + " minutes";
+					", your estimated wait time is " + (waitTime + 5) + 
+					" mins. We will keep you informed about waits and delays as a part of a desire to be sensitive to your needs as a patient.";
 
 		var client = twilio(config.accountSid, config.authToken);
 

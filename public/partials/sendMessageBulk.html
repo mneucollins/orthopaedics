@@ -17,18 +17,28 @@
 	<hr>
 	<form class="form-group">
 	<div class="row" ng-repeat="patient in patients" ng-show="orderBy == 'name'">
-		<div class="checkbox col-md-6">
+		<div class="checkbox col-md-4">
 			<label><input type="checkbox" ng-model="patient.msjSelected">{{ patient.fullName }}</label>
 		</div>
-		<p align="right" class="col-md-6">{{ patient.cellphone }}</p>
+		<div align="right" class="col-md-4" style="margin: 10px 0;">
+			{{ patient.cellphone }}
+		</div>
+		<div class="col-md-4" style="margin: 10px 0;">
+			<span ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }} min </span>-<span ng-class="getTimerColor('EX', patient)"> EX {{ getEXTime(patient) }} min</span>
+		</div>
 	</div>
 	<div class="row" ng-repeat="(physician, pList) in patients" ng-show="orderBy == 'physician'">
 		<h3 class="col-md-12">{{ physician }}</h3>
 		<div class="col-md-12" ng-repeat="patient in pList">
-			<div class="checkbox col-md-6">
+			<div class="checkbox col-md-4">
 				<label><input type="checkbox" ng-model="patient.msjSelected">{{ patient.fullName }}</label>
 			</div>
-			<div align="right" class="col-md-6">{{ patient.cellphone }}</div>
+			<div align="right" class="col-md-4" style="margin: 10px 0;">
+				{{ patient.cellphone }}
+			</div>
+			<div class="col-md-4" style="margin: 10px 0;">
+				<span ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }} min </span>-<span ng-class="getTimerColor('EX', patient)"> EX {{ getEXTime(patient) }} min</span>
+			</div>
 		</div>
 	</div>
 	</form>

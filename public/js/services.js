@@ -50,7 +50,7 @@ orthopaedicsServices.factory('Alerts', ['$rootScope', function ($rootScope) {
                             systemAlerts.splice(index, 1);
                             $rootScope.$broadcast('alerts:updated',systemAlerts);
                         }
-                    }, 5000);
+                    }, 3000);
                 }
 
                 autoCloseAlert(newAlert);

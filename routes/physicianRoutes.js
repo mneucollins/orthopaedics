@@ -66,5 +66,18 @@ module.exports = function (router) {
             console.log("Physician's " + req.params.physicianId + " patients listed");
             res.json(data);
         });
-    });  
+    }); 
+
+    router.route('/physicians/:physicianId/waittime')
+    .get(function(req, res) {
+        physicianController.getNextPatientWaitTime(req.params.physicianId, function (err, data) {
+            if(err) {
+                tools.sendServerError(err, req, res);
+                return;
+            }
+
+            console.log("Physician " + req.params.physicianId + " listed");
+            res.json(data);
+        });
+    }); 
 }
