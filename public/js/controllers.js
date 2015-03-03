@@ -394,6 +394,9 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     $scope.sendImagingMessage = function (patient) {
+        var messageStorage = "";
+        if(localStorage.getItem("IM"+patient.physician._id))
+            messageStorage = localStorage.getItem("IM"+patient.physician._id);
 
         var modalInstance = $modal.open({
             templateUrl: '/partials/sendMessage.html',
@@ -404,7 +407,11 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                 },
                 messageType: function () {
                     return "IM";
+                },
+                messageCache: function (){
+                    return messageStorage;
                 }
+
             }
         });
 
@@ -613,6 +620,9 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     }
 
     $scope.callBack = function (patient) {
+        var messageStorage = "";
+        if(localStorage.getItem("Call"+patient.physician._id))
+            messageStorage = localStorage.getItem("Call"+patient.physician._id);
 
         var modalInstance = $modal.open({
             templateUrl: '/partials/sendMessage.html',
@@ -623,6 +633,9 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                 },
                 messageType: function () {
                     return "Call";
+                },
+                messageCache: function (){
+                    return messageStorage;
                 }
             }
         });
@@ -667,12 +680,14 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
 
 // =============================== MODAL DIALOGS CTRL ===================================
 
-orthopaedicsControllers.controller('sendMessageCtrl', ['$scope', '$modalInstance', 'Messages', 'Alerts', 'patient', 'messageType',
-  function($scope, $modalInstance, Messages, Alerts, patient, messageType) {
+orthopaedicsControllers.controller('sendMessageCtrl', ['$scope', '$modalInstance', 'Messages', 'Alerts', 'patient', 'messageType', 'messageCache',
+  function($scope, $modalInstance, Messages, Alerts, patient, messageType, messageCache) {
 
     $scope.patient = patient;
     if(messageType != "Bulk")
         $scope.messageType = messageType;
+
+    $scope.patientMessage = messageCache;
 
     $scope.sendMessage = function () {
 
@@ -693,6 +708,16 @@ orthopaedicsControllers.controller('sendMessageCtrl', ['$scope', '$modalInstance
             }, function messageSent (sentMessage) {
                 // Alerts.addAlert("success", "message sent!");
             });
+
+            if (!localStorage.getItem($scope.messageType+patient.physician._id)) {
+                localStorage.setItem($scope.messageType+patient.physician._id, $scope.patientMessage);
+            }
+            if (!localStorage.getItem('dateStorage')) {
+                var dNow = new Date(); 
+                localStorage.setItem('dateStorage',dNow);
+            }
+            //localStorage.removeItem("lastname");
+
             Alerts.addAlert("success", "message sent");
             $modalInstance.close();
         }
