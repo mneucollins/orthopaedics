@@ -25,22 +25,25 @@ var userModel = require('./models/userModel');
 }*/
 
 //function leerExcel () {
-	console.log("hakuna matata");
+	console.log("hakuna matata - The loader is starting");
 	mongoose.connect('mongodb://localhost:27017/orthopaedics');
 
 	//Load excel template
-	var workbook = XLSX.readFile('ScheduleExport.xlsx', {cellStyles:true});
+	var workbook = XLSX.readFile('HL7.xlsx', {cellStyles:true});
 	var sheet_name_list = workbook.SheetNames;
 
 	var result = {};
 	sheet_name_list.forEach(function(sheetName) {
+		console.log("reading row...");
 		var roa = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
 		if(roa.length > 0){
 			result[sheetName] = roa;
 		}
 	});
 
+	console.log("hakuna matata");
 	var list = result['ScheduleExport'];
+	console.log("starting to save!");
 
 	for(var k in list){
 	    var patient = new patientModel();
@@ -59,14 +62,9 @@ var userModel = require('./models/userModel');
 		patient.physician = userModel.find({npi:list[k].NPI});
 		patient.apptTime = list[k].Appt;
 		patient.apptDuration = list[k].ApptLength;
-		if(list[k].ApptType == "RPV" || list[k].ApptType == "NPV"){
-			patient.apptType=list[k].ApptType;
-		}
+		patient.apptType=list[k].ApptType;
 
-
-
-
-		        
+		console.log("saving patient: " + patient.lastName);
 		patientController.nuevoPatient(patient, function (err, data) {
 		    if(err) console.log(err);
 		    else console.log("Patient Added");
