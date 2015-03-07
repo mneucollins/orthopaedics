@@ -70,6 +70,13 @@ body {
 	height: 100%;
 }
 
+.helpText {
+	font-size:0.9em; 
+	margin: 5px; 
+	margin-left: -3%;
+	width: 55%; 
+}
+
 /* 
 //////////////////////////////////////////////////////////////////////
 ///////////////////////   PHYSICIANS   ///////////////////////////////
@@ -83,8 +90,8 @@ body {
 }
 
 .menuPhysicians {
-	width: 55px;
-	height: 55px;
+	width: 4em;
+	/*height: 55px;*/
 }
 
 .menuPhysicians img {
@@ -95,10 +102,10 @@ body {
 .physiciansList {
 	background-color: #FFF;
 	float: left;
-	left: 54px;
+	left: 4em;
 	position: absolute;
 	transition: all 0.7s;
-	width: 500px;
+	width: 37%;
 	z-index: 99;
 
 	-webkit-box-shadow: 3px 0px 13px 0px rgba(0,0,0,0.24);
@@ -153,4 +160,9 @@ body {
 
 .clickable {
 	cursor: pointer;
+}
+
+.schedule-container {
+	padding-left: 0;
+	margin-left: 6%;
 }

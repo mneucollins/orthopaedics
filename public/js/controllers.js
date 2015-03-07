@@ -888,16 +888,16 @@ orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$r
         }); 
 
         $rootScope.selectedPhysicians = selectedPhysicians;
-        $(".physiciansList").css("left", "-500px");
+        $(".physiciansList").css("left", "-37%");
     }
 
     $scope.tooglePhysiciansList = function () {
         var currentPos = $(".physiciansList").css("left");
 
         if(currentPos.charAt(0) == "-") // it's hidden
-            $(".physiciansList").css("left", "54px");
+            $(".physiciansList").css("left", "4em");
         else
-            $(".physiciansList").css("left", "-500px");
+            $(".physiciansList").css("left", "-37%");
     }
 
 }]);
