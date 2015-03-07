@@ -3,10 +3,10 @@
 </div>
 <div class="modal-body">
 	<div class="row">
-		<div class="checkbox col-md-6">
+		<div class="checkbox col-sm-6">
 			<label><input type="checkbox" ng-model="allSelected" ng-change="selectAll()">Select All</label>
 		</div>
-		<div class="col-md-6">
+		<div class="col-sm-6">
 			Sort By:
 			<select ng-model="orderBy" ng-change="changeOrder()">
 				<option value="name" selected>Patient Name</option>
@@ -17,26 +17,26 @@
 	<hr>
 	<form class="form-group">
 	<div class="row" ng-repeat="patient in patients" ng-show="orderBy == 'name'">
-		<div class="checkbox col-md-4">
+		<div class="checkbox col-sm-4">
 			<label><input type="checkbox" ng-model="patient.msjSelected">{{ patient.fullName }}</label>
 		</div>
-		<div align="right" class="col-md-4" style="margin: 10px 0;">
+		<div align="right" class="col-sm-4" style="margin: 10px 0;">
 			{{ patient.cellphone }}
 		</div>
-		<div class="col-md-4" style="margin: 10px 0;">
+		<div class="col-sm-4" style="margin: 10px 0;">
 			<span ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }} min </span>-<span ng-class="getTimerColor('EX', patient)"> EX {{ getEXTime(patient) }} min</span>
 		</div>
 	</div>
 	<div class="row" ng-repeat="(physician, pList) in patients" ng-show="orderBy == 'physician'">
-		<h3 class="col-md-12">{{ physician }}</h3>
-		<div class="col-md-12" ng-repeat="patient in pList">
-			<div class="checkbox col-md-4">
+		<h3 class="col-sm-12">{{ physician }}</h3>
+		<div class="col-sm-12" ng-repeat="patient in pList">
+			<div class="checkbox col-sm-4">
 				<label><input type="checkbox" ng-model="patient.msjSelected">{{ patient.fullName }}</label>
 			</div>
-			<div align="right" class="col-md-4" style="margin: 10px 0;">
+			<div align="right" class="col-sm-4" style="margin: 10px 0;">
 				{{ patient.cellphone }}
 			</div>
-			<div class="col-md-4" style="margin: 10px 0;">
+			<div class="col-sm-4" style="margin: 10px 0;">
 				<span ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }} min </span>-<span ng-class="getTimerColor('EX', patient)"> EX {{ getEXTime(patient) }} min</span>
 			</div>
 		</div>
