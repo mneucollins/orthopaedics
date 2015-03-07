@@ -40,13 +40,13 @@
 <div class="row">
 <div class="col-sm-11 container-fluid schedule-container" ng-controller="scheduleCtrl">
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-5 col-md-4">
             <h3>{{ currentTime | date: 'h:mm a MMMM d, yyyy'}}</h3>
         </div>
-        <div class="col-sm-2 col-sm-offset-6">
+        <h3 class="col-sm-3 col-sm-offset-4 col-md-2 col-md-offset-6">
             <button class="btn btn-default" ng-click="sendBulkMessages()"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button>
             <button class="btn btn-default" ng-click="newPatient()">+ Add Patient</span></button>
-        </div>
+        </h3>
     </div>
     <h3 class="physiciansHeader">
         <span ng-repeat="physician in selectedPhysicians">{{ physician.name }} <span class="roundMiniBox" ng-class="{'timer-on-time': physician.time<=15, 'timer-delay-15': physician.time>15 && physician.time<=30, 'timer-delay-30': physician.time>30 && physician.time<=45, 'timer-delay-45': physician.time>45}">{{ getPhysicianTime(physician) }}</span> ;  </span>

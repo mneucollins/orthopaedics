@@ -394,9 +394,9 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     $scope.sendImagingMessage = function (patient) {
-        var messageStorage = "";
-        if(localStorage.getItem("IM"+patient.physician._id))
-            messageStorage = localStorage.getItem("IM"+patient.physician._id);
+        // var messageStorage = "";
+        // if(localStorage.getItem("IM"+patient.physician._id))
+        //     messageStorage = localStorage.getItem("IM"+patient.physician._id);
 
         var modalInstance = $modal.open({
             templateUrl: '/partials/sendMessage.html',
@@ -408,9 +408,9 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                 messageType: function () {
                     return "IM";
                 },
-                messageCache: function (){
-                    return messageStorage;
-                }
+                // messageCache: function (){
+                //     return messageStorage;
+                // }
 
             }
         });
@@ -620,9 +620,9 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     }
 
     $scope.callBack = function (patient) {
-        var messageStorage = "";
-        if(localStorage.getItem("Call"+patient.physician._id))
-            messageStorage = localStorage.getItem("Call"+patient.physician._id);
+        // var messageStorage = "";
+        // if(localStorage.getItem("Call"+patient.physician._id))
+        //     messageStorage = localStorage.getItem("Call"+patient.physician._id);
 
         var modalInstance = $modal.open({
             templateUrl: '/partials/sendMessage.html',
@@ -634,9 +634,9 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                 messageType: function () {
                     return "Call";
                 },
-                messageCache: function (){
-                    return messageStorage;
-                }
+                // messageCache: function (){
+                //     return messageStorage;
+                // }
             }
         });
 
@@ -680,14 +680,34 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
 
 // =============================== MODAL DIALOGS CTRL ===================================
 
-orthopaedicsControllers.controller('sendMessageCtrl', ['$scope', '$modalInstance', 'Messages', 'Alerts', 'patient', 'messageType', 'messageCache',
-  function($scope, $modalInstance, Messages, Alerts, patient, messageType, messageCache) {
+orthopaedicsControllers.controller('sendMessageCtrl', ['$scope', '$modalInstance', 'Messages', 'Alerts', 'patient', 'messageType',
+  function($scope, $modalInstance, Messages, Alerts, patient, messageType) {
 
     $scope.patient = patient;
-    if(messageType != "Bulk")
+    if(messageType != "Bulk") {
+        var messageCache = "";
         $scope.messageType = messageType;
+        var localStorageKey = $scope.messageType + patient.physician._id;
+        var localStorageValue = JSON.parse(localStorage.getItem(localStorageKey));
 
-    $scope.patientMessage = messageCache;
+        if(localStorageValue) {
+            var dateNow = new Date();
+            dateNow.setHours(0);
+            dateNow.setMinutes(0);
+            dateNow.setSeconds(0);
+            
+            if(Math.abs(dateNow.getTime() - new Date(localStorageValue.date).getTime()) > 1000) {
+                localStorage.removeItem(localStorageKey);
+                localStorageKey = null;
+                localStorageValue = null;
+            }
+            else {
+                messageCache = localStorageValue.msj;
+            }
+        }
+
+        $scope.patientMessage = messageCache;
+    }
 
     $scope.sendMessage = function () {
 
@@ -709,14 +729,20 @@ orthopaedicsControllers.controller('sendMessageCtrl', ['$scope', '$modalInstance
                 // Alerts.addAlert("success", "message sent!");
             });
 
-            if (!localStorage.getItem($scope.messageType+patient.physician._id)) {
-                localStorage.setItem($scope.messageType+patient.physician._id, $scope.patientMessage);
+            
+            var localStorageValue = localStorage.getItem(localStorageKey);
+            if (!localStorageValue) {
+                var cacheDate = new Date();
+                cacheDate.setHours(0);
+                cacheDate.setMinutes(0);
+                cacheDate.setSeconds(0);
+
+                localStorageValue = {
+                    msj: $scope.patientMessage,
+                    date: cacheDate
+                };
+                localStorage.setItem(localStorageKey, JSON.stringify(localStorageValue));
             }
-            if (!localStorage.getItem('dateStorage')) {
-                var dNow = new Date(); 
-                localStorage.setItem('dateStorage',dNow);
-            }
-            //localStorage.removeItem("lastname");
 
             Alerts.addAlert("success", "message sent");
             $modalInstance.close();
