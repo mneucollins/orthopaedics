@@ -147,7 +147,7 @@
                                 <div class="col-sm-6" style="border-left: thick solid #C9C9C9; border-width: 1px;">
                                     <div class="row" ng-repeat="record in patient.history">
                                         <div class="col-sm-3">{{ record.apptTime | date: 'MM/dd/yy'}}</div>
-                                        <div class="col-sm-4"><span ng-class="getTimerColor('WRH', record)">WR {{ getWRTime(record) }} min </span>-<span ng-class="getTimerColor('EXH', record)"> EX {{ getEXTime(record) }} min</span></div>
+                                        <div class="col-sm-5"><span ng-class="getTimerColor('WRH', record)">WR {{ getWRTime(record) }} min </span>-<span ng-class="getTimerColor('EXH', record)"> EX {{ getEXTime(record) }} min</span></div>
                                         <div class="col-sm-4"><div class="roundMiniBox" style="width: 50%;">{{ getTotalTime(record) }}</div></div>
                                     </div>
                                     <hr />
