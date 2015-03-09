@@ -42,7 +42,7 @@ var userModel = require('./models/userModel');
 	});
 
 	console.log("hakuna matata");
-	var list = result['ScheduleExport'];
+	var list = result['eospine'];
 	console.log("starting to save!");
 
 	for(var k in list){
