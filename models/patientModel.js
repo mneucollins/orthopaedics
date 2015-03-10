@@ -9,11 +9,9 @@ var PatientSchema   = new Schema({
 	email: String,
 	adress: String,
 	medicalRecordNumber: String, // TODO talvez necesite un índice
+	patientType: String,
 	apptTime: Date,
-	apptType: {
-		type: String,
-		enum: "RPV".split(" "),
-	},
+	apptType: String,
 	apptDuration: Number,
 	physician: {
 		type: Schema.ObjectId,

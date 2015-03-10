@@ -1,6 +1,6 @@
 //var cron         = require('cron');
 var XLSX 		 = require('xlsx');
-//var _ 		 	 = require('underscore');
+var _ 		 	 = require('underscore');
 var mongoose     = require('mongoose');
 var patientController = require('./controllers/patientController');
 var patientModel = require('./models/patientModel');
@@ -31,7 +31,7 @@ var userModel = require('./models/userModel');
 	//Load excel template
 	var workbook = XLSX.readFile('HL7.xlsx', {cellStyles:true});
 	var sheet_name_list = workbook.SheetNames;
-
+	var sheetName = workbook.SheetNames.length > 0 ? workbook.SheetNames[0] : 'eospine';
 	var result = {};
 	sheet_name_list.forEach(function(sheetName) {
 		console.log("reading row...");
@@ -42,34 +42,40 @@ var userModel = require('./models/userModel');
 	});
 
 	console.log("hakuna matata");
-	var list = result['eospine'];
+	var list = result[sheetName];
 	console.log("starting to save!");
 
-	for(var k in list){
-	    var patient = new patientModel();
+	userModel.find({}, function (err, physicians) {
+		for(var k in list){
 
-		patient.medicalRecordNumber = list[k].MRN;
-		patient.lastName=list[k].LName;
-		patient.firstName=list[k].MName ? list[k].FName+" "+list[k].MName : list[k].FName;
-		patient.dateBirth=list[k].DOB;
-		patient.email=list[k].Email;
-		patient.adress=list[k].Addr_1 ? list[k].Addr_1 : "";
-		patient.adress=list[k].Addr_2 ? patient.adress + " " + list[k].Addr_2 : patient.adress;
-		patient.adress=list[k].City   ? patient.adress + ", " + list[k].City  : patient.adress;
-		patient.adress=list[k].State  ? patient.adress + " " + list[k].State  : patient.adress;
-		patient.adress=list[k].Zip    ? patient.adress + " " + list[k].Zip    : patient.adress;
-		//patient.adress=list[k].Addr_1+" "+list[k].Addr_2+", "+list[k].City+" "+list[k].State+" "+list[k].Zip;
-		patient.physician = userModel.find({npi:list[k].NPI});
-		patient.apptTime = list[k].Appt;
-		patient.apptDuration = list[k].ApptLength;
-		patient.apptType=list[k].ApptType;
+			var patient = new patientModel();
 
-		console.log("saving patient: " + patient.lastName);
-		patientController.nuevoPatient(patient, function (err, data) {
-		    if(err) console.log(err);
-		    else console.log("Patient Added");
-		});
-	}
+			patient.medicalRecordNumber = list[k].MRN;
+			patient.lastName=list[k].LName;
+			patient.firstName=list[k].MName ? list[k].FName+" "+list[k].MName : list[k].FName;
+			patient.dateBirth=list[k].DOB;
+			patient.email=list[k].Email;
+			patient.adress=list[k].Addr_1 ? list[k].Addr_1 : "";
+			patient.adress=list[k].Addr_2 ? patient.adress + " " + list[k].Addr_2 : patient.adress;
+			patient.adress=list[k].City   ? patient.adress + ", " + list[k].City  : patient.adress;
+			patient.adress=list[k].State  ? patient.adress + " " + list[k].State  : patient.adress;
+			patient.adress=list[k].Zip    ? patient.adress + " " + list[k].Zip    : patient.adress;
+			//patient.adress=list[k].Addr_1+" "+list[k].Addr_2+", "+list[k].City+" "+list[k].State+" "+list[k].Zip;
+			patient.physician = _.find(physicians, function (physician) {
+				return physician.npi == list[k].NPI;
+			}).id;
+			patient.apptTime = list[k].Appt;
+			patient.apptDuration = list[k].ApptLength;
+			patient.apptType=list[k].ApptType;
+			patient.patientType = list[k].ApptType;
+
+			console.log("saving patient: " + patient.lastName + ". Phy: " + patient.physician);
+			patientController.nuevoPatient(patient, function (err, data) {
+			    if(err) console.log(err);
+			    else console.log("Patient Added");
+			});
+		}
+	});
 
 	//console.log(result);
 
