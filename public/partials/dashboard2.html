@@ -131,7 +131,7 @@
                                             <div class="col-sm-2" ng-click="msjToDefault(patient)" ng-class="{'messageOn' : patient.messageSelectorPos != '1'} " style="cursor: pointer;">Default</div>
                                             <div class="col-sm-4"></div>
                                             <div class="col-sm-2" style="font-weight: bold; color:#7F7F7F;">Cancel</div>
-                                            <div class="col-sm-2 btn btn-default" style="background-color: #72C394; color: white; font-weight: bold; width: 14%; margin-top: -1%;" ng-click="sendMessage(patient)">Send</div>
+                                            <div class="col-sm-2 btn btn-default" style="background-color: #72C394; color: white; font-weight: bold; width: 14%; margin-top: -1%;" ng-disabled="patient.noPhone" ng-click="sendMessage(patient)">Send</div>
                                         </div>
                                     </div>
                                     <div id="{{ 'miniformInfo' + patient._id }}" ng-show="!showMessage">

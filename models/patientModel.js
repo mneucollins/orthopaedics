@@ -1,11 +1,12 @@
 var mongoose    	= require('mongoose');
 var Schema      	= mongoose.Schema;
 
-var PatientSchema   = new Schema({
+var PatientSchema = new Schema({
 	firstName: String,
 	lastName: String,
 	dateBirth: Date,
 	cellphone: String,
+	noPhone: Boolean,
 	email: String,
 	adress: String,
 	medicalRecordNumber: String, // TODO talvez necesite un índice
@@ -56,8 +57,12 @@ PatientSchema.virtual('apptEndTime').get(function () {
 });
 
 PatientSchema.virtual('age').get(function () {
-	var age = new Date().getTime() - this.dateBirth.getTime();
-	return Math.round(age / (1000 * 60 * 60 * 24 * 365));
+	if(this.dateBirth) {
+		var age = new Date().getTime() - this.dateBirth.getTime();
+		return Math.round(age / (1000 * 60 * 60 * 24 * 365));
+	}
+	else
+		return 0;
 });
 
 //////////////////////////////////////////////////////////////////////////////

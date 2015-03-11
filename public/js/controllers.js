@@ -394,32 +394,27 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     $scope.sendImagingMessage = function (patient) {
-        // var messageStorage = "";
-        // if(localStorage.getItem("IM"+patient.physician._id))
-        //     messageStorage = localStorage.getItem("IM"+patient.physician._id);
 
-        var modalInstance = $modal.open({
-            templateUrl: '/partials/sendMessage.html',
-            controller: 'sendMessageCtrl',
-            resolve: {
-                patient: function () {
-                    return patient;
-                },
-                messageType: function () {
-                    return "IM";
-                },
-                // messageCache: function (){
-                //     return messageStorage;
-                // }
+        if(!patient.noPhone) {
+            var modalInstance = $modal.open({
+                templateUrl: '/partials/sendMessage.html',
+                controller: 'sendMessageCtrl',
+                resolve: {
+                    patient: function () {
+                        return patient;
+                    },
+                    messageType: function () {
+                        return "IM";
+                    }
+                }
+            });
 
-            }
-        });
-
-        modalInstance.result.then(function () {
-            $log.info('Imaging message sent!');
-        }, function () {
-            $log.info('Message Modal dismissed at: ' + new Date());
-        });  
+            modalInstance.result.then(function () {
+                $log.info('Imaging message sent!');
+            }, function () {
+                $log.info('Message Modal dismissed at: ' + new Date());
+            });  
+        }
     }
 
     $scope.msjToCustom = function (patient) {
@@ -605,13 +600,15 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                 {
                     currentState: "WR",
                     WRTimestamp: new Date(),
-                    cellphone: patient.cellphone
+                    cellphone: patient.cellphone,
+                    noPhone: patient.noPhone
                 }, 
                 function patientWaitingRoom (updatedPatient) {
                     var index = $scope.patientList.indexOf(patient); 
                     $scope.patientList[index].currentState = updatedPatient.currentState;
                     $scope.patientList[index].WRTimestamp = updatedPatient.WRTimestamp;
                     $scope.patientList[index].cellphone = updatedPatient.cellphone;
+                    $scope.patientList[index].noPhone = updatedPatient.noPhone;
                 }
             );
         }, function () {
@@ -620,27 +617,8 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     }
 
     $scope.callBack = function (patient) {
-        // var messageStorage = "";
-        // if(localStorage.getItem("Call"+patient.physician._id))
-        //     messageStorage = localStorage.getItem("Call"+patient.physician._id);
 
-        var modalInstance = $modal.open({
-            templateUrl: '/partials/sendMessage.html',
-            controller: 'sendMessageCtrl',
-            resolve: {
-                patient: function () {
-                    return patient;
-                },
-                messageType: function () {
-                    return "Call";
-                },
-                // messageCache: function (){
-                //     return messageStorage;
-                // }
-            }
-        });
-
-        modalInstance.result.then(function () {
+        var updatePatient = function () {
             Patient.update({patientId: patient.id}, 
                 {
                     currentState: "EX",
@@ -652,9 +630,34 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                     $scope.patientList[index].EXTimestamp = updatedPatient.EXTimestamp;
                 }
             );
-        }, function () {
-            $log.info('Message Modal dismissed at: ' + new Date());
-        });  
+        }
+
+        if(!patient.noPhone) {
+            var modalInstance = $modal.open({
+                templateUrl: '/partials/sendMessage.html',
+                controller: 'sendMessageCtrl',
+                resolve: {
+                    patient: function () {
+                        return patient;
+                    },
+                    messageType: function () {
+                        return "Call";
+                    },
+                    // messageCache: function (){
+                    //     return messageStorage;
+                    // }
+                }
+            });
+
+            modalInstance.result.then(function () {
+                updatePatient();
+            }, function () {
+                $log.info('Message Modal dismissed at: ' + new Date());
+            });  
+        }
+        else {
+            updatePatient();
+        }
     }
 
     $scope.discharge = function (patient) {
@@ -685,6 +688,7 @@ orthopaedicsControllers.controller('sendMessageCtrl', ['$scope', '$modalInstance
 
     $scope.patient = patient;
     if(messageType != "Bulk") {
+
         var messageCache = "";
         $scope.messageType = messageType;
         var localStorageKey = $scope.messageType + patient.physician._id;
@@ -728,7 +732,6 @@ orthopaedicsControllers.controller('sendMessageCtrl', ['$scope', '$modalInstance
             }, function messageSent (sentMessage) {
                 // Alerts.addAlert("success", "message sent!");
             });
-
             
             var localStorageValue = localStorage.getItem(localStorageKey);
             if (!localStorageValue) {
@@ -778,13 +781,19 @@ orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInst
 
     $scope.submit = function () {
         if(patient){
-            Messages.sendWelcomeMessage({
-                patient: $scope.patient
-            }, function messageSent (sentMessage) {
-                // Alerts.addAlert("success", "welcome message sent!");
-            });
-            $modalInstance.close($scope.patient);
-            Alerts.addAlert("success", "welcome message sent");
+            if($scope.patient.noPhone) {
+                $modalInstance.close($scope.patient);
+                Alerts.addAlert("success", "no phone number - welcome message not sent");
+            }
+            else {
+                Messages.sendWelcomeMessage({
+                    patient: $scope.patient
+                }, function messageSent (sentMessage) {
+                    // Alerts.addAlert("success", "welcome message sent!");
+                });
+                $modalInstance.close($scope.patient);
+                Alerts.addAlert("success", "welcome message sent");
+            }
         }
         else{
             var patientToSave = $scope.patient;

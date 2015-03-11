@@ -80,7 +80,7 @@
                 <td style="padding: 2% 0% 2% 0.5%;">
                     <img ng-src="{{ getImagingState(patient) }}" ng-click="toogleImagingState(patient)" ng-class="{clickable: isImagingClickable(patient)}" />
                     <div id="{{ 'imagingIcons' + patient._id }}" ng-show="patient.needsImaging && !patient.imagingTimestamp" style="display:inline-block">
-                        <img src="img/emailicon.png" class="clickable" ng-click="sendImagingMessage(patient)"/>
+                        <img src="img/emailicon.png" ng-class="{clickable: !patient.noPhone}" ng-click="sendImagingMessage(patient)"/>
                         <img src="img/ok2icon.png" class="clickable" ng-click="completeImagingState(patient)"/>
                     </div>
                 </td>                
@@ -130,7 +130,7 @@
                                             <div class="col-sm-2" ng-click="msjToDefault(patient)" ng-class="{'messageOn' : patient.messageSelectorPos != '1'} " style="cursor: pointer;">Default</div>
                                             <div class="col-sm-4"></div>
                                             <div class="col-sm-2" style="font-weight: bold; color:#7F7F7F;">Cancel</div>
-                                            <div class="col-sm-2 btn btn-default" style="background-color: #72C394; color: white; font-weight: bold; width: 14%; margin-top: -1%;" ng-click="sendMessage(patient)">Send</div>
+                                            <div class="col-sm-2 btn btn-default" style="background-color: #72C394; color: white; font-weight: bold; width: 14%; margin-top: -1%;" ng-click="sendMessage(patient)" ng-disabled="patient.noPhone">Send</div>
                                         </div>
                                     </div>
                                     <div id="{{ 'miniformInfo' + patient._id }}" ng-show="!showMessage">

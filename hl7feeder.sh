@@ -6,3 +6,4 @@ sshpass -p 'TPh7_t}[Q4BQ' scp -- eospine@ftp.eospine.patient-support-program.org
 echo "Done!"
 echo "restoring info to the Db..."
 node excelReader.js
+echo "Done!"
