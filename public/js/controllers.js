@@ -921,7 +921,7 @@ orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$r
         var currentPos = $(".physiciansList").css("left");
 
         if(currentPos.charAt(0) == "-") // it's hidden
-            $(".physiciansList").css("left", "4em");
+            $(".physiciansList").css("left", "5em");
         else
             $(".physiciansList").css("left", "-37%");
     }

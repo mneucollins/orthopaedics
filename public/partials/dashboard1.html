@@ -2,7 +2,7 @@
 <div class="nopadding" ng-controller="physiciansCtrl">
     <div class="physiciansSidebar nopadding">
         <div class="menuPhysicians retinaContainer">
-            <img src="../img/physicianIcon.png" ng-click="tooglePhysiciansList()"/>
+            <img src="../img/Doctor_Selected.png" ng-click="tooglePhysiciansList()"/>
         </div>
     </div>
 
@@ -22,7 +22,7 @@
             <div id="physicianSearchList" class="list-group">
                 <div class="row list-group-item" ng-class="{selectedPhysician: physician.selected}" ng-click="selectPhysician(physician)" ng-repeat="physician in physicianList">
                     <div class="col-sm-6 retinaContainer avatar">
-                        <img src="../img/user.png" />
+                        <img src="../img/Doctor_Unselected.png" />
                     </div>
                     <div class="col-sm-6">
                             <h4><span>{{ physician.name }}</span><br>

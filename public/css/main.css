@@ -90,19 +90,22 @@ body {
 }
 
 .menuPhysicians {
-	width: 4em;
+	width: 5em;
 	/*height: 55px;*/
 }
 
 .menuPhysicians img {
-	margin: 1em 0;
+	margin-left: 1em;
+	margin-top: 1em;
+	width: 3em;
+	height: 3em;
 	cursor: pointer;
 }
 
 .physiciansList {
 	background-color: #FFF;
 	float: left;
-	left: 4em;
+	left: 5em;
 	position: absolute;
 	transition: all 0.7s;
 	width: 37%;
