@@ -144,127 +144,72 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     // Filters & sorting
     ///////////////////////////////////////////////////////////////////////////////////////////////
     
-    $scope.filteringPhys = true;
-    $scope.arrowPhys = "glyphicon glyphicon-chevron-up";
-    
-    $scope.filteringList = function(selection){
-        $scope.filteringTime = false;
-        $scope.filteringName = false;
-        $scope.filteringPhys = false;
-        $scope.filteringDob = false;
-        $scope.filteringImag = false;
-        $scope.filteringStat = false;
-        $scope.filteringTot = false;
+    //Filtering function styles.
+    //Start ordering by ApptTime, column 1";
+    $scope.arrowDirection = 1;
+    $scope.colFilter  = 1;
+    $scope.filteringActive = function (idLauncher){
+        $scope.colFilter = idLauncher;
+        var pList;
 
-        if(selection == 'time')
-            $scope.filteringTime = true;
-        if(selection == 'name')
-            $scope.filteringName = true;
-        if(selection == 'physician')
-            $scope.filteringPhys = true;
-        if(selection == 'dob')
-            $scope.filteringDob = true;
-        if(selection == 'imaging')
-            $scope.filteringImag = true;
-        if(selection == 'status')
-            $scope.filteringStat = true;
-        if(selection == 'total')
-            $scope.filteringTot = true;
-    };
-    
-    $scope.sortPatientsByTime = function (){
-        var pList = _.sortBy($scope.patientList, function(patient){ return new Date(patient.apptTime).getTime(); }); 
-        setListOrder(pList,'time');
-    }
+        switch(idLauncher) {
+            case 1:
+                pList = _.sortBy($scope.patientList, function(patient){ return new Date(patient.apptTime).getTime(); }); 
+                break;
+            case 2:
+                pList = _.sortBy($scope.patientList, function(patient){ return patient.fullName; });
+                break;
+            case 3:
+                pList = _.sortBy($scope.patientList, function(patient){ return patient.physician.name; }); 
+                break;
+            case 4:
+                pList = _.sortBy($scope.patientList, function(patient){ return patient.dateBirth; });
+                break;
+            case 4.1:
+                pList = _.sortBy($scope.patientList, function(patient){ 
+                            var counter = 0;
+                            for (var i = 0; i < patient.enterTimestamp.length; i++) {
+                                if(patient.exitTimestamp[i])
+                                    counter += (new Date(patient.exitTimestamp[i])).getTime() - 
+                                                    (new Date(patient.enterTimestamp[i])).getTime();
+                                else
+                                    counter += (new Date()).getTime() - (new Date(patient.enterTimestamp[i])).getTime();
+                            }
+                            return new Date(counter);
+                        });
+                break;
+            case 5:
+                pList = _.sortBy($scope.patientList, function(patient){ 
+                            if(patient.needsImaging)
+                                if(patient.imagingTimestamp)
+                                    return 3;   
+                                else
+                                    return 2;
+                            else
+                                return 1;   
+                        }); 
+                break;
+            case 6:
+                pList = _.sortBy($scope.patientList, function(patient){ 
+                            var wrt = $scope.getWRTime(patient);
+                            var ext = $scope.getEXTime(patient);
+                            return wrt + ext; 
+                        }); 
+                break;
+            case 7:
+                pList = _.sortBy($scope.patientList, function(patient){ 
+                            return $scope.getTotalTime(patient); 
+                        }); 
+                break;
+        }
 
-    $scope.sortPatientsByName = function (){
-        var pList = _.sortBy($scope.patientList, function(patient){ return patient.fullName; }); 
-        setListOrder(pList,'name');
-    }
-
-    $scope.sortPatientsByPhysician = function (){
-        var pList = _.sortBy($scope.patientList, function(patient){ return patient.physician.name; }); 
-        setListOrder(pList,'physician');
-    }
-
-    $scope.sortPatientsByBirth = function (){
-        var pList = _.sortBy($scope.patientList, function(patient){ return patient.dateBirth; }); 
-        setListOrder(pList,'dob');
-    }
-
-    $scope.sortPatientsByImaging = function (){
-        var pList = _.sortBy($scope.patientList, function(patient){ 
-                if(patient.needsImaging)
-                    if(patient.imagingTimestamp)
-                        return 3;   
-                    else
-                        return 2;
-                else
-                    return 1;   
-            }); 
-
-        setListOrder(pList,'imaging');
-    }
-
-    $scope.sortPatientsByStatus = function (){
-        var pList = _.sortBy($scope.patientList, function(patient){ 
-            var wrt = $scope.getWRTime(patient);
-            var ext = $scope.getEXTime(patient);
-            return wrt + ext; 
-        }); 
-        setListOrder(pList,'status');
-    }
-
-    $scope.sortPatientsByTotal = function (){
-        var pList = _.sortBy($scope.patientList, function(patient){ 
-            return $scope.getTotalTime(patient); 
-        }); 
-        setListOrder(pList,'total');
-    }
-
-    function setListOrder(pList, filterName){
-        $scope.arrowTime = "";
-        $scope.arrowName = "";
-        $scope.arrowPhys = "";
-        $scope.arrowDOB = "";
-        $scope.arrowImag = "";
-        $scope.arrowStat = "";
-        $scope.arrowTot = "";
-
-        if(pList.length > 0 && $scope.patientList[0] == pList[0]){
+        if($scope.arrowDirection == 1){
             $scope.patientList = pList.reverse();
-
-            if(filterName == "time")
-                    $scope.arrowTime = "glyphicon glyphicon-chevron-down";
-            else if(filterName == "name")
-                    $scope.arrowName = "glyphicon glyphicon-chevron-down";
-            else if(filterName == "physician")
-                    $scope.arrowPhys = "glyphicon glyphicon-chevron-down";
-            else if(filterName == "dob")
-                    $scope.arrowDOB = "glyphicon glyphicon-chevron-down";
-            else if(filterName == "imaging")
-                    $scope.arrowImag = "glyphicon glyphicon-chevron-down";
-            else if(filterName == "status")
-                    $scope.arrowStat = "glyphicon glyphicon-chevron-down";
-            else if(filterName == "total")
-                    $scope.arrowTot = "glyphicon glyphicon-chevron-down";
+            $scope.arrowDirection = 0;
         }
         else{
             $scope.patientList = pList;
-            if(filterName == "time")
-                    $scope.arrowTime = "glyphicon glyphicon-chevron-up";
-            else if(filterName == "name")
-                    $scope.arrowName = "glyphicon glyphicon-chevron-up";
-            else if(filterName == "physician")
-                $scope.arrowPhys = "glyphicon glyphicon-chevron-up";
-            else if(filterName == "dob")
-                    $scope.arrowDOB = "glyphicon glyphicon-chevron-up";
-            else if(filterName == "imaging")
-                    $scope.arrowImag = "glyphicon glyphicon-chevron-up";
-            else if(filterName == "status")
-                    $scope.arrowStat = "glyphicon glyphicon-chevron-up";
-            else if(filterName == "total")
-                    $scope.arrowTot = "glyphicon glyphicon-chevron-up";
+            $scope.arrowDirection = 1;
         }
     }
 
@@ -319,6 +264,19 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
             else
                 counter += (new Date()).getTime() - (new Date(patient.enterTimestamp[i])).getTime();
         };
+
+        var colorStateAT = "";
+        var counterAux = counter/60000;  //to minutes.
+        if(counterAux <= 15)
+            colorStateAT = "timer-on-time";
+        else if(counterAux > 15 && counterAux <= 30)
+            colorStateAT = "timer-delay-15";
+        else if(counterAux > 30 && counterAux <= 45)
+            colorStateAT = "timer-delay-30";
+        else if(counterAux > 45)
+            colorStateAT = "timer-delay-45";
+        
+        $scope.colorStateAT = colorStateAT;
 
         return new Date(counter);
     }

@@ -56,14 +56,23 @@
         <thead style="text-align:left; white-space: nowrap; font-weight: bold;">
             <tr>
                 <th style="width:5%; border-bottom:transparent"></th>
-                <th ng-click="sortPatientsByTime(); filteringList ('time');" ng-class="{'blueFilter' : filteringTime, 'blackFilter' : !filteringTime}">Appt Time<span ng-class="arrowTime" aria-hidden="true"></th>
-                <th ng-click="sortPatientsByName(); filteringList ('name');" ng-class="{'blueFilter' : filteringName, 'blackFilter' : !filteringName}">Patient Name<span ng-class="arrowName" aria-hidden="true"></span></th>
-                <th ng-click="sortPatientsByPhysician(); filteringList ('physician');" ng-class="{'blueFilter' : filteringPhys, 'blackFilter' : !filteringPhys}">Physician<span ng-class="arrowPhys" aria-hidden="true"></th>
-                <th ng-click="sortPatientsByBirth(); filteringList ('dob');" ng-class="{'blueFilter' : filteringDob, 'blackFilter' : !filteringDob}">Age<span ng-class="arrowDOB" aria-hidden="true"></th>
-                <th ng-click="sortPatientsByImaging(); filteringList ('imaging');" ng-class="{'blueFilter' : filteringImag, 'blackFilter' : !filteringImag}">Imaging<span ng-class="arrowImag" aria-hidden="true"></th>
-                <th ng-click="sortPatientsByATEntry(); filteringList ('atEntry');" ng-class="{'blueFilter' : filteringAT, 'blackFilter' : !filteringAT}">AT Entry<span ng-class="filteringAT" aria-hidden="true"></th>
-                <th ng-click="sortPatientsByStatus(); filteringList ('status');" ng-class="{'blueFilter' : filteringStat, 'blackFilter' : !filteringStat}">Status<span ng-class="arrowStat" aria-hidden="true"></th>
-                <th ng-click="sortPatientsByTotal(); filteringList ('total');" ng-class="{'blueFilter' : filteringTot, 'blackFilter' : !filteringTot}">Total<span ng-class="arrowTot" aria-hidden="true"></th>
+
+                <th ng-click="filteringActive(1);" ng-class="{'blueFilter': colFilter=='1','blackFilter': colFilter!='1'}">Appt Time<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='1' && arrowDirection=='0'}" aria-hidden="true"/></th>
+
+                <th ng-click="filteringActive(2);" ng-class="{'blueFilter': colFilter=='2','blackFilter': colFilter!='2'}">Patient Name<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='2' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='2' && arrowDirection=='0'}" aria-hidden="true"/></th>
+
+                <th ng-click="filteringActive(3);" ng-class="{'blueFilter': colFilter=='3','blackFilter': colFilter!='3'}">Physician<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='3' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='3' && arrowDirection=='0'}" aria-hidden="true"/></th>
+
+                <th ng-click="filteringActive(4);" ng-class="{'blueFilter': colFilter=='4','blackFilter': colFilter!='4'}">Age<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='4' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='4' && arrowDirection=='0'}" aria-hidden="true"/></th>
+
+                <th ng-click="filteringActive(5);" ng-class="{'blueFilter': colFilter=='5','blackFilter': colFilter!='5'}">Imaging<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='5' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='5' && arrowDirection=='0'}" aria-hidden="true"/></th>
+
+                <th ng-click="filteringActive(4.1);" ng-class="{'blueFilter': colFilter=='4.1','blackFilter': colFilter!='4.1'}">AT Entry<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='4.1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='4.1' && arrowDirection=='0'}" aria-hidden="true"/></th>
+
+                <th ng-click="filteringActive(6);" ng-class="{'blueFilter': colFilter=='6','blackFilter': colFilter!='6'}">Status<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='6' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='6' && arrowDirection=='0'}" aria-hidden="true"/></th>
+
+                <th ng-click="filteringActive(7);" ng-class="{'blueFilter': colFilter=='7','blackFilter': colFilter!='7'}">Total<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='7' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='7' && arrowDirection=='0'}" aria-hidden="true"/></th>
+
                 <th ></th>
             </tr>
         </thead>
@@ -84,7 +93,7 @@
                 <td style="padding: 2% 0% 2% 0.5%;">
                     <img ng-src="/img/phyEntered.png" ng-show="patient.enterTimestamp.length > patient.exitTimestamp.length" ng-class="{clickable: patient.currentState == 'EX'}" ng-click="toogleATEntry(patient)"/>
                     <img ng-src="/img/phyExit.png" ng-hide="patient.enterTimestamp.length > patient.exitTimestamp.length" ng-class="{clickable: patient.currentState == 'EX'}" ng-click="toogleATEntry(patient)"/>
-                    <span ng-show="patient.enterTimestamp.length > 0" ng-class="{'timer-on-time': patient.enterTimestamp.length > patient.exitTimestamp.length}">{{ getATtimer(patient) | date:'mm.ss' }}</span>
+                     <span ng-show="patient.enterTimestamp.length > 0" ng-class="colorStateAT">{{ getATtimer(patient) | date:'mm.ss' }}</span>
                 </td>              
                 <td style="padding: 2% 0% 2% 0.5%;"><span ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }} min </span>-<span ng-class="getTimerColor('EX', patient)"> EX {{ getEXTime(patient) }} min</span></td>
                 <td style="padding: 2% 0% 2% 0.5%;"><div class="roundMiniBox" ng-class="{'timer-not-started': patient.currentState == 'DC' || patient.currentState == 'NCI' || getTotalTime(patient) < 0}">{{ getTotalTime(patient) }}</div></td>
