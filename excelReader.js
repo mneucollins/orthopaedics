@@ -63,7 +63,8 @@ var userModel = require('./models/userModel');
 			//patient.adress=list[k].Addr_1+" "+list[k].Addr_2+", "+list[k].City+" "+list[k].State+" "+list[k].Zip;
 			patient.physician = _.find(physicians, function (physician) {
 				return physician.npi == list[k].NPI;
-			}).id;
+			});
+			patient.physician = patient.physician ? patient.physician.id : null;
 			patient.apptTime = list[k].Appt;
 			patient.apptDuration = list[k].ApptLength;
 			patient.apptType=list[k].ApptType;

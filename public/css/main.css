@@ -4,7 +4,7 @@ html {
 }
 body { 
 	min-height: 100%; 
-	padding-top: 75px;
+	padding-top: 71px;
 }
 
 .nopadding {
@@ -122,6 +122,11 @@ body {
 
 .selectedPhysician {
 	background-color: #E3EFFA;
+}
+
+#physicianSearchList {
+	overflow-x: hidden;
+	overflow-y: scroll;
 }
 
 #physicianSearchList .row {

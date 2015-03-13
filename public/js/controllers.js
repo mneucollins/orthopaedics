@@ -159,6 +159,9 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
             case 2:
                 pList = _.sortBy($scope.patientList, function(patient){ return patient.fullName; });
                 break;
+            case 2.1:
+                pList = _.sortBy($scope.patientList, function(patient){ return patient.apptType; });
+                break;
             case 3:
                 pList = _.sortBy($scope.patientList, function(patient){ return patient.physician.name; }); 
                 break;
@@ -844,8 +847,9 @@ orthopaedicsControllers.controller('bulkMessageCtrl', ['$scope', '$modalInstance
 orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$rootScope', '$window', 'AuthService', 'Physician',
   function($scope, $location, $rootScope, $window, AuthService, Physician) {
 
-    $(".physiciansSidebar").css("height", $window.innerHeight - 60);
-    $(".physiciansList").css("height", $window.innerHeight - 60);
+    $(".physiciansSidebar").css("height", $window.innerHeight - 71);
+    $(".physiciansList").css("height", $window.innerHeight - 71);
+    $("#physicianSearchList").css("height", $window.innerHeight - 280);
     $rootScope.selectedPhysicians = [];
 
     setTimeout(function(){
