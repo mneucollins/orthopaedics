@@ -49,7 +49,11 @@
         </h3>
     </div>
     <h3 class="physiciansHeader">
-        <span ng-repeat="physician in selectedPhysicians">{{ physician.name }} <span class="roundMiniBox" ng-class="{'timer-on-time': physician.time<=15, 'timer-delay-15': physician.time>15 && physician.time<=30, 'timer-delay-30': physician.time>30 && physician.time<=45, 'timer-delay-45': physician.time>45}">{{ getPhysicianTime(physician) }}</span> ;  </span>
+        <span class="col-sm-6 col-md-4" ng-repeat="physician in selectedPhysicians">
+            <span class="col-sm-8">{{ physician.name }}</span>
+            <span class="col-sm-2 roundMiniBox" ng-class="{'timer-on-time': physician.time<=15, 'timer-delay-15': physician.time>15 && physician.time<=30, 'timer-delay-30': physician.time>30 && physician.time<=45, 'timer-delay-45': physician.time>45}">{{ getPhysicianTime(physician) }}</span>
+            <span class="col-sm-2"> ;</span>  
+        </span>
     </h3>
     <br>
     <table class="table table-striped">
