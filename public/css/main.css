@@ -129,7 +129,7 @@ body {
 }
 
 #physicianSearch{
-    background-image: url("../img/SearchIcon.svg");
+    background-image: url("../img/searchIcon.svg");
     background-repeat: no-repeat;
     padding-left: 2em;
 }
