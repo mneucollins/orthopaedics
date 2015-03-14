@@ -842,7 +842,6 @@ orthopaedicsControllers.controller('bulkMessageCtrl', ['$scope', '$modalInstance
     };
 }]);
 
-
 // =============================== PHYSICIANS CTRL ===================================
 
 orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$rootScope', '$window', 'AuthService', 'Physician',
