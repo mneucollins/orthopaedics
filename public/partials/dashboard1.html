@@ -9,7 +9,7 @@
         <h3>PHYSICIANS</h3>
         <form role="form" ng-submit="fillSchedules()">
             <div class="row form-group panel-body">
-                <input id="physicianSearch" ng-model="phySearch" class="form-control" type="search" placeholder="Search..."/>
+                <input id="physicianSearch" ng-model="phySearch" class="form-control circled" type="search" placeholder="Find a Physician"/>
             </div>
             <div class="row checkbox">
                 <label class="col-sm-offset-9 col-sm-3"><input type="checkbox" ng-model="phySelectAll" ng-click="selectAll()">Select All</label>
@@ -38,8 +38,8 @@
             <h3>{{ currentTime | date: 'h:mm a MMMM d, yyyy'}}</h3>
         </div>
         <h3 class="col-sm-4 col-sm-offset-3 col-md-2 col-md-offset-6">
-            <button class="btn btn-default" ng-click="sendBulkMessages()"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button>
-            <button class="btn btn-default" ng-click="newPatient()">+ Add Patient</span></button>
+            <button class="btn btn-default circled" ng-click="sendBulkMessages()"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button>
+            <button class="btn btn-default circled" ng-click="newPatient()">+ Add Patient</span></button>
         </h3>
     </div>
     <h3 class="physiciansHeader">
@@ -77,9 +77,9 @@
         <tbody style="text-align:left; white-space: nowrap; font-weight: bold; color:#BEBEBE;" >
             <tr ng-repeat-start="patient in patientList">
                 <td style="padding: 2% 0% 2% 0.5%;background-color:white; border-top:transparent;">
-                    <button type="button" ng-show="patient.currentState == 'EX'" class="btn btn-default" ng-click="discharge(patient)">Discharge</button>
-                    <button type="button" class="btn btn-primary" ng-show="patient.currentState == 'WR'" ng-click="callBack(patient)">Call Back</button>
-                    <button type="button" class="btn btn-default" ng-show="patient.currentState == 'NCI'" ng-click="register(patient)">Register</button>
+                    <button type="button" ng-show="patient.currentState == 'EX'" class="btn btn-default circled" ng-click="discharge(patient)">Discharge</button>
+                    <button type="button" class="btn btn-primary circled" ng-show="patient.currentState == 'WR'" ng-click="callBack(patient)">Call Back</button>
+                    <button type="button" class="btn btn-default circled" ng-show="patient.currentState == 'NCI'" ng-click="register(patient)">Register</button>
                 </td>
                 <td style="padding: 2% 0% 2% 0.5%;">{{ patient.apptTime | date:'hh:mm a'}}</td>
                 <td style="padding: 2% 0% 2% 0.5%;">{{ patient.fullName }}</td>
