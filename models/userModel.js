@@ -8,7 +8,10 @@ var UsersSchema = new Schema({
     type: String,
     required: true
   },
-  department: String,
+  department: {
+    type: String,
+    default: "Physician"
+  },
   username: {
     type: String,
     required: true,
