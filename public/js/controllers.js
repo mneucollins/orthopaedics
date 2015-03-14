@@ -852,10 +852,6 @@ orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$r
     $("#physicianSearchList").css("height", $window.innerHeight - 280);
     $rootScope.selectedPhysicians = [];
 
-    setTimeout(function(){
-        $('#physicianSearchList').btsListFilter('#physicianSearch', {itemChild: 'span'});
-    }, 500);
-
     Physician.query(function (physicians) {
         _.each(physicians, function (element, index, list) {
             list[index].selected = false;
@@ -866,17 +862,12 @@ orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$r
     $scope.selectPhysician = function (physician) {
          
         var role = AuthService.currentUser().role;
-        if(role == "Physician" || role == "FirstProvider") {
-            var selectedPhysicians = _.filter($scope.physicianList, function (physician) {
-                return physician.selected;
-            });
-
-            // if(selectedPhysicians.length >= 2 && !physician.selected) {
-            //     alert("Only two Physicians allowed");
-            //     return;
-            // }
-        }
         physician.selected = !physician.selected;
+        
+        var selectedPhysicians = _.filter($scope.physicianList, function (physician) {
+            return physician.selected;
+        });
+        $scope.phySelectAll = selectedPhysicians.length == $scope.physicianList.length;
     }
 
     $scope.fillSchedules = function () {
@@ -895,6 +886,15 @@ orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$r
             $(".physiciansList").css("left", "5em");
         else
             $(".physiciansList").css("left", "-37%");
+    }
+
+    $scope.selectAll = function () {
+        if ($scope.phySelectAll) $scope.phySelectAll = true;
+        else $scope.phySelectAll = false;
+
+        angular.forEach($scope.physicianList, function (physician) {
+            physician.selected = $scope.phySelectAll;
+        });
     }
 
 }]);

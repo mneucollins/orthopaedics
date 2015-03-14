@@ -8,6 +8,7 @@ var UsersSchema = new Schema({
     type: String,
     required: true
   },
+  department: String,
   username: {
     type: String,
     required: true,

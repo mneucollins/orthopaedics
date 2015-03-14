@@ -8,11 +8,11 @@ module.exports = {
 }
 
 function listarPhysicians(callback) {
-  userModel.find({role: "Physician"}, callback);
+  userModel.find({role: "Physician"}, "name department role npi", callback);
 }
 
 function obtenerPhysician(id, callback) {
-  userModel.findById(id, function(err, users) {
+  userModel.findById(id, "name department role npi", function(err, users) {
     if (err) callback(err);
     else callback(null, users);
   });
