@@ -124,6 +124,12 @@ body {
 	background-color: #E3EFFA;
 }
 
+#physicianSearch{
+    background-image: url("../img/SearchIcon.svg");
+    background-repeat: no-repeat;
+    padding-left: 2em;
+}
+
 #physicianSearchList {
 	overflow-x: hidden;
 	overflow-y: scroll;
@@ -173,4 +179,8 @@ body {
 .schedule-container {
 	padding-left: 0;
 	margin-left: 5.5em;
+}
+
+.dashboardSVG{
+    width:2.6em;
 }

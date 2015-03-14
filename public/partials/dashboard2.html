@@ -9,7 +9,7 @@
         <h3>PHYSICIANS</h3>
         <form role="form" ng-submit="fillSchedules()">
             <div class="row form-group panel-body">
-                <input ng-model="phySearch" class="form-control" type="search" placeholder="Search..."/>
+                <input id="physicianSearch" ng-model="phySearch" class="form-control" type="search" placeholder="Search..."/>
             </div>
             <div class="row checkbox">
                 <label class="col-sm-offset-9 col-sm-3"><input type="checkbox" ng-model="phySelectAll" ng-click="selectAll()">Select All</label>
@@ -89,7 +89,9 @@
                 <td style="padding: 2% 0% 2% 0.5%;">{{ patient.physician.name }}</td>
                 <td style="padding: 2% 0% 2% 0.5%;">{{ patient.age }}</td>
                 <td style="padding: 2% 0% 2% 0.5%;">
-                    <img ng-src="{{ getImagingState(patient) }}" ng-click="toogleImagingState(patient)" ng-class="{clickable: isImagingClickable(patient)}"/>
+                    <div class="retinaContainer dashboardSVG">
+                        <img ng-src="{{ getImagingState(patient) }}" ng-click="toogleImagingState(patient)" ng-class="{clickable: isImagingClickable(patient)}"/>
+                    </div>
                 </td>   
                 <td style="padding: 2% 0% 2% 0.5%;">
                     <img ng-src="/img/phyEntered.png" ng-show="patient.enterTimestamp.length > patient.exitTimestamp.length" ng-class="{clickable: patient.currentState == 'EX'}" ng-click="toogleATEntry(patient)"/>
@@ -98,7 +100,11 @@
                 </td>              
                 <td style="padding: 2% 0% 2% 0.5%;"><span ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }} min </span>-<span ng-class="getTimerColor('EX', patient)"> EX {{ getEXTime(patient) }} min</span></td>
                 <td style="padding: 2% 0% 2% 0.5%;"><div class="roundMiniBox" ng-class="{'timer-not-started': patient.currentState == 'DC' || patient.currentState == 'NCI' || getTotalTime(patient) < 0}">{{ getTotalTime(patient) }}</div></td>
-                <td style="padding: 2%;text-align:right;"><img src="img/expandIcon.png" class="imageButton"  data-toggle="collapse" data-target="{{ '#miniform' + patient._id }}" onclick="onCollapseButton(this);" ng-click="loadPatientHistory(patient)"/></td>
+                <td style="padding: 2%;text-align:right;">
+                    <div class="retinaContainer dashboardSVG">
+                        <img src="img/expandIcon.svg" class="imageButton"  data-toggle="collapse" data-target="{{ '#miniform' + patient._id }}" onclick="onCollapseButton(this);" ng-click="loadPatientHistory(patient)"/>
+                    <div>
+                </td>
             </tr>
             <tr id="{{ 'miniform' + patient._id }}" class="accordian-body collapse " ng-repeat-end>
                 <td style="padding: 2% 0% 2% 0.5%;background-color:white; border-top:transparent;"></td>

@@ -849,7 +849,7 @@ orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$r
 
     $(".physiciansSidebar").css("height", $window.innerHeight - 71);
     $(".physiciansList").css("height", $window.innerHeight - 71);
-    $("#physicianSearchList").css("height", $window.innerHeight - 280);
+    $("#physicianSearchList").css("height", $window.innerHeight - 300);
     $rootScope.selectedPhysicians = [];
 
     Physician.query(function (physicians) {
