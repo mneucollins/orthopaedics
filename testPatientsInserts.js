@@ -7,7 +7,7 @@ var config = require("./config.json");
 
 mongoose.connect(config.databaseURL);
 
-var nPlusHours = 4;
+var nPlusHours = 3;
 
 var testPatients = [{
 	firstName: "Tom",
@@ -241,7 +241,7 @@ var testPatients = [{
 
 physicianController.listarPhysicians(function (err, physicians) {
 	for (var i = 0; i < testPatients.length; i++) {
-		var index = parseInt(Math.random() * 100) % physicians.length;
+		var index = parseInt(Math.random() * 100) % 5 //physicians.length;
 		testPatients[i].physician = physicians[index].id;
 		patientController.nuevoPatient(testPatients[i], function (err, data) {
 		    if(err) console.log(err);
