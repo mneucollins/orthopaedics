@@ -77,6 +77,7 @@ for (var i = 0; i < testUsrs.length; i++) {
 	newUser.password = newUser.generateHash(testUsrs[i].password);
 	newUser.name = testUsrs[i].name;
 	newUser.role = testUsrs[i].role;
+	newUser.department = testUsrs[i].department;
 	newUser.save(function(err, savedUsr) {
 	    if (err) console.log(err);
 	    else {

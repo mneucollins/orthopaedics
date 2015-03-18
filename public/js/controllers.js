@@ -847,9 +847,7 @@ orthopaedicsControllers.controller('bulkMessageCtrl', ['$scope', '$modalInstance
 orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$rootScope', '$window', 'AuthService', 'Physician',
   function($scope, $location, $rootScope, $window, AuthService, Physician) {
 
-    $(".physiciansSidebar").css("height", $window.innerHeight - 71);
-    $(".physiciansList").css("height", $window.innerHeight - 71);
-    $("#physicianSearchList").css("height", $window.innerHeight - 300);
+    resizePhybar(); // método en el main.js
     $rootScope.selectedPhysicians = [];
 
     Physician.query(function (physicians) {

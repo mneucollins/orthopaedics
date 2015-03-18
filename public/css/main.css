@@ -3,6 +3,8 @@ html {
 	height: 100%; 
 }
 body { 
+	font-family: "ProximaNova";
+	font-size: 11pt;
 	min-height: 100%; 
 	padding-top: 71px;
 }
@@ -91,6 +93,7 @@ body {
 	background-color: #F7F8F8; 
 	vertical-align: top;
 	position: fixed;
+	z-index: 98;
 }
 
 .menuPhysicians {
@@ -183,6 +186,39 @@ body {
 .schedule-container {
 	padding-left: 0;
 	margin-left: 5.5em;
+}
+
+.patientTitles {
+	margin-top: 1em; 
+	margin-bottom: 1em;
+}
+.patientTitles div {
+	font-weight: bold; 
+	padding: 10px 2px;
+	text-align: left;
+	/*white-space: nowrap;*/
+}
+
+.patientRow {
+	color: #BEBEBE;
+}
+.patientRow div.patientData {
+	height: 80px;
+	padding: 10px 2px 0 2px;
+	text-align: left;
+}
+
+.patientRow div.bordered {
+	background-color: rgb(249,250,250);	
+	border-top: 1px solid rgb(221, 221, 221);
+	border-bottom: 1px solid rgb(221, 221, 221);
+}
+.oddRow div.bordered {
+	background-color: white;	
+}
+.patientExpandible {
+	padding: 19px;
+	background-color: rgb(249,250,250);
 }
 
 .dashboardSVG{
