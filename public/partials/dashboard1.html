@@ -33,22 +33,40 @@
 </div>
 
 <div class="col-sm-11 container-fluid schedule-container" ng-controller="scheduleCtrl">
-    <div class="row">
-        <div class="col-sm-5 col-md-4">
-            <h3>{{ currentTime | date: 'h:mm a MMMM d, yyyy'}}</h3>
+
+    <div class="panel panel-default">
+        <div class="panel-default" role="tab" id="headingOne">
+            <div class="row">
+                <div class="col-sm-5 col-md-4">
+                    <h3>{{ currentTime | date: 'h:mm a MMMM d, yyyy'}}</h3>
+                </div>
+                <h3 class="col-sm-4 col-sm-offset-2 col-md-2 col-md-offset-5">
+                    <button class="btn btn-default circled" ng-click="sendBulkMessages()"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button>
+                    <button class="btn btn-default circled" ng-click="newPatient()">+ Add Patient</span></button>
+                    
+                </h3>
+                <div class="col-sm-1 col-md-1">
+                    <div class="retinaContainer dashboardSVG">
+                        <img src="img/expandIcon.svg" class="imageButton"  data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"  aria-controls="collapseOne" style="  padding-top: 43%;" onclick="onCollapseButton(this);"/>
+                    </div>
+                </div>
+            </div>
         </div>
-        <h3 class="col-sm-4 col-sm-offset-3 col-md-2 col-md-offset-6">
-            <button class="btn btn-default circled" ng-click="sendBulkMessages()"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button>
-            <button class="btn btn-default circled" ng-click="newPatient()">+ Add Patient</span></button>
-        </h3>
+        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+                <h3 class="physiciansHeader">
+                    <span class="col-sm-6 col-md-4" ng-repeat="physician in selectedPhysicians">
+                        <span class="col-sm-8">{{ physician.name }}</span>
+                        <span class="col-sm-2 roundMiniBox" ng-class="{'timer-on-time': physician.time<=15, 'timer-delay-15': physician.time>15 && physician.time<=30, 'timer-delay-30': physician.time>30 && physician.time<=45, 'timer-delay-45': physician.time>45}">{{ getPhysicianTime(physician) }}</span>
+                        <span class="col-sm-2"> ;</span>  
+                    </span>
+                </h3>
+            </div>
+        </div>
     </div>
-    <h3 class="physiciansHeader">
-        <span class="col-sm-6 col-md-4" ng-repeat="physician in selectedPhysicians">
-            <span class="col-sm-8">{{ physician.name }}</span>
-            <span class="col-sm-2 roundMiniBox" ng-class="{'timer-on-time': physician.time<=15, 'timer-delay-15': physician.time>15 && physician.time<=30, 'timer-delay-30': physician.time>30 && physician.time<=45, 'timer-delay-45': physician.time>45}">{{ getPhysicianTime(physician) }}</span>
-            <span class="col-sm-2"> ;</span>  
-        </span>
-    </h3>
+
+    
+    
     <br>
     <table class="col-sm-12 table table-striped">
         <thead style="text-align:left; white-space: nowrap; font-weight: bold;">

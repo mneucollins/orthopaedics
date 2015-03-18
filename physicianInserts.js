@@ -61,6 +61,9 @@ for (var i = 0; i < testPhysicians.length; i++) {
 	newUser.username  = testPhysicians[i].username;
 	newUser.password = newUser.generateHash(testPhysicians[i].password);
 	newUser.name = testPhysicians[i].name;
+	newUser.npi = testPhysicians[i].npi;
+	newUser.department = testPhysicians[i].department;
+	
 	newUser.role = "Physician";
 	newUser.save(function(err, savedUsr) {
 	    if (err) console.log(err);
