@@ -111,7 +111,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         var searchList = _.sortBy($scope.patientList, function(patient){ return patient.apptTime });
         searchList = _.filter(searchList, function (patient) {
             return patient.physician._id == physician._id && 
-                    patient.WRTimestamp && !patient.EXTimestamp; // &&
+                    patient.WRTimestamp && !patient.DCTimestamp; // &&
                     // new Date(patient.WRTimestamp).getTime() <= new Date(patient.apptTime).setMinutes + (10*60*1000);
         });
 

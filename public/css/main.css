@@ -33,7 +33,7 @@ body {
     left: 30%;
     position: fixed;
     text-align: center;
-    /*top: 70px;*/
+    top: 77px;
     width: 40%;
     z-index: 1000;
 }
@@ -222,5 +222,6 @@ body {
 }
 
 .dashboardSVG{
+	display: inline-block;
     width:2.6em;
 }
