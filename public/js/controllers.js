@@ -117,7 +117,13 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
 
         if(searchList.length <= 0) return 0;
 
-        physician.time = $scope.getWRTime(searchList[0]);
+        // var wrTime = $scope.getWRTime(searchList[0]);
+        // var exTime = $scope.getEXTime(searchList[0]);
+        // physician.time = wrTime > exTime ? wrTime : exTime;
+        var wrTime = _.max(searchList, function (item) {
+            return $scope.getWRTime(item);
+        });
+        physician.time = $scope.getWRTime(wrTime);
         return physician.time;
     }
 
@@ -432,13 +438,10 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         var nowDate = new Date();
 
         if(patient.currentState == "WR")
-            if(nowDate.getTime() < apptDate.getTime()) // starts counting up at appointment time
-                return 0;
+            if(apptDate.getTime() < wrDate.getTime()) // in the case patient arrived late
+                return Math.round((nowDate.getTime() - wrDate.getTime()) / (60*1000));
             else
-                if(apptDate.getTime() < wrDate.getTime()) // in the case patient arrived late
-                    return Math.round((nowDate.getTime() - wrDate.getTime()) / (60*1000));
-                else
-                    return Math.round((nowDate.getTime() - apptDate.getTime()) / (60*1000));
+                return Math.round((nowDate.getTime() - apptDate.getTime()) / (60*1000));
         else 
             if(apptDate.getTime() < wrDate.getTime())
                 return Math.round((exDate.getTime() - wrDate.getTime()) / (60*1000));

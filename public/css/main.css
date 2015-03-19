@@ -159,8 +159,10 @@ body {
 }
 
 .timer-not-started {
-    border-color: #CBC9CA;
-	color: #CBC9CA;
+    /*border-color: #CBC9CA;
+	color: #CBC9CA;*/
+	border-color: #000;
+	color: #000;
 }
 .timer-on-time {
     border-color: #5CC092;
@@ -195,17 +197,17 @@ body {
 .patientTitles div {
 	font-weight: bold; 
 	padding: 10px 2px;
-	text-align: left;
+	text-align: center;
 	/*white-space: nowrap;*/
 }
 
 .patientRow {
-	color: #BEBEBE;
+	color: #000;
 }
 .patientRow div.patientData {
 	height: 80px;
 	padding: 10px 2px 0 2px;
-	text-align: left;
+	text-align: center;
 }
 
 .patientRow div.bordered {
@@ -213,9 +215,56 @@ body {
 	border-top: 1px solid rgb(221, 221, 221);
 	border-bottom: 1px solid rgb(221, 221, 221);
 }
+
 .oddRow div.bordered {
 	background-color: white;	
 }
+
+.apptTimeRow {
+	width: 10%;
+}
+
+.nameRow {
+	width: 13%;
+}
+
+.typeRow {
+	width: 6%;
+}
+
+.physicianRow {
+	width: 13%;
+}
+
+.ageRow {
+	width: 5%;
+}
+
+.dobRow {
+	width: 5%;
+}
+
+.imagingRow {
+	width: 8%;
+}
+
+.atRow {
+	width: 8%;
+}
+
+.statusRow {
+	width: 17%;
+}
+
+.totalRow {
+	width: 6%;
+} 
+/*15 % para repartir*/
+
+.expandBtnRow {
+	width: 5%;
+}
+
 .patientExpandible {
 	padding: 19px;
 	background-color: rgb(249,250,250);
