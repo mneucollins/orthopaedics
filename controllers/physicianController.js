@@ -36,9 +36,10 @@ function getNextPatientWaitTime (physicianId, callback) {
 	patientModel
 		.find({
 			physician: physicianId,
-			apptTime: {$gte: lowDate, $lt: highDate}
+			apptTime: {$gte: lowDate, $lt: highDate},
+      WRTimestamp: {$exist: true},
+      DCTimestamp: {$exist: false},
 		})
-		.exists("WRTimestamp")
 		.sort({WRTimestamp: 1})
 		.exec(function (err, patients) {
 			if (err) callback(err);

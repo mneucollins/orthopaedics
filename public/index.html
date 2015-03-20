@@ -64,8 +64,11 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand page-scroll" href="#page-top">
-                <div class="imglogo">
-                    <img src="img/emory-logo.png">
+                <div ng-show="dashboard == 2" class="imglogo retinaContainer">
+                    <img ng-show="dashboard == 2" src="img/emory-logo.png">
+                </div>
+                <div ng-hide="dashboard == 2" class="imglogo1 retinaContainer">
+                    <img src="img/emory-logo-small.png">
                 </div>
             </a>
         </div>
