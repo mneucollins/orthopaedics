@@ -1,3 +1,5 @@
+// var _ = require('underscore');
+
 var userModel = require('../models/userModel');
 var patientModel = require('../models/patientModel');
 
@@ -37,19 +39,38 @@ function getNextPatientWaitTime (physicianId, callback) {
 		.find({
 			physician: physicianId,
 			apptTime: {$gte: lowDate, $lt: highDate},
-      WRTimestamp: {$exist: true},
-      DCTimestamp: {$exist: false},
+            $or: [{currentState: "WR"}, {currentState: "EX"}]
 		})
 		.sort({WRTimestamp: 1})
 		.exec(function (err, patients) {
 			if (err) callback(err);
-    		else{
-    			if(patients.length > 0) {
-    				var patientWRTime = patients[0].WRTimestamp;
-    				var waitTime = Math.round(((new Date()).getTime() - patientWRTime.getTime()) / (60*1000));
-    				callback(null, waitTime);
-    			}
-    			else callback(null, 0);
-    		} 
+    		else if(patients.length > 0) {
+                var now = new Date();
+                var longWRPatient;
+                var waitTime = 0;
+                
+                for (var i = 0; i < patients.length; i++) {
+                    var pat = patients[i];
+                    var patwaitTime;
+                    if(pat.currentState == "WR")
+                        patwaitTime = now.getTime() - pat.WRTimestamp.getTime();
+                    else
+                        patwaitTime = pat.EXTimestamp.getTime() - pat.WRTimestamp.getTime();
+                    
+                    if(patwaitTime > waitTime) {
+                        longWRPatient = pat;
+                        waitTime = patwaitTime;
+                    }
+                };
+
+                if(now.getTime() >= longWRPatient.apptTime.getTime())  {
+                    var minWait = Math.round(waitTime / (60*1000));
+                    callback(null, minWait);
+                }
+                else 
+                    callback(null, 0);
+			}
+            else callback(null, 0);
+    		
 		});
 }

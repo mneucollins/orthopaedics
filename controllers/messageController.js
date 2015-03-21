@@ -49,7 +49,7 @@ function sendWelcomeMessage (msgData, callback) {
 		var toNumber = msgData.patient.cellphone;
 		toNumber = toNumber.indexOf("+") > -1 ? toNumber : config.numberPrefix + toNumber;
 
-		var theMessage = "Welcome " + msgData.patient.fullName + 
+		var theMessage = "Welcome " + msgData.patient.firstName + 
 					", your estimated wait time is " + (waitTime + 5) + 
 					" mins. We will keep you informed about waits and delays as a part of a desire to be sensitive to your needs as a patient.";
 
