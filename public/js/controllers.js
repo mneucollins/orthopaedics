@@ -132,16 +132,42 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     var socket = io.connect($location.protocol() + '://' + $location.host() + ":" + $location.port());
     socket.on('syncPatient', function (updPatient) {
 
-        var listPatient = _.find($scope.patientList, function(patient){ 
-            return patient.id == updPatient.id; 
-        }); 
+        function loadExistingPatient (updPatient, recurrent) {  
+            var listPatient = _.find($scope.patientList, function(patient){ 
+                return patient.id == updPatient.id; 
+            });
 
-        if(listPatient) {
-            var index = $scope.patientList.indexOf(listPatient);
-            updPatient.physician = $scope.patientList[index].physician;
-            $scope.patientList[index] = updPatient;
-            $scope.$apply();
+            if(listPatient) {
+                var index = $scope.patientList.indexOf(listPatient);
+                updPatient.physician = $scope.patientList[index].physician;
+                $scope.patientList[index] = updPatient;
+                $scope.$apply();
+                return true;
+            }
+            else {
+                if(recurrent) setTimeout(function () {
+                    loadNewPatient(updPatient);
+                }, 500);
+                return false;
+            }
         }
+
+        function loadNewPatient (updPatient) {  
+
+            if(!loadExistingPatient (updPatient, false)) {
+                var physicianPatient = _.find($scope.patientList, function(patient){ 
+                    return patient.physician.id == updPatient.physician; 
+                });
+
+                if(physicianPatient){
+                    updPatient.physician = physicianPatient.physician;
+                    $scope.patientList.push(updPatient);
+                    $scope.$apply();
+                }
+            }
+        }  
+
+        loadExistingPatient (updPatient, true);
     });
     socket.on('greetings', function (greet) {
         console.log(JSON.stringify(greet));
