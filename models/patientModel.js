@@ -10,7 +10,7 @@ var PatientSchema = new Schema({
 	email: String,
 	adress: String,
 	medicalRecordNumber: String, // TODO talvez necesite un índice
-	patientType: String,
+	// patientType: String,
 	apptTime: Date,
 	apptType: String,
 	apptDuration: Number,

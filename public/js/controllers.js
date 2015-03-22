@@ -124,7 +124,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
             return $scope.getWRTime(item);
         });
         physician.time = $scope.getWRTime(wrTime);
-        return physician.time;
+        return physician.time > 0 ? physician.time : 0;
     }
 
     // Sync
