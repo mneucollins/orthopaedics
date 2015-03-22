@@ -51,12 +51,21 @@ function getNextPatientWaitTime (physicianId, callback) {
                 
                 for (var i = 0; i < patients.length; i++) {
                     var pat = patients[i];
+                    var wrDate = pat.WRTimestamp;
+                    var apptDate = pat.apptTime;
+                    var exDate = pat.EXTimestamp;
                     var patwaitTime;
                     if(pat.currentState == "WR")
-                        patwaitTime = now.getTime() - pat.WRTimestamp.getTime();
-                    else
-                        patwaitTime = pat.EXTimestamp.getTime() - pat.WRTimestamp.getTime();
-                    
+                        if(apptDate.getTime() < wrDate.getTime())
+                            patwaitTime = now.getTime() - wrDate.getTime();
+                        else
+                            patwaitTime = now.getTime() - apptDate.getTime();
+                    else 
+                        if(apptDate.getTime() < wrDate.getTime())
+                            patwaitTime = exDate.getTime() - wrDate.getTime();
+                        else
+                            patwaitTime = exDate.getTime() - apptDate.getTime();
+
                     if(patwaitTime > waitTime) {
                         longWRPatient = pat;
                         waitTime = patwaitTime;

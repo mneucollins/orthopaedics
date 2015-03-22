@@ -324,7 +324,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
 
         if(patient.needsImaging)
             if(patient.imagingTimestamp){
-                imagingStateIcon = "img/ok1icon.png";  
+                imagingStateIcon = "img/ok1icon.svg";  
             }
             else{
                 imagingStateIcon = "img/yicon.png";
@@ -497,17 +497,20 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         var apptDate = new Date(patient.apptTime);
         var dcDate = new Date(patient.DCTimestamp);
         var nowDate = new Date();
+        var totalTime = 0;
 
         if(patient.currentState == "EX" || patient.currentState == "WR")
             if(apptDate.getTime() < wrDate.getTime())
-                return Math.round((nowDate.getTime() - wrDate.getTime()) / (60*1000));
+                totalTime = Math.round((nowDate.getTime() - wrDate.getTime()) / (60*1000));
             else
-                return Math.round((nowDate.getTime() - apptDate.getTime()) / (60*1000));
+                totalTime = Math.round((nowDate.getTime() - apptDate.getTime()) / (60*1000));
         else 
             if(apptDate.getTime() < wrDate.getTime())
-                return Math.round((dcDate.getTime() - wrDate.getTime()) / (60*1000));
+                totalTime = Math.round((dcDate.getTime() - wrDate.getTime()) / (60*1000));
             else
-                return Math.round((dcDate.getTime() - apptDate.getTime()) / (60*1000));
+                totalTime = Math.round((dcDate.getTime() - apptDate.getTime()) / (60*1000));
+
+        return totalTime > 0 ? totalTime : 0;
     }
 
     $rootScope.getTimerColor = function (type, patient) {

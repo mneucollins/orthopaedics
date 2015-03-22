@@ -103,10 +103,10 @@
                 </div>
                 <div id="{{ 'imagingIcons' + patient._id }}" ng-show="patient.needsImaging && !patient.imagingTimestamp" style="display: inline-block;">
                     <div class="retinaContainer dashboardSVG">
-                        <img src="img/emailicon.png" ng-class="{clickable: !patient.noPhone}" ng-click="sendImagingMessage(patient)"/>
+                        <img src="img/emailicon.svg" ng-class="{clickable: !patient.noPhone}" ng-click="sendImagingMessage(patient)"/>
                     </div>
                     <div class="retinaContainer dashboardSVG">
-                        <img src="img/ok2icon.png" class="clickable" ng-click="completeImagingState(patient)"/>
+                        <img src="img/ok2icon.svg" class="clickable" ng-click="completeImagingState(patient)"/>
                     </div> 
                 </div>
             </div>                

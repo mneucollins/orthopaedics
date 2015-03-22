@@ -28,7 +28,7 @@ var testPhysicians = [{npi:"8221653205216597",name:"Dr. X",username:"drx",passwo
 	{npi:"1528025228",name:"Dr. Heller",username:"johnhe",password:"123456",role:"Physician",department:"Spine"},
 	{npi:"1134221872",name:"Dr. Rhee",username:"johnrhee",password:"123456",role:"Physician",department:"Spine"},
 	{npi:"1346342045",name:"Dr. X",username:"johnxe",password:"123456",role:"Physician",department:"Sports Medicine"},
-	{npi:"1821035429",name:"Dr. Rodrigeuz",username:"jorgero",password:"123456",role:"Physician",department:"General Orthopaedics"},
+	{npi:"1821035429",name:"Dr. Rodriguez",username:"jorgero",password:"123456",role:"Physician",department:"General Orthopaedics"},
 	{npi:"1790889285",name:"Dr. Garcia-Corrada",username:"josega",password:"123456",role:"Physician",department:"Spine"},
 	{npi:"1033385679",name:"Dr. Michael",username:"keithmi",password:"123456",role:"Physician",department:"Spine"},
 	{npi:"1942302682",name:"Dr. Mautner",username:"kennethmau",password:"123456",role:"Physician",department:"Sports Medicine"},
