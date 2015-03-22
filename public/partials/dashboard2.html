@@ -106,7 +106,7 @@
             </div>
 
             <div class="clearfix visible-xs-block"></div>
-            <div class="col-xs-4 col-sm-1 patientData buttonRow patientState" style="background-color:white; border-top:transparent; padding: 13px;">
+            <div class="col-xs-4 col-sm-1 patientData buttonRow patientState" style="background-color:white; border-top:transparent;">
                 <button type="button" ng-show="patient.currentState == 'EX'" class="btn btn-default circled" ng-click="discharge(patient)">Discharge</button>
                 <button type="button" class="btn btn-primary circled" ng-show="patient.currentState == 'WR'" ng-click="callBack(patient)">Call Back</button>
                 <button type="button" class="btn btn-default circled" ng-show="patient.currentState == 'NCI'" ng-click="register(patient)">Register</button>
