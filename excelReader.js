@@ -67,8 +67,14 @@ var userModel = require('./models/userModel');
 			patient.physician = patient.physician ? patient.physician.id : null;
 			patient.apptTime = list[k].Appt;
 			patient.apptDuration = list[k].ApptLength;
-			patient.apptType=list[k].ApptType;
-			patient.patientType = list[k].ApptType;
+			patient.apptType = list[k].ApptType;
+
+			if(list[k].ApptType == "NPV")
+				patient.apptType = "New";
+			else if(list[k].ApptType == "RPV")
+				patient.apptType = "Ret";
+			else
+				patient.patientType = list[k].ApptType;
 
 			console.log("saving patient: " + patient.lastName + ". Phy: " + patient.physician);
 			patientController.nuevoPatient(patient, function (err, data) {

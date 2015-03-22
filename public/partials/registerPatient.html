@@ -5,33 +5,44 @@
 	<form class="form-group">
 	<div class="row form-group">
 		<div class="col-sm-3 col-sm-offset-1">First Name</div>
-		<div class="col-sm-7"><input type="text" class="form-control" ng-model="patient.firstName" ng-disabled="fieldsDisabled"></div>
+		<div class="col-sm-7 input-group"><input type="text" class="form-control" ng-model="patient.firstName" ng-disabled="fieldsDisabled"></div>
 	</div>
 	<div class="row form-group">
 		<div class="col-sm-3 col-sm-offset-1">Last Name</div>
-		<div class="col-sm-7"><input type="text" class="form-control" ng-model="patient.lastName" ng-disabled="fieldsDisabled"></div>
+		<div class="col-sm-7 input-group"><input type="text" class="form-control" ng-model="patient.lastName" ng-disabled="fieldsDisabled"></div>
 	</div>
 	<div class="row form-group">
-		<div class="col-sm-3 col-sm-offset-1">Phone Number</div>
-		<div class="col-sm-4"><input type="text" class="form-control" ng-model="patient.cellphone" maxlength="10"></div>
-		<div class="checkbox col-sm-3">
-			<label><input type="checkbox" ng-model="patient.noPhone">No Phone Number</label>
+		<div class="col-sm-3 col-sm-offset-1">DOB</div>
+		<div class="col-sm-7 input-group">
+			<input type="text" class="form-control" datepicker-popup="MM/dd/yy" ng-model="patient.dateBirth" is-open="dobOpened" datepicker-options="dateOptions" close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="openDOB($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
 		</div>
 	</div>
 	<div class="row form-group">
-		<div class="col-sm-3 col-sm-offset-1">Appointment Time</div>
-		<div class="col-sm-7">
+		<div class="col-sm-3 col-sm-offset-1">Phone Number</div>
+		<div class="col-sm-7 input-group">
+			<input type="text" class="form-control col-sm-7" ng-model="patient.cellphone" maxlength="10" ng-disabled="patient.noPhone">
+			<div class="checkbox">
+				<label><input type="checkbox" ng-model="patient.noPhone">No Phone Number</label>
+			</div>
+		</div>
+	</div>
+	<div class="row form-group">
+		<div class="col-sm-3 col-sm-offset-1" style="padding-top: 2.5em;">Appointment Time</div>
+		<div class="col-sm-7 input-group">
 			<timepicker ng-model="patient.apptTime" minute-step="5" ng-hide="fieldsDisabled"></timepicker>
 			<input type="text" class="form-control" ng-model="patient.apptTime | date: 'HH:mm'" ng-disabled="fieldsDisabled" ng-show="fieldsDisabled">
 		</div>
 	</div>
 	<div class="row form-group">
 		<div class="col-sm-3 col-sm-offset-1">MNR Number</div>
-		<div class="col-sm-7"><input type="text" class="form-control" ng-model="patient.medicalRecordNumber" ng-disabled="fieldsDisabled"></div>
+		<div class="col-sm-7 input-group"><input type="text" class="form-control" ng-model="patient.medicalRecordNumber" ng-disabled="fieldsDisabled"></div>
 	</div>
 	<div class="row form-group">
 		<div class="col-sm-3 col-sm-offset-1">Physician</div>
-		<div class="col-sm-7">
+		<div class="col-sm-7 input-group">
 			<select class="form-control" ng-model="patient.physician"  
 				 ng-options="physician as physician.name for physician in physicians" ng-disabled="fieldsDisabled"></select>
 			<!-- <input type="text" class="form-control" ng-model="patient.physician.name" ng-disabled="fieldsDisabled"> -->
