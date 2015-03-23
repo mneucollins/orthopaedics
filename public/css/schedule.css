@@ -39,6 +39,19 @@
     margin-left: 14px;
     margin-top: -1px;
 }
+.popTriangleUp{
+    border: solid;
+    border-color: #FFF transparent;
+    border-width: 0px 12px 11px 12px;
+    content: "";
+    width: 20px;
+    margin-left: 14px;
+    margin-top: -1px;
+}
+.triangleUpRow{
+    top: 2px;
+    z-index: 999;
+}
 
 .blueFilter{
     color:#719DF0;
