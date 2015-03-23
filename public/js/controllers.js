@@ -500,15 +500,17 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         var totalTime = 0;
 
         if(patient.currentState == "EX" || patient.currentState == "WR")
-            if(apptDate.getTime() < wrDate.getTime())
-                totalTime = Math.round((nowDate.getTime() - wrDate.getTime()) / (60*1000));
-            else
-                totalTime = Math.round((nowDate.getTime() - apptDate.getTime()) / (60*1000));
+            totalTime = Math.round((nowDate.getTime() - wrDate.getTime()) / (60*1000));
+            // if(apptDate.getTime() < wrDate.getTime())
+            //     totalTime = Math.round((nowDate.getTime() - wrDate.getTime()) / (60*1000));
+            // else
+            //     totalTime = Math.round((nowDate.getTime() - apptDate.getTime()) / (60*1000));
         else 
-            if(apptDate.getTime() < wrDate.getTime())
-                totalTime = Math.round((dcDate.getTime() - wrDate.getTime()) / (60*1000));
-            else
-                totalTime = Math.round((dcDate.getTime() - apptDate.getTime()) / (60*1000));
+            totalTime = Math.round((dcDate.getTime() - wrDate.getTime()) / (60*1000));
+            // if(apptDate.getTime() < wrDate.getTime())
+            //     totalTime = Math.round((dcDate.getTime() - wrDate.getTime()) / (60*1000));
+            // else
+            //     totalTime = Math.round((dcDate.getTime() - apptDate.getTime()) / (60*1000));
 
         return totalTime > 0 ? totalTime : 0;
     }
