@@ -23,6 +23,10 @@ body {
 	border-radius: 15px;
 }
 
+.modal-dialog {
+	margin-top: 71px;
+}
+
 
 /* 
 //////////////////////////////////////////////////////////////////////
@@ -175,7 +179,7 @@ body {
 .physiciansHeader {
 	color: #539CD5;
 	margin-left: 7%;
-	margin-top: 2%;
+	margin-top: 0;
 }
 
 .timer-not-started {
@@ -260,7 +264,7 @@ body {
 .nameRow {
 	font-weight: bold;
 	padding-top: 1.6em;
-	width: 13%;
+	width: 13.6%;
 }
 
 .typeRow {
@@ -294,7 +298,7 @@ body {
 }
 
 .atRow {
-	width: 8%;
+	width: 10%;
 	padding-top: .9em;
 }
 

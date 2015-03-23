@@ -14,43 +14,60 @@ module.exports = {
 }
 
 setInterval(function () {
-	console.log("Checking WR patients");
 	var now = new Date();
+	console.log("Checking WR patients");
 	patientController.listPatientsTodayByState("WR", function (err, patients) {
 		console.log("Done! " + patients.length + " patients found.");
+
+		var patientsByPhysician = _.groupBy(patients, function (pat) { return pat.physician.id; });
+
 		_.each(patients, function (patient, i, list) {
 
+			if(patient.noPhone) {
+				console.log("(" + i + ") " + patient.firstName + " has no phone number.");
+				return;
+			}
+			// var isfirstPatient = false; 
+			// _.each(patientsByPhysician, function (value, key, list) {
+			// 	isfirstPatient |= value[0].id == patient.id;
+			// });
+			// if(isfirstPatient) {
+			// 	console.log("(" + i + ") " + patient.firstName + 
+			// 		" is the 1st patient today for " + patient.physician.name);
+			// 	return;
+			// }
+
 			var waitedMins = Math.round((now.getTime() - patient.WRTimestamp.getTime()) / (60*1000));
-			console.log("(" + i + ") " + patient.fullName + " waited " + waitedMins + " minutes");
+			console.log("(" + i + ") " + patient.firstName + " waited " + waitedMins + " minutes");
 			
-			if(waitedMins % 20 == 0) {
-				console.log("(" + i + ") " + patient.fullName + " waited long enough!");
-				physicianController.getNextPatientWaitTime(patient.physician.id, function (err, waitTime) {
-					console.log("(" + i + ") " + patient.fullName + " Physician's has a " + waitTime + "minutes delay");
+			if(waitedMins > 0 && waitedMins % 20 == 0) {
+				console.log("(" + i + ") " + patient.firstName + " waited long enough!");
+				physicianController.getNextPatientWaitTime(patient.physician.id, function (err, phyWaitTime) {
+					console.log("(" + i + ") " + patient.firstName + " Physician's has a " + phyWaitTime + "minutes delay");
 					getReminderMessagesByPatient(patient.id, function (err, messages) {
 						var msgData = {
 							patient: patient,
 							msjType: "reminder"
 						}
-						console.log("(" + i + ") " + patient.fullName + " received a total of " + messages.length + " reminder updates");
+						console.log("(" + i + ") " + patient.firstName + " received a total of " + messages.length + " reminder updates");
 
 						if(messages.length == 0) {
-							console.log("(" + i + ") " + patient.fullName + " is getting reminder update #1!");
+							console.log("(" + i + ") " + patient.firstName + " is getting reminder update #1!");
 
 							msgData.message = "We would like to update you every 20 minutes in regards to " +
-							"your wait time. We estimate that you will be called back by your doctor's staff in approximately " + 
-							(waitTime + 5) + " minutes. Please keep in mind that this is just an estimate. Thank you for your " +
-							"patience and understanding, and for choosing Emory Healthcare.";
-						}
-						else if(waitTime < 5) {
-							console.log("(" + i + ") " + patient.fullName + " is getting last reminder.");
-							msgData.message= "Thank you for your patience. We estimate that you will be called back by " +
-							"your doctor's staff in the next few minutes.";
+							"your wait time. " + patient.physician.name + " is now running at least " + phyWaitTime + 
+							" minutes behind, please keep in mind that this is just an estimate. Thank you for your " +
+							"patience and understanding, and for choosing Emory Healthcare";
 						}
 						else {
-							console.log("(" + i + ") " + patient.fullName + " is getting a standard reminder update");
-							msgData.message = "Thank you for your patience. We estimate that you will be called back by " +
-							"your doctor's staff in approximately " + (waitTime + 5) + " minutes.";
+							console.log("(" + i + ") " + patient.firstName + " is getting a standard reminder update");
+							msgData.message = patient.physician.name + " is now running at least " + phyWaitTime + 
+							" minutes behind, we will continue to provide updates";
+						}
+
+						if(phyWaitTime > 45) {
+							console.log("(" + i + ") " + patient.firstName + " waited for more than 45 mins :(");
+							msgData.message += ". Please contact the front desk if you would like to leave the area temporarily";
 						}
 
 						sendMessage(msgData, function (err, msj) {

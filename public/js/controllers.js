@@ -124,7 +124,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
             return $scope.getWRTime(item);
         });
         physician.time = $scope.getWRTime(wrTime);
-        return physician.time;
+        return physician.time > 0 ? physician.time : 0;
     }
 
     // Sync
@@ -500,15 +500,17 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         var totalTime = 0;
 
         if(patient.currentState == "EX" || patient.currentState == "WR")
-            if(apptDate.getTime() < wrDate.getTime())
-                totalTime = Math.round((nowDate.getTime() - wrDate.getTime()) / (60*1000));
-            else
-                totalTime = Math.round((nowDate.getTime() - apptDate.getTime()) / (60*1000));
+            totalTime = Math.round((nowDate.getTime() - wrDate.getTime()) / (60*1000));
+            // if(apptDate.getTime() < wrDate.getTime())
+            //     totalTime = Math.round((nowDate.getTime() - wrDate.getTime()) / (60*1000));
+            // else
+            //     totalTime = Math.round((nowDate.getTime() - apptDate.getTime()) / (60*1000));
         else 
-            if(apptDate.getTime() < wrDate.getTime())
-                totalTime = Math.round((dcDate.getTime() - wrDate.getTime()) / (60*1000));
-            else
-                totalTime = Math.round((dcDate.getTime() - apptDate.getTime()) / (60*1000));
+            totalTime = Math.round((dcDate.getTime() - wrDate.getTime()) / (60*1000));
+            // if(apptDate.getTime() < wrDate.getTime())
+            //     totalTime = Math.round((dcDate.getTime() - wrDate.getTime()) / (60*1000));
+            // else
+            //     totalTime = Math.round((dcDate.getTime() - apptDate.getTime()) / (60*1000));
 
         return totalTime > 0 ? totalTime : 0;
     }
@@ -754,6 +756,11 @@ orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInst
   function($scope, $modalInstance, Messages, Patient, Alerts, patient, physicians) {
 
     $scope.physicians = physicians;
+    $scope.dateOptions = {
+        formatYear: 'yy',
+        startingDay: 1
+    };
+
     if(patient) {
         patient.physician = _.find(physicians, function (physician) {
             return physician._id == patient.physician._id;
@@ -806,6 +813,13 @@ orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInst
 
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
+    };
+
+    $scope.openDOB = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        $scope.dobOpened = true;
     };
 
 }]);

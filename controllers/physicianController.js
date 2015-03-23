@@ -72,7 +72,7 @@ function getNextPatientWaitTime (physicianId, callback) {
                     }
                 };
 
-                if(now.getTime() >= longWRPatient.apptTime.getTime())  {
+                if(longWRPatient && now.getTime() >= longWRPatient.apptTime.getTime())  {
                     var minWait = Math.round(waitTime / (60*1000));
                     callback(null, minWait);
                 }
