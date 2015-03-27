@@ -673,7 +673,8 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     }
 
     $scope.showMessage = true;
-
+    $scope.showMessage = false;
+    
   }]);
 
 // =============================== MODAL DIALOGS CTRL ===================================

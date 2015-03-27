@@ -41,4 +41,24 @@
 	h3, .h3 {
 	  font-size: 15px;
 	}
+	.fullSpaceRow{
+		margin-left: -16px;
+  		margin-right: -30px;
+	}
+	.rowFullWhite{
+		background-color: white;
+		margin-left: -18px;
+		margin-right: -19px;
+	}
+	.divMarginLine{
+		margin-top: -25px;
+	}
+	.rowTextArea{
+		height: 160px !important;
+	}
+	.rowButtonsMargin{
+		margin-top: 25px;
+  		margin-bottom: 48px;
+	}
+	
 }
