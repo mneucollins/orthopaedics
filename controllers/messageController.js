@@ -56,18 +56,18 @@ setInterval(function () {
 
 							msgData.message = "We would like to update you every 20 minutes in regards to " +
 							"your wait time. " + patient.physician.name + " is now running at least " + phyWaitTime + 
-							" minutes behind, please keep in mind that this is just an estimate. Thank you for your " +
-							"patience and understanding, and for choosing Emory Healthcare";
+							" minutes behind. Please keep in mind that this is just an estimate. Thank you for your " +
+							"patience and understanding, and for choosing Emory Healthcare.";
 						}
 						else {
 							console.log("(" + i + ") " + patient.firstName + " is getting a standard reminder update");
 							msgData.message = patient.physician.name + " is now running at least " + phyWaitTime + 
-							" minutes behind, we will continue to provide updates";
+							" minutes behind, we will continue to provide updates.";
 						}
 
 						if(phyWaitTime > 45) {
 							console.log("(" + i + ") " + patient.firstName + " waited for more than 45 mins :(");
-							msgData.message += ". Please contact the front desk if you would like to leave the area temporarily";
+							msgData.message += " Please contact the front desk if you would like to leave the area temporarily.";
 						}
 
 						sendMessage(msgData, function (err, msj) {

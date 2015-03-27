@@ -30,7 +30,7 @@
 		</div>
 	</div>
 	<div class="row form-group">
-		<div class="col-sm-3 col-sm-offset-1" style="padding-top: 2.5em;">Appointment Time</div>
+		<div class="col-sm-3 col-sm-offset-1" ng-style="apptTimeLabel">Appointment Time</div>
 		<div class="col-sm-7 input-group">
 			<timepicker ng-model="patient.apptTime" minute-step="5" ng-hide="fieldsDisabled"></timepicker>
 			<input type="text" class="form-control" ng-model="patient.apptTime | date: 'HH:mm'" ng-disabled="fieldsDisabled" ng-show="fieldsDisabled">
