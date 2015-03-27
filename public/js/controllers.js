@@ -756,6 +756,7 @@ orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInst
   function($scope, $modalInstance, Messages, Patient, Alerts, patient, physicians) {
 
     $scope.physicians = physicians;
+    $scope.apptTimeLabel = {};
     $scope.dateOptions = {
         formatYear: 'yy',
         startingDay: 1
@@ -770,7 +771,7 @@ orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInst
     }
     else{
         $scope.fieldsDisabled = false;
-
+        $scope.apptTimeLabel = {"padding-top": "2.5em"};
         var apptDateObj = new Date();
         var mins = apptDateObj.getMinutes();
         apptDateObj.setMinutes(Math.round(mins/10)*10);
