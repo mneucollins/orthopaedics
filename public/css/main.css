@@ -51,6 +51,11 @@ body {
     height: 4em;
 }
 
+.title {
+    font-family: "ProximaNova-Light";
+    font-size: 1.8em;
+}
+
 /* 
 //////////////////////////////////////////////////////////////////////
 /////////////////////////   MODALS   /////////////////////////////////
@@ -217,10 +222,8 @@ body {
 }
 
 .timer-not-started {
-    /*border-color: #CBC9CA;
-	color: #CBC9CA;*/
 	border-color: #000;
-	color: #000;
+	color: #808286;
 }
 .timer-on-time {
     border-color: #5CC092;
@@ -333,14 +336,30 @@ body {
 }
 
 .statusRow {
-	padding-top: 1.6em;
+	padding-top: 1.35em;
 	width: 15%;
 }
 
+.statusRow span { 
+    font-family: "ProximaNova-Bold";
+    font-size: 0.85em;
+    padding: 0.3em;
+    text-align: center;
+}
+
 .totalRow {
-	padding-top: 1em;
+	padding-top: 1.2em;
+	padding-left: 1em;
+	padding-right: 1em;
 	width: 6%;
 } 
+
+.totalRow div { 
+    font-family: "ProximaNova-Bold";
+    font-size: 0.85em;
+	margin-left: 1em;
+	margin-right: 1em;
+}
 
 .expandBtnRow {
 	padding-top: .9em;
@@ -362,6 +381,44 @@ body {
 	padding-right: 0;
 }
 
+/* 
+//////////////////////////////////////////////////////////////////////
+///////////////////////////  EXPANDIBLE  /////////////////////////////
+//////////////////////////////////////////////////////////////////////
+*/
+
 .patInfoPanel span {
 	margin-right: 1.6em;
+}
+
+.rowButtonsMargin {
+	padding-left: 1em;
+}
+
+.defaultMsjTag {
+	padding-left: 0.5em;
+}
+
+.priorApptRow {
+	padding: 0.7em 0em; 
+	margin-left: 1em;
+	border-bottom: 1px solid rgb(221, 221, 221);
+}
+
+.priorTimeCol {
+	font-size: 1.1em;
+	padding-top: .5em;
+}
+
+.priorStatusCol {
+    font-family: "ProximaNova-Bold";
+    font-size: 0.85em;
+	padding-top: .65em;
+}
+
+.priorTotalCol {
+    font-family: "ProximaNova-Bold";
+    font-size: 0.85em;
+	padding-left: 2.3em;
+	padding-right: 2.3em;
 }
