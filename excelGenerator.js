@@ -46,8 +46,25 @@ var userModel = require('./models/userModel');
     	if(err)
     		return console.error(err);
 
-    	_.each(patientList, function(patient,i,list){
+    	console.log("Total de pacientes: "+patientList.length);
 
+    	//Load excel template
+		var workbook = XLSX.readFile('./reports/report_template.xlsx', {cellStyles:true});
+		var sheet_name_list = workbook.SheetNames;
+		var worksheet = workbook.Sheets["Hoja1"];
+
+		var range = {s: {c:0,r:0}, e:{c:4, r: patientList.length + 1}};
+		worksheet['!ref'] = XLSX.utils.encode_range(range);
+
+		var R = range.s.r + 1;
+
+    	//_.each(patientList, function(patient,i,list){
+
+    	for(var i=0 ; i<patientList.length ; i++, ++R ){
+
+    		console.log("comezamos con el paciente "+i);
+
+    		var patient = patientList[i];
     		var wrTime = 0;
     		var exTime = 0;
         	var totalTime = 0;
@@ -57,6 +74,7 @@ var userModel = require('./models/userModel');
 	        var dcDate = new Date(patient.DCTimestamp);
         	var nowDate = new Date();
 
+    		console.log("cargados dates del paciente "+i);
     		//WRTime
     		if(patient.currentState != "NCI")
 	        	if(patient.currentState == "WR")
@@ -70,6 +88,8 @@ var userModel = require('./models/userModel');
 	            	else
 	                	wrTime = Math.round((exDate.getTime() - apptDate.getTime()) / (60*1000));
 
+    		console.log("calculado wrtime del paciente "+i);
+
     		//EXTime
     		if(patient.currentState != "NCI" && patient.currentState != "WR")
 		        if(patient.currentState == "EX")
@@ -77,20 +97,46 @@ var userModel = require('./models/userModel');
 		        else 
 		            exTime = Math.round((dcDate.getTime() - exDate.getTime()) / (60*1000));
 
-		        if(patient.currentState == "NCI") return 0;  
+		        
+
 
         	//TotalTime
-
-	        if(patient.currentState == "EX" || patient.currentState == "WR")
-	            totalTime = Math.round((nowDate.getTime() - wrDate.getTime()) / (60*1000));
-	        else 
-	            totalTime = Math.round((dcDate.getTime() - wrDate.getTime()) / (60*1000));
+			if(patient.currentState != "NCI")
+		        if(patient.currentState == "EX" || patient.currentState == "WR")
+		            totalTime = Math.round((nowDate.getTime() - wrDate.getTime()) / (60*1000));
+		        else 
+		            totalTime = Math.round((dcDate.getTime() - wrDate.getTime()) / (60*1000));
 
 	        totalTime = totalTime > 0 ? totalTime : 0;
 
     		console.log("patient "+i+" wrTime "+wrTime);
 
-    	});
+    		var data = [];
+    		data.push({data:patient.medicalRecordNumber, tipo: "s"});
+    		data.push({data:wrTime, tipo: "n"});
+    		data.push({data:exTime, tipo: "n"});
+    		data.push({data:totalTime, tipo: "n"});
+    		
+    		console.log("creada la data del paciente "+i);
+
+			for(var C = 0; C < data.length; C++) {
+				var cellAddr = XLSX.utils.encode_cell({c:C, r:R});
+				var cellData = {
+					t: data[C].tipo, 
+					v: data[C].data
+				};
+
+				worksheet[cellAddr] = cellData;
+			}
+		}
+    	//});
+		
+		var dateReport = new Date();
+		var month = Math.round(dateReport.getMonth()+1);
+		var nombreArc = 'report'+dateReport.getFullYear()+'_'+month+'_'+dateReport.getDate()+
+	  		'_'+dateReport.getHours()+dateReport.getMinutes()+dateReport.getSeconds()+'.xlsx';
+	  	XLSX.writeFile(workbook, './reports/'+nombreArc);
+	  	console.log("archivo escrito :)");
 
     });
 
