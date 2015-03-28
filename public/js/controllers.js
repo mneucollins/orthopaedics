@@ -4,9 +4,10 @@ var orthopaedicsControllers = angular.module('orthopaedicsControllers', ['ui.boo
 // ========================= HEADER ==================
 // =======================================================
 
-    orthopaedicsControllers.controller('headerCtrl', ['$scope', '$location', '$interval', 'AuthService',
-        function($scope, $location, $interval, AuthService){
+    orthopaedicsControllers.controller('headerCtrl', ['$scope', '$rootScope', '$location', '$interval', 'AuthService',
+        function($scope, $rootScope, $location, $interval, AuthService){
             
+            $rootScope.hideDischarged = false;
             $scope.$watch(AuthService.isLoggedIn, function ( isLoggedIn ) {
                 $scope.isLoggedIn = isLoggedIn;
                 $scope.currentUser = AuthService.currentUser();
@@ -655,21 +656,43 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         }
     }
 
+    var dischargePressed = false;
     $scope.discharge = function (patient) {
-        patient.exitTimestamp.push(new Date());
-        Patient.update({patientId: patient.id}, 
-            {
-                currentState: "DC",
-                DCTimestamp: new Date(),
-                exitTimestamp: patient.exitTimestamp
-            }, 
-            function patientDischarged (updatedPatient) {
-                var index = $scope.patientList.indexOf(patient); 
-                $scope.patientList[index].currentState = updatedPatient.currentState;
-                $scope.patientList[index].DCTimestamp = updatedPatient.DCTimestamp;
-                $scope.patientList[index].exitTimestamp = updatedPatient.exitTimestamp;
+
+        if(dischargePressed){
+            patient.exitTimestamp.push(new Date());
+            Patient.update({patientId: patient.id}, 
+                {
+                    currentState: "DC",
+                    DCTimestamp: new Date(),
+                    exitTimestamp: patient.exitTimestamp
+                }, 
+                function patientDischarged (updatedPatient) {
+                    var index = $scope.patientList.indexOf(patient); 
+                    $scope.patientList[index].currentState = updatedPatient.currentState;
+                    $scope.patientList[index].DCTimestamp = updatedPatient.DCTimestamp;
+                    $scope.patientList[index].exitTimestamp = updatedPatient.exitTimestamp;
+                }
+            );
+        }
+        else {
+            dischargePressed = true;
+            var css = {
+                "transition": "all 3s linear",
+                "background-color": "#428bca"
             }
-        );
+            $(".btnDischarge").css(css);
+
+            setTimeout(function () {
+                dischargePressed = false;
+                var css = {
+                    "transition": "all 0.3s linear",
+                    "background-color": "#fff"
+                }
+                $(".btnDischarge").css(css);
+            }, 3000);
+        }
+
     }
 
     $scope.showMessage = true;
@@ -781,6 +804,9 @@ orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInst
         }
     } 
 
+    $scope.preSubmit = function () {
+        $('#patientForm').submit();
+    }
     $scope.submit = function () {
         if(patient){
             if($scope.patient.noPhone) {

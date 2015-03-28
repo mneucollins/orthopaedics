@@ -91,7 +91,7 @@
         </div>
         <!-- Header End -->
         <!-- Body Start -->
-        <div class="row patientRow" ng-class="{oddRow: $odd}" ng-repeat="patient in patientList">
+        <div class="row patientRow" ng-class="{oddRow: $odd}" ng-repeat="patient in patientList | dischargePatientsFilter: $root.hideDischarged">
             <div class="col-xs-12 visible-xs borderedFull ">
                 <div class="col-xs-12 visible-xs " style="  padding: 13px;">{{ patient.apptTime | date:'hh:mm a'}}
                     &nbsp;&nbsp;<b>{{ patient.fullName }}</b></div>
@@ -107,7 +107,7 @@
 
             <div class="clearfix visible-xs-block"></div>
             <div class="col-xs-4 col-sm-1 patientData buttonRow patientState" style="background-color:white; border-top:transparent;">
-                <button type="button" ng-show="patient.currentState == 'EX'" class="btn btn-default circled" ng-click="discharge(patient)">Discharge</button>
+                <button type="button" ng-show="patient.currentState == 'EX'" class="btn btn-default circled btnDischarge" ng-click="discharge(patient)">Discharge</button>
                 <button type="button" class="btn btn-primary circled" ng-show="patient.currentState == 'WR'" ng-click="callBack(patient)">Call Back</button>
                 <button type="button" class="btn btn-default circled" ng-show="patient.currentState == 'NCI'" ng-click="register(patient)">Register</button>
             </div>
@@ -141,17 +141,17 @@
             <!-- Start Collapsible -->
             <div class="col-sm-offset-1 col-sm-11 accordian-body collapse patientExpandible" id="{{ 'miniform' + patient._id }}">
                 <div class="row">
-                    <div class="col-xs-3 col-sm-2" style="font-weight: bold; text-align:left;cursor:pointer" ng-click="showMessage=false; showMessageAux=false " ng-class="{'attentionFont' : !showMessage} ">
+                    <div class="col-xs-3 col-sm-2" style="font-weight: bold; text-align:left;cursor:pointer" ng-click="showMessage=false; showMessageAux=false " ng-class="{'attentionFont' : showMessage} ">
                         <span class="hidden-xs glyphicon glyphicon-info-sign" aria-hidden="true"></span>&nbsp;Info 
                     </div>
-                    <div class="col-xs-3 col-sm-2" style="font-weight: bold; text-align:left;cursor:pointer" ng-click="showMessage=true; showMessageAux=false" ng-class="{'attentionFont' : showMessage}">
+                    <div class="col-xs-3 col-sm-2" style="font-weight: bold; text-align:left;cursor:pointer" ng-click="showMessage=true; showMessageAux=false" ng-class="{'attentionFont' : !showMessage}">
                         <div style="display:inline-block;" >
                             <span class="hidden-xs glyphicon glyphicon-envelope" aria-hidden="true"></span> &nbsp;Contact 
                         </div>
                     </div>
                     <div class="hidden-xs col-sm-2"></div>
                     <div class="col-xs-6 col-sm-6" style="font-weight: bold; text-align:left; ">
-                        <div class="hidden-xs" style="color:#7F7F7F" >Prior Appointment Wait Times</div>
+                        <div class="hidden-xs">Prior Appointment Wait Times</div>
                         <div class="visible-xs" style="color:#7F7F7F; cursor:pointer;" ng-click="showMessageAux=true">Prior Wait Times</div>
                     </div>
                 </div>
@@ -160,7 +160,7 @@
                     <div class="col-sm-6" style="padding-right: 30px;">
                         <div  ng-show="showMessage && !showMessageAux">
                             <div class="row">
-                                <div class="col-sm-12 fullSpaceRow" >
+                                <div class="col-sm-12 fullSpaceRow">
                                     <textarea id="{{ 'miniformTextArea' + patient._id }}" class="form-control rowTextArea" rows="5" id="comment" placeholder="Send text message..." ng-model="patient.message" ></textarea>
                                 </div>
                             </div>
@@ -173,14 +173,14 @@
                                 </div>
                             </div>
                             <div class="row rowButtonsMargin">
-                                <div class="hidden-xs col-sm-3 col-md-2" ng-click="msjToCustom(patient)" ng-class="{'messageOn' : patient.messageSelectorPos == '1'} " style="cursor: pointer;">Custom</div>
-                                <div class="hidden-xs col-sm-3 col-md-2" ng-click="msjToDefault(patient)" ng-class="{'messageOn' : patient.messageSelectorPos != '1'} " style="cursor: pointer;">Default</div>
+                                <div class="hidden-xs col-sm-3 col-md-2 clickable" ng-click="msjToCustom(patient)" ng-class="{'messageOn' : patient.messageSelectorPos == '1'} ">Custom</div>
+                                <div class="hidden-xs col-sm-3 col-md-2 clickable" ng-click="msjToDefault(patient)" ng-class="{'messageOn' : patient.messageSelectorPos != '1'} ">Default</div>
                                 <div class="col-xs-3 hidden-sm col-md-4"></div>
                                 <div class="col-xs-4 col-sm-3 col-md-2" style="font-weight: bold; color:#7F7F7F;">Cancel</div>
-                                <div class="col-xs-5 col-sm-3 col-md-2 btn btn-default" style="background-color: #72C394; color: white; font-weight: bold; margin-top: -1%;" ng-disabled="patient.noPhone" ng-click="sendMessage(patient)">Send</div>
+                                <div class="col-xs-5 col-sm-3 col-md-2 btn ok-btn" ng-disabled="patient.noPhone" ng-click="sendMessage(patient)">Send</div>
                             </div>
                         </div>
-                        <div id="{{ 'miniformInfo' + patient._id }}" ng-show="!showMessage && !showMessageAux">
+                        <div id="{{ 'miniformInfo' + patient._id }}" ng-show="!showMessage && !showMessageAux" class="patInfoPanel">
                             <br>
                             MRN: {{ patient.medicalRecordNumber }}<br><br>
                             <div class="visible-xs divMarginLine"><hr/></div>

@@ -48,7 +48,7 @@ var patientModel = mongoose.model('patients', PatientSchema);
 //////////////////////////////////////////////////////////////////////////////
 
 PatientSchema.virtual('fullName').get(function () {
-	return (this.firstName ? this.firstName : "") + " " + (this.lastName ? this.lastName : "");
+	return (this.lastName ? this.lastName : "") + ", " + (this.firstName ? this.firstName : "");
 });
 
 PatientSchema.virtual('apptEndTime').get(function () {

@@ -23,6 +23,10 @@ body {
 	border-radius: 15px;
 }
 
+.clickable {
+	cursor: pointer;
+}
+
 .modal-dialog {
 	margin-top: 71px;
 }
@@ -45,6 +49,25 @@ body {
 #alertContainer div {
     position: relative;
     height: 4em;
+}
+
+/* 
+//////////////////////////////////////////////////////////////////////
+/////////////////////////   MODALS   /////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+*/
+
+.modal-header, .modal-footer {
+    background-color: #f6f8f9;
+}
+
+.modal-header h3{
+    font-family: "ProximaNova-Light";
+    font-size: 1.8em;
+}
+
+.modal-body {
+	padding: 2.2em;
 }
 
 /* 
@@ -158,6 +181,13 @@ body {
 //////////////////////////////////////////////////////////////////////
 */
 
+.ok-btn {
+	background-color: #72C394; 
+	color: white; 
+	font-weight: bold; 
+	margin-top: -1%;
+}
+
 .clock {
 	padding-left: 2em;
 }
@@ -182,6 +212,10 @@ body {
 	margin-top: 0;
 }
 
+.physiciansHeader > span {
+	padding-bottom: 0.3em;
+}
+
 .timer-not-started {
     /*border-color: #CBC9CA;
 	color: #CBC9CA;*/
@@ -203,10 +237,6 @@ body {
 .timer-delay-45 {
     border-color: #E8454A;
 	color: #E8454A;
-}
-
-.clickable {
-	cursor: pointer;
 }
 
 .schedule-container {
@@ -319,10 +349,19 @@ body {
 
 .patientExpandible {
 	padding: 19px;
+	border-top: 1px solid rgb(221, 221, 221);
 	background-color: rgb(249,250,250);
 }
 
 .dashboardSVG{
 	display: inline-block;
     width:2.6em;
+}
+
+.fullSpaceRow {
+	padding-right: 0;
+}
+
+.patInfoPanel span {
+	margin-right: 1.6em;
 }
