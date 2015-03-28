@@ -12,7 +12,7 @@
                 <input id="physicianSearch" ng-model="phySearch" class="form-control circled" type="search" placeholder="Find a Physician"/>
             </div>
             <div class="row checkbox">
-                <label class="col-sm-offset-9 col-sm-3"><input type="checkbox" ng-model="phySelectAll" ng-click="selectAll()">Select All</label>
+                <label class="col-sm-12 text-right"><input type="checkbox" ng-model="phySelectAll" ng-click="selectAll()">Select All</label>
             </div>
             <div id="physicianSearchList" class="list-group">
                 <div class="row list-group-item" ng-class="{selectedPhysician: physician.selected}" ng-click="selectPhysician(physician)" ng-repeat="physician in physicianList | filter: phySearch">
@@ -26,161 +26,165 @@
                 </div>
             </div>
             <div class="row">
-                <button type="submit" class="btn btn-primary col-sm-10 col-sm-offset-1">View Schedules</button>
+                <button type="submit" class="btn btn-primary col-sm-10 col-sm-offset-1 circled">View Schedules</button>
             </div>
         </form>
     </div>
 </div>
 
 <div class="col-sm-11 container-fluid schedule-container" ng-controller="scheduleCtrl">
-    <div class="row">
-        <div class="col-sm-5 col-md-4">
-            <h3>{{ currentTime | date: 'h:mm a MMMM d, yyyy'}}</h3>
+
+    <div class="panel panel-default">
+        <div class="panel-default" role="tab" id="headingOne">
+            <div class="row">
+                <div class="col-sm-5 col-md-4 clock">
+                    <h3>{{ currentTime | date: 'h:mm a MMMM d, yyyy'}}</h3>
+                </div>
+                <h3 class="col-sm-6 col-md-7 text-right btnBarHeader">
+                    <button class="btn btn-default circled" ng-click="sendBulkMessages()"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button>
+                    <button class="btn btn-default circled" ng-click="newPatient()">+ Add Patient</span></button>
+                    
+                </h3>
+                <div class="col-sm-1 col-md-1 expandBtnHeader">
+                    <div class="retinaContainer dashboardSVG">
+                        <img src="img/collapseIcon.svg" class="imageButton"  data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"  aria-controls="collapseOne" style="  padding-top: 43%;" onclick="onCollapseButton(this);"/>
+                    </div>
+                </div>
+            </div>
         </div>
-        <h3 class="col-sm-4 col-sm-offset-3 col-md-2 col-md-offset-6">
-            <button class="btn btn-default circled" ng-click="sendBulkMessages()"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button>
-            <button class="btn btn-default circled" ng-click="newPatient()">+ Add Patient</span></button>
-        </h3>
+        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+                <h3 class="physiciansHeader">
+                    <span class="col-sm-6 col-md-4" ng-repeat="physician in selectedPhysicians">
+                        <span class="col-sm-7 col-md-8">{{ physician.name }}</span>
+                        <span class="col-sm-3 col-md-2 roundMiniBox" ng-class="{'timer-on-time': physician.time<=15, 'timer-delay-15': physician.time>15 && physician.time<=30, 'timer-delay-30': physician.time>30 && physician.time<=45, 'timer-delay-45': physician.time>45}">{{ getPhysicianTime(physician) }}</span>
+                        <span class="col-sm-2"> ;</span>  
+                    </span>
+                </h3>
+            </div>
+        </div>
     </div>
-    <h3 class="physiciansHeader">
-        <span class="col-sm-6 col-md-4" ng-repeat="physician in selectedPhysicians">
-            <span class="col-sm-8">{{ physician.name }}</span>
-            <span class="col-sm-2 roundMiniBox" ng-class="{'timer-on-time': physician.time<=15, 'timer-delay-15': physician.time>15 && physician.time<=30, 'timer-delay-30': physician.time>30 && physician.time<=45, 'timer-delay-45': physician.time>45}">{{ getPhysicianTime(physician) }}</span>
-            <span class="col-sm-2"> ;</span>  
-        </span>
-    </h3>
-    <br>
-    <table class="col-sm-12 table table-striped">
-        <thead style="text-align:left; white-space: nowrap; font-weight: bold;">
-            <tr>
-                <th style="width:5%; border-bottom:transparent"></th>
 
-                <th ng-click="filteringActive(1);" ng-class="{'blueFilter': colFilter=='1','blackFilter': colFilter!='1'}">Appt Time<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='1' && arrowDirection=='0'}" aria-hidden="true"/></th>
+    <div class="panel col-sm-12">
+        <!-- Header Start -->
+        <div class="row patientTitles" style="">
+            <div class="col-sm-offset-1 col-sm-1 apptTimeRow" ng-click="filteringActive(1);" ng-class="{'blueFilter': colFilter=='1','blackFilter': colFilter!='1'}">Appt Time<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='1' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
-                <th ng-click="filteringActive(2);" ng-class="{'blueFilter': colFilter=='2','blackFilter': colFilter!='2'}">Name<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='2' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='2' && arrowDirection=='0'}" aria-hidden="true"/></th>
+            <div class="col-sm-1 nameRow" ng-click="filteringActive(2);" ng-class="{'blueFilter': colFilter=='2','blackFilter': colFilter!='2'}">Name<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='2' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='2' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
-                <th ng-click="filteringActive(2.1);" ng-class="{'blueFilter': colFilter=='2.1','blackFilter': colFilter!='2.1'}">Type<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='2.1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='2.1' && arrowDirection=='0'}" aria-hidden="true"/></th>
+            <div class="col-sm-1 typeRow" ng-click="filteringActive(2.1);" ng-class="{'blueFilter': colFilter=='2.1','blackFilter': colFilter!='2.1'}">Type<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='2.1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='2.1' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
-                <th ng-click="filteringActive(3);" ng-class="{'blueFilter': colFilter=='3','blackFilter': colFilter!='3'}">Physician<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='3' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='3' && arrowDirection=='0'}" aria-hidden="true"/></th>
+            <div class="col-sm-1 physicianRow" ng-click="filteringActive(3);" ng-class="{'blueFilter': colFilter=='3','blackFilter': colFilter!='3'}">Physician<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='3' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='3' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
-                <th ng-click="filteringActive(4);" ng-class="{'blueFilter': colFilter=='4','blackFilter': colFilter!='4'}">DOB<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='4' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='4' && arrowDirection=='0'}" aria-hidden="true"/></th>
+            <div class="col-sm-1 dobRow" ng-click="filteringActive(4);" ng-class="{'blueFilter': colFilter=='4','blackFilter': colFilter!='4'}">DOB<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='4' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='4' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
-                <th ng-click="filteringActive(5);" ng-class="{'blueFilter': colFilter=='5','blackFilter': colFilter!='5'}">Imaging<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='5' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='5' && arrowDirection=='0'}" aria-hidden="true"/></th>
+            <div class="col-sm-2 imagingRow1" ng-click="filteringActive(5);" ng-class="{'blueFilter': colFilter=='5','blackFilter': colFilter!='5'}">Imaging<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='5' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='5' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
-                <th ng-click="filteringActive(6);" ng-class="{'blueFilter': colFilter=='6','blackFilter': colFilter!='6'}">Status<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='6' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='6' && arrowDirection=='0'}" aria-hidden="true"/></th>
+            <div class="col-sm-2 statusRow" ng-click="filteringActive(6);" ng-class="{'blueFilter': colFilter=='6','blackFilter': colFilter!='6'}">Status<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='6' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='6' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
-                <th ng-click="filteringActive(7);" ng-class="{'blueFilter': colFilter=='7','blackFilter': colFilter!='7'}">Total<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='7' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='7' && arrowDirection=='0'}" aria-hidden="true"/></th>
-                
-                <th ></th>
-            </tr>
-        </thead>
-        <tbody style="text-align:left; white-space: nowrap; font-weight: bold; color:#BEBEBE;" >
-            <tr ng-repeat-start="patient in patientList">
-                <td style="padding: 2% 0% 2% 0.5%;background-color:white; border-top:transparent;">
-                    <button type="button" ng-show="patient.currentState == 'EX'" class="btn btn-default circled" ng-click="discharge(patient)">Discharge</button>
-                    <button type="button" class="btn btn-primary circled" ng-show="patient.currentState == 'WR'" ng-click="callBack(patient)">Call Back</button>
-                    <button type="button" class="btn btn-default circled" ng-show="patient.currentState == 'NCI'" ng-click="register(patient)">Register</button>
-                </td>
-                <td style="padding: 2% 0% 2% 0.5%;">{{ patient.apptTime | date:'hh:mm a'}}</td>
-                <td style="padding: 2% 0% 2% 0.5%;">{{ patient.fullName }}</td>
-                <td style="padding: 2% 0% 2% 0.5%;">{{ patient.apptType }}</td>
-                <td style="padding: 2% 0% 2% 0.5%;">{{ patient.physician.name }}</td>
-                <td style="padding: 2% 0% 2% 0.5%;">{{ patient.dateBirth | date:'MM/dd/yyyy'}}</td>
-                <td style="padding: 2% 0% 2% 0.5%;">
-                    <div class="retinaContainer dashboardSVG">
+            <div class="col-sm-1 totalRow" ng-click="filteringActive(7);" ng-class="{'blueFilter': colFilter=='7','blackFilter': colFilter!='7'}">Total<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='7' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='7' && arrowDirection=='0'}" aria-hidden="true"/></div>
+        </div>
+        <!-- Header End -->
+        <!-- Body Start -->
+        <div class="row patientRow" ng-class="{oddRow: $odd}" ng-repeat="patient in patientList">
+            <div class="col-sm-1 patientData buttonRow" style="background-color:white; border-top:transparent;">
+                <button type="button" ng-show="patient.currentState == 'EX'" class="btn btn-default circled" ng-click="discharge(patient)">Discharge</button>
+                <button type="button" class="btn btn-primary circled" ng-show="patient.currentState == 'WR'" ng-click="callBack(patient)">Call Back</button>
+                <button type="button" class="btn btn-default circled" ng-show="patient.currentState == 'NCI'" ng-click="register(patient)">Register</button>
+            </div>
+            <div class="col-sm-1 patientData bordered apptTimeRow">{{ patient.apptTime | date:'hh:mm a'}}</div>
+            <div class="col-sm-1 patientData bordered nameRow">{{ patient.fullName }}</div>
+            <div class="col-sm-1 patientData bordered typeRow">{{ patient.apptType }}</div>
+            <div class="col-sm-1 patientData bordered physicianRow">{{ patient.physician.name }}</div>
+            <div class="col-sm-1 patientData bordered dobRow">{{ patient.dateBirth | date:'MM/dd/yyyy'}}</div>
+            <div class="col-sm-2 patientData bordered imagingRow1">
+                <div class="retinaContainer dashboardSVG">
                         <img ng-src="{{ getImagingState(patient) }}" ng-click="toogleImagingState(patient)" ng-class="{clickable: isImagingClickable(patient)}" />
-                    </div>
-                    <div id="{{ 'imagingIcons' + patient._id }}" ng-show="patient.needsImaging && !patient.imagingTimestamp" style="display:inline-block">
-                        <div class="retinaContainer dashboardSVG">
-                            <img src="img/emailicon.png" ng-class="{clickable: !patient.noPhone}" ng-click="sendImagingMessage(patient)"/>
-                        </div>
-                        <div class="retinaContainer dashboardSVG">
-                            <img src="img/ok2icon.png" class="clickable" ng-click="completeImagingState(patient)"/>
-                        </div> 
-                    </div>
-                </td>                
-                <td style="padding: 2% 0% 2% 0.5%;"><span ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }} min </span>-<span ng-class="getTimerColor('EX', patient)"> EX {{ getEXTime(patient) }} min</span></td>
-                <td style="padding: 2% 0% 2% 0.5%;"><div class="roundMiniBox" ng-class="{'timer-not-started': patient.currentState == 'DC' || patient.currentState == 'NCI' || getTotalTime(patient) < 0}">{{ getTotalTime(patient) }}</div></td>
-                <td style="padding: 2%;text-align:right;">
+                </div>
+                <div id="{{ 'imagingIcons' + patient._id }}" ng-show="patient.needsImaging && !patient.imagingTimestamp" style="display: inline-block;">
                     <div class="retinaContainer dashboardSVG">
-                        <img src="img/expandIcon.svg" class="imageButton"  data-toggle="collapse" data-target="{{ '#miniform' + patient._id }}" onclick="onCollapseButton(this);" ng-click="loadPatientHistory(patient)"/>
-                    <div>
-                </td>
-            </tr>
-            <tr id="{{ 'miniform' + patient._id }}" class="accordian-body collapse " ng-repeat-end>
-                <td style="padding: 2% 0% 2% 0.5%;background-color:white; border-top:transparent;"></td>
-                <td colspan="10" >
-
-                    <div style="margin: -9px -7px -28px -8px;">
-                        <div class="well">
+                        <img src="img/emailicon.svg" ng-class="{clickable: !patient.noPhone}" ng-click="sendImagingMessage(patient)"/>
+                    </div>
+                    <div class="retinaContainer dashboardSVG">
+                        <img src="img/ok2icon.svg" class="clickable" ng-click="completeImagingState(patient)"/>
+                    </div> 
+                </div>
+            </div>                
+            <div class="col-sm-2 patientData bordered statusRow"><span ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }} min </span>-<span ng-class="getTimerColor('EX', patient)"> EX {{ getEXTime(patient) }} min</span></div>
+            <div class="col-sm-1 patientData bordered totalRow"><div class="roundMiniBox" ng-class="{'timer-not-started': patient.currentState == 'DC' || patient.currentState == 'NCI' || getTotalTime(patient) < 0}">{{ getTotalTime(patient) }}</div></div>
+            <div class="col-sm-1 patientData bordered expandBtnRow">
+                <div class="retinaContainer dashboardSVG">
+                    <img src="img/expandIcon.svg" class="imageButton" data-toggle="collapse" data-target="{{ '#miniform' + patient._id }}" onclick="onCollapseButton(this);" ng-click="loadPatientHistory(patient)"/>
+                </div>
+            </div>
+            <!-- Start Collapsible -->
+            <div class="col-sm-offset-1 col-sm-11 accordian-body collapse patientExpandible" id="{{ 'miniform' + patient._id }}">
+                <div class="row">
+                    <div class="col-sm-2" style="font-weight: bold; text-align:left;cursor:pointer" ng-click="showMessage=false" ng-class="{'attentionFont' : !showMessage} ">
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>&nbsp;Info 
+                    </div>
+                    <div class="col-sm-2" style="font-weight: bold; text-align:left;cursor:pointer" ng-click="showMessage=true" ng-class="{'attentionFont' : showMessage}">
+                        <div style="display:inline-block;" >
+                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> &nbsp;Contact 
+                        </div>
+                    </div>
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-6" style="font-weight: bold; text-align:left; ">
+                        <div style="color:#7F7F7F">Prior Appointment Wait Times</div>
+                    </div>
+                </div>
+                <br/>
+                <div class="row" style="text-align:left">
+                    <div class="col-sm-6" style="padding-right: 30px;">
+                        <div  ng-show="showMessage">
                             <div class="row">
-                                <div class="col-sm-1" style="font-weight: bold; text-align:left;cursor:pointer" ng-click="showMessage=false" ng-class="{'attentionFont' : !showMessage} ">
-                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>&nbsp; Info 
-                                </div>
-                                <div class="col-sm-1" style="font-weight: bold; text-align:left;cursor:pointer" ng-click="showMessage=true" ng-class="{'attentionFont' : showMessage}">
-                                    <div style="display:inline-block;" >
-                                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> &nbsp;Contact 
-                                    </div>
-                                </div>
-                                <div class="col-sm-4" ></div>
-                                <div class="col-sm-6" style="font-weight: bold; text-align:left; ">
-                                    <div style="color:#7F7F7F">Prior Appointment Wait Times</div>
+                                <div class="col-sm-12">
+                                    <textarea id="{{ 'miniformTextArea' + patient._id }}" class="form-control" rows="5" id="comment" placeholder="Send text message..." ng-model="patient.message" ></textarea>
                                 </div>
                             </div>
-                            <br/>
-                            <div class="row" style="text-align:left">
-                                <div class="col-sm-6" style="padding-right: 30px;">
-                                    <div  ng-show="showMessage">
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <textarea id="{{ 'miniformTextArea' + patient._id }}" class="form-control" rows="5" id="comment" placeholder="Send text message..." ng-model="patient.message" ></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <div id="{{ 'miniformTriangle' + patient._id }}" style="margin-left: {{ patient.messageSelectorPos }}%;">
-                                                    <div class="popTriangle" style="border-width: 12px 13px 0px 13px; border-color: #C9C9C9 transparent;"></div>
-                                                    <div class="popTriangle" style="margin-top: -12px; margin-left: 15px;"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-3 col-md-2" ng-click="msjToCustom(patient)" ng-class="{'messageOn' : patient.messageSelectorPos == '1'} " style="cursor: pointer;">Custom</div>
-                                            <div class="col-sm-3 col-md-2" ng-click="msjToDefault(patient)" ng-class="{'messageOn' : patient.messageSelectorPos != '1'} " style="cursor: pointer;">Default</div>
-                                            <div class="hidden-sm col-md-4"></div>
-                                            <div class="col-sm-3 col-md-2" style="font-weight: bold; color:#7F7F7F;">Cancel</div>
-                                            <div class="col-sm-3 col-md-2 btn btn-default" style="background-color: #72C394; color: white; font-weight: bold; margin-top: -1%;" ng-disabled="patient.noPhone" ng-click="sendMessage(patient)">Send</div>
-                                        </div>
-                                    </div>
-                                    <div id="{{ 'miniformInfo' + patient._id }}" ng-show="!showMessage">
-                                        MRN: {{ patient.medicalRecordNumber }}<br><br>
-                                        <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
-                                        {{ patient.cellphone }}<br><br>
-                                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-                                        {{ patient.email }}<br><br>
-                                        <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-                                        {{ patient.adress }}<br>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div id="{{ 'miniformTriangle' + patient._id }}" style="margin-left: {{ patient.messageSelectorPos }}%;">
+                                        <div class="popTriangle" style="border-width: 12px 13px 0px 13px; border-color: #C9C9C9 transparent;"></div>
+                                        <div class="popTriangle" style="margin-top: -12px; margin-left: 15px;"></div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6" style="border-left: thick solid #C9C9C9; border-width: 1px;">
-                                    <div class="row" ng-repeat="record in patient.history">
-                                        <div class="col-sm-3">{{ record.apptTime | date: 'MM/dd/yy'}}</div>
-                                        <div class="col-sm-6"><span ng-class="getTimerColor('WRH', record)">WR {{ getWRTime(record) }} min </span>-<span ng-class="getTimerColor('EXH', record)"> EX {{ getEXTime(record) }} min</span></div>
-                                        <div class="col-sm-3"><div class="roundMiniBox">{{ getTotalTime(record) }}</div></div>
-                                    </div>
-                                    <hr />
-                                    <div style="text-align:right;color:#7F7F7F;font-weight: normal;">
-                                        See all
-                                    </div>
-                                    <br/>
-                                </div>
-                            </diV>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2" ng-click="msjToCustom(patient)" ng-class="{'messageOn' : patient.messageSelectorPos == '1'} " style="cursor: pointer;">Custom</div>
+                                <div class="col-sm-3 col-md-2" ng-click="msjToDefault(patient)" ng-class="{'messageOn' : patient.messageSelectorPos != '1'} " style="cursor: pointer;">Default</div>
+                                <div class="hidden-sm col-md-4"></div>
+                                <div class="col-sm-3 col-md-2" style="font-weight: bold; color:#7F7F7F;">Cancel</div>
+                                <div class="col-sm-3 col-md-2 btn btn-default" style="background-color: #72C394; color: white; font-weight: bold; margin-top: -1%;" ng-disabled="patient.noPhone" ng-click="sendMessage(patient)">Send</div>
+                            </div>
+                        </div>
+                        <div id="{{ 'miniformInfo' + patient._id }}" ng-show="!showMessage">
+                            MRN: {{ patient.medicalRecordNumber }}<br><br>
+                            <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+                            {{ patient.cellphone }}<br><br>
+                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                            {{ patient.email }}<br><br>
+                            <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                            {{ patient.adress }}<br>
                         </div>
                     </div>
+                    <div class="col-sm-6 col-lg-5" style="border-left: thick solid #C9C9C9; border-width: 1px;">
+                        <div class="row" ng-repeat="record in patient.history">
+                            <div class="col-sm-3">{{ record.apptTime | date: 'MM/dd/yy'}}</div>
+                            <div class="col-sm-6"><span ng-class="getTimerColor('WRH', record)">WR {{ getWRTime(record) }} min </span>-<span ng-class="getTimerColor('EXH', record)"> EX {{ getEXTime(record) }} min</span></div>
+                            <div class="col-sm-3"><div class="roundMiniBox">{{ getTotalTime(record) }}</div></div>
+                        </div>
+                        <hr />
+                        <div style="text-align:right;color:#7F7F7F;font-weight: normal;">
+                            See all
+                        </div>
+                        <br/>
+                    </div>
+                </div>
+            </div>
+            <!-- End Collapsible -->       
+        </div>
+        <!-- Body End -->
+    </div>
 
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
 </div>

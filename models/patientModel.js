@@ -10,7 +10,7 @@ var PatientSchema = new Schema({
 	email: String,
 	adress: String,
 	medicalRecordNumber: String, // TODO talvez necesite un índice
-	patientType: String,
+	// patientType: String,
 	apptTime: Date,
 	apptType: String,
 	apptDuration: Number,
@@ -48,7 +48,7 @@ var patientModel = mongoose.model('patients', PatientSchema);
 //////////////////////////////////////////////////////////////////////////////
 
 PatientSchema.virtual('fullName').get(function () {
-	return this.firstName + " " + this.lastName;
+	return (this.firstName ? this.firstName : "") + " " + (this.lastName ? this.lastName : "");
 });
 
 PatientSchema.virtual('apptEndTime').get(function () {

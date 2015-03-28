@@ -1,3 +1,5 @@
+// var _ = require('underscore');
+
 var userModel = require('../models/userModel');
 var patientModel = require('../models/patientModel');
 
@@ -8,7 +10,10 @@ module.exports = {
 }
 
 function listarPhysicians(callback) {
-  userModel.find({role: "Physician"}, "name department role npi", callback);
+  userModel
+    .find({role: "Physician"}, "name department role npi")
+    .sort("name")
+    .exec(callback);
 }
 
 function obtenerPhysician(id, callback) {
@@ -33,19 +38,48 @@ function getNextPatientWaitTime (physicianId, callback) {
 	patientModel
 		.find({
 			physician: physicianId,
-			apptTime: {$gte: lowDate, $lt: highDate}
+			apptTime: {$gte: lowDate, $lt: highDate},
+            $or: [{currentState: "WR"}, {currentState: "EX"}]
 		})
-		.exists("WRTimestamp")
 		.sort({WRTimestamp: 1})
 		.exec(function (err, patients) {
 			if (err) callback(err);
-    		else{
-    			if(patients.length > 0) {
-    				var patientWRTime = patients[0].WRTimestamp;
-    				var waitTime = Math.round(((new Date()).getTime() - patientWRTime.getTime()) / (60*1000));
-    				callback(null, waitTime);
-    			}
-    			else callback(null, 0);
-    		} 
+    		else if(patients.length > 0) {
+                var now = new Date();
+                var longWRPatient;
+                var waitTime = 0;
+                
+                for (var i = 0; i < patients.length; i++) {
+                    var pat = patients[i];
+                    var wrDate = pat.WRTimestamp;
+                    var apptDate = pat.apptTime;
+                    var exDate = pat.EXTimestamp;
+                    var patwaitTime;
+                    if(pat.currentState == "WR")
+                        if(apptDate.getTime() < wrDate.getTime())
+                            patwaitTime = now.getTime() - wrDate.getTime();
+                        else
+                            patwaitTime = now.getTime() - apptDate.getTime();
+                    else 
+                        if(apptDate.getTime() < wrDate.getTime())
+                            patwaitTime = exDate.getTime() - wrDate.getTime();
+                        else
+                            patwaitTime = exDate.getTime() - apptDate.getTime();
+
+                    if(patwaitTime > waitTime) {
+                        longWRPatient = pat;
+                        waitTime = patwaitTime;
+                    }
+                };
+
+                if(longWRPatient && now.getTime() >= longWRPatient.apptTime.getTime())  {
+                    var minWait = Math.round(waitTime / (60*1000));
+                    callback(null, minWait);
+                }
+                else 
+                    callback(null, 0);
+			}
+            else callback(null, 0);
+    		
 		});
 }

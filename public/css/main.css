@@ -3,6 +3,8 @@ html {
 	height: 100%; 
 }
 body { 
+	font-family: "ProximaNova";
+	font-size: 14px;
 	min-height: 100%; 
 	padding-top: 71px;
 }
@@ -21,6 +23,11 @@ body {
 	border-radius: 15px;
 }
 
+.modal-dialog {
+	margin-top: 71px;
+}
+
+
 /* 
 //////////////////////////////////////////////////////////////////////
 /////////////////////////   ALERTS   /////////////////////////////////
@@ -31,7 +38,7 @@ body {
     left: 30%;
     position: fixed;
     text-align: center;
-    /*top: 70px;*/
+    top: 77px;
     width: 40%;
     z-index: 1000;
 }
@@ -68,17 +75,18 @@ body {
 	margin-top: -20px;
 	margin-left: -25%;
 }
-
-.imglogo img {
-	width: 100%;
-	height: 100%;
+.imglogo1 {
+	width: 46px;
+	height: 50px;
+	margin-top: -20px;
+	margin-left: -25%;
 }
 
 .helpText {
-	font-size:0.9em; 
-	margin: 5px; 
-	margin-left: -3%;
-	width: 55%; 
+	font-size:1.3em; 
+	/*margin: 5px; */
+	margin: 0 0 0 -1%;
+	width: 70%; 
 }
 
 /* 
@@ -91,6 +99,7 @@ body {
 	background-color: #F7F8F8; 
 	vertical-align: top;
 	position: fixed;
+	z-index: 98;
 }
 
 .menuPhysicians {
@@ -149,15 +158,35 @@ body {
 //////////////////////////////////////////////////////////////////////
 */
 
+.clock {
+	padding-left: 2em;
+}
+
+.btnBarHeader {
+	margin-top: 15px;
+	padding-right: 0;
+	width: 60%;
+}
+.expandBtnHeader {
+	padding-bottom: 12px;
+	text-align: center;
+	width: 6%;
+}
+.expandBtnHeader img {
+	padding-bottom: 12px;
+}
+
 .physiciansHeader {
 	color: #539CD5;
 	margin-left: 7%;
-	margin-top: 2%;
+	margin-top: 0;
 }
 
 .timer-not-started {
-    border-color: #CBC9CA;
-	color: #CBC9CA;
+    /*border-color: #CBC9CA;
+	color: #CBC9CA;*/
+	border-color: #000;
+	color: #000;
 }
 .timer-on-time {
     border-color: #5CC092;
@@ -185,6 +214,115 @@ body {
 	margin-left: 5.5em;
 }
 
+.patientTitles {
+	margin-top: 1em; 
+	margin-bottom: 1em;
+}
+.patientTitles div {
+	font-weight: bold; 
+	padding: 10px 2px;
+	text-align: center;
+}
+
+.patientRow {
+	color: #000;
+	font-family: "ProximaNova-Light";
+}
+
+.patientRow div.patientData {
+	height: 4.6em;
+	padding-left: 2px;
+	padding-right: 2px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.patientRow div.bordered {
+	background-color: rgb(249,250,250);	
+	border-top: 1px solid rgb(221, 221, 221);
+	border-bottom: 1px solid rgb(221, 221, 221);
+}
+
+.patientRow div.borderedFull {
+	background-color: white;	
+	border: 1px solid rgb(221, 221, 221);
+}
+
+.oddRow div.bordered {
+	background-color: white;	
+}
+
+.buttonRow {
+	padding-top: .9em;
+}
+
+.apptTimeRow {
+	padding-top: 1.6em;
+	width: 10%;
+}
+
+.nameRow {
+	font-weight: bold;
+	padding-top: 1.6em;
+	width: 13.6%;
+}
+
+.typeRow {
+	padding-top: 1.6em;
+	width: 6%;
+}
+
+.physicianRow {
+	padding-top: 1.6em;
+	width: 13%;
+}
+
+.ageRow {
+	padding-top: 1.6em;
+	width: 5%;
+}
+
+.dobRow {
+	padding-top: 1.6em;
+	width: 8%;
+}
+
+.imagingRow1 {
+	padding-top: .9em;
+	width: 15%;
+}
+
+.imagingRow {
+	padding-top: .9em;
+	width: 8%;
+}
+
+.atRow {
+	width: 10%;
+	padding-top: .9em;
+}
+
+.statusRow {
+	padding-top: 1.6em;
+	width: 15%;
+}
+
+.totalRow {
+	padding-top: 1em;
+	width: 6%;
+} 
+
+.expandBtnRow {
+	padding-top: .9em;
+	width: 5%;
+}
+
+.patientExpandible {
+	padding: 19px;
+	background-color: rgb(249,250,250);
+}
+
 .dashboardSVG{
+	display: inline-block;
     width:2.6em;
 }

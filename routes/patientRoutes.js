@@ -29,6 +29,7 @@ module.exports = function (router, io) {
 
             console.log(data, "New Patient Added");
             res.json(data);
+            syncController.syncPatient(data, io);
         });
     })
     .get(function(req, res) {
