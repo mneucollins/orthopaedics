@@ -8,6 +8,7 @@ module.exports = {
   eliminarPatient: eliminarPatient,
   obtenerPatientHistory: obtenerPatientHistory,
   listPatientsToday: listPatientsToday,
+  listPatientsBetweenDates : listPatientsBetweenDates,
   listPatientsbyPhysician: listPatientsbyPhysician,
   listPatientsbyPhysicianToday: listPatientsbyPhysicianToday,
   listPatientsTodayByState: listPatientsTodayByState
@@ -61,6 +62,28 @@ function listPatientsToday(callback) {
     lowDate.setSeconds(0);
 
     var highDate = new Date();
+    highDate.setHours(0);
+    highDate.setMinutes(0);
+    highDate.setSeconds(0);
+    highDate.setDate(highDate.getDate()+1);
+
+    patientModel.find({apptTime: {$gte: lowDate, $lt: highDate}})
+        .populate("physician")
+        .exec(function(err, patients) {
+            if (err) callback(err);
+            else callback(null, patients);
+    });
+}
+
+function listPatientsBetweenDates(lowDate,highDate,callback) {
+
+    lowDate.setHours(0);
+    lowDate.setMinutes(0);
+    lowDate.setSeconds(0);
+
+    if(!highDate){
+      highDate = lowDate;
+    }
     highDate.setHours(0);
     highDate.setMinutes(0);
     highDate.setSeconds(0);
