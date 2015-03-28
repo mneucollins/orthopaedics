@@ -104,8 +104,11 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                     list[index].messageSelectorPos = 1;
                 });
                 $scope.patientList = $scope.patientList.concat(pList);
+                pList = _.sortBy($scope.patientList, function(patient){ return new Date(patient.apptTime).getTime(); }); 
+                $scope.patientList = pList;
             });
         };
+        
     });
 
     $scope.getPhysicianTime = function (physician) {
@@ -179,8 +182,9 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     
     //Filtering function styles.
     //Start ordering by ApptTime, column 1";
-    $scope.arrowDirection = 1;
+    $scope.arrowDirection = 0;
     $scope.colFilter  = 1;
+
     $scope.filteringActive = function (idLauncher){
         $scope.colFilter = idLauncher;
         var pList;
@@ -214,6 +218,9 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                             return new Date(counter);
                         });
                 break;
+            case 4.2:
+                pList = _.sortBy($scope.patientList, function(patient){ return patient.age; });
+                break;
             case 5:
                 pList = _.sortBy($scope.patientList, function(patient){ 
                             if(patient.needsImaging)
@@ -240,11 +247,11 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         }
 
         if($scope.arrowDirection == 1){
-            $scope.patientList = pList.reverse();
+            $scope.patientList = pList;
             $scope.arrowDirection = 0;
         }
         else{
-            $scope.patientList = pList;
+            $scope.patientList = pList.reverse();
             $scope.arrowDirection = 1;
         }
     }

@@ -53,7 +53,7 @@ var testPhysicians = [{npi:"8221653205216597",name:"Dr. X",username:"drx",passwo
 
 var testUsrs = [{name:"Imaging User",username:"imaging",password:"123456",role:"Imaging"},
 	{name:"first Provider User",username:"first",password:"123456",role:"FirstProvider"},
-	{name:"Receptionist User",username:"receptionist",password:"123456",role:"Receptionist"}];
+	{name:"Front Office",username:"frontoffice",password:"123456",role:"Receptionist"}];
 
 for (var i = 0; i < testPhysicians.length; i++) {
 	
