@@ -5,6 +5,9 @@ var patientController = require('./controllers/patientController');
 var patientModel = require('./models/patientModel');
 var userModel = require('./models/userModel');
 
+module.exports = {
+	escribirExcel : escribirExcel
+}
 
 function escribirExcel (lowDate,highDate) {
 
