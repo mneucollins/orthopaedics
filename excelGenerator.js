@@ -1,4 +1,3 @@
-//var cron         = require('cron');
 var XLSX 		 = require('xlsx');
 var _ 		 	 = require('underscore');
 var mongoose     = require('mongoose');
@@ -6,41 +5,13 @@ var patientController = require('./controllers/patientController');
 var patientModel = require('./models/patientModel');
 var userModel = require('./models/userModel');
 
-//JOB CREATION
-// --------------------------------------------------------------------------
 
-/*function createCronJob () {
-	var CronJob = cron.CronJob;
+function escribirExcel (lowDate,highDate) {
 
-	var job = new CronJob('00 58 16 * * 1-7', function(){
-		console.log('pertinent job!');
-	    // SS MM HH * * 1-7
-	    // 1-7 (dias de la semana)
+var nombreArc = "";
 
-	  }, function () {
-	    // This function is executed when the job stops
-	  },
-	  true // Start the job right now *
-	);
-}*/
-
-//function escribirExcel () {
 	console.log("hakuna matata - The report starts to work");
 	mongoose.connect('mongodb://localhost:27017/orthopaedics');
-
-
-	//esto es solo para pruebas, se debe borrar al final
-
-	var lowDate = new Date();
-    lowDate.setHours(0);
-    lowDate.setMinutes(0);
-    lowDate.setSeconds(0);
-
-    var highDate = new Date();
-    highDate.setHours(0);
-    highDate.setMinutes(0);
-    highDate.setSeconds(0);
-    highDate.setDate(highDate.getDate()+1);
 
     patientController.listPatientsBetweenDates(lowDate,highDate,function(err,patientList){
     	if(err)
@@ -53,7 +24,7 @@ var userModel = require('./models/userModel');
 		var sheet_name_list = workbook.SheetNames;
 		var worksheet = workbook.Sheets["Hoja1"];
 
-		var range = {s: {c:0,r:0}, e:{c:4, r: patientList.length + 1}};
+		var range = {s: {c:0,r:0}, e:{c:5, r: patientList.length + 1}};
 		worksheet['!ref'] = XLSX.utils.encode_range(range);
 
 		var R = range.s.r + 1;
@@ -62,7 +33,6 @@ var userModel = require('./models/userModel');
 
     	for(var i=0 ; i<patientList.length ; i++, ++R ){
 
-    		console.log("comezamos con el paciente "+i);
 
     		var patient = patientList[i];
     		var wrTime = 0;
@@ -74,7 +44,6 @@ var userModel = require('./models/userModel');
 	        var dcDate = new Date(patient.DCTimestamp);
         	var nowDate = new Date();
 
-    		console.log("cargados dates del paciente "+i);
     		//WRTime
     		if(patient.currentState != "NCI")
 	        	if(patient.currentState == "WR")
@@ -88,7 +57,6 @@ var userModel = require('./models/userModel');
 	            	else
 	                	wrTime = Math.round((exDate.getTime() - apptDate.getTime()) / (60*1000));
 
-    		console.log("calculado wrtime del paciente "+i);
 
     		//EXTime
     		if(patient.currentState != "NCI" && patient.currentState != "WR")
@@ -109,15 +77,14 @@ var userModel = require('./models/userModel');
 
 	        totalTime = totalTime > 0 ? totalTime : 0;
 
-    		console.log("patient "+i+" wrTime "+wrTime);
 
     		var data = [];
     		data.push({data:patient.medicalRecordNumber, tipo: "s"});
+    		data.push({data:patient.apptTime, tipo: "d"});
+    		data.push({data:patient.needsImaging, tipo: "b"});
     		data.push({data:wrTime, tipo: "n"});
     		data.push({data:exTime, tipo: "n"});
     		data.push({data:totalTime, tipo: "n"});
-    		
-    		console.log("creada la data del paciente "+i);
 
 			for(var C = 0; C < data.length; C++) {
 				var cellAddr = XLSX.utils.encode_cell({c:C, r:R});
@@ -133,71 +100,23 @@ var userModel = require('./models/userModel');
 		
 		var dateReport = new Date();
 		var month = Math.round(dateReport.getMonth()+1);
-		var nombreArc = 'report'+dateReport.getFullYear()+'_'+month+'_'+dateReport.getDate()+
+		nombreArc = 'report'+dateReport.getFullYear()+'_'+month+'_'+dateReport.getDate()+
 	  		'_'+dateReport.getHours()+dateReport.getMinutes()+dateReport.getSeconds()+'.xlsx';
 	  	XLSX.writeFile(workbook, './reports/'+nombreArc);
 	  	console.log("archivo escrito :)");
 
     });
 
-	/*patientModel.find({surgeryDate: {'$ne': null }}).populate("surgeon").exec(function (err, patientList) {
-	if (err) 
-		return console.error(err);
+return nombreArc;
 
-	// console.log(patientList);
-	console.log("base de datos leida");
+}
 
-	//Load excel template
-	var workbook = XLSX.readFile('ExparelTest2.xlsx', {cellStyles:true});
-	var sheet_name_list = workbook.SheetNames;
-	var worksheet = workbook.Sheets["Hoja1"];
 
-	var range = {s: {c:0,r:0}, e:{c:19, r: patientList.length + 3}};
-	worksheet['!ref'] = XLSX.utils.encode_range(range);
-	// var range = {s: {c:2,r:0}, e:{c:19, r: 15}};
+//esto es solo para pruebas, se debe borrar al final
 
-	var R = range.s.r + 3;
-	for (var i = 0; i < patientList.length; i++) {
-		var patient = patientList[i];
-		var patientJournals = _.sortBy(patient.painJournal, function (journal) { return journal.day; });
+var lowDate = new Date();
+var highDate = new Date();
 
-		for (var j = 0; j < patientJournals.length; j++, ++R) {
-			var data = [];
-			data.push({data: patient.fuseId, tipo: "s"});
-			data.push({data: patient.surgeon.name, tipo: "s"});
-			data.push({data: patientJournals[j].day, tipo: "n"});
-			data.push({data: patientJournals[j].timestamp, tipo: "d"});
-			data.push({data: patientJournals[j].painScore, tipo: "n"});
-			data.push({data: patientJournals[j].sideEffects, tipo: "s"});
-			data.push({data: patientJournals[j].comments, tipo: "s"});
-			data.push({data: patientJournals[j].kneePoints.join(", "), tipo: "s"});
+escribirExcel(lowDate,highDate);
 
-			// TODO sacar por día los meds y agregarlos
-
-			console.log("datos armados");
-
-			for(var C = 0; C < data.length; C++) {
-				var cellAddr = XLSX.utils.encode_cell({c:C, r:R});
-				var cellData = {
-					t: data[C].tipo, 
-					v: data[C].data
-				};
-
-				worksheet[cellAddr] = cellData;
-			}
-		};
-	}
-
-  	XLSX.writeFile(workbook, 'out.xlsx');
-  	console.log("archivo escrito :)");
-});*/
-
-//}
-
-/*escribirExcel();
-
-module.exports = {
-	createCronJob: createCronJob,
-	escribirExcel: escribirExcel
-};*/
 
