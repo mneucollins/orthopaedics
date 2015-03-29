@@ -68,7 +68,7 @@
     </div>
 
 
-    <div class="panel col-sm-12 dashboardBody">
+    <div class="panel col-sm-12 dashboardBody backgroundMobile">
         <!-- Header Start -->
         <div class="hidden-xs row patientTitles" style="">
             <div class="col-sm-offset-1 col-sm-1 apptTimeRow" ng-click="filteringActive(1);" ng-class="{'blueFilter': colFilter=='1','blackFilter': colFilter!='1'}">Appt Time<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='1' && arrowDirection=='0'}" aria-hidden="true"/></div>
@@ -93,16 +93,15 @@
         <!-- Body Start -->
         <div class="row patientRow" ng-class="{oddRow: $odd}" ng-repeat="patient in patientList | dischargePatientsFilter: $root.hideDischarged">
             <div class="col-xs-12 visible-xs borderedFull ">
-                <div class="col-xs-12 visible-xs " style="  padding: 13px;">{{ patient.apptTime | date:'hh:mm a'}}
-                    &nbsp;&nbsp;<b>{{ patient.fullName }}</b></div>
-                <div class="col-xs-12 visible-xs  ">{{ patient.apptType }} &nbsp;|&nbsp;
+                <div class="col-xs-12 visible-xs" style="  padding: 13px;"><div class="patienInfo">{{ patient.apptTime | date:'hh:mm a'}}</div> &nbsp;&nbsp;<div class="patienInfoFocus"><b>{{ patient.fullName }}</b></div></div>
+                <div class="col-xs-12 visible-xs patienInfo">{{ patient.apptType }} &nbsp;|&nbsp;
                     {{ patient.physician.name }}</div>
                 <div class="col-xs-12 visible-xs  ">
                     <hr />
                 </div>
-                <div class="col-xs-7 visible-xs  "><span ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }} min </span>-<span ng-class="getTimerColor('EX', patient)"> EX {{ getEXTime(patient) }} min</span></div>
+                <div class="col-xs-7 visible-xs patienInfoFocus"><span ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }} </span>-<span ng-class="getTimerColor('EX', patient)"> EX {{ getEXTime(patient) }} </span></div>
                 <div class="col-xs-5 visible-xs " style="padding-bottom: 12px;">
-                <div class="roundMiniBox"  ng-class="{'timer-not-started': patient.currentState == 'DC' || patient.currentState == 'NCI' || getTotalTime(patient) < 0}">{{ getTotalTime(patient) }}</div></div>
+                <div class="roundMiniBox "  ng-class="{'timer-not-started': patient.currentState == 'DC' || patient.currentState == 'NCI' || getTotalTime(patient) < 0}"><div class="patienInfoFocus" style="color: #0099F0">{{ getTotalTime(patient) }}</div></div></div>
             </div>
 
             <div class="clearfix visible-xs-block"></div>
