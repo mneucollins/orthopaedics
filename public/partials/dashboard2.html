@@ -107,7 +107,8 @@
             </div>
 
             <div class="clearfix visible-xs-block"></div>
-            <div class="col-xs-4 col-sm-1 patientData buttonRow patientState" style="background-color:white; border-top:transparent;">
+
+            <div class="col-xs-3 col-sm-1 patientData buttonRow patientState" style="background-color:white; border-top:transparent;">
                 <button type="button" ng-show="patient.currentState == 'EX'" class="btn btn-default circled btnDischarge" ng-click="discharge(patient)">Discharge</button>
                 <button type="button" class="btn btn-primary circled" ng-show="patient.currentState == 'WR'" ng-click="callBack(patient)" ng-disabled="patient.fcStartedTimestamp && !patient.fcFinishedTimestamp">Call Back</button>
                 <button type="button" class="btn btn-default circled" ng-show="patient.currentState == 'NCI'" ng-click="register(patient)">Register</button>
@@ -117,7 +118,7 @@
             <div class="hidden-xs col-sm-1 patientData bordered typeRow">{{ patient.apptType }}</div>
             <div class="hidden-xs col-sm-1 patientData bordered physicianRow">{{ patient.physician.name }}</div>
             <div class="hidden-xs col-sm-1 patientData bordered ageRow">{{ patient.age }}</div>
-            <div class="col-sm-2 patientData bordered fcRow">
+            <div class="col-xs-2 col-sm-2 patientData bordered fcRow">
                 <div class="retinaContainer dashboardSVG">
                     <img ng-src="{{ getFCIcon(patient) }}" ng-click="toogleFCState(patient)" ng-class="{clickable: isFCClickable(patient)}" />
                 </div>
@@ -127,7 +128,7 @@
                     <img ng-src="{{ getImagingState(patient) }}" ng-click="toogleImagingState(patient)" ng-class="{clickable: isImagingClickable(patient)}"/>
                 </div>
             </div>   
-            <div class="col-xs-4 col-sm-1 patientData bordered atRow">
+            <div class="col-xs-2 col-sm-1 patientData bordered atRow">
                 <div class="retinaContainer dashboardSVG">
                     <img ng-src="{{ getATIcon(patient) }}" ng-class="{clickable: patient.currentState == 'EX'}" ng-click="toogleATEntry(patient)"/>
                 </div>
@@ -138,12 +139,14 @@
                 <span class="col-sm-6" ng-class="getTimerColor('EX', patient)"> EX {{ getEXTime(patient) }} min </span>
             </div>
             <div class="hidden-xs col-sm-1 patientData bordered totalRow"><div class="roundMiniBox" ng-class="{'timer-not-started': patient.currentState == 'DC' || patient.currentState == 'NCI' || getTotalTime(patient) < 0}">{{ getTotalTime(patient) }}</div></div>
-            <div class="col-xs-2 col-sm-1 patientData bordered expandBtnRow">
+            <div class="col-xs-4 col-sm-1 patientData bordered expandBtnRow">
                 <div class="retinaContainer dashboardSVG">
                     <img src="img/expandIcon.svg" class="imageButton" data-toggle="collapse" data-target="{{ '#miniform' + patient._id }}" onclick="onCollapseButton(this);" ng-click="loadPatientHistory(patient)"/>
                 </div>
             </div>
+
             <div class="clearfix visible-xs-block"></div>
+            
             <!-- Start Collapsible -->
             <div class="col-sm-offset-1 col-sm-11 accordian-body collapse patientExpandible" id="{{ 'miniform' + patient._id }}">
                 <div class="row">
