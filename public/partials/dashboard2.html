@@ -81,6 +81,8 @@
 
             <div class="col-sm-1 ageRow" ng-click="filteringActive(4.2);" ng-class="{'blueFilter': colFilter=='4.2','blackFilter': colFilter!='4.2'}">Age<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='4.2' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='4.2' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
+            <div class="col-sm-2 fcRow" ng-click="filteringActive(5.1);" ng-class="{'blueFilter': colFilter=='5.1','blackFilter': colFilter!='5.1'}">FC<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='5.1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='5.1' && arrowDirection=='0'}" aria-hidden="true"/></div>
+
             <div class="col-sm-1 imagingRow2" ng-click="filteringActive(5);" ng-class="{'blueFilter': colFilter=='5','blackFilter': colFilter!='5'}">Imaging<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='5' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='5' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
             <div class="col-sm-1 atRow" ng-click="filteringActive(4.1);" ng-class="{'blueFilter': colFilter=='4.1','blackFilter': colFilter!='4.1'}">AT Entry<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='4.1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='4.1' && arrowDirection=='0'}" aria-hidden="true"/></div>
@@ -92,7 +94,7 @@
         <!-- Header End -->
         <!-- Body Start -->
         <div class="row patientRow" ng-class="{oddRow: $odd}" ng-repeat="patient in patientList | dischargePatientsFilter: $root.hideDischarged">
-            <div class="col-xs-12 visible-xs borderedFull ">
+            <div class="col-xs-12 visible-xs borderedFull">
                 <div class="col-xs-12 visible-xs" style="  padding: 13px;"><div class="patienInfo">{{ patient.apptTime | date:'hh:mm a'}}</div> &nbsp;&nbsp;<div class="patienInfoFocus"><b>{{ patient.fullName }}</b></div></div>
                 <div class="col-xs-12 visible-xs patienInfo">{{ patient.apptType }} &nbsp;|&nbsp;
                     {{ patient.physician.name }}</div>
@@ -107,7 +109,7 @@
             <div class="clearfix visible-xs-block"></div>
             <div class="col-xs-4 col-sm-1 patientData buttonRow patientState" style="background-color:white; border-top:transparent;">
                 <button type="button" ng-show="patient.currentState == 'EX'" class="btn btn-default circled btnDischarge" ng-click="discharge(patient)">Discharge</button>
-                <button type="button" class="btn btn-primary circled" ng-show="patient.currentState == 'WR'" ng-click="callBack(patient)">Call Back</button>
+                <button type="button" class="btn btn-primary circled" ng-show="patient.currentState == 'WR'" ng-click="callBack(patient)" ng-disabled="patient.fcStartedTimestamp && !patient.fcFinishedTimestamp">Call Back</button>
                 <button type="button" class="btn btn-default circled" ng-show="patient.currentState == 'NCI'" ng-click="register(patient)">Register</button>
             </div>
             <div class="hidden-xs col-sm-1 patientData bordered apptTimeRow">{{ patient.apptTime | date:'hh:mm a'}}</div>
@@ -115,6 +117,11 @@
             <div class="hidden-xs col-sm-1 patientData bordered typeRow">{{ patient.apptType }}</div>
             <div class="hidden-xs col-sm-1 patientData bordered physicianRow">{{ patient.physician.name }}</div>
             <div class="hidden-xs col-sm-1 patientData bordered ageRow">{{ patient.age }}</div>
+            <div class="col-sm-2 patientData bordered fcRow">
+                <div class="retinaContainer dashboardSVG">
+                    <img ng-src="{{ getFCIcon(patient) }}" ng-click="toogleFCState(patient)" ng-class="{clickable: isFCClickable(patient)}" />
+                </div>
+            </div>
             <div class="col-xs-2 col-sm-1 patientData bordered imagingRow2">
                 <div class="retinaContainer dashboardSVG">
                     <img ng-src="{{ getImagingState(patient) }}" ng-click="toogleImagingState(patient)" ng-class="{clickable: isImagingClickable(patient)}"/>
