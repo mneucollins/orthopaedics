@@ -32,6 +32,8 @@ var PatientSchema = new Schema({
 	DCTimestamp: Date,
 	imagingRequestedTimestamp: Date,
 	imagingTimestamp: Date,
+	fcStartedTimestamp: Date,
+	fcFinishedTimestamp: Date,
 	enterTimestamp: [Date],
 	exitTimestamp: [Date],
 	timestamp: { type: Date, default: Date.now }

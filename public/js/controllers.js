@@ -232,6 +232,16 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                                 return 1;   
                         }); 
                 break;
+            case 5.1:
+                pList = _.sortBy($scope.patientList, function(patient){ 
+                            if(!patient.fcStartedTimestamp)
+                                return 1;   
+                            else if(!patient.fcFinishedTimestamp)
+                                return 2; 
+                            else 
+                                return 3;
+                        }); 
+                break;
             case 6:
                 pList = _.sortBy($scope.patientList, function(patient){ 
                             var wrt = $scope.getWRTime(patient);
@@ -324,6 +334,16 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         return new Date(counter);
     }
 
+    $scope.getATIcon = function (patient) {
+        
+        if(patient.enterTimestamp.length == 0 || patient.currentState == 'DC')
+            return "/img/at-entry-gray.svg";
+        else if(patient.enterTimestamp.length > patient.exitTimestamp.length)
+            return "/img/at-entry-green.svg";
+        else if(patient.enterTimestamp.length == patient.exitTimestamp.length && patient.enterTimestamp.length > 0)
+            return "/img/at-entry-red.svg";
+    }
+
     // Imaging Management
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -389,6 +409,56 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
             return false;
         else
             return true;
+    }
+
+    // FC Management
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    $scope.getFCIcon = function (patient){
+        var FCStateIcon = "";
+
+        if(!patient.fcStartedTimestamp) {
+            FCStateIcon = "/img/fc-inactive.svg";  
+        }
+        else if(!patient.fcFinishedTimestamp) {
+            FCStateIcon = "/img/fc-active.svg";
+        }
+        else {
+            FCStateIcon = "/img/fc-complete.svg";
+        }
+        
+        return FCStateIcon;
+    }
+
+    $scope.toogleFCState = function (patient){
+
+        if(!$scope.isFCClickable(patient)) return;
+
+        if(!patient.fcStartedTimestamp) {
+            Patient.update({patientId: patient.id}, {fcStartedTimestamp: new Date()}, patientFCUpdated);
+        }
+        else if(!patient.fcFinishedTimestamp) {
+            Patient.update({patientId: patient.id}, {needsFC: true, fcFinishedTimestamp: new Date()}, patientFCUpdated);
+        }
+        else {
+            var resp = confirm("Are you sure you would like to mark FC as incomplete?");
+            if (resp == true) {
+                Patient.update({patientId: patient.id}, {fcFinishedTimestamp: null}, patientFCUpdated);       
+            }
+        }
+
+        function patientFCUpdated (updatedPatient) {
+            var index = $scope.patientList.indexOf(patient); 
+            $scope.patientList[index].fcStartedTimestamp = updatedPatient.fcStartedTimestamp;
+            $scope.patientList[index].fcFinishedTimestamp = updatedPatient.fcFinishedTimestamp;
+        }
+    }
+
+    $scope.isFCClickable = function (patient) {
+        if (patient.currentState == "WR")
+            return true;
+        else
+            return false;
     }
 
     // Messages Management
