@@ -321,15 +321,20 @@ body {
 
 .dobRow {
 	padding-top: 1.6em;
-	width: 8%;
+	width: 7%;
+}
+
+.fcRow {
+	padding-top: .9em;
+	width: 5%;
 }
 
 .imagingRow1 {
 	padding-top: .9em;
-	width: 15%;
+	width: 14%;
 }
 
-.imagingRow {
+.imagingRow2 {
 	padding-top: .9em;
 	width: 8%;
 }
@@ -341,7 +346,7 @@ body {
 
 .statusRow {
 	padding-top: 1.35em;
-	width: 15%;
+	width: 12%;
 }
 
 .statusRow span { 

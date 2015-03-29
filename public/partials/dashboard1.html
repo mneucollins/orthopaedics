@@ -78,6 +78,8 @@
 
             <div class="col-sm-1 dobRow" ng-click="filteringActive(4);" ng-class="{'blueFilter': colFilter=='4','blackFilter': colFilter!='4'}">DOB<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='4' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='4' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
+            <div class="col-sm-2 fcRow" ng-click="filteringActive(5.1);" ng-class="{'blueFilter': colFilter=='5.1','blackFilter': colFilter!='5.1'}">FC<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='5.1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='5.1' && arrowDirection=='0'}" aria-hidden="true"/></div>
+
             <div class="col-sm-2 imagingRow1" ng-click="filteringActive(5);" ng-class="{'blueFilter': colFilter=='5','blackFilter': colFilter!='5'}">Imaging<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='5' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='5' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
             <div class="col-sm-2 statusRow" ng-click="filteringActive(6);" ng-class="{'blueFilter': colFilter=='6','blackFilter': colFilter!='6'}">Status<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='6' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='6' && arrowDirection=='0'}" aria-hidden="true"/></div>
@@ -89,7 +91,7 @@
         <div class="row patientRow" ng-class="{oddRow: $odd}" ng-repeat="patient in patientList | dischargePatientsFilter: $root.hideDischarged">
             <div class="col-sm-1 patientData buttonRow" style="background-color:white; border-top:transparent;">
                 <button type="button" ng-show="patient.currentState == 'EX'" class="btn btn-default circled btnDischarge" ng-click="discharge(patient)">Discharge</button>
-                <button type="button" class="btn btn-primary circled" ng-show="patient.currentState == 'WR'" ng-click="callBack(patient)">Call Back</button>
+                <button type="button" class="btn btn-primary circled" ng-show="patient.currentState == 'WR'" ng-click="callBack(patient)" ng-disabled="patient.fcStartedTimestamp && !patient.fcFinishedTimestamp">Call Back</button>
                 <button type="button" class="btn btn-default circled" ng-show="patient.currentState == 'NCI'" ng-click="register(patient)">Register</button>
             </div>
             <div class="col-sm-1 patientData bordered apptTimeRow">{{ patient.apptTime | date:'hh:mm a'}}</div>
@@ -97,6 +99,11 @@
             <div class="col-sm-1 patientData bordered typeRow">{{ patient.apptType }}</div>
             <div class="col-sm-1 patientData bordered physicianRow">{{ patient.physician.name }}</div>
             <div class="col-sm-1 patientData bordered dobRow">{{ patient.dateBirth | date:'MM/dd/yyyy'}}</div>
+            <div class="col-sm-2 patientData bordered fcRow">
+                <div class="retinaContainer dashboardSVG">
+                    <img ng-src="{{ getFCIcon(patient) }}" ng-click="toogleFCState(patient)" ng-class="{clickable: isFCClickable(patient)}" />
+                </div>
+            </div>
             <div class="col-sm-2 patientData bordered imagingRow1">
                 <div class="retinaContainer dashboardSVG">
                         <img ng-src="{{ getImagingState(patient) }}" ng-click="toogleImagingState(patient)" ng-class="{clickable: isImagingClickable(patient)}" />

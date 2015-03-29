@@ -81,7 +81,7 @@
 
             <div class="col-sm-1 ageRow" ng-click="filteringActive(4.2);" ng-class="{'blueFilter': colFilter=='4.2','blackFilter': colFilter!='4.2'}">Age<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='4.2' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='4.2' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
-            <div class="col-sm-1 imagingRow" ng-click="filteringActive(5);" ng-class="{'blueFilter': colFilter=='5','blackFilter': colFilter!='5'}">Imaging<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='5' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='5' && arrowDirection=='0'}" aria-hidden="true"/></div>
+            <div class="col-sm-1 imagingRow2" ng-click="filteringActive(5);" ng-class="{'blueFilter': colFilter=='5','blackFilter': colFilter!='5'}">Imaging<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='5' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='5' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
             <div class="col-sm-1 atRow" ng-click="filteringActive(4.1);" ng-class="{'blueFilter': colFilter=='4.1','blackFilter': colFilter!='4.1'}">AT Entry<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='4.1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='4.1' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
@@ -115,17 +115,14 @@
             <div class="hidden-xs col-sm-1 patientData bordered typeRow">{{ patient.apptType }}</div>
             <div class="hidden-xs col-sm-1 patientData bordered physicianRow">{{ patient.physician.name }}</div>
             <div class="hidden-xs col-sm-1 patientData bordered ageRow">{{ patient.age }}</div>
-            <div class="col-xs-2 col-sm-1 patientData bordered imagingRow">
+            <div class="col-xs-2 col-sm-1 patientData bordered imagingRow2">
                 <div class="retinaContainer dashboardSVG">
                     <img ng-src="{{ getImagingState(patient) }}" ng-click="toogleImagingState(patient)" ng-class="{clickable: isImagingClickable(patient)}"/>
                 </div>
             </div>   
             <div class="col-xs-4 col-sm-1 patientData bordered atRow">
-                <div class="retinaContainer dashboardSVG" ng-show="patient.enterTimestamp.length > patient.exitTimestamp.length">
-                    <img ng-src="/img/phyEntered.svg" ng-class="{clickable: patient.currentState == 'EX'}" ng-click="toogleATEntry(patient)"/>
-                </div>
-                <div class="retinaContainer dashboardSVG" ng-hide="patient.enterTimestamp.length > patient.exitTimestamp.length">
-                    <img ng-src="/img/phyExit.svg" ng-class="{clickable: patient.currentState == 'EX'}" ng-click="toogleATEntry(patient)"/>
+                <div class="retinaContainer dashboardSVG">
+                    <img ng-src="{{ getATIcon(patient) }}" ng-class="{clickable: patient.currentState == 'EX'}" ng-click="toogleATEntry(patient)"/>
                 </div>
                 <span ng-show="patient.enterTimestamp.length > 0" ng-class="colorStateAT">{{ getATtimer(patient) | date:'mm.ss' }}</span>
             </div>              
@@ -211,7 +208,10 @@
                     <div class="hidden-xs col-sm-6 col-lg-5" style="border-left: thick solid #C9C9C9; border-width: 1px;">
                         <div class="row priorApptRow" ng-repeat="record in patient.history">
                             <div class="col-sm-3 priorTimeCol">{{ record.apptTime | date: 'MM/dd/yy'}}</div>
-                            <div class="col-sm-6 priorStatusCol"><span ng-class="getTimerColor('WRH', record)">WR {{ getWRTime(record) }} min </span>-<span ng-class="getTimerColor('EXH', record)"> EX {{ getEXTime(record) }} min</span></div>
+                            <div class="col-sm-6 priorStatusCol">
+                                <span class="col-sm-6" ng-class="getTimerColor('WRH', record)"> WR {{ getWRTime(patient) }} min </span>
+                                <span class="col-sm-6" ng-class="getTimerColor('EXH', record)"> EX {{ getEXTime(record) }} min </span>
+                            </div>
                             <div class="col-sm-3 priorTotalCol"><div class="roundMiniBox">{{ getTotalTime(record) }}</div></div>
                         </div>
                         <br />
