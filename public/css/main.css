@@ -186,6 +186,10 @@ body {
 //////////////////////////////////////////////////////////////////////
 */
 
+.patientTitles span.glyphicon {
+	margin-left: 0.3em;
+}
+
 .ok-btn {
 	background-color: #72C394; 
 	color: white; 

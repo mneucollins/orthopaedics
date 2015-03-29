@@ -76,6 +76,12 @@ var userModel = require('./models/userModel');
 			else
 				patient.patientType = list[k].ApptType;
 
+			var now = new Date;
+			if(patient.dateBirth.getFullYear() > now.getFullYear()) {
+				var year = patient.dateBirth.getFullYear() - 100;
+				patient.dateBirth.setFullYear(year);
+			}
+
 			console.log("saving patient: " + patient.lastName + ". Phy: " + patient.physician);
 			patientController.nuevoPatient(patient, function (err, data) {
 			    if(err) console.log(err);
