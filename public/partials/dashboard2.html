@@ -143,18 +143,18 @@
             <!-- Start Collapsible -->
             <div class="col-sm-offset-1 col-sm-11 accordian-body collapse patientExpandible" id="{{ 'miniform' + patient._id }}">
                 <div class="row">
-                    <div class="col-xs-3 col-sm-2" style="font-weight: bold; text-align:left;cursor:pointer" ng-click="showMessage=false; showMessageAux=false " ng-class="{'attentionFont' : showMessage} ">
+                    <div class="col-xs-3 col-sm-2" style="font-weight: bold; text-align:left;cursor:pointer" ng-click="showMessage=false; showMessageAux=false " ng-class="{'attentionFont' : showMessage, 'attentionFontMobile' : !showMessage} ">
                         <span class="hidden-xs glyphicon glyphicon-info-sign" aria-hidden="true"></span>&nbsp;Info 
                     </div>
-                    <div class="col-xs-3 col-sm-2" style="font-weight: bold; text-align:left;cursor:pointer" ng-click="showMessage=true; showMessageAux=false" ng-class="{'attentionFont' : !showMessage}">
+                    <div class="col-xs-3 col-sm-2" style="font-weight: bold; text-align:left;cursor:pointer" ng-click="showMessage=true; showMessageAux=false" ng-class="{'attentionFont' : !showMessage, 'attentionFontMobile' : showMessage}">
                         <div style="display:inline-block;" >
                             <span class="hidden-xs glyphicon glyphicon-envelope" aria-hidden="true"></span> &nbsp;Contact 
                         </div>
                     </div>
                     <div class="hidden-xs col-sm-2"></div>
-                    <div class="col-xs-6 col-sm-6" style="font-weight: bold; text-align:left; ">
+                    <div class="col-xs-6 col-sm-6" style="font-weight: bold; text-align:left; " >
                         <div class="hidden-xs">Prior Appointment Wait Times</div>
-                        <div class="visible-xs" style="color:#7F7F7F; cursor:pointer;" ng-click="showMessageAux=true">Prior Wait Times</div>
+                        <div class="visible-xs" style="color:#7F7F7F; cursor:pointer;" ng-click="showMessageAux=true" >Prior Wait Times</div>
                     </div>
                 </div>
                 <br/>
@@ -199,12 +199,12 @@
                         </div>
                         <div id="{{ 'miniformTimes' + patient._id }}" class="visible-xs" ng-show="showMessageAux">
                             <div class="row" ng-repeat="record in patient.history">
-                                <div class="col-xs-3">{{ record.apptTime | date: 'MM/dd/yy'}}</div>
-                                <div class="col-sm-6 priorStatusCol">
-                                    <span class="col-sm-6" ng-class="getTimerColor('WRH', record)"> WR {{ getWRTime(patient) }} min </span>
-                                    <span class="col-sm-6" ng-class="getTimerColor('EXH', record)"> EX {{ getEXTime(record) }} min </span>
+                                <div class="col-xs-3 ">{{ record.apptTime | date: 'MM/dd/yy'}}</div>
+                                <div class="col-xs-6 priorStatusCol ">
+                                    <span class="col-sm-6" ng-class="getTimerColor('WRH', record)"> WR {{ getWRTime(patient) }}  </span>
+                                    <span class="col-sm-6" ng-class="getTimerColor('EXH', record)"> EX {{ getEXTime(record) }}  </span>
                                 </div>
-                                <div class="col-xs-3 priorTotalCol"><div class="roundMiniBox">{{ getTotalTime(record) }}</div></div>
+                                <div class="col-xs-3 priorTotalCol"><div class="roundMiniBox"><div class="patienInfoFocus" style="color: #0099F0">{{ getTotalTime(record) }}</div></div></div>
                             </div>
                         </div>
                     </div>

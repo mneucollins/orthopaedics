@@ -77,4 +77,9 @@
 	.backgroundMobile{
 		background-color: #EEEEEE;
 	}
+	.attentionFontMobile{
+    	color:#0099F0;
+    	text-decoration: underline; 
+    	font-size: 1em;
+	}
 }
