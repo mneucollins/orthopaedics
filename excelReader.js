@@ -6,6 +6,10 @@ var patientController = require('./controllers/patientController');
 var patientModel = require('./models/patientModel');
 var userModel = require('./models/userModel');
 
+module.exports = {
+	leerExcel : leerExcel
+}
+
 //JOB CREATION
 // --------------------------------------------------------------------------
 
@@ -24,7 +28,7 @@ var userModel = require('./models/userModel');
 	/*);
 }*/
 
-//function leerExcel () {
+function leerExcel () {
 	console.log("hakuna matata - The loader is starting");
 	mongoose.connect('mongodb://localhost:27017/orthopaedics');
 
@@ -91,6 +95,4 @@ var userModel = require('./models/userModel');
 	});
 
 	//console.log(result);
-
-
-
+}
