@@ -345,13 +345,13 @@ body {
 }
 
 .statusRow {
-	padding-top: 1.35em;
+	padding-top: 1.25em;
 	width: 12%;
 }
 
 .statusRow span { 
     font-family: "ProximaNova-Bold";
-    font-size: 0.85em;
+    font-size: 1.15em;
     padding: 0.3em;
     text-align: center;
 }
@@ -365,9 +365,9 @@ body {
 
 .totalRow div { 
     font-family: "ProximaNova-Bold";
-    font-size: 0.85em;
-	margin-left: 1em;
-	margin-right: 1em;
+    font-size: 1.2em;
+	margin-left: 0.5em;
+	margin-right: 0.5em;
 }
 
 .expandBtnRow {
@@ -421,13 +421,13 @@ body {
 
 .priorStatusCol {
     font-family: "ProximaNova-Bold";
-    font-size: 0.85em;
-	padding-top: .65em;
+    font-size: 1.2em;
+	padding-top: .55em;
 }
 
 .priorTotalCol {
     font-family: "ProximaNova-Bold";
-    font-size: 0.85em;
-	padding-left: 2.3em;
-	padding-right: 2.3em;
+    font-size: 1.2em;
+	padding-left: 1.6em;
+	padding-right: 1.6em;
 }

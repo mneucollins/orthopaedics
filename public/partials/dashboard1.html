@@ -118,8 +118,8 @@
                 </div>
             </div>                        
             <div class="col-sm-2 patientData bordered statusRow">
-                <span class="col-sm-6" ng-class="getTimerColor('WR', patient)"> WR {{ getWRTime(patient) }} min </span>
-                <span class="col-sm-6" ng-class="getTimerColor('EX', patient)"> EX {{ getEXTime(patient) }} min </span>
+                <span class="col-sm-6" ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }}</span>
+                <span class="col-sm-6" ng-class="getTimerColor('EX', patient)">EX {{ getEXTime(patient) }}</span>
             </div>
             <div class="col-sm-1 patientData bordered totalRow"><div class="roundMiniBox" ng-class="{'timer-not-started': patient.currentState == 'DC' || patient.currentState == 'NCI' || getTotalTime(patient) < 0}">{{ getTotalTime(patient) }}</div></div>
             <div class="col-sm-1 patientData bordered expandBtnRow">
@@ -182,8 +182,8 @@
                         <div class="row priorApptRow" ng-repeat="record in patient.history">
                             <div class="col-sm-3 priorTimeCol">{{ record.apptTime | date: 'MM/dd/yy'}}</div>
                             <div class="col-sm-6 priorStatusCol">
-                                <span class="col-sm-6" ng-class="getTimerColor('WRH', record)"> WR {{ getWRTime(patient) }} min </span>
-                                <span class="col-sm-6" ng-class="getTimerColor('EXH', record)"> EX {{ getEXTime(record) }} min </span>
+                                <span class="col-sm-6" ng-class="getTimerColor('WRH', record)">WR {{ getWRTime(patient) }}</span>
+                                <span class="col-sm-6" ng-class="getTimerColor('EXH', record)">EX {{ getEXTime(record) }}</span>
                             </div>
                             <div class="col-sm-3 priorTotalCol">
                                 <div class="roundMiniBox">{{ getTotalTime(record) }}</div>

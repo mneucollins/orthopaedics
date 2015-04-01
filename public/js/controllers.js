@@ -166,6 +166,8 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                 if(physicianPatient){
                     updPatient.physician = physicianPatient.physician;
                     $scope.patientList.push(updPatient);
+                    $scope.filteringActive($scope.colFilter);
+                    $scope.filteringActive($scope.colFilter);
                     $scope.$apply();
                 }
             }
@@ -644,6 +646,8 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
 
         modalInstance.result.then(function (patient) {
             $scope.patientList.push(patient);
+            $scope.filteringActive($scope.colFilter);
+            $scope.filteringActive($scope.colFilter);
         }, function () {
             $log.info('Message Modal dismissed at: ' + new Date());
         });
