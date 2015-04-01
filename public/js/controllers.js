@@ -23,12 +23,12 @@ var orthopaedicsControllers = angular.module('orthopaedicsControllers', ['ui.boo
                 var url = $location.path();
 
                 if(url.indexOf("dashboard1") != -1){
-                    $scope.dashboard = "1";
+                    $rootScope.dashboard = "1";
                     if($scope.currentUser.role == "Physician" || $scope.currentUser.role == "FirstProvider")
                         $location.url("/dashboard2");
                 } 
                 else if(url.indexOf("dashboard2") != -1) {
-                    $scope.dashboard = "2";
+                    $rootScope.dashboard = "2";
                     if($scope.currentUser.role == "Imaging" || $scope.currentUser.role == "Receptionist") 
                         $location.url("/dashboard1");
                 }
@@ -95,6 +95,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
 
     $rootScope.$watch("selectedPhysicians", function (newValue, oldValue) {
         $scope.patientList = [];
+
         for (var i = 0; i < newValue.length; i++) {
             var physician = newValue[i];
 
@@ -108,7 +109,6 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                 $scope.patientList = pList;
             });
         };
-        
     });
 
     $scope.getPhysicianTime = function (physician) {
@@ -130,6 +130,34 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         physician.time = $scope.getWRTime(wrTime);
         return physician.time > 0 ? physician.time : 0;
     }
+
+    function setPhysicianCol (show) {
+        if(show) {
+            $(".physicianRow").show();
+            $(".roomRow").hide();
+
+            $(".buttonRow").css("width", "9%");
+            $(".nameRow").css("width", "13%");
+            $(".atRow").css("width", "10%");
+            $(".statusRow").css("width", "12%");
+        }
+        else {
+            $(".physicianRow").hide();
+            $(".roomRow").show();
+
+            $(".buttonRow").css("width", "11%");
+            $(".nameRow").css("width", "15%");
+            $(".atRow").css("width", "12%");
+            $(".statusRow").css("width", "14%");
+        }
+    }
+
+    $scope.$on('onPatientListed', function(scope, element, attrs){
+        if($rootScope.selectedPhysicians.length == 1 && $rootScope.dashboard)
+            setPhysicianCol(false);
+        else
+            setPhysicianCol(true);
+    });
 
     // Sync
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -203,6 +231,9 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                 break;
             case 3:
                 pList = _.sortBy($scope.patientList, function(patient){ return patient.physician.name; }); 
+                break;
+            case 3:
+                pList = _.sortBy($scope.patientList, function(patient){ return patient.roomNumber; }); 
                 break;
             case 4:
                 pList = _.sortBy($scope.patientList, function(patient){ return patient.dateBirth; });
@@ -737,10 +768,10 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         }
     }
 
-    var dischargePressed = false;
+    // var dischargePressed = false;
     $scope.discharge = function (patient) {
 
-        if(dischargePressed){
+        if(patient.dischargePressed){
             patient.exitTimestamp.push(new Date());
             Patient.update({patientId: patient.id}, 
                 {
@@ -757,21 +788,25 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
             );
         }
         else {
-            dischargePressed = true;
+            patient.dischargePressed = true;
             var css = {
                 "transition": "all 3s linear",
                 "background-color": "#428bca"
             }
-            $(".btnDischarge").css(css);
+            $('.pat_' + patient._id + " .btnDischarge").css(css);
 
-            setTimeout(function () {
-                dischargePressed = false;
-                var css = {
-                    "transition": "all 0.3s linear",
-                    "background-color": "#fff"
-                }
-                $(".btnDischarge").css(css);
-            }, 3000);
+            function disableDischarge (patient) {
+                setTimeout(function () {
+                    patient.dischargePressed = false;
+                    var css = {
+                        "transition": "all 0.3s linear",
+                        "background-color": "#fff"
+                    }
+                    $('.pat_' + patient._id + " .btnDischarge").css(css);
+                }, 3000);
+            }
+            disableDischarge(patient);
+            
         }
 
     }

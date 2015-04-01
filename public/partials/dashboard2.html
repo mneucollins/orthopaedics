@@ -45,7 +45,6 @@
                 <h3 class="hidden-xs col-sm-6 col-md-7 text-right btnBarHeader">
                     <button class="btn btn-default circled" ng-click="sendBulkMessages()"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button>
                     <button class="btn btn-default circled" ng-click="newPatient()">+ Add Patient</span></button>
-                    
                 </h3>
                 <div class="col-xs-1 col-sm-1 col-md-1 expandBtnHeader">
                     <div class="retinaContainer dashboardSVG">
@@ -71,13 +70,16 @@
     <div class="panel col-sm-12 dashboardBody backgroundMobile">
         <!-- Header Start -->
         <div class="hidden-xs row patientTitles" style="">
-            <div class="col-sm-offset-1 col-sm-1 apptTimeRow" ng-click="filteringActive(1);" ng-class="{'blueFilter': colFilter=='1','blackFilter': colFilter!='1'}">Appt Time<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='1' && arrowDirection=='0'}" aria-hidden="true"/></div>
+            <div class="col-sm-1 buttonRow"> </div>
+            <div class="col-sm-1 apptTimeRow" ng-click="filteringActive(1);" ng-class="{'blueFilter': colFilter=='1','blackFilter': colFilter!='1'}">Appt Time<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='1' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
             <div class="col-sm-1 nameRow" ng-click="filteringActive(2);" ng-class="{'blueFilter': colFilter=='2','blackFilter': colFilter!='2'}">Name<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='2' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='2' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
             <div class="col-sm-1 typeRow" ng-click="filteringActive(2.1);" ng-class="{'blueFilter': colFilter=='2.1','blackFilter': colFilter!='2.1'}">Type<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='2.1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='2.1' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
             <div class="col-sm-1 physicianRow" ng-click="filteringActive(3);" ng-class="{'blueFilter': colFilter=='3','blackFilter': colFilter!='3'}">Physician<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='3' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='3' && arrowDirection=='0'}" aria-hidden="true"/></div>
+
+            <div class="col-sm-1 roomRow" ng-click="filteringActive(3.1);" ng-class="{'blueFilter': colFilter=='3.1','blackFilter': colFilter!='3.1'}">Room<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='3.1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='3.1' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
             <div class="col-sm-1 ageRow" ng-click="filteringActive(4.2);" ng-class="{'blueFilter': colFilter=='4.2','blackFilter': colFilter!='4.2'}">Age<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='4.2' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='4.2' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
@@ -93,7 +95,7 @@
         </div>
         <!-- Header End -->
         <!-- Body Start -->
-        <div class="row patientRow" ng-class="{oddRow: $odd}" ng-repeat="patient in patientList | dischargePatientsFilter: $root.hideDischarged">
+        <div class="row patientRow {{'pat_' + patient._id}}" ng-class="{'oddRow': $odd}" ng-repeat="patient in patientList | dischargePatientsFilter: $root.hideDischarged" patient-list>
             <div class="col-xs-12 visible-xs borderedFull">
                 <div class="col-xs-12 visible-xs" style="  padding: 13px;"><div class="patienInfo">{{ patient.apptTime | date:'hh:mm a'}}</div> &nbsp;&nbsp;<div class="patienInfoFocus"><b>{{ patient.fullName }}</b></div></div>
                 <div class="col-xs-12 visible-xs patienInfo">{{ patient.apptType }} &nbsp;|&nbsp;
@@ -109,13 +111,14 @@
             <div class="clearfix visible-xs-block"></div>
 
             <div class="col-xs-3 col-sm-1 patientData buttonRow patientState" style="background-color:white; border-top:transparent;">
-                <button type="button" ng-show="patient.currentState == 'EX'" class="btn btn-default circled btnDischarge" ng-click="discharge(patient)">Discharge</button>
+                <button type="button" ng-show="patient.currentState == 'EX'" class="btn btn-default circled btnDischarge" ng-class="patient._id" ng-click="discharge(patient)">Discharge</button>
                 <button type="button" class="btn btn-primary circled" ng-show="patient.currentState == 'WR'" ng-click="callBack(patient)" ng-disabled="patient.fcStartedTimestamp && !patient.fcFinishedTimestamp">Call Back</button>
                 <button type="button" class="btn btn-default circled" ng-show="patient.currentState == 'NCI'" ng-click="register(patient)">Register</button>
             </div>
             <div class="hidden-xs col-sm-1 patientData bordered apptTimeRow">{{ patient.apptTime | date:'hh:mm a'}}</div>
             <div class="hidden-xs col-sm-1 patientData bordered nameRow" style="font-weight: bold;">{{ patient.fullName }}</div>
             <div class="hidden-xs col-sm-1 patientData bordered typeRow">{{ patient.apptType }}</div>
+            <div class="hidden-xs col-sm-1 patientData bordered roomRow">{{ patient.roomNumber }}</div>
             <div class="hidden-xs col-sm-1 patientData bordered physicianRow">{{ patient.physician.name }}</div>
             <div class="hidden-xs col-sm-1 patientData bordered ageRow">{{ patient.age }}</div>
             <div class="col-xs-2 col-sm-2 patientData bordered fcRow">
@@ -135,8 +138,8 @@
                 <span ng-show="patient.enterTimestamp.length > 0" ng-class="colorStateAT">{{ getATtimer(patient) | date:'mm.ss' }}</span>
             </div>              
             <div class="hidden-xs col-sm-2 patientData bordered statusRow">
-                <span class="col-sm-6" ng-class="getTimerColor('WR', patient)"> WR {{ getWRTime(patient) }} min </span>
-                <span class="col-sm-6" ng-class="getTimerColor('EX', patient)"> EX {{ getEXTime(patient) }} min </span>
+                <span class="col-sm-6" ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }}</span>
+                <span class="col-sm-6" ng-class="getTimerColor('EX', patient)">EX {{ getEXTime(patient) }}</span>
             </div>
             <div class="hidden-xs col-sm-1 patientData bordered totalRow"><div class="roundMiniBox" ng-class="{'timer-not-started': patient.currentState == 'DC' || patient.currentState == 'NCI' || getTotalTime(patient) < 0}">{{ getTotalTime(patient) }}</div></div>
             <div class="col-xs-4 col-sm-1 patientData bordered expandBtnRow">
@@ -217,8 +220,8 @@
                         <div class="row priorApptRow" ng-repeat="record in patient.history">
                             <div class="col-sm-3 priorTimeCol">{{ record.apptTime | date: 'MM/dd/yy'}}</div>
                             <div class="col-sm-6 priorStatusCol">
-                                <span class="col-sm-6" ng-class="getTimerColor('WRH', record)"> WR {{ getWRTime(patient) }} min </span>
-                                <span class="col-sm-6" ng-class="getTimerColor('EXH', record)"> EX {{ getEXTime(record) }} min </span>
+                                <span class="col-sm-6" ng-class="getTimerColor('WRH', record)">WR {{ getWRTime(patient) }}</span>
+                                <span class="col-sm-6" ng-class="getTimerColor('EXH', record)">EX {{ getEXTime(record) }}</span>
                             </div>
                             <div class="col-sm-3 priorTotalCol"><div class="roundMiniBox">{{ getTotalTime(record) }}</div></div>
                         </div>

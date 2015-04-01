@@ -4,7 +4,8 @@ var orthopaedicsApp = angular.module('orthopaedicsApp', [
   "ngCookies",
   "orthopaedicsServices",
   "orthopaedicsControllers",
-  "orthopaedicsFilters"
+  "orthopaedicsFilters",
+  "orthopaedicsDirectives"
 ]);
 
 orthopaedicsApp.config(['$routeProvider','$locationProvider', '$httpProvider', '$injector',

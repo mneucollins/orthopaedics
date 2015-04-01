@@ -68,7 +68,8 @@
     <div class="panel col-sm-12">
         <!-- Header Start -->
         <div class="row patientTitles" style="">
-            <div class="col-sm-offset-1 col-sm-1 apptTimeRow" ng-click="filteringActive(1);" ng-class="{'blueFilter': colFilter=='1','blackFilter': colFilter!='1'}">Appt Time<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='1' && arrowDirection=='0'}" aria-hidden="true"/></div>
+            <div class="col-sm-1 buttonRow"> </div>
+            <div class="col-sm-1 apptTimeRow" ng-click="filteringActive(1);" ng-class="{'blueFilter': colFilter=='1','blackFilter': colFilter!='1'}">Appt Time<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='1' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
             <div class="col-sm-1 nameRow" ng-click="filteringActive(2);" ng-class="{'blueFilter': colFilter=='2','blackFilter': colFilter!='2'}">Name<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='2' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='2' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
@@ -88,7 +89,7 @@
         </div>
         <!-- Header End -->
         <!-- Body Start -->
-        <div class="row patientRow" ng-class="{oddRow: $odd}" ng-repeat="patient in patientList | dischargePatientsFilter: $root.hideDischarged">
+        <div class="row patientRow {{'pat_' + patient._id}}" ng-class="{oddRow: $odd}" ng-repeat="patient in patientList | dischargePatientsFilter: $root.hideDischarged">
             <div class="col-sm-1 patientData buttonRow" style="background-color:white; border-top:transparent;">
                 <button type="button" ng-show="patient.currentState == 'EX'" class="btn btn-default circled btnDischarge" ng-click="discharge(patient)">Discharge</button>
                 <button type="button" class="btn btn-primary circled" ng-show="patient.currentState == 'WR'" ng-click="callBack(patient)" ng-disabled="patient.fcStartedTimestamp && !patient.fcFinishedTimestamp">Call Back</button>

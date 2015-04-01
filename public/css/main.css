@@ -199,17 +199,18 @@ body {
 
 .clock {
 	padding-left: 2em;
+	width: 34%;
 }
 
 .btnBarHeader {
 	margin-top: 15px;
 	padding-right: 0;
-	width: 60%;
+	width: 58%;
 }
 .expandBtnHeader {
 	padding-bottom: 12px;
 	text-align: center;
-	width: 6%;
+	width: 8%;
 }
 .expandBtnHeader img {
 	padding-bottom: 12px;
@@ -291,6 +292,13 @@ body {
 
 .buttonRow {
 	padding-top: .9em;
+	transition: all 0.5s;
+	width: 9%;
+}
+.buttonRow > button:disabled {
+	color: #333;
+  	background-color: #e6e6e6;
+  	border-color: #adadad;
 }
 
 .apptTimeRow {
@@ -301,7 +309,8 @@ body {
 .nameRow {
 	font-weight: bold;
 	padding-top: 1.6em;
-	width: 13.6%;
+	transition: all 0.5s;
+	width: 13%;
 }
 
 .typeRow {
@@ -312,6 +321,12 @@ body {
 .physicianRow {
 	padding-top: 1.6em;
 	width: 13%;
+}
+
+.roomRow {
+	display: none;
+	padding-top: 1.6em;
+	width: 5%;
 }
 
 .ageRow {
@@ -340,12 +355,14 @@ body {
 }
 
 .atRow {
-	width: 10%;
 	padding-top: .9em;
+	transition: all 0.5s;
+	width: 10%;
 }
 
 .statusRow {
 	padding-top: 1.25em;
+	transition: all 0.5s;
 	width: 12%;
 }
 
@@ -374,8 +391,6 @@ body {
 	padding-top: .9em;
 	width: 5%;
 }
-
-
 
 .dashboardSVG{
 	display: inline-block;
