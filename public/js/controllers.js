@@ -112,18 +112,27 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     });
 
     $scope.getPhysicianTime = function (physician) {
-        var searchList = _.sortBy($scope.patientList, function(patient){ return patient.apptTime });
-        searchList = _.filter(searchList, function (patient) {
+
+        // Discharged and not checked in patients are dismissed
+        var searchList = _.filter($scope.patientList, function (patient) {
             return patient.physician._id == physician._id && 
                     patient.WRTimestamp && !patient.DCTimestamp; // &&
                     // new Date(patient.WRTimestamp).getTime() <= new Date(patient.apptTime).setMinutes + (10*60*1000);
         });
+        //WR patients are separated from EX patients
+        searchList = _.groupBy(searchList, function (patient) { return patient.currentState; })
+        if(!searchList.WR) searchList.WR = [];
+
+        if(searchList.EX){
+            // gets que last called back patient
+            var lastEXCalled = _.max(searchList.EX, function (patient) { return new Date(patient.EXTimestamp).getTime(); });
+            // final list contains all WR patient + last called back patient
+            searchList.WR.push(lastEXCalled);
+        }
+        searchList = searchList.WR;
 
         if(searchList.length <= 0) return 0;
 
-        // var wrTime = $scope.getWRTime(searchList[0]);
-        // var exTime = $scope.getEXTime(searchList[0]);
-        // physician.time = wrTime > exTime ? wrTime : exTime;
         var wrTime = _.max(searchList, function (item) {
             return $scope.getWRTime(item);
         });
@@ -131,32 +140,8 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         return physician.time > 0 ? physician.time : 0;
     }
 
-    function setPhysicianCol (show) {
-        if(show) {
-            $(".physicianRow").show();
-            $(".roomRow").hide();
-
-            $(".buttonRow").css("width", "9%");
-            $(".nameRow").css("width", "13%");
-            $(".atRow").css("width", "10%");
-            $(".statusRow").css("width", "12%");
-        }
-        else {
-            $(".physicianRow").hide();
-            $(".roomRow").show();
-
-            $(".buttonRow").css("width", "11%");
-            $(".nameRow").css("width", "15%");
-            $(".atRow").css("width", "12%");
-            $(".statusRow").css("width", "14%");
-        }
-    }
-
     $scope.$on('onPatientListed', function(scope, element, attrs){
-        if($rootScope.selectedPhysicians.length == 1 && $rootScope.dashboard)
-            setPhysicianCol(false);
-        else
-            setPhysicianCol(true);
+        $scope.hidePhysicians = $rootScope.selectedPhysicians.length == 1 && $rootScope.dashboard == 2;
     });
 
     // Sync
@@ -172,7 +157,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
             if(listPatient) {
                 var index = $scope.patientList.indexOf(listPatient);
                 updPatient.physician = $scope.patientList[index].physician;
-                $scope.patientList[index] = updPatient;
+                $scope.patientList[index] = updPatient; 
                 $scope.$apply();
                 return true;
             }
@@ -713,10 +698,12 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                 }, 
                 function patientWaitingRoom (updatedPatient) {
                     var index = $scope.patientList.indexOf(patient); 
-                    $scope.patientList[index].currentState = updatedPatient.currentState;
-                    $scope.patientList[index].WRTimestamp = updatedPatient.WRTimestamp;
-                    $scope.patientList[index].cellphone = updatedPatient.cellphone;
-                    $scope.patientList[index].noPhone = updatedPatient.noPhone;
+                    if(index >= 0) {
+                        $scope.patientList[index].currentState = updatedPatient.currentState;
+                        $scope.patientList[index].WRTimestamp = updatedPatient.WRTimestamp;
+                        $scope.patientList[index].cellphone = updatedPatient.cellphone;
+                        $scope.patientList[index].noPhone = updatedPatient.noPhone;
+                    }
                 }
             );
         }, function () {
@@ -734,8 +721,10 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                 }, 
                 function patientExamRoom (updatedPatient) {
                     var index = $scope.patientList.indexOf(patient); 
-                    $scope.patientList[index].currentState = updatedPatient.currentState;
-                    $scope.patientList[index].EXTimestamp = updatedPatient.EXTimestamp;
+                    if(index >= 0) {
+                        $scope.patientList[index].currentState = updatedPatient.currentState;
+                        $scope.patientList[index].EXTimestamp = updatedPatient.EXTimestamp;
+                    }
                 }
             );
         }
@@ -781,9 +770,11 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                 }, 
                 function patientDischarged (updatedPatient) {
                     var index = $scope.patientList.indexOf(patient); 
-                    $scope.patientList[index].currentState = updatedPatient.currentState;
-                    $scope.patientList[index].DCTimestamp = updatedPatient.DCTimestamp;
-                    $scope.patientList[index].exitTimestamp = updatedPatient.exitTimestamp;
+                    if(index >= 0) {
+                        $scope.patientList[index].currentState = updatedPatient.currentState;
+                        $scope.patientList[index].DCTimestamp = updatedPatient.DCTimestamp;
+                        $scope.patientList[index].exitTimestamp = updatedPatient.exitTimestamp;
+                    }
                 }
             );
         }
@@ -1039,6 +1030,7 @@ orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$r
 
     resizePhybar(); // método en el main.js
     $rootScope.selectedPhysicians = [];
+    $scope.hidePhysicians = false;
 
     Physician.query(function (physicians) {
         _.each(physicians, function (element, index, list) {
@@ -1064,16 +1056,18 @@ orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$r
         }); 
 
         $rootScope.selectedPhysicians = selectedPhysicians;
-        $(".physiciansList").css("left", "-37%");
+        $scope.hidePhysicians = true;
+        // $(".physiciansList").css("left", "-37%");
     }
 
     $scope.tooglePhysiciansList = function () {
-        var currentPos = $(".physiciansList").css("left");
+        $scope.hidePhysicians = !$scope.hidePhysicians;
+        // var currentPos = $(".physiciansList").css("left");
 
-        if(currentPos.charAt(0) == "-") // it's hidden
-            $(".physiciansList").css("left", "5em");
-        else
-            $(".physiciansList").css("left", "-37%");
+        // if(currentPos.charAt(0) == "-") // it's hidden
+        //     $(".physiciansList").css("left", "5em");
+        // else
+        //     $(".physiciansList").css("left", "-37%");
     }
 
     $scope.selectAll = function () {

@@ -5,14 +5,14 @@
         </div>
     </div>
 
-    <div class="col-sm-4 physiciansList">
+    <div class="col-sm-4 physiciansList" ng-class="{physiciansListHidden: hidePhysicians}">
         <h3>PHYSICIANS</h3>
         <form role="form" ng-submit="fillSchedules()">
             <div class="row form-group panel-body">
                 <input id="physicianSearch" ng-model="phySearch" class="form-control circled" type="search" placeholder="Find a Physician"/>
             </div>
-            <div class="row checkbox">
-                <label class="col-sm-12 text-right"><input type="checkbox" ng-model="phySelectAll" ng-click="selectAll()">Select All</label>
+            <div class="row checkbox text-right">
+                <label class="col-sm-12"><input type="checkbox" ng-model="phySelectAll" ng-click="selectAll()">Select All</label>
             </div>
             <div id="physicianSearchList" class="list-group">
                 <div class="row list-group-item" ng-class="{selectedPhysician: physician.selected}" ng-click="selectPhysician(physician)" ng-repeat="physician in physicianList | filter: phySearch">
@@ -70,16 +70,16 @@
     <div class="panel col-sm-12 dashboardBody backgroundMobile">
         <!-- Header Start -->
         <div class="hidden-xs row patientTitles" style="">
-            <div class="col-sm-1 buttonRow"> </div>
-            <div class="col-sm-1 apptTimeRow" ng-click="filteringActive(1);" ng-class="{'blueFilter': colFilter=='1','blackFilter': colFilter!='1'}">Appt Time<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='1' && arrowDirection=='0'}" aria-hidden="true"/></div>
+            <div class="col-sm-1 buttonRow" ng-class="{buttonRowBig: hidePhysicians}"></div>
+            <div class="col-sm-1 apptTimeRow" ng-click="filteringActive(1);" ng-class="{'blueFilter': colFilter=='1','blackFilter': colFilter!='1', buttonRowBig: hidePhysicians}">Appt Time<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='1' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
-            <div class="col-sm-1 nameRow" ng-click="filteringActive(2);" ng-class="{'blueFilter': colFilter=='2','blackFilter': colFilter!='2'}">Name<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='2' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='2' && arrowDirection=='0'}" aria-hidden="true"/></div>
+            <div class="col-sm-1 nameRow" ng-click="filteringActive(2);" ng-class="{'blueFilter': colFilter=='2','blackFilter': colFilter!='2', nameRowBig: hidePhysicians}">Name<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='2' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='2' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
             <div class="col-sm-1 typeRow" ng-click="filteringActive(2.1);" ng-class="{'blueFilter': colFilter=='2.1','blackFilter': colFilter!='2.1'}">Type<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='2.1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='2.1' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
-            <div class="col-sm-1 physicianRow" ng-click="filteringActive(3);" ng-class="{'blueFilter': colFilter=='3','blackFilter': colFilter!='3'}">Physician<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='3' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='3' && arrowDirection=='0'}" aria-hidden="true"/></div>
+            <div class="col-sm-1 physicianRow" ng-click="filteringActive(3);" ng-class="{'blueFilter': colFilter=='3','blackFilter': colFilter!='3'}" ng-hide="hidePhysicians">Physician<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='3' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='3' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
-            <div class="col-sm-1 roomRow" ng-click="filteringActive(3.1);" ng-class="{'blueFilter': colFilter=='3.1','blackFilter': colFilter!='3.1'}">Room<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='3.1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='3.1' && arrowDirection=='0'}" aria-hidden="true"/></div>
+            <div class="col-sm-1 roomRow" ng-click="filteringActive(3.1);" ng-class="{'blueFilter': colFilter=='3.1','blackFilter': colFilter!='3.1'}" ng-show="hidePhysicians">Room<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='3.1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='3.1' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
             <div class="col-sm-1 ageRow" ng-click="filteringActive(4.2);" ng-class="{'blueFilter': colFilter=='4.2','blackFilter': colFilter!='4.2'}">Age<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='4.2' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='4.2' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
@@ -87,9 +87,9 @@
 
             <div class="col-sm-1 imagingRow2" ng-click="filteringActive(5);" ng-class="{'blueFilter': colFilter=='5','blackFilter': colFilter!='5'}">Imaging<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='5' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='5' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
-            <div class="col-sm-1 atRow" ng-click="filteringActive(4.1);" ng-class="{'blueFilter': colFilter=='4.1','blackFilter': colFilter!='4.1'}">AT Entry<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='4.1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='4.1' && arrowDirection=='0'}" aria-hidden="true"/></div>
+            <div class="col-sm-1 atRow" ng-click="filteringActive(4.1);" ng-class="{'blueFilter': colFilter=='4.1','blackFilter': colFilter!='4.1', atRowBig: hidePhysicians}">AT Entry<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='4.1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='4.1' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
-            <div class="col-sm-2 statusRow" ng-click="filteringActive(6);" ng-class="{'blueFilter': colFilter=='6','blackFilter': colFilter!='6'}">Status<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='6' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='6' && arrowDirection=='0'}" aria-hidden="true"/></div>
+            <div class="col-sm-2 statusRow" ng-click="filteringActive(6);" ng-class="{'blueFilter': colFilter=='6','blackFilter': colFilter!='6', statusRowBig: hidePhysicians}">Status<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='6' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='6' && arrowDirection=='0'}" aria-hidden="true"/></div>
 
             <div class="col-sm-1 totalRow" ng-click="filteringActive(7);" ng-class="{'blueFilter': colFilter=='7','blackFilter': colFilter!='7'}">Total<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='7' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='7' && arrowDirection=='0'}" aria-hidden="true"/></div>
         </div>
@@ -110,16 +110,16 @@
 
             <div class="clearfix visible-xs-block"></div>
 
-            <div class="col-xs-3 col-sm-1 patientData buttonRow patientState" style="background-color:white; border-top:transparent;">
+            <div class="col-xs-3 col-sm-1 patientData buttonRow patientState" ng-class="{buttonRowBig: hidePhysicians}" style="background-color:white; border-top:transparent;">
                 <button type="button" ng-show="patient.currentState == 'EX'" class="btn btn-default circled btnDischarge" ng-class="patient._id" ng-click="discharge(patient)">Discharge</button>
                 <button type="button" class="btn btn-primary circled" ng-show="patient.currentState == 'WR'" ng-click="callBack(patient)" ng-disabled="patient.fcStartedTimestamp && !patient.fcFinishedTimestamp">Call Back</button>
                 <button type="button" class="btn btn-default circled" ng-show="patient.currentState == 'NCI'" ng-click="register(patient)">Register</button>
             </div>
             <div class="hidden-xs col-sm-1 patientData bordered apptTimeRow">{{ patient.apptTime | date:'hh:mm a'}}</div>
-            <div class="hidden-xs col-sm-1 patientData bordered nameRow" style="font-weight: bold;">{{ patient.fullName }}</div>
+            <div class="hidden-xs col-sm-1 patientData bordered nameRow" ng-class="{nameRowBig: hidePhysicians}" style="font-weight: bold;">{{ patient.fullName }}</div>
             <div class="hidden-xs col-sm-1 patientData bordered typeRow">{{ patient.apptType }}</div>
-            <div class="hidden-xs col-sm-1 patientData bordered roomRow">{{ patient.roomNumber }}</div>
-            <div class="hidden-xs col-sm-1 patientData bordered physicianRow">{{ patient.physician.name }}</div>
+            <div class="hidden-xs col-sm-1 patientData bordered roomRow" ng-show="hidePhysicians">{{ patient.roomNumber }}</div>
+            <div class="hidden-xs col-sm-1 patientData bordered physicianRow" ng-hide="hidePhysicians">{{ patient.physician.name }}</div>
             <div class="hidden-xs col-sm-1 patientData bordered ageRow">{{ patient.age }}</div>
             <div class="col-xs-2 col-sm-2 patientData bordered fcRow">
                 <div class="retinaContainer dashboardSVG">
@@ -131,13 +131,13 @@
                     <img ng-src="{{ getImagingState(patient) }}" ng-click="toogleImagingState(patient)" ng-class="{clickable: isImagingClickable(patient)}"/>
                 </div>
             </div>   
-            <div class="col-xs-2 col-sm-1 patientData bordered atRow">
+            <div class="col-xs-2 col-sm-1 patientData bordered atRow" ng-class="{atRowBig: hidePhysicians}">
                 <div class="retinaContainer dashboardSVG">
                     <img ng-src="{{ getATIcon(patient) }}" ng-class="{clickable: patient.currentState == 'EX'}" ng-click="toogleATEntry(patient)"/>
                 </div>
                 <span ng-show="patient.enterTimestamp.length > 0" ng-class="colorStateAT">{{ getATtimer(patient) | date:'mm.ss' }}</span>
             </div>              
-            <div class="hidden-xs col-sm-2 patientData bordered statusRow">
+            <div class="hidden-xs col-sm-2 patientData bordered statusRow" ng-class="{statusRowBig: hidePhysicians}">
                 <span class="col-sm-6" ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }}</span>
                 <span class="col-sm-6" ng-class="getTimerColor('EX', patient)">EX {{ getEXTime(patient) }}</span>
             </div>
@@ -151,7 +151,7 @@
             <div class="clearfix visible-xs-block"></div>
             
             <!-- Start Collapsible -->
-            <div class="col-sm-offset-1 col-sm-11 accordian-body collapse patientExpandible" id="{{ 'miniform' + patient._id }}" style="font-family: 'ProximaNova-Regular';7F7F7F">
+            <div class="col-sm-offset-1 col-sm-11 accordian-body collapse patientExpandible" ng-class="{patientExpandibleShort: hidePhysicians}" id="{{ 'miniform' + patient._id }}" style="font-family: 'ProximaNova-Regular';7F7F7F">
                 <div class="row" >
                     <div class="col-xs-3 col-sm-2" style=" text-align:left;cursor:pointer" ng-click="showMessage=false; showMessageAux=false " ng-class="{'attentionFont' : showMessage , 'attentionFontMobile' : !showMessage && showMessageAux==false} ">
                         <span class="hidden-xs glyphicon glyphicon-info-sign" aria-hidden="true"></span>&nbsp;Info

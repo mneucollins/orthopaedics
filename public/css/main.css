@@ -157,6 +157,10 @@ body {
 	box-shadow: 3px 0px 13px 0px rgba(0,0,0,0.24);
 }
 
+.physiciansListHidden {
+	left: -37%;
+}
+
 .avatar {
 	width: 70px;
 }
@@ -292,8 +296,11 @@ body {
 
 .buttonRow {
 	padding-top: .9em;
-	transition: all 0.5s;
+	/*transition: all 0.5s;*/
 	width: 9%;
+}
+.buttonRowBig {
+	width: 11%;
 }
 .buttonRow > button:disabled {
 	color: #333;
@@ -309,8 +316,11 @@ body {
 .nameRow {
 	font-weight: bold;
 	padding-top: 1.6em;
-	transition: all 0.5s;
+	/*transition: all 0.5s;*/
 	width: 13%;
+}
+.nameRowBig {
+	width: 15%;
 }
 
 .typeRow {
@@ -324,7 +334,6 @@ body {
 }
 
 .roomRow {
-	display: none;
 	padding-top: 1.6em;
 	width: 5%;
 }
@@ -356,14 +365,20 @@ body {
 
 .atRow {
 	padding-top: .9em;
-	transition: all 0.5s;
+	/*transition: all 0.5s;*/
 	width: 10%;
+}
+.atRowBig {
+	width: 12%;
 }
 
 .statusRow {
 	padding-top: 1.25em;
-	transition: all 0.5s;
+	/*transition: all 0.5s;*/
 	width: 12%;
+}
+.statusRowBig {
+	width: 14%;
 }
 
 .statusRow span { 
@@ -390,6 +405,15 @@ body {
 .expandBtnRow {
 	padding-top: .9em;
 	width: 5%;
+}
+
+.patientExpandible {
+	margin-left: 9%;
+	width: 91%;
+}
+.patientExpandibleShort {
+	margin-left: 11%;
+	width: 89%;
 }
 
 .dashboardSVG{
