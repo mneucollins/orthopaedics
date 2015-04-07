@@ -61,42 +61,9 @@ function getNextPatientWaitTime (physicianId, callback) {
                 var wrTime = _.max(searchList, function (item) {
                     return getWRTime(item);
                 });
+                wrTime = getWRTime(wrTime);
+                callback(null, wrTime > 0 ? wrTime : 0);
 
-                callback(null, getWRTime(wrTime));
-
-                // var now = new Date();
-                // var longWRPatient;
-                // var waitTime = 0;
-                
-                // for (var i = 0; i < patients.length; i++) {
-                //     var pat = patients[i];
-                //     var wrDate = pat.WRTimestamp;
-                //     var apptDate = pat.apptTime;
-                //     var exDate = pat.EXTimestamp;
-                //     var patwaitTime;
-                //     if(pat.currentState == "WR")
-                //         if(apptDate.getTime() < wrDate.getTime())
-                //             patwaitTime = now.getTime() - wrDate.getTime();
-                //         else
-                //             patwaitTime = now.getTime() - apptDate.getTime();
-                //     else 
-                //         if(apptDate.getTime() < wrDate.getTime())
-                //             patwaitTime = exDate.getTime() - wrDate.getTime();
-                //         else
-                //             patwaitTime = exDate.getTime() - apptDate.getTime();
-
-                //     if(patwaitTime > waitTime) {
-                //         longWRPatient = pat;
-                //         waitTime = patwaitTime;
-                //     }
-                // };
-
-                // if(longWRPatient && now.getTime() >= longWRPatient.apptTime.getTime())  {
-                //     var minWait = Math.round(waitTime / (60*1000));
-                //     callback(null, minWait);
-                // }
-                // else 
-                //     callback(null, 0);
 			}
             else callback(null, 0);
     		
@@ -107,19 +74,50 @@ function getNextPatientWaitTime (physicianId, callback) {
 
     if(patient.currentState == "NCI") return 0;
 
-    var wrDate = new Date(patient.WRTimestamp);
-    var apptDate = new Date(patient.apptTime);
-    var exDate = new Date(patient.EXTimestamp);
-    var nowDate = new Date();
+    var wrDate = new Date(patient.WRTimestamp).getTime();
+    var apptDate = new Date(patient.apptTime).getTime();
+    var exDate = new Date(patient.EXTimestamp).getTime();
+    var fcIniDate = new Date(patient.fcStartedTimestamp).getTime();
+    var fcFinDate = new Date(patient.fcFinishedTimestamp).getTime();
+    var nowDate = new Date().getTime();
 
-    if(patient.currentState == "WR")
-        if(apptDate.getTime() < wrDate.getTime()) // in the case patient arrived late
-            return Math.round((nowDate.getTime() - wrDate.getTime()) / (60*1000));
+    var isLate = apptDate < wrDate;
+    var wrTime = 0;
+
+    if(patient.currentState == "WR") {
+        if(isLate) // patient arrived late
+            wrTime = nowDate - wrDate;
+        else // patient arrived in time
+            wrTime = nowDate - apptDate;
+        
+        if(patient.fcDuration) { // finished FC
+            if(apptDate <= fcFinDate)
+                wrTime = nowDate - fcFinDate;
+            else if(apptDate < fcIniDate)
+                wrTime = wrTime - patient.fcDuration;
+        }
+        else if(patient.fcStartedTimestamp) { // in FC
+            if(apptDate < nowDate)
+                wrTime = 0;
+            else if(apptDate < fcIniDate)
+                if(isLate)
+                    wrTime = fcIniDate - wrDate;
+                else
+                    wrTime = fcIniDate - apptDate; 
+        }  
+    }
+    else {
+        if(isLate)
+            wrTime = exDate - wrDate;
         else
-            return Math.round((nowDate.getTime() - apptDate.getTime()) / (60*1000));
-    else 
-        if(apptDate.getTime() < wrDate.getTime())
-            return Math.round((exDate.getTime() - wrDate.getTime()) / (60*1000));
-        else
-            return Math.round((exDate.getTime() - apptDate.getTime()) / (60*1000));
+            wrTime = exDate - apptDate;
+
+        if(patient.fcDuration) // finished FC
+            if(apptDate <= fcFinDate)
+                wrTime = exDate - fcFinDate;
+            else if(apptDate < fcIniDate)
+                wrTime = wrTime - patient.fcDuration;
+    }
+    
+    return Math.round(wrTime / (60*1000));
 }

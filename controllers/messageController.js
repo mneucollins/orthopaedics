@@ -44,6 +44,7 @@ setInterval(function () {
 				console.log("(" + i + ") " + patient.firstName + " waited long enough!");
 				physicianController.getNextPatientWaitTime(patient.physician.id, function (err, phyWaitTime) {
 					console.log("(" + i + ") " + patient.firstName + " Physician's has a " + phyWaitTime + "minutes delay");
+					phyWaitTime += 5;
 					getReminderMessagesByPatient(patient.id, function (err, messages) {
 						var msgData = {
 							patient: patient,
