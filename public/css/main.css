@@ -408,6 +408,8 @@ body {
 }
 
 .patientExpandible {
+	font-family: "ProximaNova";
+	color: #7F7F7F;
 	margin-left: 9%;
 	width: 91%;
 }

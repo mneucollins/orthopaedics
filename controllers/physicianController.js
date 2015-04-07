@@ -51,6 +51,8 @@ function getNextPatientWaitTime (physicianId, callback) {
                 // gets que last called back patient
                 var lastEXCalled = _.max(searchList.EX, function (patient) { return patient.EXTimestamp.getTime(); });
                 // final list contains all WR patient + last called back patient
+                
+                if(!searchList.WR) searchList.WR = [];
                 searchList.WR.push(lastEXCalled);
                 searchList = searchList.WR;
 

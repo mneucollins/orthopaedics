@@ -91,6 +91,10 @@ function getReminderMessagesByPatient (patientId, callback) {
 function sendMessage (msgData, callback) {
 
 	var toNumber = msgData.patient.cellphone;
+	if(!toNumber) {
+		callback("Patient has no phone number!");
+		return;
+	}
 	toNumber = toNumber.indexOf("+") > -1 ? toNumber : config.numberPrefix + toNumber;
 
 	var client = twilio(config.accountSid, config.authToken);
@@ -124,6 +128,11 @@ function sendWelcomeMessage (msgData, callback) {
 	physicianController.getNextPatientWaitTime(msgData.patient.physician._id, function (err, waitTime) {
 		
 		var toNumber = msgData.patient.cellphone;
+		if(!toNumber) {
+			callback("Patient has no phone number!");
+			return;
+		}
+
 		toNumber = toNumber.indexOf("+") > -1 ? toNumber : config.numberPrefix + toNumber;
 
 		var theMessage = "Welcome " + msgData.patient.firstName + 
@@ -163,6 +172,10 @@ function sendBulkMessages (patientsData, callback) {
 
 	_.each(patientsData.patient, function (patient, index, list) {
 		var toNumber = patient.cellphone;
+		if(!toNumber) {
+			callback("Patient has no phone number!");
+			return;
+		}
 		toNumber = toNumber.indexOf("+") > -1 ? toNumber : config.numberPrefix + toNumber;
 
 		client.messages.create({
