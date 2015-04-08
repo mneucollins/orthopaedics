@@ -752,32 +752,32 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
             );
         }
 
-        if(!patient.noPhone) {
-            var modalInstance = $modal.open({
-                templateUrl: '/partials/sendMessage.html',
-                controller: 'sendMessageCtrl',
-                resolve: {
-                    patient: function () {
-                        return patient;
-                    },
-                    messageType: function () {
-                        return "Call";
-                    },
-                    // messageCache: function (){
-                    //     return messageStorage;
-                    // }
-                }
-            });
+        // if(!patient.noPhone) {
+        var modalInstance = $modal.open({
+            templateUrl: '/partials/sendMessage.html',
+            controller: 'sendMessageCtrl',
+            resolve: {
+                patient: function () {
+                    return patient;
+                },
+                messageType: function () {
+                    return "Call";
+                },
+                // messageCache: function (){
+                //     return messageStorage;
+                // }
+            }
+        });
 
-            modalInstance.result.then(function () {
-                updatePatient();
-            }, function () {
-                $log.info('Message Modal dismissed at: ' + new Date());
-            });  
-        }
-        else {
+        modalInstance.result.then(function () {
             updatePatient();
-        }
+        }, function () {
+            $log.info('Message Modal dismissed at: ' + new Date());
+        });  
+        // }
+        // else {
+        //     updatePatient();
+        // }
     }
 
     // var dischargePressed = false;
@@ -897,7 +897,7 @@ orthopaedicsControllers.controller('sendMessageCtrl', ['$scope', '$modalInstance
             }
 
             Alerts.addAlert("success", "message sent");
-            $modalInstance.close();
+            $modalInstance.close($scope.patient.roomNumber);
         }
     };
 

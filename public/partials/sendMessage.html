@@ -7,9 +7,17 @@
 		<div class="col-sm-3 col-sm-offset-1">Patient</div>
 		<div class="col-sm-7"><input type="text" class="form-control" ng-model="patient.fullName" disabled></div>
 	</div>
-	<div class="row form-group">
+	<div class="row form-group" ng-hide="patient.noPhone">
 		<div class="col-sm-3 col-sm-offset-1">Message</div>
 		<div class="col-sm-7"><textarea type="text" class="form-control" ng-model="patientMessage"></textarea></div>
+	</div>
+	<div class="row form-group" ng-show="patient.noPhone">
+		<div class="col-sm-3 col-sm-offset-1"></div>
+		<div class="col-sm-7"><p>No Phone</p></div>
+	</div>
+	<div class="row form-group" ng-show="messageType == 'Call'">
+		<div class="col-sm-3 col-sm-offset-1">Room</div>
+		<div class="col-sm-7"><input type="text" class="form-control" ng-model="patient.roomNumber"></div></div>
 	</div>
 	</form>
 </div>
