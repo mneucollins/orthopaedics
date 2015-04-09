@@ -665,7 +665,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     }
 
 
-    // New Patient
+    // Patient CRUD
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     $scope.newPatient = function () {
@@ -679,6 +679,9 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                 },
                 physicians: function () {
                     return $rootScope.selectedPhysicians;
+                },
+                modalFunction: function () {
+                    return "new";
                 }
             }
         });
@@ -687,6 +690,42 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
             $scope.patientList.push(patient);
             $scope.filteringActive($scope.colFilter);
             $scope.filteringActive($scope.colFilter);
+        }, function () {
+            $log.info('Message Modal dismissed at: ' + new Date());
+        });
+    }
+
+    $scope.editPatient = function (patient) {
+        
+        var modalInstance = $modal.open({
+            templateUrl: '/partials/registerPatient.html',
+            controller: 'registerPatientCtrl',
+            resolve: {
+                patient: function () {
+                    return patient;
+                },
+                physicians: function () {
+                    return $rootScope.selectedPhysicians;
+                },
+                modalFunction: function () {
+                    return "edit";
+                }
+            }
+        });
+
+        modalInstance.result.then(function (updPatient) {
+            var listPatient = _.find($scope.patientList, function(patient){ 
+                return patient.id == updPatient.id; 
+            });
+
+            if(listPatient) {
+                var index = $scope.patientList.indexOf(listPatient);
+                $scope.patientList[index] = updPatient; 
+                $scope.$apply();
+            }
+            else {
+                Alerts.addAlert("error", "Unknown error updating the patient. Please refresh the page");
+            }
         }, function () {
             $log.info('Message Modal dismissed at: ' + new Date());
         });
@@ -707,6 +746,9 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                 },
                 physicians: function () {
                     return $rootScope.selectedPhysicians;
+                },
+                modalFunction: function () {
+                    return "register";
                 }
             }
         });
@@ -736,23 +778,6 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
 
     $scope.callBack = function (patient) {
 
-        var updatePatient = function () {
-            Patient.update({patientId: patient.id}, 
-                {
-                    currentState: "EX",
-                    EXTimestamp: new Date()
-                }, 
-                function patientExamRoom (updatedPatient) {
-                    var index = $scope.patientList.indexOf(patient); 
-                    if(index >= 0) {
-                        $scope.patientList[index].currentState = updatedPatient.currentState;
-                        $scope.patientList[index].EXTimestamp = updatedPatient.EXTimestamp;
-                    }
-                }
-            );
-        }
-
-        // if(!patient.noPhone) {
         var modalInstance = $modal.open({
             templateUrl: '/partials/sendMessage.html',
             controller: 'sendMessageCtrl',
@@ -762,22 +787,28 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                 },
                 messageType: function () {
                     return "Call";
-                },
-                // messageCache: function (){
-                //     return messageStorage;
-                // }
+                }
             }
         });
 
-        modalInstance.result.then(function () {
-            updatePatient();
+        modalInstance.result.then(function (roomNumber) {
+            Patient.update({patientId: patient.id}, 
+                {
+                    currentState: "EX",
+                    EXTimestamp: new Date(),
+                    roomNumber: roomNumber
+                }, 
+                function patientExamRoom (updatedPatient) {
+                    var index = $scope.patientList.indexOf(patient); 
+                    if(index >= 0) {
+                        $scope.patientList[index].currentState = updatedPatient.currentState;
+                        $scope.patientList[index].EXTimestamp = updatedPatient.EXTimestamp;
+                    }
+                }
+            );
         }, function () {
             $log.info('Message Modal dismissed at: ' + new Date());
-        });  
-        // }
-        // else {
-        //     updatePatient();
-        // }
+        }); 
     }
 
     // var dischargePressed = false;
@@ -906,8 +937,8 @@ orthopaedicsControllers.controller('sendMessageCtrl', ['$scope', '$modalInstance
     };
 }]);
 
-orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInstance', 'Messages', 'Patient', 'Alerts', 'patient', 'physicians',
-  function($scope, $modalInstance, Messages, Patient, Alerts, patient, physicians) {
+orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInstance', 'Messages', 'Patient', 'Alerts', 'patient', 'physicians', 'modalFunction',
+  function($scope, $modalInstance, Messages, Patient, Alerts, patient, physicians, modalFunction) {
 
     $scope.physicians = physicians;
     $scope.apptTimeLabel = {};
@@ -916,16 +947,20 @@ orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInst
         startingDay: 1
     };
 
-    if(patient) {
+    if(modalFunction == "register") {
+        
+        $scope.fieldsDisabled = true;
+
         patient.physician = _.find(physicians, function (physician) {
             return physician._id == patient.physician._id;
         });
         $scope.patient = patient;
-        $scope.fieldsDisabled = true;
     }
-    else{
+    else if(modalFunction == "new") {
+
         $scope.fieldsDisabled = false;
         $scope.apptTimeLabel = {"padding-top": "2.5em"};
+
         var apptDateObj = new Date();
         var mins = apptDateObj.getMinutes();
         apptDateObj.setMinutes(Math.round(mins/10)*10);
@@ -933,13 +968,22 @@ orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInst
             apptTime: apptDateObj
         }
     } 
+    else if(modalFunction == "edit") {
 
-    $scope.preSubmit = function () {
-        $('#patientForm').submit();
+        $scope.fieldsDisabled = false;
+        $scope.apptTimeLabel = {"padding-top": "2.5em"};
+
+        patient.physician = _.find(physicians, function (physician) {
+            return physician._id == patient.physician._id;
+        });
+        $scope.patient = patient;
     }
+
     $scope.submit = function () {
-        if(patient){
-            if($scope.patient.noPhone) {
+        if(modalFunction == "register"){
+
+            if($scope.patient.noPhone || !$scope.patient.cellphone) {
+                $scope.patient.noPhone = true;
                 $modalInstance.close($scope.patient);
                 Alerts.addAlert("success", "no phone number - welcome message not sent");
             }
@@ -953,10 +997,11 @@ orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInst
                 Alerts.addAlert("success", "welcome message sent");
             }
         }
-        else{
+        else if(modalFunction == "new"){
             var patientToSave = $scope.patient;
             patientToSave.physician = $scope.patient.physician._id;
             patientToSave.currentState = "NCI";
+            patientToSave.noPhone = !($scope.patient.cellphone);
             if(!patientToSave.apptTime) patientToSave.apptTime = new Date();
 
             Patient.save(patientToSave, function (newPatient) {
@@ -964,6 +1009,20 @@ orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInst
                     return physician._id == newPatient.physician;
                 });
                 Alerts.addAlert("success", "Patient Registered");
+                $modalInstance.close(newPatient);
+            });
+        }
+        else if(modalFunction == "edit"){
+            var patientToSave = $scope.patient;
+            patientToSave.physician = $scope.patient.physician._id;
+            patientToSave.noPhone = !($scope.patient.cellphone);
+            if(!patientToSave.apptTime) patientToSave.apptTime = new Date();
+
+            Patient.update($scope.patient._id, patientToSave, function (newPatient) {
+                newPatient.physician = _.find(physicians, function (physician) {
+                    return physician._id == newPatient.physician;
+                });
+                Alerts.addAlert("success", "Patient Saved");
                 $modalInstance.close(newPatient);
             });
         }

@@ -10,10 +10,9 @@ var PatientSchema = new Schema({
 	email: String,
 	adress: String,
 	medicalRecordNumber: {
-		type: String, // TODO talvez necesite un índice
+		type: String, 
 		index: true
 	},
-	// patientType: String,
 	apptTime: Date,
 	apptType: String,
 	apptDuration: Number,
@@ -26,6 +25,10 @@ var PatientSchema = new Schema({
 		type: String,
 		enum: "NCI WR EX DC".split(" "), // Not Checked In, Waiting Room, Exam Room, Discharged
 		default: "NCI"
+	},
+	isDeleted: {
+		type: Boolean,
+		default: false
 	},
 	needsImaging: {
 		type: Boolean,

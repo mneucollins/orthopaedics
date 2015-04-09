@@ -192,6 +192,7 @@
                         </div>
                         <div id="{{ 'miniformInfo' + patient._id }}" ng-show="!showMessage && !showMessageAux" class="patInfoPanel patInfoPanelMob">
                             <br>
+                            Room: {{ patient.roomNumber }}<br><br>
                             MRN: {{ patient.medicalRecordNumber }}<br><br>
                             <div class="visible-xs divMarginLine"><hr/></div>
                             <div class="visible-xs"> AGE: {{ patient.age }}<br><br></div>
@@ -204,6 +205,7 @@
                             <div class="visible-xs divMarginLine"><hr/></div>
                             <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
                             {{ patient.adress }}<br>
+                            <div class="col-sm-4 col-sm-offset-1 btn ok-btn clickable circled" ng-click="editPatient(patient)">Edit</div>
                         </div>
                         <div id="{{ 'miniformTimes' + patient._id }}" class="visible-xs" ng-show="showMessageAux">
                             <div class="row" ng-repeat="record in patient.history">
