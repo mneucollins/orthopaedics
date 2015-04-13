@@ -97,10 +97,16 @@
         <!-- Body Start -->
         <div class="row patientRow {{'pat_' + patient._id}}" ng-class="{'oddRow': $odd}" ng-repeat="patient in patientList | dischargePatientsFilter: $root.hideDischarged | deletedPatientsFilter: $root.hideDeleted" patient-list>
             <div class="col-xs-12 visible-xs borderedFull">
-                <div class="col-xs-12 visible-xs" style="  padding: 13px;"><div class="patienInfo">{{ patient.apptTime | date:'hh:mm a'}}</div> &nbsp;&nbsp;<div class="patienInfoFocus"><b>{{ patient.fullName }}</b></div></div>
-                <div class="col-xs-12 visible-xs patienInfo">{{ patient.apptType }} &nbsp;|&nbsp;
-                    {{ patient.physician.name }}</div>
-                <div class="col-xs-12 visible-xs  ">
+                <div class="col-xs-12 visible-xs patienInfo" style="padding-top: 3%;">
+                    {{ patient.apptTime | date:'hh:mm a'}} &nbsp;|&nbsp;{{ patient.apptType }} &nbsp;|&nbsp; {{ patient.roomNumber }}
+                </div>
+                <div class="col-xs-12 visible-xs patienInfo">
+                   <b>{{ patient.fullName }}</b>
+                </div>
+                <div class="col-xs-12 visible-xs patienInfo" ng-show="!hidePhysicians">
+                    {{ patient.physician.name }}
+                </div>
+                <div class="col-xs-12 visible-xs" style="margin-top: -5%;  margin-bottom: -5%;">
                     <hr />
                 </div>
                 <div class="col-xs-7 visible-xs patienInfoFocus"><span ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }} </span>-<span ng-class="getTimerColor('EX', patient)"> EX {{ getEXTime(patient) }} </span></div>
