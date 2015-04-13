@@ -8,6 +8,7 @@ var orthopaedicsControllers = angular.module('orthopaedicsControllers', ['ui.boo
         function($scope, $rootScope, $location, $interval, AuthService){
             
             $rootScope.hideDischarged = false;
+            $rootScope.hideDeleted = true;
             $scope.$watch(AuthService.isLoggedIn, function ( isLoggedIn ) {
                 $scope.isLoggedIn = isLoggedIn;
                 $scope.currentUser = AuthService.currentUser();
@@ -731,6 +732,57 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         });
     }
 
+    $scope.deletePatient = function (patient) {
+        var resp = confirm("Are you sure you would like to delete this patient?");
+        
+        if (resp == true) {
+            Patient.update({patientId: patient.id}, 
+                {isDeleted: true, deletedTimestamp: new Date()}, 
+                function (updatedPatient) {
+                    var index = $scope.patientList.indexOf(patient); 
+                    if(index >= 0) {
+                        $scope.patientList[index].isDeleted = updatedPatient.isDeleted;
+                        $scope.patientList[index].deletedTimestamp = updatedPatient.deletedTimestamp;
+                    }
+                    Alerts.addAlert("error", "Unknown error updating the patient. Please refresh the page");
+                });       
+        }   
+    }
+
+    $scope.restoreDeletedPatient = function (patient) {
+        var resp = confirm("Are you sure you would like to restore this patient?");
+        
+        if (resp == true) {
+            Patient.update({patientId: patient.id}, 
+                {isDeleted: false, deletedTimestamp: null}, 
+                function (updatedPatient) {
+                    var index = $scope.patientList.indexOf(patient); 
+                    if(index >= 0) {
+                        $scope.patientList[index].isDeleted = updatedPatient.isDeleted;
+                        $scope.patientList[index].deletedTimestamp = updatedPatient.deletedTimestamp;
+                    }
+                    Alerts.addAlert("success", "Patient restored");
+                });       
+        }   
+    }
+
+    $scope.restoreDischargedPatient = function (patient) {
+        var resp = confirm("Are you sure you would like to restore this patient?");
+        
+        if (resp == true) {
+            Patient.update({patientId: patient.id}, 
+                {DCTimestamp: null, currentState: "EX"}, 
+                function (updatedPatient) {
+                    var index = $scope.patientList.indexOf(patient); 
+                    if(index >= 0) {
+                        $scope.patientList[index].DCTimestamp = updatedPatient.DCTimestamp;
+                        $scope.patientList[index].currentState = updatedPatient.currentState;
+                    }
+                    Alerts.addAlert("success", "Patient restored");
+                });       
+        }   
+    }
+
 
     // State Changing
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -777,6 +829,10 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     }
 
     $scope.callBack = function (patient) {
+
+        if(patient.callbackPressed) {
+
+        }
 
         var modalInstance = $modal.open({
             templateUrl: '/partials/sendMessage.html',

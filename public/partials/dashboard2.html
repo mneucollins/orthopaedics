@@ -95,7 +95,7 @@
         </div>
         <!-- Header End -->
         <!-- Body Start -->
-        <div class="row patientRow {{'pat_' + patient._id}}" ng-class="{'oddRow': $odd}" ng-repeat="patient in patientList | dischargePatientsFilter: $root.hideDischarged" patient-list>
+        <div class="row patientRow {{'pat_' + patient._id}}" ng-class="{'oddRow': $odd}" ng-repeat="patient in patientList | dischargePatientsFilter: $root.hideDischarged | deletedPatientsFilter: $root.hideDeleted" patient-list>
             <div class="col-xs-12 visible-xs borderedFull">
                 <div class="col-xs-12 visible-xs" style="  padding: 13px;"><div class="patienInfo">{{ patient.apptTime | date:'hh:mm a'}}</div> &nbsp;&nbsp;<div class="patienInfoFocus"><b>{{ patient.fullName }}</b></div></div>
                 <div class="col-xs-12 visible-xs patienInfo">{{ patient.apptType }} &nbsp;|&nbsp;
@@ -111,6 +111,7 @@
             <div class="clearfix visible-xs-block"></div>
 
             <div class="col-xs-3 col-sm-1 patientData buttonRow patientState" ng-class="{buttonRowBig: hidePhysicians}" style="background-color:white; border-top:transparent;">
+                <button type="button" ng-show="patient.currentState == 'DC'" class="btn btn-default circled btnDischarge" ng-click="restoreDischargedPatient(patient)">Restore</button>
                 <button type="button" ng-show="patient.currentState == 'EX'" class="btn btn-default circled btnDischarge" ng-class="patient._id" ng-click="discharge(patient)">Discharge</button>
                 <button type="button" class="btn btn-primary circled" ng-show="patient.currentState == 'WR'" ng-click="callBack(patient)" ng-disabled="patient.fcStartedTimestamp && !patient.fcFinishedTimestamp">Call Back</button>
                 <button type="button" class="btn btn-default circled" ng-show="patient.currentState == 'NCI'" ng-click="register(patient)">Register</button>
@@ -204,8 +205,10 @@
                             {{ patient.email }}<br><br>
                             <div class="visible-xs divMarginLine"><hr/></div>
                             <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-                            {{ patient.adress }}<br>
-                            <div class="col-sm-4 col-sm-offset-1 btn ok-btn clickable circled" ng-click="editPatient(patient)">Edit</div>
+                            {{ patient.adress }}<br><br>
+                            <div class="col-sm-4 col-sm-offset-3 btn ok-btn clickable circled" ng-click="restoreDeletedPatient(patient)" ng-show="patient.isDeleted">Restore</div>
+                            <div class="col-sm-4 col-sm-offset-1 btn ok-btn clickable circled" ng-click="editPatient(patient)" ng-hide="patient.isDeleted">Edit</div>
+                            <div class="col-sm-4 col-sm-offset-2 btn btn-danger clickable circled" ng-click="deletePatient(patient)" ng-hide="patient.isDeleted">Delete</div>
                         </div>
                         <div id="{{ 'miniformTimes' + patient._id }}" class="visible-xs" ng-show="showMessageAux">
                             <div class="row" ng-repeat="record in patient.history">

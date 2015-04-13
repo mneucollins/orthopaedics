@@ -10,3 +10,17 @@ orthopaedicsFilters.filter('dischargePatientsFilter', function () {
             return patients;
     };
 }); 
+
+
+orthopaedicsFilters.filter('deletedPatientsFilter', function () {
+    return function (patients, hideDeleted) {
+        if(hideDeleted) 
+            return _.filter(patients, function (pat) {
+                return !pat.isDeleted;
+            });
+        else
+            return _.filter(patients, function (pat) {
+                return pat.isDeleted;
+            });
+    };
+}); 

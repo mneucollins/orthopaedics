@@ -30,6 +30,7 @@ var PatientSchema = new Schema({
 		type: Boolean,
 		default: false
 	},
+	deletedTimestamp: Date,
 	needsImaging: {
 		type: Boolean,
 		default: false

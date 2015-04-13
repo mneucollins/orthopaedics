@@ -89,8 +89,9 @@
         </div>
         <!-- Header End -->
         <!-- Body Start -->
-        <div class="row patientRow {{'pat_' + patient._id}}" ng-class="{oddRow: $odd}" ng-repeat="patient in patientList | dischargePatientsFilter: $root.hideDischarged">
+        <div class="row patientRow {{'pat_' + patient._id}}" ng-class="{oddRow: $odd}" ng-repeat="patient in patientList | dischargePatientsFilter: $root.hideDischarged | deletedPatientsFilter: $root.hideDeleted">
             <div class="col-sm-1 patientData buttonRow" style="background-color:white; border-top:transparent;">
+                <button type="button" ng-show="patient.currentState == 'DC'" class="btn btn-default circled btnDischarge" ng-click="restoreDischargedPatient(patient)">Restore</button>
                 <button type="button" ng-show="patient.currentState == 'EX'" class="btn btn-default circled btnDischarge" ng-click="discharge(patient)">Discharge</button>
                 <button type="button" class="btn btn-primary circled" ng-show="patient.currentState == 'WR'" ng-click="callBack(patient)" ng-disabled="patient.fcStartedTimestamp && !patient.fcFinishedTimestamp">Call Back</button>
                 <button type="button" class="btn btn-default circled" ng-show="patient.currentState == 'NCI'" ng-click="register(patient)">Register</button>
@@ -178,8 +179,9 @@
                             {{ patient.email }}<br><br>
                             <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
                             {{ patient.adress }}<br><br>
+                            <div class="col-sm-4 col-sm-offset-3 btn ok-btn clickable circled" ng-click="restoreDeletedPatient(patient)" ng-show="patient.isDeleted">Restore</div>
                             <div class="col-sm-4 col-sm-offset-1 btn ok-btn clickable circled" ng-click="editPatient(patient)">Edit</div>
-                            <!-- <div class="col-sm-4 col-sm-offset-2 btn btn-danger clickable circled" ng-click="deletePatient(patient)">Delete</div> -->
+                            <div class="col-sm-4 col-sm-offset-2 btn btn-danger clickable circled" ng-click="deletePatient(patient)">Delete</div>
                         </div>
                     </div>
                     <div class="col-sm-6 col-lg-5" style="border-left: thick solid #C9C9C9; border-width: 1px;">
