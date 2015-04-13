@@ -1190,7 +1190,7 @@ orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$r
 
     resizePhybar(); // método en el main.js
     $rootScope.selectedPhysicians = [];
-    $scope.hidePhysiciansList = false;
+    $rootScope.hidePhysiciansList = false;
 
     Physician.query(function (physicians) {
         _.each(physicians, function (element, index, list) {
@@ -1216,12 +1216,12 @@ orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$r
         }); 
 
         $rootScope.selectedPhysicians = selectedPhysicians;
-        $scope.hidePhysiciansList = true;
+        $rootScope.hidePhysiciansList = true;
         // $(".physiciansList").css("left", "-37%");
     }
 
     $rootScope.tooglePhysiciansList = function () {
-        $scope.hidePhysiciansList = !$scope.hidePhysiciansList;
+        $rootScope.hidePhysiciansList = !$rootScope.hidePhysiciansList;
         // var currentPos = $(".physiciansList").css("left");
 
         // if(currentPos.charAt(0) == "-") // it's hidden
