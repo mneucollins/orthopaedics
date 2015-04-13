@@ -80,14 +80,14 @@
 	.patienInfo{
 		font-family: "ProximaNova-Regular";
 		color: #808286;
-		font-size: 1.3em;
+		font-size: 1em;
 		opacity: 0.7;
 		display: inline-block;
 	}
 	.patienInfoFocus{
 		font-family: "ProximaNova-Bold";
 		color: #808286;
-		font-size: 1.3em;
+		font-size: 1em;
 		opacity: 1;
 		display: inline-block;
 	}
