@@ -62,6 +62,9 @@ orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthSer
 
     $("nav").addClass("hidden");
     $("body").addClass("body-login");
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 
     $scope.login = function () {
         AuthService.login($scope.user, function(user) {
@@ -829,23 +832,42 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     }
 
     $scope.callBack = function (patient) {
-
-        if(patient.callbackPressed) {
-
-        }
-
-        var modalInstance = $modal.open({
-            templateUrl: '/partials/sendMessage.html',
-            controller: 'sendMessageCtrl',
-            resolve: {
-                patient: function () {
-                    return patient;
-                },
-                messageType: function () {
-                    return "Call";
+        var fcTimeElapsed = (new Date().getTime() - new Date(patient.WRTimestamp).getTime()) / (60*1000);
+        
+        if(patient.callbackPressed || fcTimeElapsed > 5) {
+            var modalInstance = $modal.open({
+                templateUrl: '/partials/sendMessage.html',
+                controller: 'sendMessageCtrl',
+                resolve: {
+                    patient: function () {
+                        return patient;
+                    },
+                    messageType: function () {
+                        return "Call";
+                    }
                 }
+            });
+        }
+        else {
+            patient.callbackPressed = true;
+            var css = {
+                "transition": "all 3s linear",
+                "background-color": "#fff"
             }
-        });
+            $('.pat_' + patient._id + " .btnCallBack").css(css);
+
+            function disableCallback (patient) {
+                setTimeout(function () {
+                    patient.callbackPressed = false;
+                    var css = {
+                        "transition": "all 0.3s linear",
+                        "background-color": "#428bca"
+                    }
+                    $('.pat_' + patient._id + " .btnCallBack").css(css);
+                }, 3000);
+            }
+            disableCallback(patient);
+        }
 
         modalInstance.result.then(function (roomNumber) {
             Patient.update({patientId: patient.id}, 
@@ -1168,7 +1190,7 @@ orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$r
 
     resizePhybar(); // método en el main.js
     $rootScope.selectedPhysicians = [];
-    $scope.hidePhysicians = false;
+    $scope.hidePhysiciansList = false;
 
     Physician.query(function (physicians) {
         _.each(physicians, function (element, index, list) {
@@ -1194,12 +1216,12 @@ orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$r
         }); 
 
         $rootScope.selectedPhysicians = selectedPhysicians;
-        $scope.hidePhysicians = true;
+        $scope.hidePhysiciansList = true;
         // $(".physiciansList").css("left", "-37%");
     }
 
-    $scope.tooglePhysiciansList = function () {
-        $scope.hidePhysicians = !$scope.hidePhysicians;
+    $rootScope.tooglePhysiciansList = function () {
+        $scope.hidePhysiciansList = !$scope.hidePhysiciansList;
         // var currentPos = $(".physiciansList").css("left");
 
         // if(currentPos.charAt(0) == "-") // it's hidden

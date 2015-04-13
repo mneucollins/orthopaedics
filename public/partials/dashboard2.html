@@ -5,7 +5,7 @@
         </div>
     </div>
 
-    <div class="col-sm-4 physiciansList" ng-class="{physiciansListHidden: hidePhysicians}">
+    <div class="col-sm-4 physiciansList" ng-class="{physiciansListHidden: $root.hidePhysiciansList}">
         <h3>PHYSICIANS</h3>
         <form role="form" ng-submit="fillSchedules()">
             <div class="row form-group panel-body">
@@ -37,7 +37,7 @@
         <div class="panel-default" role="tab" id="headingOne">
             <div class="row">
                 <div class="visible-xs col-xs-3 menuPhysicians retinaContainer" ng-controller="physiciansCtrl">
-                    <img src="../img/Doctor_Selected.png" ng-click="tooglePhysiciansList()"/>
+                    <img src="../img/Doctor_Selected.png" ng-click="$root.tooglePhysiciansList()"/>
                 </div>
                 <div class="col-xs-8 col-sm-5 col-md-4 clock">
                     <h3>{{ currentTime | date: 'h:mm a MMMM d, yyyy'}}</h3>
