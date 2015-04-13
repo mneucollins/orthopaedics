@@ -1047,6 +1047,7 @@ orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInst
   function($scope, $modalInstance, Messages, Patient, Alerts, patient, physicians, modalFunction) {
 
     $scope.physicians = physicians;
+    $scope.modalFunction = modalFunction;
     $scope.apptTimeLabel = {};
     $scope.dateOptions = {
         formatYear: 'yy',

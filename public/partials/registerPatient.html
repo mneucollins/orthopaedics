@@ -43,6 +43,10 @@
 		<div class="col-sm-3">MRN Number</div>
 		<div class="col-sm-7 input-group"><input type="text" class="form-control" ng-model="patient.medicalRecordNumber" ng-disabled="fieldsDisabled" required></div>
 	</div>
+	<div class="row form-group" ng-show="modalFunction == 'edit'">
+		<div class="col-sm-3">Room</div>
+		<div class="col-sm-7"><input type="text" class="form-control" ng-model="patient.roomNumber" maxlength="5"></div>
+	</div>
 	<div class="row form-group">
 		<div class="col-sm-3">Physician</div>
 		<div class="col-sm-7 input-group">
