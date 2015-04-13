@@ -93,7 +93,7 @@
             <div class="col-sm-1 patientData buttonRow" style="background-color:white; border-top:transparent;">
                 <button type="button" ng-show="patient.currentState == 'DC'" class="btn btn-default circled btnDischarge" ng-click="restoreDischargedPatient(patient)">Restore</button>
                 <button type="button" ng-show="patient.currentState == 'EX'" class="btn btn-default circled btnDischarge" ng-click="discharge(patient)">Discharge</button>
-                <button type="button" class="btn btn-primary circled btnCallBack" ng-show="patient.currentState == 'WR'" ng-click="callBack(patient)" ng-disabled="patient.fcStartedTimestamp && !patient.fcFinishedTimestamp">Call Back</button>
+                <button type="button" class="btn circled btnCallBack" ng-class="{'btn-primary': patient.callbackEnabled, 'btn-default': !patient.callbackEnabled}" ng-show="patient.currentState == 'WR'" ng-click="callBack(patient)" ng-disabled="patient.fcStartedTimestamp && !patient.fcFinishedTimestamp">Call Back</button>
                 <button type="button" class="btn btn-default circled" ng-show="patient.currentState == 'NCI'" ng-click="register(patient)">Register</button>
             </div>
             <div class="col-sm-1 patientData bordered apptTimeRow">{{ patient.apptTime | date:'hh:mm a'}}</div>

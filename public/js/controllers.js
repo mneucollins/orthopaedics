@@ -824,6 +824,19 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                         $scope.patientList[index].cellphone = updatedPatient.cellphone;
                         $scope.patientList[index].noPhone = updatedPatient.noPhone;
                     }
+
+                    setTimeout(function () {
+                        if(!patient.callbackEnabled)
+                            Patient.update({patientId: patient.id}, 
+                                {callbackEnabled: true}, 
+                                function (updatedPatient) {
+                                    var index = $scope.patientList.indexOf(patient); 
+                                    if(index >= 0) {
+                                        $scope.patientList[index].callbackEnabled = updatedPatient.callbackEnabled;
+                                    }
+                                }
+                            );
+                    }, 5 * 60 * 1000);
                 }
             );
         }, function () {
@@ -832,9 +845,9 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     }
 
     $scope.callBack = function (patient) {
-        var fcTimeElapsed = (new Date().getTime() - new Date(patient.WRTimestamp).getTime()) / (60*1000);
+        // var fcTimeElapsed = (new Date().getTime() - new Date(patient.WRTimestamp).getTime()) / (60*1000);
         
-        if(patient.callbackPressed || fcTimeElapsed > 5) {
+        if(patient.callbackEnabled) {
             var modalInstance = $modal.open({
                 templateUrl: '/partials/sendMessage.html',
                 controller: 'sendMessageCtrl',
@@ -848,20 +861,34 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                 }
             });
         }
+        else if(patient.callbackPressed) {
+            Patient.update({patientId: patient.id}, 
+                {callbackEnabled: true}, 
+                function (updatedPatient) {
+                    var index = $scope.patientList.indexOf(patient); 
+                    if(index >= 0) {
+                        $scope.patientList[index].callbackEnabled = updatedPatient.callbackEnabled;
+                    }
+                }
+            );
+        }
         else {
             patient.callbackPressed = true;
             var css = {
                 "transition": "all 3s linear",
-                "background-color": "#fff"
+                "background-color": "#428bca"
             }
             $('.pat_' + patient._id + " .btnCallBack").css(css);
 
             function disableCallback (patient) {
                 setTimeout(function () {
+                    if($('.pat_' + patient._id + " .btnCallBack").hasClass("btn-primary")) 
+                        return;
+
                     patient.callbackPressed = false;
                     var css = {
                         "transition": "all 0.3s linear",
-                        "background-color": "#428bca"
+                        "background-color": "#fff"
                     }
                     $('.pat_' + patient._id + " .btnCallBack").css(css);
                 }, 3000);
@@ -869,24 +896,25 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
             disableCallback(patient);
         }
 
-        modalInstance.result.then(function (roomNumber) {
-            Patient.update({patientId: patient.id}, 
-                {
-                    currentState: "EX",
-                    EXTimestamp: new Date(),
-                    roomNumber: roomNumber
-                }, 
-                function patientExamRoom (updatedPatient) {
-                    var index = $scope.patientList.indexOf(patient); 
-                    if(index >= 0) {
-                        $scope.patientList[index].currentState = updatedPatient.currentState;
-                        $scope.patientList[index].EXTimestamp = updatedPatient.EXTimestamp;
+        if(modalInstance)
+            modalInstance.result.then(function (roomNumber) {
+                Patient.update({patientId: patient.id}, 
+                    {
+                        currentState: "EX",
+                        EXTimestamp: new Date(),
+                        roomNumber: roomNumber
+                    }, 
+                    function patientExamRoom (updatedPatient) {
+                        var index = $scope.patientList.indexOf(patient); 
+                        if(index >= 0) {
+                            $scope.patientList[index].currentState = updatedPatient.currentState;
+                            $scope.patientList[index].EXTimestamp = updatedPatient.EXTimestamp;
+                        }
                     }
-                }
-            );
-        }, function () {
-            $log.info('Message Modal dismissed at: ' + new Date());
-        }); 
+                );
+            }, function () {
+                $log.info('Message Modal dismissed at: ' + new Date());
+            }); 
     }
 
     // var dischargePressed = false;
