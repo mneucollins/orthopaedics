@@ -218,10 +218,10 @@
                         </div>
                         <div id="{{ 'miniformTimes' + patient._id }}" class="visible-xs" ng-show="showMessageAux">
                             <div class="row" ng-repeat="record in patient.history">
-                                <div class="col-xs-3 ">{{ record.apptTime | date: 'MM/dd/yy'}}</div>
-                                <div class="col-xs-6 priorStatusCol ">
-                                    <span class="col-sm-6" ng-class="getTimerColor('WRH', record)"> WR {{ getWRTime(patient) }}  </span>
-                                    <span class="col-sm-6" ng-class="getTimerColor('EXH', record)"> EX {{ getEXTime(record) }}  </span>
+                                <div class="col-xs-2 priorTimeCol">{{ record.apptTime | date: 'MM/dd/yy'}}</div>
+                                <div class="col-xs-7 priorStatusCol ">
+                                    <span class="col-xs-6 col-sm-6" ng-class="getTimerColor('WRH', record)"> WR {{ getWRTime(patient) }}  </span>
+                                    <span class="col-xs-6 col-sm-6" ng-class="getTimerColor('EXH', record)"> EX {{ getEXTime(record) }}  </span>
                                 </div>
                                 <div class="col-xs-3 priorTotalCol"><div class="roundMiniBox"><div class="patienInfoFocus" style="color: #0099F0">{{ getTotalTime(record) }}</div></div></div>
                             </div>
