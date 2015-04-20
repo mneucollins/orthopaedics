@@ -135,10 +135,16 @@ function sendWelcomeMessage (msgData, callback) {
 		}
 
 		toNumber = toNumber.indexOf("+") > -1 ? toNumber : config.numberPrefix + toNumber;
+		var theMessage = "";
 
-		var theMessage = "Welcome " + msgData.patient.firstName + 
-					", your estimated wait time is " + (waitTime + 5) + 
-					" mins. We will keep you informed about waits and delays as a part of a desire to be sensitive to your needs as a patient.";
+		if(waitTime > 0)
+			var theMessage = "Welcome " + msgData.patient.firstName + ", " + msgData.patient.physician.name +
+				" is currently running " + (waitTime + 5) + " behind schedule. " +
+				"We will keep you informed about waits and delays as a part of a desire to be sensitive to your needs as a patient.";
+		else
+			var theMessage = "Welcome " + msgData.patient.firstName + ", " + msgData.patient.physician.name +
+				" is currently running on schedule. " +
+				"We will keep you informed about waits and delays as a part of a desire to be sensitive to your needs as a patient.";
 
 		var client = twilio(config.accountSid, config.authToken);
 

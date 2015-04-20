@@ -1,26 +1,24 @@
 var XLSX 		 = require('xlsx');
 var _ 		 	 = require('underscore');
-var mongoose     = require('mongoose');
-var patientController = require('./controllers/patientController');
-var patientModel = require('./models/patientModel');
-var userModel = require('./models/userModel');
+
+var patientController = require('../controllers/patientController');
 
 module.exports = {
 	escribirExcel : escribirExcel
 }
 
-function escribirExcel (lowDate,highDate) {
+function escribirExcel (lowDate, highDate, callback) {
 
-var nombreArc = "";
-
-	console.log("hakuna matata - The report starts to work");
-	mongoose.connect('mongodb://localhost:27017/orthopaedics');
+	var nombreArc = "";
+	console.log("Generating report between " + lowDate + " and " + highDate);
 
     patientController.listPatientsBetweenDates(lowDate,highDate,function(err,patientList){
-    	if(err)
-    		return console.error(err);
+    	if(err) {
+    		callback(err);
+    		return;
+    	}
 
-    	console.log("Total de pacientes: "+patientList.length);
+    	console.log("Total patients: " + patientList.length);
 
     	//Load excel template
 		var workbook = XLSX.readFile('./reports/report_template.xlsx', {cellStyles:true});
@@ -32,10 +30,7 @@ var nombreArc = "";
 
 		var R = range.s.r + 1;
 
-    	//_.each(patientList, function(patient,i,list){
-
     	for(var i=0 ; i<patientList.length ; i++, ++R ){
-
 
     		var patient = patientList[i];
     		var wrTime = 0;
@@ -60,7 +55,6 @@ var nombreArc = "";
 	            	else
 	                	wrTime = Math.round((exDate.getTime() - apptDate.getTime()) / (60*1000));
 
-
     		//EXTime
     		if(patient.currentState != "NCI" && patient.currentState != "WR")
 		        if(patient.currentState == "EX")
@@ -68,9 +62,7 @@ var nombreArc = "";
 		        else 
 		            exTime = Math.round((dcDate.getTime() - exDate.getTime()) / (60*1000));
 
-		        
-
-
+		     
         	//TotalTime
 			if(patient.currentState != "NCI")
 		        if(patient.currentState == "EX" || patient.currentState == "WR")
@@ -103,23 +95,21 @@ var nombreArc = "";
 		
 		var dateReport = new Date();
 		var month = Math.round(dateReport.getMonth()+1);
-		nombreArc = 'report'+dateReport.getFullYear()+'_'+month+'_'+dateReport.getDate()+
+		nombreArc = 'report' + dateReport.getFullYear()+'_'+month+'_'+dateReport.getDate()+
 	  		'_'+dateReport.getHours()+dateReport.getMinutes()+dateReport.getSeconds()+'.xlsx';
-	  	XLSX.writeFile(workbook, './reports/'+nombreArc);
+	  	XLSX.writeFile(workbook, './reports/' + nombreArc);
 	  	console.log("archivo escrito :)");
 
+	  	callback(null, nombreArc);
     });
 
-return nombreArc;
-
+	// return nombreArc;
 }
 
 
 //esto es solo para pruebas, se debe borrar al final
 
-var lowDate = new Date();
-var highDate = new Date();
+// var lowDate = new Date();
+// var highDate = new Date();
 
-escribirExcel(lowDate,highDate);
-
-
+// escribirExcel(lowDate,highDate);

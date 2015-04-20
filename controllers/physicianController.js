@@ -39,6 +39,7 @@ function getNextPatientWaitTime (physicianId, callback) {
 		.find({
 			physician: physicianId,
 			apptTime: {$gte: lowDate, $lt: highDate},
+            isDeleted: false,
             $or: [{currentState: "WR"}, {currentState: "EX"}]
 		})
 		.sort({WRTimestamp: 1})

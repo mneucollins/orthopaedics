@@ -158,24 +158,48 @@
             <div class="clearfix visible-xs-block"></div>
             
             <!-- Start Collapsible -->
-            <div class="col-sm-offset-1 col-sm-11 accordian-body collapse patientExpandible" ng-class="{patientExpandibleShort: hidePhysicians}" id="{{ 'miniform' + patient._id }}">
-                <div class="row" >
-                    <div class="col-xs-3 col-sm-2" style=" text-align:left;cursor:pointer" ng-click="showMessage=false; showMessageAux=false " ng-class="{'attentionFont' : showMessage , 'attentionFontMobile' : !showMessage && showMessageAux==false} ">
-                        <span class="hidden-xs glyphicon glyphicon-info-sign" aria-hidden="true"></span>&nbsp;Info
+            <div class="col-sm-offset-1 col-sm-11 accordian-body collapse patientExpandible" ng-class="{patientExpandibleShort: hidePhysicians}" id="{{ 'miniform' + patient._id }}" ng-init="showTab='info'">
+                <div class="row expandibleTitles">
+                    <div class="col-xs-3 col-sm-2 clickable" ng-click="showTab='info'" ng-class="{'attentionFont': showTab=='info'} ">
+                        <span class="glyphicon glyphicon-info-sign hidden-xs" aria-hidden="true"></span>Info 
                     </div>
-                    <div class="col-xs-3 col-sm-2" style=" text-align:left;cursor:pointer" ng-click="showMessage=true; showMessageAux=false" ng-class="{'attentionFont' : !showMessage, 'attentionFontMobile' : showMessage && showMessageAux==false}">
-                        <span class="hidden-xs glyphicon glyphicon-envelope" aria-hidden="true"></span> &nbsp;Contact
+                    <div class="col-xs-3 col-sm-2 clickable" ng-click="showTab='msg'" ng-class="{'attentionFont': showTab=='msg'}">
+                        <span class="glyphicon glyphicon-envelope hidden-xs" aria-hidden="true"></span>Contact 
                     </div>
-                    <div class="hidden-xs col-sm-2"></div>
-                    <div class="col-xs-6 col-sm-6" style=" text-align:left; " ng-class="{'attentionFontMobile' : showMessageAux}">
-                        <div class="hidden-xs">Prior Appointment Wait Times</div>
-                        <div class="visible-xs" style="  text-align:left; cursor:pointer" ng-click="showMessageAux=true" >Prior Wait Times</div>
+                    <div class="col-xs-3 col-sm-2 clickable" ng-click="showTab='notes'" ng-class="{'attentionFont': showTab=='notes'}">
+                        <span class="glyphicon glyphicon-pencil hidden-xs" aria-hidden="true"></span>Notes 
+                    </div>
+                    <div class="col-xs-3 visible-xs" ng-click="showTab='prior'" ng-class="{'attentionFont': showTab=='prior'}">
+                        Prior Times 
+                    </div>
+                    <div class="col-sm-6 hidden-xs">
+                        <div>Prior Appointment Wait Times</div>
                     </div>
                 </div>
+
                 <br/>
                 <div class="row rowFullWhite" style="text-align:left">
                     <div class="col-sm-6" style="padding-right: 30px;">
-                        <div  ng-show="showMessage && !showMessageAux">
+                        <div id="{{ 'miniformInfo' + patient._id }}" ng-show="showTab=='info'" class="patInfoPanel">
+                            <br>
+                            Room: {{ patient.roomNumber }}<br><br>
+                            MRN: {{ patient.medicalRecordNumber }}<br><br>
+                            <div class="visible-xs divMarginLine"><hr/></div>
+                            <div class="visible-xs"> AGE: {{ patient.age }}<br><br></div>
+                            <div class="visible-xs divMarginLine"><hr/></div>
+                            <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+                            {{ patient.cellphone }}<br><br>
+                            <div class="visible-xs divMarginLine"><hr/></div>
+                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                            {{ patient.email }}<br><br>
+                            <div class="visible-xs divMarginLine"><hr/></div>
+                            <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                            {{ patient.adress }}<br><br>
+                            <div class="col-sm-4 col-sm-offset-3 btn ok-btn clickable circled" ng-click="restoreDeletedPatient(patient)" ng-show="patient.isDeleted">Restore</div>
+                            <div class="col-xs-4 col-xs-offset-1 btn ok-btn clickable circled" ng-click="editPatient(patient)" ng-hide="patient.isDeleted">Edit</div>
+                            <div class="col-xs-4 col-xs-offset-2 btn btn-danger clickable circled" ng-click="deletePatient(patient)" ng-hide="patient.isDeleted">Delete</div>
+                        </div>
+                        <div ng-show="showTab=='msg'">
                             <div class="row">
                                 <div class="col-sm-12 fullSpaceRow">
                                     <textarea id="{{ 'miniformTextArea' + patient._id }}" class="form-control rowTextArea" rows="5" id="comment" placeholder="Send text message..." ng-model="patient.message" ></textarea>
@@ -197,26 +221,18 @@
                                 <div class="col-xs-5 col-sm-3 col-md-2 btn ok-btn clickable" ng-disabled="patient.noPhone" ng-click="sendMessage(patient)">Send</div>
                             </div>
                         </div>
-                        <div id="{{ 'miniformInfo' + patient._id }}" ng-show="!showMessage && !showMessageAux" class="patInfoPanel patInfoPanelMob">
-                            <br>
-                            Room: {{ patient.roomNumber }}<br><br>
-                            MRN: {{ patient.medicalRecordNumber }}<br><br>
-                            <div class="visible-xs divMarginLine"><hr/></div>
-                            <div class="visible-xs"> AGE: {{ patient.age }}<br><br></div>
-                            <div class="visible-xs divMarginLine"><hr/></div>
-                            <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
-                            {{ patient.cellphone }}<br><br>
-                            <div class="visible-xs divMarginLine"><hr/></div>
-                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-                            {{ patient.email }}<br><br>
-                            <div class="visible-xs divMarginLine"><hr/></div>
-                            <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-                            {{ patient.adress }}<br><br>
-                            <div class="col-sm-4 col-sm-offset-3 btn ok-btn clickable circled" ng-click="restoreDeletedPatient(patient)" ng-show="patient.isDeleted">Restore</div>
-                            <div class="col-sm-4 col-sm-offset-1 btn ok-btn clickable circled" ng-click="editPatient(patient)" ng-hide="patient.isDeleted">Edit</div>
-                            <div class="col-sm-4 col-sm-offset-2 btn btn-danger clickable circled" ng-click="deletePatient(patient)" ng-hide="patient.isDeleted">Delete</div>
+                        <div ng-show="showTab=='notes'">
+                            <div class="row">
+                                <div class="col-sm-12 fullSpaceRow">
+                                    <textarea class="form-control" rows="5" id="comment" placeholder="Place any notes here" ng-model="patient.notes" ></textarea>
+                                </div>
+                            </div>
+                            <div style="height: 1em"></div>
+                            <div class="row">
+                                <div class="col-xs-5 col-sm-3 col-md-2 col-xs-offset-7 col-sm-offset-9 col-md-offset-10 btn ok-btn clickable" ng-disabled="patient.noPhone" ng-click="saveNotes(patient)">Save</div>
+                            </div>
                         </div>
-                        <div id="{{ 'miniformTimes' + patient._id }}" class="visible-xs" ng-show="showMessageAux">
+                        <div id="{{ 'miniformTimes' + patient._id }}" class="visible-xs" ng-show="showTab=='prior'">
                             <div class="row" ng-repeat="record in patient.history">
                                 <div class="col-xs-2 priorTimeCol">{{ record.apptTime | date: 'MM/dd/yy'}}</div>
                                 <div class="col-xs-7 priorStatusCol ">

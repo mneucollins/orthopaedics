@@ -130,24 +130,43 @@
                 </div>
             </div>
             <!-- Start Collapsible -->
-            <div class="col-sm-offset-1 col-sm-11 accordian-body collapse patientExpandible" id="{{ 'miniform' + patient._id }}">
-                <div class="row">
-                    <div class="col-sm-1" style="font-weight: bold; text-align:left;cursor:pointer" ng-click="showMessage=false" ng-class="{'attentionFont' : showMessage} ">
-                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>&nbsp;Info 
+            <div class="col-sm-offset-1 col-sm-11 accordian-body collapse patientExpandible" id="{{ 'miniform' + patient._id }}" ng-init="showTab='info'">
+                <div class="row expandibleTitles">
+                    <div class="col-sm-2 clickable" ng-click="showTab='info'" ng-class="{'attentionFont': showTab=='info'} ">
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>Info 
                     </div>
-                    <div class="col-sm-2" style="font-weight: bold; text-align:left;cursor:pointer" ng-click="showMessage=true" ng-class="{'attentionFont' : !showMessage}">
+                    <div class="col-sm-2 clickable" ng-click="showTab='msg'" ng-class="{'attentionFont': showTab=='msg'}">
                         <div style="display:inline-block;" >
-                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> &nbsp;Contact 
+                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>Contact 
                         </div>
                     </div>
-                    <div class="col-sm-6 col-sm-offset-3" style="font-weight: bold; text-align:left; ">
+                    <div class="col-sm-2 clickable" ng-click="showTab='notes'" ng-class="{'attentionFont': showTab=='notes'}">
+                        <div style="display:inline-block;" >
+                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>Notes 
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
                         <div>Prior Appointment Wait Times</div>
                     </div>
                 </div>
                 <br/>
                 <div class="row" style="text-align:left">
                     <div class="col-sm-6" style="padding-right: 30px;">
-                        <div ng-show="showMessage">
+                        <div id="{{ 'miniformInfo' + patient._id }}" ng-show="showTab=='info'" class="patInfoPanel">
+                            <br>
+                            Room: {{ patient.roomNumber }}<br><br>
+                            MRN:  {{ patient.medicalRecordNumber }}<br><br>
+                            <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+                            {{ patient.cellphone }}<br><br>
+                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                            {{ patient.email }}<br><br>
+                            <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                            {{ patient.adress }}<br><br>
+                            <div class="col-sm-4 col-sm-offset-3 btn ok-btn clickable circled" ng-click="restoreDeletedPatient(patient)" ng-show="patient.isDeleted">Restore</div>
+                            <div class="col-sm-4 col-sm-offset-1 btn ok-btn clickable circled" ng-click="editPatient(patient)" ng-hide="patient.isDeleted">Edit</div>
+                            <div class="col-sm-4 col-sm-offset-2 btn btn-danger clickable circled" ng-click="deletePatient(patient)" ng-hide="patient.isDeleted">Delete</div>
+                        </div>
+                        <div ng-show="showTab=='msg'">
                             <div class="row">
                                 <div class="col-sm-12 fullSpaceRow">
                                     <textarea id="{{ 'miniformTextArea' + patient._id }}" class="form-control" rows="5" id="comment" placeholder="Send text message..." ng-model="patient.message" ></textarea>
@@ -169,19 +188,16 @@
                                 <div class="col-xs-5 col-sm-3 col-md-2 btn ok-btn clickable" ng-disabled="patient.noPhone" ng-click="sendMessage(patient)">Send</div>
                             </div>
                         </div>
-                        <div id="{{ 'miniformInfo' + patient._id }}" ng-show="!showMessage" class="patInfoPanel">
-                            <br>
-                            Room: {{ patient.roomNumber }}<br><br>
-                            MRN:  {{ patient.medicalRecordNumber }}<br><br>
-                            <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
-                            {{ patient.cellphone }}<br><br>
-                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-                            {{ patient.email }}<br><br>
-                            <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-                            {{ patient.adress }}<br><br>
-                            <div class="col-sm-4 col-sm-offset-3 btn ok-btn clickable circled" ng-click="restoreDeletedPatient(patient)" ng-show="patient.isDeleted">Restore</div>
-                            <div class="col-sm-4 col-sm-offset-1 btn ok-btn clickable circled" ng-click="editPatient(patient)" ng-hide="patient.isDeleted">Edit</div>
-                            <div class="col-sm-4 col-sm-offset-2 btn btn-danger clickable circled" ng-click="deletePatient(patient)" ng-hide="patient.isDeleted">Delete</div>
+                        <div ng-show="showTab=='notes'">
+                            <div class="row">
+                                <div class="col-sm-12 fullSpaceRow">
+                                    <textarea class="form-control" rows="5" id="comment" placeholder="Place any notes here" ng-model="patient.notes" ></textarea>
+                                </div>
+                            </div>
+                            <div style="height: 1em"></div>
+                            <div class="row">
+                                <div class="col-xs-5 col-sm-3 col-md-2 col-xs-offset-7 col-sm-offset-9 col-md-offset-10 btn ok-btn clickable" ng-disabled="patient.noPhone" ng-click="saveNotes(patient)">Save</div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-sm-6 col-lg-5" style="border-left: thick solid #C9C9C9; border-width: 1px;">

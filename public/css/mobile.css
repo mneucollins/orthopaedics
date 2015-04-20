@@ -57,10 +57,10 @@
 		background-color: white;
 		margin-left: -18px;
 		margin-right: -19px;
-		height: 370px;
+		/*height: 370px;*/
 		border-top-style: solid;
-		  border-top-width: 1px;
-		  border-top-color: rgba(127, 127, 127, 0.3);
+		border-top-width: 1px;
+		border-top-color: rgba(127, 127, 127, 0.3);
 	}
 	.divMarginLine{
 		margin-top: -25px;
@@ -94,7 +94,8 @@
 	.backgroundMobile{
 		background-color: #EEEEEE;
 	}
-	.attentionFontMobile{
+	/*.attentionFontMobile{*/
+	.attentionFont {
     	color:#0099F0;
     	text-decoration: underline; 
     	font-size: 1em;
@@ -146,12 +147,13 @@
 
 @media(min-width:768px) {
 	.attentionFont{
-	    color:#7F7F7F; 
+	    /*color: #7F7F7F; */
+	    color: #000; 
 	}
 
 	.patientExpandible {
-	padding: 19px;
-	border-top: 1px solid rgb(221, 221, 221);
-	background-color: rgb(249,250,250);
-}
+		padding: 19px;
+		border-top: 1px solid rgb(221, 221, 221);
+		background-color: rgb(249,250,250);
+	}
 }

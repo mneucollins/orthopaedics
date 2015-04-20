@@ -77,19 +77,23 @@ function listPatientsToday(callback) {
 
 function listPatientsBetweenDates(lowDate,highDate,callback) {
 
+    lowDate = new Date(lowDate);
     lowDate.setHours(0);
     lowDate.setMinutes(0);
     lowDate.setSeconds(0);
 
     if(!highDate){
-      highDate = lowDate;
+        highDate = lowDate;
     }
+    else
+        highDate = new Date(highDate);
+
     highDate.setHours(0);
     highDate.setMinutes(0);
     highDate.setSeconds(0);
     highDate.setDate(highDate.getDate()+1);
 
-    patientModel.find({apptTime: {$gte: lowDate, $lt: highDate}})
+    patientModel.find({apptTime: {$gte: lowDate, $lt: highDate}, isDeleted: false})
         .populate("physician")
         .exec(function(err, patients) {
             if (err) callback(err);
@@ -110,7 +114,10 @@ function listPatientsTodayByState(state, callback) {
     highDate.setSeconds(0);
     highDate.setDate(highDate.getDate()+1);
 
-    patientModel.find({apptTime: {$gte: lowDate, $lt: highDate}, currentState: state})
+    patientModel.find({
+        apptTime: {$gte: lowDate, $lt: highDate}, 
+        currentState: state, 
+        isDeleted: false})
         .populate("physician")
         .exec(function(err, patients) {
             if (err) callback(err);

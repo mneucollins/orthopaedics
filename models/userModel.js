@@ -21,6 +21,10 @@ var UsersSchema = new Schema({
     type: String,
     enum: "Physician Imaging FirstProvider Receptionist".split(" "),
   },
+  isAdmin: {
+    type: Boolean,
+    default: false
+  },
   password: {
     type: String,
     required: true,

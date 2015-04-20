@@ -4,11 +4,15 @@ var orthopaedicsControllers = angular.module('orthopaedicsControllers', ['ui.boo
 // ========================= HEADER ==================
 // =======================================================
 
-    orthopaedicsControllers.controller('headerCtrl', ['$scope', '$rootScope', '$location', '$interval', 'AuthService',
-        function($scope, $rootScope, $location, $interval, AuthService){
+    orthopaedicsControllers.controller('headerCtrl', ['$scope', '$rootScope', '$location', '$interval', '$modal', '$log', 'AuthService',
+        function($scope, $rootScope, $location, $interval, $modal, $log, AuthService){
             
+            $scope.showTab = "info"; // info, msg, prior, notes
+            $scope.showMessage = false;
+            $scope.showMessageAux = false;
             $rootScope.hideDischarged = false;
             $rootScope.hideDeleted = true;
+
             $scope.$watch(AuthService.isLoggedIn, function ( isLoggedIn ) {
                 $scope.isLoggedIn = isLoggedIn;
                 $scope.currentUser = AuthService.currentUser();
@@ -17,6 +21,27 @@ var orthopaedicsControllers = angular.module('orthopaedicsControllers', ['ui.boo
             $scope.logout = function () {
                 AuthService.logout(function () {
                     $location.path("/login");            
+                });
+            }
+
+            $scope.showReportsDialog = function () {
+                var modalInstance = $modal.open({
+                    templateUrl: '/partials/showReports.html',
+                    controller: 'showReportsCtrl',
+                    resolve: {
+                        // patient: function () {
+                        //     return patient;
+                        // },
+                        // messageType: function () {
+                        //     return "IM";
+                        // }
+                    }
+                });
+
+                modalInstance.result.then(function () {
+                    $log.info('reports generated!');
+                }, function () {
+                    $log.info('Message Modal dismissed at: ' + new Date());
                 });
             }
 
@@ -120,7 +145,8 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         // Discharged and not checked in patients are dismissed
         var searchList = _.filter($scope.patientList, function (patient) {
             return patient.physician._id == physician._id && 
-                    patient.WRTimestamp && !patient.DCTimestamp; // &&
+                    patient.WRTimestamp && !patient.DCTimestamp
+                    && !patient.isDeleted; // &&
                     // new Date(patient.WRTimestamp).getTime() <= new Date(patient.apptTime).setMinutes + (10*60*1000);
         });
         //WR patients are separated from EX patients
@@ -786,6 +812,19 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         }   
     }
 
+    $scope.saveNotes = function (patient) {
+        
+        Patient.update({patientId: patient.id}, 
+            {notes: patient.notes}, 
+            function (updatedPatient) {
+                var index = $scope.patientList.indexOf(patient); 
+                if(index >= 0) {
+                    $scope.patientList[index].notes = updatedPatient.DCTimestamp;
+                }
+                Alerts.addAlert("success", "Notes Saved");
+            }); 
+    }
+
 
     // State Changing
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -961,9 +1000,6 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         }
 
     }
-
-    $scope.showMessage = false;
-    $scope.showMessageAux = false;
     
   }]);
 
@@ -1042,7 +1078,6 @@ orthopaedicsControllers.controller('sendMessageCtrl', ['$scope', '$modalInstance
         $modalInstance.dismiss('cancel');
     };
 }]);
-
 orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInstance', 'Messages', 'Patient', 'Alerts', 'patient', 'physicians', 'modalFunction',
   function($scope, $modalInstance, Messages, Patient, Alerts, patient, physicians, modalFunction) {
 
@@ -1148,6 +1183,43 @@ orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInst
 
 }]);
 
+orthopaedicsControllers.controller('showReportsCtrl', ['$scope', '$modalInstance', 'Reports',
+  function($scope, $modalInstance, Reports) {
+
+    $scope.dateOptions = {
+        formatYear: 'yy',
+        startingDay: 1
+    };
+
+    $scope.submit = function () {
+        window.open("/api/reports/generate?" +
+            "iniDate=" + $scope.reportGen.iniDate.toISOString() +
+            "&endDate=" + $scope.reportGen.endDate.toISOString());
+        // Reports.generate($scope.reportGen, function (data) {
+            $modalInstance.close();
+        // });
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+
+    $scope.openStartDate = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        $scope.startDateOpened = true;
+    };
+
+    $scope.openEndDate = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        $scope.endDateOpened = true;
+    };
+
+}]);
+
 orthopaedicsControllers.controller('bulkMessageCtrl', ['$scope', '$modalInstance', '$modal', '$log', 'Messages', 'patients',
   function($scope, $modalInstance, $modal, $log, Messages, patients) {
 
@@ -1217,7 +1289,7 @@ orthopaedicsControllers.controller('bulkMessageCtrl', ['$scope', '$modalInstance
 orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$rootScope', '$window', 'AuthService', 'Physician',
   function($scope, $location, $rootScope, $window, AuthService, Physician) {
 
-    resizePhybar(); // método en el main.js
+    setTimeout(resizePhybar(), 100); // método en el main.js
     $rootScope.selectedPhysicians = [];
     $rootScope.hidePhysiciansList = false;
 

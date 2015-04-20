@@ -56,6 +56,7 @@ require('./routes/passportRoutes')(authRouter, passport);
 require("./routes/patientRoutes")(router, io);
 require("./routes/physicianRoutes")(router);
 require("./routes/messageRoutes")(router);
+require("./routes/reportsRoutes")(router);
 
 // REGISTER OUR ROUTES -------------------------------
 app.use('/api', router);

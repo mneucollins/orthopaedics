@@ -17,6 +17,7 @@ var PatientSchema = new Schema({
 	apptType: String,
 	apptDuration: Number,
 	roomNumber: String,
+	notes: String,
 	physician: {
 		type: Schema.ObjectId,
 		ref: "users"

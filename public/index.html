@@ -81,6 +81,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ currentUser.name }} <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li>
+                            <a href="#" ng-show="currentUser.isAdmin" ng-click="showReportsDialog()">Generate Report</a>
                             <a href="#" ng-show="$root.hideDischarged" ng-click="$root.hideDischarged=false">Show Discharged Patients</a>
                             <a href="#" ng-hide="$root.hideDischarged" ng-click="$root.hideDischarged=true">Hide Discharged Patients</a>
                         </li>
