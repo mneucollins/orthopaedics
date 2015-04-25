@@ -2,6 +2,7 @@ var XLSX 		 = require('xlsx');
 var _ 		 	 = require('underscore');
 
 var patientController = require('../controllers/patientController');
+var physicianController = require('../controllers/physicianController');
 var tools = require('../tools');
 
 module.exports = {
@@ -36,7 +37,7 @@ function escribirExcel (lowDate, highDate, callback) {
     		var patient = patientList[i];
     		var name = patient.firstName?patient.firstName+" ":"";
     		name = patient.lastName?name+patient.lastName:name;
-    		var physician = patient.physician?patient.physician:"";
+    		var physician = patient.physician?patient.physician.name:"";
     		//var apptDate = new Date(patient.apptTime); //auxiliar
     		var apptTime = patient.apptTime?patient.apptTime.getHours()+":"+patient.apptTime.getMinutes()+":"+patient.apptTime.getSeconds():"";
 			var wrTime = patient.WRTimestamp?patient.WRTimestamp.getHours()+":"+patient.WRTimestamp.getMinutes()+":"+patient.WRTimestamp.getSeconds():"";
@@ -52,9 +53,8 @@ function escribirExcel (lowDate, highDate, callback) {
 				Math.round((patient.fcFinishedTimestamp.getTime() - patient.fcStartedTimestamp.getTime()) / (60*1000));
 			}
 
-
-
     		var data = [];
+
     		data.push({data:patient.medicalRecordNumber, tipo: "s"});
     		data.push({data:name, tipo: "s"});
     		data.push({data:physician, tipo: "s"});
@@ -68,7 +68,6 @@ function escribirExcel (lowDate, highDate, callback) {
     		data.push({data:exTotalTime, tipo: "s"});
     		data.push({data:fcTotalTime, tipo: "s"});
     		data.push({data:patient.apptType, tipo: "s"});
-
 
 			for(var C = 0; C < data.length; C++) {
 				var cellAddr = XLSX.utils.encode_cell({c:C, r:R});
@@ -98,7 +97,7 @@ function escribirExcel (lowDate, highDate, callback) {
 
 //esto es solo para pruebas, se debe borrar al final
 
-var lowDate = new Date();
-var highDate = new Date();
+// var lowDate = new Date();
+// var highDate = new Date();
 
-escribirExcel(lowDate,highDate);
+// escribirExcel(lowDate,highDate);
