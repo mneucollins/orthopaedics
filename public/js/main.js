@@ -1,5 +1,7 @@
 $(window).resize(function () { 
-	setTimeout(resizePhybar(), 100);
+	setTimeout(function () {
+		resizePhybar();
+	}, 100);
 });
 
 $(window).scroll(function() {
@@ -11,7 +13,7 @@ function resizePhybar () {
     $(".physiciansList").css("height", window.innerHeight - 71);
     $("#physicianSearchList").css("height", window.innerHeight - 300);
 
-    console.log("inner height: " + window.innerHeight);
+    //console.log("inner height: " + window.innerHeight);
     return window.innerHeight;
 }	
 

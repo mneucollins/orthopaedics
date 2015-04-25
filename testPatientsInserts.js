@@ -240,9 +240,9 @@ var testPatients = [{
 
 
 physicianController.listarPhysicians(function (err, physicians) {
-	for (var i = 0; i < testPatients.length; i++) {
+	for (var i = 0; i < 3; i++) { // testPatients.length
 		var index = 0;
-			index = parseInt(Math.random() * 100) % physicians.length;
+			index = 2;//parseInt(Math.random() * 100) % 2; //physicians.length;
 		// do {
 		// }while(index == 2);
 		testPatients[i].physician = physicians[index].id;

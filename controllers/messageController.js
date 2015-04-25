@@ -139,7 +139,7 @@ function sendWelcomeMessage (msgData, callback) {
 
 		if(waitTime > 0)
 			var theMessage = "Welcome " + msgData.patient.firstName + ", " + msgData.patient.physician.name +
-				" is currently running " + (waitTime + 5) + " behind schedule. " +
+				" is currently running " + (waitTime + 5) + " minutes behind schedule. " +
 				"We will keep you informed about waits and delays as a part of a desire to be sensitive to your needs as a patient.";
 		else
 			var theMessage = "Welcome " + msgData.patient.firstName + ", " + msgData.patient.physician.name +

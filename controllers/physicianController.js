@@ -1,5 +1,6 @@
 var _ = require('underscore');
 
+var tools = require('../tools');
 var userModel = require('../models/userModel');
 var patientModel = require('../models/patientModel');
 

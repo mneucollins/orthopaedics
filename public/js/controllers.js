@@ -1289,7 +1289,7 @@ orthopaedicsControllers.controller('bulkMessageCtrl', ['$scope', '$modalInstance
 orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$rootScope', '$window', 'AuthService', 'Physician',
   function($scope, $location, $rootScope, $window, AuthService, Physician) {
 
-    setTimeout(resizePhybar(), 100); // método en el main.js
+    setTimeout(resizePhybar, 100); // método en el main.js
     $rootScope.selectedPhysicians = [];
     $rootScope.hidePhysiciansList = false;
 

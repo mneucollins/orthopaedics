@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="orthopaedicsApp">
+<html lang="en" data-ng-app="orthopaedicsApp">
 
 <head>
 
@@ -103,7 +103,7 @@
     <alert ng-repeat="alert in systemAlerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
 </div>
 
-<div ng-view class="backgroundMobile"></div>
+<div data-ng-view class="backgroundMobile"></div>
 
 <!-- jQuery -->
 <script src="js/vendor/jquery.js"></script>
