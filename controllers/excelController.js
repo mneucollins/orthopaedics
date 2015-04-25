@@ -38,8 +38,8 @@ function escribirExcel (lowDate, highDate, callback) {
     		var name = patient.firstName?patient.firstName+" ":"";
     		name = patient.lastName?name+patient.lastName:name;
     		var physician = patient.physician?patient.physician.name:"";
-    		//var apptDate = new Date(patient.apptTime); //auxiliar
-    		var apptTime = patient.apptTime?patient.apptTime.getHours()+":"+patient.apptTime.getMinutes()+":"+patient.apptTime.getSeconds():"";
+    		//var apptDate = patient.apptTime;
+    		var apptTime = patient.apptTime?(patient.apptTime.getMonth()+1)+"/"+patient.apptTime.getDate()+"/"+patient.apptTime.getFullYear()+" "+patient.apptTime.getHours()+":"+patient.apptTime.getMinutes()+":"+patient.apptTime.getSeconds():"";
 			var wrTime = patient.WRTimestamp?patient.WRTimestamp.getHours()+":"+patient.WRTimestamp.getMinutes()+":"+patient.WRTimestamp.getSeconds():"";
 			var exTime = patient.EXTimestamp?patient.EXTimestamp.getHours()+":"+patient.EXTimestamp.getMinutes()+":"+patient.EXTimestamp.getSeconds():"";
 			//var fcDate = new Date(patient.fcStartedTimestamp);
