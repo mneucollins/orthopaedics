@@ -2,6 +2,7 @@ var XLSX 		 = require('xlsx');
 var _ 		 	 = require('underscore');
 
 var patientController = require('../controllers/patientController');
+var tools = require('../tools');
 
 module.exports = {
 	escribirExcel : escribirExcel
@@ -25,7 +26,7 @@ function escribirExcel (lowDate, highDate, callback) {
 		var sheet_name_list = workbook.SheetNames;
 		var worksheet = workbook.Sheets["Hoja1"];
 
-		var range = {s: {c:0,r:0}, e:{c:5, r: patientList.length + 1}};
+		var range = {s: {c:0,r:0}, e:{c:12, r: patientList.length + 1}};
 		worksheet['!ref'] = XLSX.utils.encode_range(range);
 
 		var R = range.s.r + 1;
@@ -33,53 +34,41 @@ function escribirExcel (lowDate, highDate, callback) {
     	for(var i=0 ; i<patientList.length ; i++, ++R ){
 
     		var patient = patientList[i];
-    		var wrTime = 0;
-    		var exTime = 0;
-        	var totalTime = 0;
-    		var wrDate = new Date(patient.WRTimestamp);
-        	var apptDate = new Date(patient.apptTime);
-        	var exDate = new Date(patient.EXTimestamp);
-	        var dcDate = new Date(patient.DCTimestamp);
-        	var nowDate = new Date();
+    		var name = patient.firstName?patient.firstName+" ":"";
+    		name = patient.lastName?name+patient.lastName:name;
+    		var physician = patient.physician?patient.physician:"";
+    		//var apptDate = new Date(patient.apptTime); //auxiliar
+    		var apptTime = patient.apptTime?patient.apptTime.getHours()+":"+patient.apptTime.getMinutes()+":"+patient.apptTime.getSeconds():"";
+			var wrTime = patient.WRTimestamp?patient.WRTimestamp.getHours()+":"+patient.WRTimestamp.getMinutes()+":"+patient.WRTimestamp.getSeconds():"";
+			var exTime = patient.EXTimestamp?patient.EXTimestamp.getHours()+":"+patient.EXTimestamp.getMinutes()+":"+patient.EXTimestamp.getSeconds():"";
+			//var fcDate = new Date(patient.fcStartedTimestamp);
+			var fcStart = patient.fcStartedTimestamp?patient.fcStartedTimestamp.getHours()+":"+patient.fcStartedTimestamp.getMinutes()+":"+patient.fcStartedTimestamp.getSeconds():"";
+			var fcEnd = patient.fcFinishedTimestamp?patient.fcFinishedTimestamp.getHours()+":"+patient.fcFinishedTimestamp.getMinutes()+":"+patient.fcFinishedTimestamp.getSeconds():"";
+			var dcTime = patient.DCTimestamp?patient.DCTimestamp.getHours()+":"+patient.DCTimestamp.getMinutes()+":"+patient.DCTimestamp.getSeconds():"";
+			var wrTotalTime = tools.getWRTime(patient);
+			var exTotalTime = tools.getEXTime(patient);
+			var fcTotalTime = 0;
+			if(patient.fcStartedTimestamp && patient.fcFinishedTimestamp){
+				Math.round((patient.fcFinishedTimestamp.getTime() - patient.fcStartedTimestamp.getTime()) / (60*1000));
+			}
 
-    		//WRTime
-    		if(patient.currentState != "NCI")
-	        	if(patient.currentState == "WR")
-	            	if(apptDate.getTime() < wrDate.getTime()) // in the case patient arrived late
-	                	wrTime = Math.round((nowDate.getTime() - wrDate.getTime()) / (60*1000));
-	            	else
-	                	wrTime = Math.round((nowDate.getTime() - apptDate.getTime()) / (60*1000));
-	        	else 
-	            	if(apptDate.getTime() < wrDate.getTime())
-	                	wrTime = Math.round((exDate.getTime() - wrDate.getTime()) / (60*1000));
-	            	else
-	                	wrTime = Math.round((exDate.getTime() - apptDate.getTime()) / (60*1000));
-
-    		//EXTime
-    		if(patient.currentState != "NCI" && patient.currentState != "WR")
-		        if(patient.currentState == "EX")
-		            exTime = Math.round((nowDate.getTime() - exDate.getTime()) / (60*1000));
-		        else 
-		            exTime = Math.round((dcDate.getTime() - exDate.getTime()) / (60*1000));
-
-		     
-        	//TotalTime
-			if(patient.currentState != "NCI")
-		        if(patient.currentState == "EX" || patient.currentState == "WR")
-		            totalTime = Math.round((nowDate.getTime() - wrDate.getTime()) / (60*1000));
-		        else 
-		            totalTime = Math.round((dcDate.getTime() - wrDate.getTime()) / (60*1000));
-
-	        totalTime = totalTime > 0 ? totalTime : 0;
 
 
     		var data = [];
     		data.push({data:patient.medicalRecordNumber, tipo: "s"});
-    		data.push({data:patient.apptTime, tipo: "d"});
-    		data.push({data:patient.needsImaging, tipo: "b"});
-    		data.push({data:wrTime, tipo: "n"});
-    		data.push({data:exTime, tipo: "n"});
-    		data.push({data:totalTime, tipo: "n"});
+    		data.push({data:name, tipo: "s"});
+    		data.push({data:physician, tipo: "s"});
+    		data.push({data:apptTime, tipo: "s"});
+    		data.push({data:wrTime, tipo: "s"});
+    		data.push({data:exTime, tipo: "s"});
+    		data.push({data:fcStart, tipo: "s"});
+    		data.push({data:fcEnd, tipo: "s"});
+    		data.push({data:dcTime, tipo: "s"});
+    		data.push({data:wrTotalTime, tipo: "s"});
+    		data.push({data:exTotalTime, tipo: "s"});
+    		data.push({data:fcTotalTime, tipo: "s"});
+    		data.push({data:patient.apptType, tipo: "s"});
+
 
 			for(var C = 0; C < data.length; C++) {
 				var cellAddr = XLSX.utils.encode_cell({c:C, r:R});
@@ -109,7 +98,7 @@ function escribirExcel (lowDate, highDate, callback) {
 
 //esto es solo para pruebas, se debe borrar al final
 
-// var lowDate = new Date();
-// var highDate = new Date();
+var lowDate = new Date();
+var highDate = new Date();
 
-// escribirExcel(lowDate,highDate);
+escribirExcel(lowDate,highDate);
