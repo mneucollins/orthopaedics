@@ -7,7 +7,8 @@ module.exports = {
 	isAdmin: isAdmin,
 	getWRTime: getWRTime,
 	getEXTime: getEXTime,
-	getTotalTime: getTotalTime
+	getTotalTime: getTotalTime,
+	getATtimer: getATtimer
 }
 
 function sendServerError(err, req, res) {
