@@ -48,7 +48,8 @@ function escribirExcel (lowDate, highDate, callback) {
 			var dcTime = patient.DCTimestamp?patient.DCTimestamp.getHours()+":"+patient.DCTimestamp.getMinutes()+":"+patient.DCTimestamp.getSeconds():"";
 			var wrTotalTime = tools.getWRTime(patient);
 			var exTotalTime = tools.getEXTime(patient);
-			var fcTotalTime = 0;
+			var fcTotalTime = tools.getTotalTime(patient);
+			var atTotalTime = tools.getATtimer(patient);
 			if(patient.fcStartedTimestamp && patient.fcFinishedTimestamp){
 				Math.round((patient.fcFinishedTimestamp.getTime() - patient.fcStartedTimestamp.getTime()) / (60*1000));
 			}
@@ -67,7 +68,7 @@ function escribirExcel (lowDate, highDate, callback) {
     		data.push({data:wrTotalTime, tipo: "s"});
     		data.push({data:exTotalTime, tipo: "s"});
     		data.push({data:fcTotalTime, tipo: "s"});
-    		data.push({data:patient.apptType, tipo: "s"});
+    		data.push({data:atTotalTime, tipo: "s"});
 
 			for(var C = 0; C < data.length; C++) {
 				var cellAddr = XLSX.utils.encode_cell({c:C, r:R});

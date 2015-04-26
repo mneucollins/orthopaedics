@@ -63,9 +63,9 @@
     cursor:pointer;
 }
 
-.table-striped>tbody>tr:nth-of-type(4n-1){
+/*.table-striped>tbody>tr:nth-of-type(4n-1){
   background-color: white;
-}
+}*/
 
 
 

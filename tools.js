@@ -148,5 +148,5 @@ function getATtimer (patient) {
             counter += (new Date()).getTime() - (new Date(patient.enterTimestamp[i])).getTime();
     };
 
-    return new Date(counter);
+    return Math.round(counter / (60*1000));
 }
