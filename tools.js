@@ -140,13 +140,13 @@ function getTotalTime (patient){
 
 function getATtimer (patient) {
 
-        var counter = 0;
-        for (var i = 0; i < patient.enterTimestamp.length; i++) {
-            if(patient.exitTimestamp[i])
-                counter += (new Date(patient.exitTimestamp[i])).getTime() - (new Date(patient.enterTimestamp[i])).getTime();
-            else
-                counter += (new Date()).getTime() - (new Date(patient.enterTimestamp[i])).getTime();
-        };
+    var counter = 0;
+    for (var i = 0; i < patient.enterTimestamp.length; i++) {
+        if(patient.exitTimestamp[i])
+            counter += (new Date(patient.exitTimestamp[i])).getTime() - (new Date(patient.enterTimestamp[i])).getTime();
+        else
+            counter += (new Date()).getTime() - (new Date(patient.enterTimestamp[i])).getTime();
+    };
 
-        return new Date(counter);
-    }
+    return new Date(counter);
+}
