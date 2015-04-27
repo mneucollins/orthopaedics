@@ -16,17 +16,17 @@
             </div>
             <div id="physicianSearchList" class="list-group">
                 <div class="row list-group-item" ng-class="{selectedPhysician: physician.selected}" ng-click="selectPhysician(physician)" ng-repeat="physician in physicianList | filter: phySearch">
-                    <div class="col-sm-6 retinaContainer avatar">
+                    <div class="col-sm-6 col-xs-3 retinaContainer avatar">
                         <img src="../img/Doctor_Unselected.png" />
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 col-xs-9">
                             <h4><span>{{ physician.name }}</span><br>
                             <small>{{ physician.department }}</small></h4>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <button type="submit" class="btn btn-primary col-sm-10 col-sm-offset-1 circled">View Schedules</button>
+                <button type="submit" class="btn btn-primary col-sm-10 col-sm-offset-1 circled buttonSchedules" style="font-family: 'ProximaNova'; ">View Schedules</button>
             </div>
         </form>
     </div>
@@ -209,20 +209,20 @@
                 <div class="row rowFullWhite" style="text-align:left">
                     <div class="col-sm-6" style="padding-right: 30px;">
                         <div id="{{ 'miniformInfo' + patient._id }}" ng-show="showTab=='info'" class="patInfoPanel">
-                            <br>
-                            Room: {{ patient.roomNumber }}<br><br>
-                            MRN: {{ patient.medicalRecordNumber }}<br><br>
-                            <div class="visible-xs divMarginLine"><hr/></div>
-                            <div class="visible-xs"> AGE: {{ patient.age }}<br><br></div>
+                            <div class="" style="  padding-top: 3%;">Room: {{ patient.roomNumber }}</div>
+                            <div class="divMarginLine"><hr/></div>
+                            <div class="">MRN: {{ patient.medicalRecordNumber }}</div>
+                            <div class="divMarginLine"><hr/></div>
+                            <div class="visible-xs"> AGE: {{ patient.age }}</div>
                             <div class="visible-xs divMarginLine"><hr/></div>
                             <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
-                            {{ patient.cellphone }}<br><br>
-                            <div class="visible-xs divMarginLine"><hr/></div>
+                            {{ patient.cellphone }}
+                            <div class="divMarginLine"><hr/></div>
                             <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-                            {{ patient.email }}<br><br>
-                            <div class="visible-xs divMarginLine"><hr/></div>
-                            <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-                            {{ patient.adress }}<br><br>
+                            {{ patient.email }}
+                            <div class="divMarginLine"><hr/></div>
+                            <span class="glyphicon glyphicon-map-marker" aria-hidden="true" style="  padding-bottom: 7%;"></span>
+                            {{ patient.adress }}
                             <div class="col-sm-4 col-sm-offset-3 btn ok-btn clickable circled" ng-click="restoreDeletedPatient(patient)" ng-show="patient.isDeleted">Restore</div>
                             <div class="col-xs-4 col-xs-offset-1 btn ok-btn clickable circled" ng-click="editPatient(patient)" ng-hide="patient.isDeleted">Edit</div>
                             <div class="col-xs-4 col-xs-offset-2 btn btn-danger clickable circled" ng-click="deletePatient(patient)" ng-hide="patient.isDeleted">Delete</div>

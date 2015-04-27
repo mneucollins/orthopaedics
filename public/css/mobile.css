@@ -4,12 +4,14 @@
 	}
 	.infoHeader{
 		margin-left: -80px;
-		margin-top: -30px;
-		padding: 14px;
+		margin-right: 0;
+		margin-top: -23px;
+		padding: 0px;
 		border-style: none;
-		width: 136%;
+		/*width: 136%;*/
 		box-shadow: none;
 		font-size: 11px;
+		border-radius: 0px;
 	}
 	.dashboardBody{
 		margin-top: -17px;
@@ -17,6 +19,7 @@
 	.patientRow {
 	  margin-left: -78px;
 	  padding-bottom: 16px;
+	  padding-right: 15px;
 	}
 	.patientState{
 		width: 30%;
@@ -63,8 +66,13 @@
 		border-top-color: rgba(127, 127, 127, 0.3);
 	}
 	.divMarginLine{
-		margin-top: -25px;
+		margin-top: -12px;
+  		margin-bottom: -12px;
 	}
+	.divMarginLine hr{
+		border-color: #EEE;
+	}
+
 	.rowTextArea{
 		height: 180px !important;
   		width: 96%;
@@ -92,7 +100,7 @@
 		display: inline-block;
 	}
 	.backgroundMobile{
-		background-color: #EEEEEE;
+		background-color: #EEE;
 	}
 	/*.attentionFontMobile{*/
 	.attentionFont {
@@ -121,6 +129,30 @@
 	  font-size: 1.1em;
 	  padding-top: .75em;
 	}
+	.buttonSchedules{
+		width: 94%;
+		padding: 3%;
+		margin-left: 3%;
+	}
+	.menuPhysicians{
+		width: 16.66666667%;
+	}
+	.clock {
+		width: 66.66666667%;
+		padding-left: 0;
+		text-align: center;
+	}
+	.expandBtnHeader {
+	  padding-bottom: 5px;
+	  text-align: center;
+	  width: 8.33333333%;
+	}
+	.schedule-container {
+		padding-left: 0;
+		margin-left: 5.5em;
+		padding-right: 0px;
+	}
+
 /* 
 //////////////////////////////////////////////////////////////////////
 ///////////////////////   PHYSICIANS   ///////////////////////////////

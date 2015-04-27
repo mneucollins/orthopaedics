@@ -427,6 +427,13 @@ body {
 	padding-right: 0;
 }
 
+.divMarginLine{
+	margin-top: -12px;
+	margin-bottom: -12px;
+}
+.divMarginLine hr{
+	border-color: transparent;
+}
 /* 
 //////////////////////////////////////////////////////////////////////
 ///////////////////////////  EXPANDIBLE  /////////////////////////////
