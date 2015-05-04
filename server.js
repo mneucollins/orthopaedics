@@ -26,6 +26,14 @@ mongoose.connect(config.databaseURL);
 // SYSTEM CONFIGURE
 // =============================================================================
 
+io.set('transports', [
+    'websocket'
+  , 'flashsocket'
+  , 'htmlfile'
+  , 'xhr-polling'
+  , 'jsonp-polling'
+]);
+
 app.use(morgan('dev'));
 app.use(cookieParser()); 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -49,8 +57,6 @@ var authRouter = express.Router();
 router.get('/', function(req, res) {
 	res.json({ message: 'API online and ready!' });
 });
-
-// require("./controllers/syncController").init(server);
 
 require('./routes/passportRoutes')(authRouter, passport);
 require("./routes/patientRoutes")(router, io);

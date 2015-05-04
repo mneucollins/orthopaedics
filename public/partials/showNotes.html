@@ -9,6 +9,9 @@
 					<tr>
 						<th>Patient</th>
 						<th>Physician</th>
+						<th class="hidden-xs">Type</th>
+						<th class="hidden-xs">Appt Time</th>
+						<th class="hidden-xs">Age</th>
 						<th>Notes</th>
 					</tr>
 				</thead>
@@ -16,6 +19,9 @@
 					<tr ng-repeat="patient in patients">
 						<td>{{ patient.fullName }}</td>
 						<td>{{ patient.physician.name }}</td>
+						<td class="hidden-xs">{{ patient.apptType }}</td>
+						<td class="hidden-xs">{{ patient.apptTime | date:'hh:mm a'}}</td>
+						<td class="hidden-xs">{{ patient.age }}</td>
 						<td>{{ patient.notes }}</td>
 					</tr>
 				</tbody>

@@ -19,23 +19,17 @@ setInterval(function () {
 	patientController.listPatientsTodayByState("WR", function (err, patients) {
 		console.log("Done! " + patients.length + " patients found.");
 
-		var patientsByPhysician = _.groupBy(patients, function (pat) { return pat.physician.id; });
-
 		_.each(patients, function (patient, i, list) {
+
+			if(!patient.physician) {
+				console.log("Patient " + patient._id + " has no physician!");
+				return;
+			}
 
 			if(patient.noPhone) {
 				console.log("(" + i + ") " + patient.firstName + " has no phone number.");
 				return;
 			}
-			// var isfirstPatient = false; 
-			// _.each(patientsByPhysician, function (value, key, list) {
-			// 	isfirstPatient |= value[0].id == patient.id;
-			// });
-			// if(isfirstPatient) {
-			// 	console.log("(" + i + ") " + patient.firstName + 
-			// 		" is the 1st patient today for " + patient.physician.name);
-			// 	return;
-			// }
 
 			var waitedMins = Math.round((now.getTime() - patient.WRTimestamp.getTime()) / (60*1000));
 			console.log("(" + i + ") " + patient.firstName + " waited " + waitedMins + " minutes");
