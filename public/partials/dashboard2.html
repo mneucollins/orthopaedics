@@ -223,6 +223,7 @@
                             <div class="divMarginLine"><hr/></div>
                             <span class="glyphicon glyphicon-map-marker" aria-hidden="true" style="  padding-bottom: 7%;"></span>
                             {{ patient.adress }}
+                            <br>
                             <div class="col-sm-4 col-sm-offset-3 btn ok-btn clickable circled" ng-click="restoreDeletedPatient(patient)" ng-show="patient.isDeleted">Restore</div>
                             <div class="col-xs-4 col-xs-offset-1 btn ok-btn clickable circled" ng-click="editPatient(patient)" ng-hide="patient.isDeleted">Edit</div>
                             <div class="col-xs-4 col-xs-offset-2 btn btn-danger clickable circled" ng-click="deletePatient(patient)" ng-hide="patient.isDeleted">Delete</div>
@@ -275,7 +276,7 @@
                         <div class="row priorApptRow" ng-repeat="record in patient.history">
                             <div class="col-sm-3 priorTimeCol">{{ record.apptTime | date: 'MM/dd/yy'}}</div>
                             <div class="col-sm-6 priorStatusCol">
-                                <span class="col-sm-6" ng-class="getTimerColor('WRH', record)">WR {{ getWRTime(patient) }}</span>
+                                <span class="col-sm-6" ng-class="getTimerColor('WRH', record)">WR {{ getWRTime(record) }}</span>
                                 <span class="col-sm-6" ng-class="getTimerColor('EXH', record)">EX {{ getEXTime(record) }}</span>
                             </div>
                             <div class="col-sm-3 priorTotalCol"><div class="roundMiniBox">{{ getTotalTime(record) }}</div></div>
