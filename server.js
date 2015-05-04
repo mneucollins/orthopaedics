@@ -27,11 +27,11 @@ mongoose.connect(config.databaseURL);
 // =============================================================================
 
 io.set('transports', [
-    'websocket'
-  , 'flashsocket'
+    'flashsocket'
   , 'htmlfile'
   , 'xhr-polling'
   , 'jsonp-polling'
+  . 'websocket'
 ]);
 
 app.use(morgan('dev'));
@@ -56,6 +56,13 @@ var authRouter = express.Router();
 
 router.get('/', function(req, res) {
 	res.json({ message: 'API online and ready!' });
+});
+
+router.get('*', function noCache (req, res, next) {
+	res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.header("Pragma", "no-cache");
+    res.header("Expires", 0);
+    next();
 });
 
 require('./routes/passportRoutes')(authRouter, passport);
