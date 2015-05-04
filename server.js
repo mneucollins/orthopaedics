@@ -31,7 +31,7 @@ io.set('transports', [
   , 'htmlfile'
   , 'xhr-polling'
   , 'jsonp-polling'
-  . 'websocket'
+  , 'websocket'
 ]);
 
 app.use(morgan('dev'));
