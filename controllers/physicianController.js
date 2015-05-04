@@ -10,7 +10,8 @@ module.exports = {
   getNextPatientWaitTime: getNextPatientWaitTime,
   addPatientToAvgDelay: addPatientToAvgDelay,
   clearAvgDelay: clearAvgDelay,
-  getAvgDelay: getAvgDelay
+  getAvgDelay: getAvgDelay,
+  isPhysicianInBreak: isPhysicianInBreak
 }
 
 function listarPhysicians(callback) {
@@ -131,6 +132,32 @@ function getAvgDelay (physicianId, seed, callback) {
             if(seed) avg = (sum + seed) / (physician.patientsClinicDelay.length + 1);
             else     avg = sum / physician.patientsClinicDelay.length;
             callback(null, Math.round(avg));
+        }
+    });
+}
+
+function isPhysicianInBreak (physicianId, callback) {
+    
+    var nowHour = new Date().getHours();
+
+    if(nowHour < 11 || 14 < nowHour) {
+        callback(null, false);
+        return;
+    }
+
+    var patientController = require("./patientController");
+    patientController.listPatientsbyPhysicianToday(physicianId, function (err, patients) {
+        if (err) callback(err);
+        else {
+            var isBreak = false;
+            _.each(patients, function (element, index, list) {
+                if(11 <= element.apptTime.getHours() && element.apptTime.getHours() <= 14)
+                    if(index > 0)
+                        isBreak |= element.apptTime.getTime() - list[index-1].apptTime.getTime() >= 60 * 60 * 1000;
+                    if(index < list.length-1)
+                        isBreak |= list[index+1].apptTime.getTime() - element.apptTime.getTime() >= 60 * 60 * 1000;
+            });
+            callback(err, isBreak);
         }
     });
 }

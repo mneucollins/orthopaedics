@@ -37,37 +37,48 @@ setInterval(function () {
 			if(waitedMins > 0 && waitedMins % 20 == 0) {
 				console.log("(" + i + ") " + patient.firstName + " waited long enough!");
 				physicianController.getNextPatientWaitTime(patient.physician.id, function (err, phyWaitTime) {
-					console.log("(" + i + ") " + patient.firstName + " Physician's has a " + phyWaitTime + "minutes delay");
-					phyWaitTime += 5;
-					getReminderMessagesByPatient(patient.id, function (err, messages) {
-						var msgData = {
-							patient: patient,
-							msjType: "reminder"
+					if(err) console.log(err);
+					else physicianController.isPhysicianInBreak(patient.physician.id, function (err, isBreakAppt) {
+						if(err) {
+							console.log(err);
+							return;
 						}
-						console.log("(" + i + ") " + patient.firstName + " received a total of " + messages.length + " reminder updates");
+						console.log("(" + i + ") " + patient.firstName + " Physician's has a " + phyWaitTime + " minutes delay");
+						if(isBreakAppt) console.log("(" + i + ") " + patient.firstName + " Physician's is on break!");
 
-						if(messages.length == 0) {
-							console.log("(" + i + ") " + patient.firstName + " is getting reminder update #1!");
+						phyWaitTime = isBreakAppt ? Math.floor(phyWaitTime / 2) + 5 : phyWaitTime + 5;
+						console.log("(" + i + ") " + patient.firstName + " will receive a " + phyWaitTime + " minutes delay message");
 
-							msgData.message = "We would like to update you every 20 minutes in regards to " +
-							"your wait time. " + patient.physician.name + " is now running at least " + phyWaitTime + 
-							" minutes behind. Please keep in mind that this is just an estimate. Thank you for your " +
-							"patience and understanding, and for choosing Emory Healthcare.";
-						}
-						else {
-							console.log("(" + i + ") " + patient.firstName + " is getting a standard reminder update");
-							msgData.message = patient.physician.name + " is now running at least " + phyWaitTime + 
-							" minutes behind, we will continue to provide updates.";
-						}
+						getReminderMessagesByPatient(patient.id, function (err, messages) {
+							var msgData = {
+								patient: patient,
+								msjType: "reminder"
+							}
+							console.log("(" + i + ") " + patient.firstName + " received a total of " + messages.length + " reminder updates");
 
-						if(phyWaitTime > 45) {
-							console.log("(" + i + ") " + patient.firstName + " waited for more than 45 mins :(");
-							msgData.message += " Please contact the front desk if you would like to leave the area temporarily.";
-						}
+							if(messages.length == 0) {
+								console.log("(" + i + ") " + patient.firstName + " is getting reminder update #1!");
 
-						sendMessage(msgData, function (err, msj) {
-							if (err) console.log(err);
-        					else console.log("reminder sms sent. ID: " + msj.sid);
+								msgData.message = "We would like to update you every 20 minutes in regards to " +
+								"your wait time. " + patient.physician.name + " is now running at least " + phyWaitTime + 
+								" minutes behind. Please keep in mind that this is just an estimate. Thank you for your " +
+								"patience and understanding, and for choosing Emory Healthcare.";
+							}
+							else {
+								console.log("(" + i + ") " + patient.firstName + " is getting a standard reminder update");
+								msgData.message = patient.physician.name + " is now running at least " + phyWaitTime + 
+								" minutes behind, we will continue to provide updates.";
+							}
+
+							if(phyWaitTime > 45) {
+								console.log("(" + i + ") " + patient.firstName + " waited for more than 45 mins :(");
+								msgData.message += " Please contact the front desk if you would like to leave the area temporarily.";
+							}
+
+							sendMessage(msgData, function (err, msj) {
+								if (err) console.log(err);
+	        					else console.log("reminder sms sent. ID: " + msj.sid);
+							});
 						});
 					});
 				});

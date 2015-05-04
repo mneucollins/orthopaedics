@@ -228,11 +228,16 @@ function listPatientsbyPhysicianToday(physicianId, callback) {
     highDate.setSeconds(0);
     highDate.setDate(highDate.getDate()+1);
 
-    patientModel.find({physician: physicianId, apptTime: {$gte: lowDate, $lt: highDate}})
-        .populate("physician")
-        .exec(function(err, patients) {
-            if (err) callback(err);
-            else callback(null, patients);
+    patientModel.find({
+        physician: physicianId, 
+        apptTime: {$gte: lowDate, $lt: highDate},
+        isDeleted: false
+    })
+    .populate("physician")
+    .sort({apptTime: 1})
+    .exec(function(err, patients) {
+        if (err) callback(err);
+        else callback(null, patients);
     });
 }
 

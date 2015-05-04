@@ -204,7 +204,7 @@
                         <div class="row priorApptRow" ng-repeat="record in patient.history">
                             <div class="col-sm-3 priorTimeCol">{{ record.apptTime | date: 'MM/dd/yy'}}</div>
                             <div class="col-sm-6 priorStatusCol">
-                                <span class="col-sm-6" ng-class="getTimerColor('WRH', record)">WR {{ getWRTime(patient) }}</span>
+                                <span class="col-sm-6" ng-class="getTimerColor('WRH', record)">WR {{ getWRTime(record) }}</span>
                                 <span class="col-sm-6" ng-class="getTimerColor('EXH', record)">EX {{ getEXTime(record) }}</span>
                             </div>
                             <div class="col-sm-3 priorTotalCol">
