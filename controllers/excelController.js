@@ -45,6 +45,7 @@ function escribirExcel (lowDate, highDate, callback) {
 			//var fcDate = new Date(patient.fcStartedTimestamp);
 			var fcStart = patient.fcStartedTimestamp?patient.fcStartedTimestamp.getHours()+":"+patient.fcStartedTimestamp.getMinutes()+":"+patient.fcStartedTimestamp.getSeconds():"";
 			var fcEnd = patient.fcFinishedTimestamp?patient.fcFinishedTimestamp.getHours()+":"+patient.fcFinishedTimestamp.getMinutes()+":"+patient.fcFinishedTimestamp.getSeconds():"";
+			var imaging = patient.imagingTimestamp ? patient.imagingTimestamp.getHours()+":"+patient.imagingTimestamp.getMinutes()+":"+patient.imagingTimestamp.getSeconds() : "";
 			var dcTime = patient.DCTimestamp?patient.DCTimestamp.getHours()+":"+patient.DCTimestamp.getMinutes()+":"+patient.DCTimestamp.getSeconds():"";
 			var wrTotalTime = tools.getWRTime(patient);
 			var exTotalTime = tools.getEXTime(patient);
@@ -64,6 +65,8 @@ function escribirExcel (lowDate, highDate, callback) {
     		data.push({data:exTime, tipo: "s"});
     		data.push({data:fcStart, tipo: "s"});
     		data.push({data:fcEnd, tipo: "s"});
+    		data.push({data: !!patient.imagingRequestedTimestamp, tipo: "b"});
+    		data.push({data: imaging, tipo: "s"});
     		data.push({data:dcTime, tipo: "s"});
     		data.push({data:wrTotalTime, tipo: "s"});
     		data.push({data:exTotalTime, tipo: "s"});
