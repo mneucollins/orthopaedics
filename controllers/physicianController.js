@@ -7,7 +7,10 @@ var patientModel = require('../models/patientModel');
 module.exports = {
   listarPhysicians: listarPhysicians,
   obtenerPhysician: obtenerPhysician,
-  getNextPatientWaitTime: getNextPatientWaitTime
+  getNextPatientWaitTime: getNextPatientWaitTime,
+  addPatientToAvgDelay: addPatientToAvgDelay,
+  clearAvgDelay: clearAvgDelay,
+  getAvgDelay: getAvgDelay
 }
 
 function listarPhysicians(callback) {
@@ -37,89 +40,97 @@ function getNextPatientWaitTime (physicianId, callback) {
     highDate.setDate(highDate.getDate()+1);
 
 	patientModel
-		.find({
-			physician: physicianId,
-			apptTime: {$gte: lowDate, $lt: highDate},
-            isDeleted: false,
-            $or: [{currentState: "WR"}, {currentState: "EX"}]
-		})
-		.sort({WRTimestamp: 1})
-		.exec(function (err, patients) {
-			if (err) callback(err);
-    		else if(patients.length > 0) {
+	.find({
+		physician: physicianId,
+		apptTime: {$gte: lowDate, $lt: highDate},
+        isDeleted: false,
+        $or: [{currentState: "WR"}, {currentState: "EX"}]
+	})
+	.sort({WRTimestamp: 1})
+    .populate("physician")
+	.exec(function (err, patients) {
+		if (err) callback(err);
+		else if(patients.length > 0) {
 
-                //WR patients are separated from EX patients
-                var searchList = _.groupBy(patients, function (patient) { return patient.currentState; })
-                // gets que last called back patient
-                var lastEXCalled = _.max(searchList.EX, function (patient) { return patient.EXTimestamp.getTime(); });
-                // final list contains all WR patient + last called back patient
-                
-                if(!searchList.WR) searchList.WR = [];
-                searchList.WR.push(lastEXCalled);
-                searchList = searchList.WR;
+            //WR patients are separated from EX patients
+            var searchList = _.groupBy(patients, function (patient) { return patient.currentState; })
+            // gets que last called back patient
+            var lastEXCalled = _.max(searchList.EX, function (patient) { return patient.EXTimestamp.getTime(); });
+            // final list contains all WR patient + last called back patient
+            
+            if(!searchList.WR) searchList.WR = [];
+            searchList.WR.push(lastEXCalled);
+            searchList = searchList.WR;
 
-                if(searchList.length <= 0) callback(null, 0);
+            if(searchList.length <= 0) callback(null, 0);
 
-                var wrTime = _.max(searchList, function (item) {
-                    return getWRTime(item);
+            var wrTimePatient = _.max(searchList, function (item) {
+                return tools.getWRTime(item);
+            });
+            var wrTime = tools.getWRTime(wrTimePatient);
+            wrTime = wrTime > 0 ? wrTime : 0;
+
+            if(wrTimePatient.physician.patientsClinicDelay.length > 0)
+                getAvgDelay(physicianId, wrTime, function (err, avg) {
+                    if (err) callback(err);
+                    else callback(null, avg);
                 });
-                wrTime = getWRTime(wrTime);
-                callback(null, wrTime > 0 ? wrTime : 0);
-
-			}
-            else callback(null, 0);
-    		
-		});
+            else if(lastEXCalled.clinicDelay) {
+                if(wrTimePatient.currentState == "WR")
+                    callback(null, wrTime < lastEXCalled.clinicDelay ? lastEXCalled.clinicDelay: wrTime);
+                else
+                    callback(null, lastEXCalled.clinicDelay);
+            }
+            else {
+                callback(null, wrTime);
+            }
+		}
+        else callback(null, 0);
+	});
 }
 
- function getWRTime (patient) {
+ function addPatientToAvgDelay (physicianId, patient, callback) {
+    userModel.findByIdAndUpdate(physicianId, {$addToSet: {patientsClinicDelay: patient._id}}
+    , function (err, physician) {
+        if (err) callback(err);
+        else callback(null, physician);
+    })
+}
 
-    if(patient.currentState == "NCI") return 0;
+function clearAvgDelay (physicianId, callback) {
+    userModel.findByIdAndUpdate(physicianId, {$unset: {patientsClinicDelay: ""}}
+    , function (err, physician) {
+        if (err) callback(err);
+        else callback(null, physician);
+    })
+}
 
-    var wrDate = new Date(patient.WRTimestamp).getTime();
-    var apptDate = new Date(patient.apptTime).getTime();
-    var exDate = new Date(patient.EXTimestamp).getTime();
-    var fcIniDate = new Date(patient.fcStartedTimestamp).getTime();
-    var fcFinDate = new Date(patient.fcFinishedTimestamp).getTime();
-    var nowDate = new Date().getTime();
-
-    var isLate = apptDate < wrDate;
-    var wrTime = 0;
-
-    if(patient.currentState == "WR") {
-        if(isLate) // patient arrived late
-            wrTime = nowDate - wrDate;
-        else // patient arrived in time
-            wrTime = nowDate - apptDate;
-        
-        if(patient.fcDuration) { // finished FC
-            if(apptDate <= fcFinDate)
-                wrTime = nowDate - fcFinDate;
-            else if(apptDate < fcIniDate)
-                wrTime = wrTime - patient.fcDuration;
-        }
-        else if(patient.fcStartedTimestamp) { // in FC
-            if(apptDate < nowDate)
-                wrTime = 0;
-            else if(apptDate < fcIniDate)
-                if(isLate)
-                    wrTime = fcIniDate - wrDate;
-                else
-                    wrTime = fcIniDate - apptDate; 
-        }  
-    }
-    else {
-        if(isLate)
-            wrTime = exDate - wrDate;
-        else
-            wrTime = exDate - apptDate;
-
-        if(patient.fcDuration) // finished FC
-            if(apptDate <= fcFinDate)
-                wrTime = exDate - fcFinDate;
-            else if(apptDate < fcIniDate)
-                wrTime = wrTime - patient.fcDuration;
-    }
+function getAvgDelay (physicianId, seed, callback) {
     
-    return Math.round(wrTime / (60*1000));
+    if(!callback) {
+        callback = seed;
+        seed = null;
+    }
+
+    userModel.findById(physicianId)
+    .populate("patientsClinicDelay")
+    .exec(function (err, physician) {
+        if (err) callback(err);
+        else {
+            if(physician.patientsClinicDelay.length <= 0) {
+                if(seed) callback(null, seed);
+                else callback(null, 0);
+                return;
+            }
+
+            var sum = 0;
+            for (var i = 0; i < physician.patientsClinicDelay.length; i++) {
+                sum += tools.getWRTime(physician.patientsClinicDelay[i]);
+            };
+            var avg = 0;
+            if(seed) avg = (sum + seed) / (physician.patientsClinicDelay.length + 1);
+            else     avg = sum / physician.patientsClinicDelay.length;
+            callback(null, Math.round(avg));
+        }
+    });
 }

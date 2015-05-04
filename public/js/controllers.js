@@ -10,7 +10,7 @@ orthopaedicsControllers.controller('headerCtrl', ['$scope', '$rootScope', '$loca
         $scope.showTab = "info"; // info, msg, prior, notes
         $scope.showMessage = false;
         $scope.showMessageAux = false;
-        $rootScope.hideDischarged = false;
+        $rootScope.hideDischarged = true;
         $rootScope.hideDeleted = true;
 
         $scope.$watch(AuthService.isLoggedIn, function ( isLoggedIn ) {
@@ -840,7 +840,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
             function (updatedPatient) {
                 var index = $scope.patientList.indexOf(patient); 
                 if(index >= 0) {
-                    $scope.patientList[index].notes = updatedPatient.DCTimestamp;
+                    $scope.patientList[index].notes = updatedPatient.notes;
                 }
                 Alerts.addAlert("success", "Notes Saved");
             }); 

@@ -1,57 +1,59 @@
+var _ = require('underscore');
+var tools = require('../tools');
 var patientModel = require('../models/patientModel');
 
 module.exports = {
-  nuevoPatient: nuevoPatient,
-  listarPatients: listarPatients,
-  obtenerPatient: obtenerPatient,
-  actualizarPatient: actualizarPatient,
-  eliminarPatient: eliminarPatient,
-  obtenerPatientHistory: obtenerPatientHistory,
-  listPatientsToday: listPatientsToday,
-  listPatientsBetweenDates : listPatientsBetweenDates,
-  listPatientsbyPhysician: listPatientsbyPhysician,
-  listPatientsbyPhysicianToday: listPatientsbyPhysicianToday,
-  listPatientsTodayByState: listPatientsTodayByState
+    nuevoPatient: nuevoPatient,
+    listarPatients: listarPatients,
+    obtenerPatient: obtenerPatient,
+    actualizarPatient: actualizarPatient,
+    eliminarPatient: eliminarPatient,
+    obtenerPatientHistory: obtenerPatientHistory,
+    listPatientsToday: listPatientsToday,
+    listPatientsBetweenDates : listPatientsBetweenDates,
+    listPatientsbyPhysician: listPatientsbyPhysician,
+    listPatientsbyPhysicianToday: listPatientsbyPhysicianToday,
+    listPatientsTodayByState: listPatientsTodayByState
 }
 
 function nuevoPatient(newPatient, callback) {
 
-  var patient = new patientModel();
-  patient.firstName = newPatient.firstName;
-  patient.lastName = newPatient.lastName;
-  patient.dateBirth = newPatient.dateBirth;
-  patient.cellphone = newPatient.cellphone;
-  patient.medicalRecordNumber = newPatient.medicalRecordNumber;
-  patient.apptTime = newPatient.apptTime;
-  patient.apptType = newPatient.apptType;
-  patient.apptDuration = newPatient.apptDuration;
-  patient.physician = newPatient.physician;
-  patient.email = newPatient.email;
-  patient.adress = newPatient.adress;
-  patient.customMessage = newPatient.customMessage;
+    var patient = new patientModel();
+    patient.firstName = newPatient.firstName;
+    patient.lastName = newPatient.lastName;
+    patient.dateBirth = newPatient.dateBirth;
+    patient.cellphone = newPatient.cellphone;
+    patient.medicalRecordNumber = newPatient.medicalRecordNumber;
+    patient.apptTime = newPatient.apptTime;
+    patient.apptType = newPatient.apptType;
+    patient.apptDuration = newPatient.apptDuration;
+    patient.physician = newPatient.physician;
+    patient.email = newPatient.email;
+    patient.adress = newPatient.adress;
+    patient.customMessage = newPatient.customMessage;
 
-  patient.WRTimestamp = newPatient.WRTimestamp;
-  patient.EXTimestamp = newPatient.EXTimestamp;
-  patient.DCTimestamp = newPatient.DCTimestamp;
+    patient.WRTimestamp = newPatient.WRTimestamp;
+    patient.EXTimestamp = newPatient.EXTimestamp;
+    patient.DCTimestamp = newPatient.DCTimestamp;
 
-  patient.enterTimestamp = [];
-  patient.exitTimestamp = [];
+    patient.enterTimestamp = [];
+    patient.exitTimestamp = [];
 
-  patient.currentState = newPatient.currentState; // delete after testing
+    patient.currentState = newPatient.currentState; // delete after testing
 
-  patient.save(function(err, addedPatient) {
-    if (err) callback(err);
-    else callback(null, addedPatient);
-  });
+    patient.save(function(err, addedPatient) {
+        if (err) callback(err);
+        else callback(null, addedPatient);
+    });
 }
 
 function listarPatients(callback) {
-  patientModel.find()
-  .populate("physician")
-  .exec(function(err, patients) {
-    if (err) callback(err);
-    else callback(null, patients);
-  });
+    patientModel.find()
+    .populate("physician")
+    .exec(function(err, patients) {
+        if (err) callback(err);
+        else callback(null, patients);
+    });
 }
 
 function listPatientsToday(callback) {
@@ -133,10 +135,46 @@ function obtenerPatient(id, callback) {
 }
 
 function actualizarPatient(id, updPatient, callback) {
-  patientModel.findByIdAndUpdate(id, updPatient, function (err, patient) {
-    if (err) callback(err);
-    else callback(null, patient);
-  });
+
+    if(updPatient.currentState == "EX") {
+        var physicianController = require("./physicianController");
+        patientModel.findById(id, function (err, dbPatient) {
+            if (err) callback(err);
+            else listPatientsbyPhysicianByStateToday(dbPatient.physician, "WR", function (err, phyPatients) {
+                if (err) callback(err);
+                else physicianController.getAvgDelay(dbPatient.physician, tools.getWRTime(dbPatient), function (err, avgDelay) {
+                    if (err) callback(err);
+
+                    updPatient.clinicDelay = avgDelay;
+                    var priorApptPatient = _.find(phyPatients, function (pat) {
+                        return pat.WRTimestamp.getTime() < dbPatient.WRTimestamp.getTime();
+                    });
+
+                    if(priorApptPatient) {
+                        physicianController.addPatientToAvgDelay(dbPatient.physician, dbPatient, function (err) {
+                            if (err) callback(err);
+                            else updatePatient (updPatient);
+                        });
+                    }
+                    else {
+                        physicianController.clearAvgDelay(dbPatient.physician, function (err) {
+                            if (err) callback(err);
+                            else updatePatient (updPatient);
+                        });
+                    }
+                });
+            });
+        });
+    }
+    else 
+        updatePatient (updPatient);
+
+    function updatePatient (updPatient) {
+        patientModel.findByIdAndUpdate(id, updPatient, function (err, patient) {
+            if (err) callback(err);
+            else callback(null, patient);
+        });
+    }
 }
 
 function eliminarPatient(id, callback) {
@@ -195,5 +233,30 @@ function listPatientsbyPhysicianToday(physicianId, callback) {
         .exec(function(err, patients) {
             if (err) callback(err);
             else callback(null, patients);
+    });
+}
+
+function listPatientsbyPhysicianByStateToday(physicianId, state, callback) {
+
+    var lowDate = new Date();
+    lowDate.setHours(0);
+    lowDate.setMinutes(0);
+    lowDate.setSeconds(0);
+
+    var highDate = new Date();
+    highDate.setHours(0);
+    highDate.setMinutes(0);
+    highDate.setSeconds(0);
+    highDate.setDate(highDate.getDate()+1);
+
+    patientModel.find({
+        physician: physicianId, 
+        currentState: state,
+        apptTime: {$gte: lowDate, $lt: highDate}
+    })
+    .populate("physician")
+    .exec(function(err, patients) {
+        if (err) callback(err);
+        else callback(null, patients);
     });
 }
