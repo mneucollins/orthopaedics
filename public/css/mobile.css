@@ -152,7 +152,19 @@
 		margin-left: 5.5em;
 		padding-right: 0px;
 	}
-
+	.panel-body{
+		padding: 0px;
+	}
+	.mobilePhysicians{
+		padding-left: 1px;
+  		padding-right: 1px;
+  		font-size: 0.9em;
+	}
+	.physiciansHeader {
+		color: #539CD5;
+		margin-left: 0%;
+		margin-top: 0;
+	}
 /* 
 //////////////////////////////////////////////////////////////////////
 ///////////////////////   PHYSICIANS   ///////////////////////////////
