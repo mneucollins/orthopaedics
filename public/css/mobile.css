@@ -54,7 +54,7 @@
 	}
 	.fullSpaceRow{
 		margin-left: -16px;
-  		margin-right: -30px;
+  		margin-right: 0;
 	}
 	.rowFullWhite{
 		background-color: white;
@@ -75,7 +75,7 @@
 
 	.rowTextArea{
 		height: 180px !important;
-  		width: 96%;
+  		width: 100%;
   		border-left-style: none;
 	  	border-right-style: none;
 	  	border-top-style: none;
@@ -83,7 +83,8 @@
 	}
 	.rowButtonsMargin{
 		margin-top: 25px;
-  		margin-bottom: 48px;
+  		margin-bottom: 30px;
+
 	}
 	.patienInfo{
 		font-family: "ProximaNova";
@@ -165,6 +166,26 @@
 		margin-left: 0%;
 		margin-top: 0;
 	}
+
+	.panelPrior{
+		padding-right: 0px;
+  		padding-left: 1%;
+  	}
+
+  	.priorTotalCol {
+	    padding-left: 0em;
+  		padding-right: 1em;
+	}
+
+	.priorStatusCol{
+		padding-right: 0%;
+  		padding-left: 1.4em;
+	}
+
+	.textAreaMsg{
+		margin-left: 0px;
+  		margin-right: 0px;
+	}
 /* 
 //////////////////////////////////////////////////////////////////////
 ///////////////////////   PHYSICIANS   ///////////////////////////////
@@ -192,8 +213,9 @@
 @media(min-width:768px) {
 	.attentionFont{
 	    /*color: #7F7F7F; */
-	    color: #000; 
+	    /*color: #000;  */
 	}
+    	
 
 	.patientExpandible {
 		padding: 19px;
