@@ -57,6 +57,10 @@ PatientSchema.set('toJSON', {
     virtuals: true
 });
 
+PatientSchema.set('toObject', {
+    virtuals: true
+});
+
 var patientModel = mongoose.model('patients', PatientSchema);
 
 //////////////////////////////////////////////////////////////////////////////

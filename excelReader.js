@@ -13,21 +13,6 @@ module.exports = {
 //JOB CREATION
 // --------------------------------------------------------------------------
 
-/*function createCronJob () {
-	var CronJob = cron.CronJob;
-
-	var job = new CronJob('00 58 16 * * 1-7', function(){
-		console.log('pertinent job!');
-	    // SS MM HH * * 1-7
-	    // 1-7 (dias de la semana)
-
-	  }, function () {
-	    // This function is executed when the job stops
-	  },
-	  true /* Start the job right now */
-	/*);
-}*/
-
 function leerExcel () {
 	console.log("hakuna matata - The loader is starting");
 	mongoose.connect('mongodb://localhost:27017/orthopaedics');
@@ -50,6 +35,8 @@ function leerExcel () {
 	console.log("starting to save!");
 
 	userModel.find({}, function (err, physicians) {
+		var totalPatients = list.length;
+		var savedPatients = 0;
 		for(var k in list){
 
 			var patient = new patientModel();
@@ -89,7 +76,14 @@ function leerExcel () {
 			console.log("saving patient: " + patient.lastName + ". Phy: " + patient.physician);
 			patientController.nuevoPatient(patient, function (err, data) {
 			    if(err) console.log(err);
-			    else console.log("Patient Added");
+			    else{
+			    	console.log("Patient Added");
+			    	savedPatients++;
+			    	if(savedPatients >= totalPatients) {
+			    		mongoose.connection.close();
+			    		console.log("Connection is closed!");
+			    	}
+			    } 
 			});
 		}
 	});

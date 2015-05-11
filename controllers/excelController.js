@@ -10,7 +10,6 @@ module.exports = {
 }
 
 function escribirExcel (lowDate, highDate, callback) {
-
 	var nombreArc = "";
 	console.log("Generating report between " + lowDate + " and " + highDate);
 
@@ -49,7 +48,7 @@ function escribirExcel (lowDate, highDate, callback) {
 			var dcTime = patient.DCTimestamp?patient.DCTimestamp.getHours()+":"+patient.DCTimestamp.getMinutes()+":"+patient.DCTimestamp.getSeconds():"";
 			var wrTotalTime = tools.getWRTime(patient);
 			var exTotalTime = tools.getEXTime(patient);
-			var fcTotalTime = tools.getTotalTime(patient);
+			var totalTime = tools.getTotalTime(patient);
 			var atTotalTime = tools.getATtimer(patient);
 			if(patient.fcStartedTimestamp && patient.fcFinishedTimestamp){
 				Math.round((patient.fcFinishedTimestamp.getTime() - patient.fcStartedTimestamp.getTime()) / (60*1000));
@@ -70,7 +69,7 @@ function escribirExcel (lowDate, highDate, callback) {
     		data.push({data:dcTime, tipo: "s"});
     		data.push({data:wrTotalTime, tipo: "s"});
     		data.push({data:exTotalTime, tipo: "s"});
-    		data.push({data:fcTotalTime, tipo: "s"});
+    		data.push({data:totalTime, tipo: "s"});
     		data.push({data:atTotalTime, tipo: "s"});
 
 			for(var C = 0; C < data.length; C++) {
@@ -83,7 +82,6 @@ function escribirExcel (lowDate, highDate, callback) {
 				worksheet[cellAddr] = cellData;
 			}
 		}
-    	//});
 		
 		var dateReport = new Date();
 		var month = Math.round(dateReport.getMonth()+1);

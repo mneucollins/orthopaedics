@@ -5,17 +5,18 @@ var userModel = require('../models/userModel');
 var patientModel = require('../models/patientModel');
 
 module.exports = {
-  listarPhysicians: listarPhysicians,
-  obtenerPhysician: obtenerPhysician,
-  getNextPatientWaitTime: getNextPatientWaitTime,
-  addPatientToAvgDelay: addPatientToAvgDelay,
-  clearAvgDelay: clearAvgDelay,
-  getAvgDelay: getAvgDelay,
-  isPhysicianInBreak: isPhysicianInBreak
+    listarPhysicians: listarPhysicians,
+    obtenerPhysician: obtenerPhysician,
+    getClinicDelay: getClinicDelay,
+    getNextPatientWaitTime: getNextPatientWaitTime,
+    addPatientToAvgDelay: addPatientToAvgDelay,
+    clearAvgDelay: clearAvgDelay,
+    getAvgDelay: getAvgDelay,
+    isPhysicianInBreak: isPhysicianInBreak
 }
 
 function listarPhysicians(callback) {
-  userModel
+    userModel
     .find({role: "Physician"}, "name department role npi")
     .sort("name")
     .exec(callback);
@@ -26,6 +27,27 @@ function obtenerPhysician(id, callback) {
     if (err) callback(err);
     else callback(null, users);
   });
+}
+
+function getClinicDelay (physicianIdArray, callback) {
+    
+    var results = {};
+
+    _.each(physicianIdArray, function (element, index, list) {
+        getNextPatientWaitTime(element, function (err, phyWaitTime) {
+            if(err) callback(err);
+            else isPhysicianInBreak(element, function (err, isBreakAppt) {
+                if(err) callback(err);
+                else {
+                    phyWaitTime = isBreakAppt ? Math.floor(phyWaitTime / 2) : phyWaitTime;
+                    results[element] = phyWaitTime;
+
+                    if(index >= list.length-1)
+                        callback(err, results);
+                }
+            });         
+        });
+    });
 }
 
 function getNextPatientWaitTime (physicianId, callback) {
@@ -42,11 +64,11 @@ function getNextPatientWaitTime (physicianId, callback) {
 
 	patientModel
 	.find({
-		physician: physicianId,
-		apptTime: {$gte: lowDate, $lt: highDate},
+        physician: physicianId,
+        apptTime: {$gte: lowDate, $lt: highDate},
         isDeleted: false,
         $or: [{currentState: "WR"}, {currentState: "EX"}]
-	})
+    })
 	.sort({WRTimestamp: 1})
     .populate("physician")
 	.exec(function (err, patients) {
@@ -57,8 +79,8 @@ function getNextPatientWaitTime (physicianId, callback) {
             var searchList = _.groupBy(patients, function (patient) { return patient.currentState; })
             // gets que last called back patient
             var lastEXCalled = _.max(searchList.EX, function (patient) { return patient.EXTimestamp.getTime(); });
-            // final list contains all WR patient + last called back patient
             
+            // final list contains all WR patient + last called back patient
             if(!searchList.WR) searchList.WR = [];
             searchList.WR.push(lastEXCalled);
             searchList = searchList.WR;
@@ -87,6 +109,7 @@ function getNextPatientWaitTime (physicianId, callback) {
             }
 		}
         else callback(null, 0);
+        // isPhysicianInBreak
 	});
 }
 

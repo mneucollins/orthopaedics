@@ -58,8 +58,7 @@
                 <h3 class="physiciansHeader">
                     <span class="col-xs-6 col-sm-6 col-md-4 mobilePhysicians" ng-repeat="physician in selectedPhysicians">
                         <span class="col-xs-8 col-sm-8">{{ physician.name }}</span>
-                        <span class="col-xs-2 col-sm-2 roundMiniBox" ng-class="{'timer-on-time': physician.time<=15, 'timer-delay-15': physician.time>15 && physician.time<=30, 'timer-delay-30': physician.time>30 && physician.time<=45, 'timer-delay-45': physician.time>45}">{{ getPhysicianTime(physician) }}</span>
-                        <span class="col-xs-2 col-sm-2"> ;</span>  
+                        <span class="col-sm-3 col-md-2 roundMiniBox" ng-class="{'timer-on-clinicDelay': physician.clinicDelay<=15, 'timer-delay-15': physician.clinicDelay>15 && physician.clinicDelay<=30, 'timer-delay-30': physician.clinicDelay>30 && physician.clinicDelay<=45, 'timer-delay-45': physician.clinicDelay>45}">{{ physician.clinicDelay }}</span>
                     </span>
                 </h3>
             </div>
@@ -188,16 +187,16 @@
             <!-- Start Collapsible -->
             <div class="col-sm-offset-1 col-sm-11 accordian-body collapse patientExpandible" ng-class="{patientExpandibleShort: hidePhysicians}" id="{{ 'miniform' + patient._id }}" ng-init="showTab='info'">
                 <div class="row expandibleTitles">
-                    <div class="col-xs-2 col-sm-2 clickable" ng-click="showTab='info'" ng-class="{'attentionFont': showTab=='info'} " style="font-family: 'ProximaNova-Regular';">
+                    <div class="col-xs-2 col-sm-2 clickable" ng-click="showTab='info'" ng-class="{'attentionFont': showTab=='info'} " style="font-family: 'ProximaNova';">
                         <span class="glyphicon glyphicon-info-sign hidden-xs" aria-hidden="true"></span>Info 
                     </div>
-                    <div class="col-xs-3 col-sm-2 clickable" ng-click="showTab='msg'" ng-class="{'attentionFont': showTab=='msg'}" style="font-family: 'ProximaNova-Regular';">
+                    <div class="col-xs-3 col-sm-2 clickable" ng-click="showTab='msg'" ng-class="{'attentionFont': showTab=='msg'}" style="font-family: 'ProximaNova';">
                         <span class="glyphicon glyphicon-envelope hidden-xs" aria-hidden="true"></span>Contact 
                     </div>
-                    <div class="col-xs-3 col-sm-2 clickable" ng-click="showTab='notes'" ng-class="{'attentionFont': showTab=='notes'}" style="font-family: 'ProximaNova-Regular';">
+                    <div class="col-xs-3 col-sm-2 clickable" ng-click="showTab='notes'" ng-class="{'attentionFont': showTab=='notes'}" style="font-family: 'ProximaNova';">
                         <span class="glyphicon glyphicon-pencil hidden-xs" aria-hidden="true"></span>Notes 
                     </div>
-                    <div class="col-xs-4 visible-xs clickable" ng-click="showTab='prior'" ng-class="{'attentionFont': showTab=='prior'}" style="font-family: 'ProximaNova-Regular';">
+                    <div class="col-xs-4 visible-xs clickable" ng-click="showTab='prior'" ng-class="{'attentionFont': showTab=='prior'}" style="font-family: 'ProximaNova';">
                         Prior 
                     </div>
                     <div class="col-sm-6 hidden-xs">

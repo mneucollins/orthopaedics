@@ -29,6 +29,20 @@ module.exports = function (router) {
         });
 	});
 
+    router.route('/physicians/waittime')
+    .post(function(req, res) {
+        var phyList = req.body.phyList;
+        physicianController.getClinicDelay(phyList, function (err, data) {
+            if(err) {
+                tools.sendServerError(err, req, res);
+                return;
+            }
+
+            console.log("Physician's clinic delay listed");
+            res.json(data);
+        });
+    }); 
+
     router.route('/physicians/:physicianId')
     .get(function(req, res) {
         physicianController.obtenerPhysician(req.params.physicianId, function (err, data) {
@@ -76,7 +90,7 @@ module.exports = function (router) {
                 return;
             }
 
-            console.log("Physician " + req.params.physicianId + " listed");
+            console.log("Physician's " + req.params.physicianId + " clinic delay listed");
             res.json(data);
         });
     }); 
