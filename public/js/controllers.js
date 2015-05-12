@@ -151,9 +151,9 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                 pList = _.sortBy($scope.patientList, function(patient){ return new Date(patient.apptTime).getTime(); }); 
                 $scope.patientList = pList;
                 $rootScope.patientList = pList;
-                retrieveClinicDelays();
             });
         };
+        retrieveClinicDelays();
     });
 
     $scope.getPhysicianTime = function (physician) {
@@ -196,7 +196,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         });
         Physician.getClinicDelays({phyList: physicianIds}, function (delays) {
             _.each($rootScope.selectedPhysicians, function (element, index, list) {
-                element.clinicDelay = delays[element._id];
+                element.clinicDelay = delays[element._id] ? delays[element._id] : 0;
             });
         });
     }
