@@ -1205,7 +1205,7 @@ orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInst
             patientToSave.noPhone = !($scope.patient.cellphone);
             if(!patientToSave.apptTime) patientToSave.apptTime = new Date();
 
-            Patient.update($scope.patient._id, patientToSave, function (newPatient) {
+            Patient.update({patientId: $scope.patient._id}, patientToSave, function (newPatient) {
                 newPatient.physician = _.find(physicians, function (physician) {
                     return physician._id == newPatient.physician;
                 });
