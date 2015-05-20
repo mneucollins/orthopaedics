@@ -210,7 +210,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
 
     $interval(function checksocketConnection () {  
         if(!socket.connected) {
-            console.log("socket is disconnected! reconecting...");
+            $log.log("socket is disconnected! reconecting...");
             initSocket();
         }
 
@@ -261,10 +261,10 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
             loadExistingPatient (updPatient, true);
         });
         socket.on('greetings', function (greet) {
-            console.log(JSON.stringify(greet));
+            $log.log(JSON.stringify(greet));
         });
 
-        console.log("socket is ready!");
+        $log.log("socket is ready!");
     }
 
     // Filters & sorting
