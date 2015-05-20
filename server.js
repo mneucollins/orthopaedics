@@ -26,14 +26,6 @@ mongoose.connect(config.databaseURL);
 // SYSTEM CONFIGURE
 // =============================================================================
 
-io.set('transports', [
-    'flashsocket'
-  , 'htmlfile'
-  , 'xhr-polling'
-  , 'jsonp-polling'
-  , 'websocket'
-]);
-
 app.use(morgan('dev'));
 app.use(cookieParser()); 
 app.use(bodyParser.urlencoded({ extended: true }));

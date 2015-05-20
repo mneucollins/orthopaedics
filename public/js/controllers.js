@@ -29,12 +29,6 @@ orthopaedicsControllers.controller('headerCtrl', ['$scope', '$rootScope', '$loca
                 templateUrl: '/partials/showReports.html',
                 controller: 'showReportsCtrl',
                 resolve: {
-                    // patient: function () {
-                    //     return patient;
-                    // },
-                    // messageType: function () {
-                    //     return "IM";
-                    // }
                 }
             });
 
@@ -159,6 +153,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                 $rootScope.patientList = pList;
             });
         };
+        retrieveClinicDelays();
     });
 
     $scope.getPhysicianTime = function (physician) {
@@ -195,53 +190,82 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         $scope.hidePhysicians = $rootScope.selectedPhysicians.length == 1 && $rootScope.dashboard == 2;
     });
 
+    function retrieveClinicDelays () {  
+        var physicianIds = _.map($rootScope.selectedPhysicians, function (phy) {
+            return phy._id;
+        });
+        Physician.getClinicDelays({phyList: physicianIds}, function (delays) {
+            _.each($rootScope.selectedPhysicians, function (element, index, list) {
+                element.clinicDelay = delays[element._id] ? delays[element._id] : 0;
+            });
+        });
+    }
+
+    $interval(retrieveClinicDelays, 60000);
+
     // Sync
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    var socket = io.connect($location.protocol() + '://' + $location.host() + ":" + $location.port());
-    socket.on('syncPatient', function (updPatient) {
+    var socket;
+    initSocket();
 
-        function loadExistingPatient (updPatient, recurrent) {  
-            var listPatient = _.find($scope.patientList, function(patient){ 
-                return patient.id == updPatient.id; 
-            });
-
-            if(listPatient) {
-                var index = $scope.patientList.indexOf(listPatient);
-                updPatient.physician = $scope.patientList[index].physician;
-                $scope.patientList[index] = updPatient; 
-                $scope.$apply();
-                return true;
-            }
-            else {
-                if(recurrent) setTimeout(function () {
-                    loadNewPatient(updPatient);
-                }, 500);
-                return false;
-            }
+    $interval(function checksocketConnection () {  
+        if(!socket.connected) {
+            console.log("socket is disconnected! reconecting...");
+            initSocket();
         }
 
-        function loadNewPatient (updPatient) {  
+    }, 60000);
 
-            if(!loadExistingPatient (updPatient, false)) {
-                var physicianPatient = _.find($scope.patientList, function(patient){ 
-                    return patient.physician.id == updPatient.physician; 
+    function initSocket () {
+        socket = io.connect($location.protocol() + '://' + $location.host() + ":" + $location.port());
+        
+        socket.on('syncPatient', function (updPatient) {
+
+            function loadExistingPatient (updPatient, recurrent) {  
+                var listPatient = _.find($scope.patientList, function(patient){ 
+                    return patient.id == updPatient.id; 
                 });
 
-                if(physicianPatient){
-                    updPatient.physician = physicianPatient.physician;
-                    $scope.patientList.push(updPatient);
-                    $scope.filteringActive($scope.colFilter);
-                    $scope.filteringActive($scope.colFilter);
+                if(listPatient) {
+                    var index = $scope.patientList.indexOf(listPatient);
+                    updPatient.physician = $scope.patientList[index].physician;
+                    $scope.patientList[index] = updPatient; 
                     $scope.$apply();
+                    return true;
+                }
+                else {
+                    if(recurrent) setTimeout(function () {
+                        loadNewPatient(updPatient);
+                    }, 500);
+                    return false;
                 }
             }
-        }  
 
-        loadExistingPatient (updPatient, true);
-    });
-    socket.on('greetings', function (greet) {
-        console.log(JSON.stringify(greet));
-    });
+            function loadNewPatient (updPatient) {  
+
+                if(!loadExistingPatient (updPatient, false)) {
+                    var physicianPatient = _.find($scope.patientList, function(patient){ 
+                        return patient.physician.id == updPatient.physician; 
+                    });
+
+                    if(physicianPatient){
+                        updPatient.physician = physicianPatient.physician;
+                        $scope.patientList.push(updPatient);
+                        $scope.filteringActive($scope.colFilter);
+                        $scope.filteringActive($scope.colFilter);
+                        $scope.$apply();
+                    }
+                }
+            }  
+
+            loadExistingPatient (updPatient, true);
+        });
+        socket.on('greetings', function (greet) {
+            console.log(JSON.stringify(greet));
+        });
+
+        console.log("socket is ready!");
+    }
 
     // Filters & sorting
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -621,7 +645,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
             else // patient arrived in time
                 wrTime = nowDate - apptDate;
             
-            if(patient.fcDuration) { // finished FC
+            if(patient.fcFinishedTimestamp) { // finished FC
                 if(apptDate <= fcFinDate)
                     wrTime = nowDate - fcFinDate;
                 else if(apptDate < fcIniDate)
@@ -1181,7 +1205,7 @@ orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInst
             patientToSave.noPhone = !($scope.patient.cellphone);
             if(!patientToSave.apptTime) patientToSave.apptTime = new Date();
 
-            Patient.update($scope.patient._id, patientToSave, function (newPatient) {
+            Patient.update({patientId: $scope.patient._id}, patientToSave, function (newPatient) {
                 newPatient.physician = _.find(physicians, function (physician) {
                     return physician._id == newPatient.physician;
                 });

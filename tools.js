@@ -74,7 +74,7 @@ function getWRTime (patient) {
         else // patient arrived in time
             wrTime = nowDate - apptDate;
         
-        if(patient.fcDuration) { // finished FC
+        if(patient.fcFinishedTimestamp) { // finished FC
             if(apptDate <= fcFinDate)
                 wrTime = nowDate - fcFinDate;
             else if(apptDate < fcIniDate)

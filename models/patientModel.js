@@ -57,6 +57,10 @@ PatientSchema.set('toJSON', {
     virtuals: true
 });
 
+PatientSchema.set('toObject', {
+    virtuals: true
+});
+
 var patientModel = mongoose.model('patients', PatientSchema);
 
 //////////////////////////////////////////////////////////////////////////////
@@ -68,7 +72,8 @@ PatientSchema.virtual('fullName').get(function () {
 });
 
 PatientSchema.virtual('apptEndTime').get(function () {
-	var endDate = new Date(this.apptTime).setMinutes(this.apptTime.getMinutes() + this.apptDuration);
+	var aTime = new Date(this.apptTime);
+	var endDate = aTime.setMinutes(aTime.getMinutes() + this.apptDuration);
 	return endDate;
 });
 
