@@ -186,6 +186,41 @@
 		margin-left: 0px;
   		margin-right: 0px;
 	}
+
+
+/* 
+//////////////////////////////////////////////////////////////////////
+///////////////////////////   LOGIN   ////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+*/
+
+	.panel-login {
+		background-color: #3370A2;
+		border: 0;
+		margin-bottom: 0;
+	}
+
+	.panel-login input,.panel-login button {
+		height: 44px;
+		margin-left: 3%;
+		width: 94%;
+	}
+
+	.body-login {
+		background-color: #3370A2;
+	}
+
+	.logo-container {
+		margin-bottom: 5%;
+		background-color: #3370A2;
+	}
+
+	.emory-logo {
+		/*background-color: #3370A2; */
+		width: 65%; 
+		margin-bottom: 1.5em;
+	}
+
 /* 
 //////////////////////////////////////////////////////////////////////
 ///////////////////////   PHYSICIANS   ///////////////////////////////

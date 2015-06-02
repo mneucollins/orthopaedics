@@ -1,33 +1,35 @@
-<div class="row" style="margin-top: 5%;background-color: #5193C5;">
-	<div class="col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6 ">
-		<img src="/img/emory-logo-login.png" style="background-color: #5193C5; width: 100%; margin-bottom: 1.5em;">
+<div class="body-login">
+<div class="row logo-container">
+	<div class="col-xs-offset-3 col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6 ">
+		<img src="/img/emory-logo-login.png" class="emory-logo">
 	</div>
 </div>
 
 <div class="row">
-<div class="panel panel-default col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6 panel-login">
-	<div class="panel-body">
-		<div class="row">
-			<div style="text-align: center">
-				<img src="/img/Doctor_Unselected.png" style="margin: 1em;">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-offset-2 col-sm-8">
-			<form ng-submit="login()">
-				<div class="form-group">
-					<input type="text" class="form-control" ng-model="user.username" placeholder="Username">
+	<div class="panel panel-default col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6 panel-login">
+		<div class="panel-body">
+			<div class="row">
+				<div style="text-align: center" class="hidden-xs">
+					<img src="/img/Doctor_Unselected.png" style="margin: 1em;">
 				</div>
-				<div class="form-group">
-					<input type="password" class="form-control" ng-model="user.password" placeholder="Password">
-				</div>
-				<button type="submit" class="btn btn-success col-sm-12">Sign In</button>
-			</form>
 			</div>
-		</div>
-		<div class="row">
-			<div style="text-align: center; margin-top: 13px;">
-				<a href="#" data-toggle="tooltip" data-placement="top" data-original-title="Please contact Ajay Premkumar at apremku@emory.edu">Need help?</a>
+			<div class="row">
+				<div class="col-xs-12 col-sm-offset-2 col-sm-8">
+				<form ng-submit="login()">
+					<div class="form-group">
+						<input type="text" class="form-control" ng-model="user.username" placeholder="Username">
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control" ng-model="user.password" placeholder="Password">
+					</div>
+					<button type="submit" class="btn btn-success col-xs-12">Sign In</button>
+				</form>
+				</div>
+			</div>
+			<div class="row">
+				<div style="text-align: center; margin-top: 13px;">
+					<a href="#" data-toggle="tooltip" data-placement="top" data-original-title="Please contact Ajay Premkumar at apremku@emory.edu">Need help?</a>
+				</div>
 			</div>
 		</div>
 	</div>
