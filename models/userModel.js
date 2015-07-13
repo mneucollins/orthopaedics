@@ -29,6 +29,8 @@ var UsersSchema = new Schema({
         type: String,
         required: true,
     },
+    securityQuestion: String,
+    securityAnswer: String,
     provider: {
         type: String,
         default: 'local'

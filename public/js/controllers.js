@@ -96,16 +96,88 @@ orthopaedicsControllers.controller('AlertsCtrl', ['$scope', 'Alerts',
 
 // =============================== LOGIN CTRL ===================================
 
-orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthService', 'Alerts',
-	function($scope, $location, AuthService, Alerts) {
+orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthService', 'Alerts', 'User',
+	function($scope, $location, AuthService, Alerts, User) {
 
     $("nav").addClass("hidden");
     $("body").addClass("body-login");
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
-    })
+    });
+
+    var theUser;
+    $scope.panelStatus = 'login';
+    $scope.securityQuestions = [
+        "Who was your first kiss?",
+        "Who was your favorite teacher in school?",
+        "What was the first concert you attended?",
+        "What is your mother's maiden name?",
+        "What was the name of your first pet?",
+        "What street did you grow up on?"
+    ];
 
     $scope.login = function () {
+        AuthService.login($scope.user, function(user) {
+
+            if(!user.securityQuestion){
+                theUser = user;
+                $scope.panelStatus = 'completeProfile';
+                return;
+            }
+
+            goToDashboard();
+
+        }, function (err) {
+            Alerts.addAlert("error", "ups! we got an error: " + JSON.stringify(err));
+        });
+    };
+
+    $scope.completeProfile = function () {
+        User.setSecurityQuestions({userId: theUser._id}, {securityQuestion: $scope.user.question, securityAnswer: $scope.user.question}, 
+        function(user) {
+            
+            goToDashboard();
+
+        }, function (err) {
+            Alerts.addAlert("error", "ups! we got an error: " + JSON.stringify(err));
+        });
+    };
+
+    $scope.passwordRetrieval = function () {
+        User.passwordRetrieval({}, {email: $scope.user.email}, 
+        function(user) {
+            Alerts.addAlert("success", "Please verify your email");
+
+        }, function (err) {
+            Alerts.addAlert("error", "ups! we got an error: " + JSON.stringify(err));
+        });
+    };
+
+    function goToDashboard () {
+        Alerts.addAlert("success", "Welcome " + user.name);
+
+        if(user.role == "Imaging" || user.role == "Receptionist")
+            $location.path("/dashboard1");
+        else
+            $location.path("/dashboard2");
+    }
+
+}]);
+
+// =============================== LOGIN CTRL ===================================
+
+orthopaedicsControllers.controller('completeProfileCtrl', ['$scope', '$location', 'AuthService', 'Alerts',
+    function($scope, $location, AuthService, Alerts) {
+
+    $("nav").addClass("hidden");
+    $("body").addClass("body-login");
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+
+    $scope.panelStatus = 'completeProfile';
+
+    $scope.completeProfile = function () {
         AuthService.login($scope.user, function(user) {
             Alerts.addAlert("success", "Welcome " + user.name);
 

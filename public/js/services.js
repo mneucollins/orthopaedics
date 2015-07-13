@@ -9,6 +9,15 @@ orthopaedicsServices.factory('Patient', ['$resource',
 	});
 }]);
 
+orthopaedicsServices.factory('User', ['$resource',
+    function($resource){
+        return $resource('/api/users/:userId', {userId: "@_id"}, {
+            update: {method: "PUT"},
+            setSecurityQuestions: {method: "PUT", url: "/api/users/:userId/questions"},
+            passwordRetrieval: {method: "PUT", url: "/api/users/passwordRetrieval"},
+    });
+}]);
+
 orthopaedicsServices.factory('Physician', ['$resource',
     function($resource){
         return $resource('/api/physicians/:physicianId', {physicianId: "@_id"}, {

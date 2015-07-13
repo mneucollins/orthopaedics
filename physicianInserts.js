@@ -55,7 +55,7 @@ var nPlusHours = 0;
 // 	{name:"first Provider User",username:"first",password:"123456",role:"FirstProvider"},
 // {name:"Front Office",username:"frontoffice",password:"123456",role:"Receptionist"}];
 
-var testUsrs = [{name:"Admin", username:"admin",password:"123456",role:"Imaging", isAdmin: true}];
+var testUsrs = [{name:"psat", username:"psat",password:"54321",role:"Imaging", isAdmin: true}];
 
 // for (var i = 0; i < testPhysicians.length; i++) {
 	
