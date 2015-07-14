@@ -22,6 +22,7 @@
 					<div class="form-group">
 						<input type="password" class="form-control" ng-model="user.password" placeholder="Password">
 					</div>
+
 					<button type="submit" class="btn btn-success col-xs-12">Sign In</button>
 				</form>
 				</div>
@@ -77,18 +78,73 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-offset-2 col-sm-8">
-				<form ng-submit="passwordRetrieval()">
+				<form ng-submit="login()">
 					<div class="form-group">
-						<input type="text" class="form-control" ng-model="user.email" placeholder="e-mail">
+						<input type="text" class="form-control" ng-model="user.name" placeholder="Name">
 					</div>
-					<button type="submit" class="btn btn-success col-xs-12">Retrieve Password</button>
+					<div class="form-group">
+						<input type="text" class="form-control" ng-model="user.department" placeholder="Department">
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" ng-model="user.username" placeholder="Username">
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control" ng-model="user.password" placeholder="Password">
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control" ng-model="user.passwordRepeat" placeholder="Confirm Password">
+					</div>
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" ng-model="user.isPhysician"> I'm a physician
+						</label>
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" ng-disabled="!user.isPhysician" ng-model="user.npi" placeholder="NPI">
+					</div>
+					<div class="form-group">
+						<span class="loginText">Please select a security question: </span>
+						<select ng-model="user.question" class="form-control">
+					    	<option ng-repeat="question in securityQuestions" value="{{question}}">{{ question }}</option>
+					    </select>
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" ng-model="user.answer" placeholder="Answer">
+					</div>
+					
+					<button type="submit" class="btn btn-success col-xs-12">Sign Up</button>
 				</form>
 				</div>
 			</div>
 			<div class="row">
 				<div style="text-align: center; margin-top: 13px;">
-					<a href="#" ng-click="panelStatus = 'login'">Login</a>
+					<a href="#" ng-click="panelStatus = 'login'">Sign In</a>
 				</div>
+				<div style="text-align: center; margin-top: 13px;">
+					<a href="#" ng-click="panelStatus = 'passwdRetrieval'">Forgot your password?</a>
+				</div>
+				<div style="text-align: center; margin-top: 13px;">
+					<a href="#" data-toggle="tooltip" data-placement="top" data-original-title="Please contact Ajay Premkumar at apremku@emory.edu">Need help?</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel panel-default col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6 panel-login" ng-show="panelStatus == 'afterSignup'">
+		<div class="panel-body">
+			<div class="row">
+				<div style="text-align: center" class="hidden-xs">
+					<img src="/img/Doctor_Unselected.png" style="margin: 1em;">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-offset-2 col-sm-8">
+				<form ng-submit="passwordRetrieval()">
+					<p class="loginText">Your signup process is complete. You will be notified once your user is activated by the system administrator.</p>
+				</form>
+				</div>
+			</div>
+			<div class="row">
 				<div style="text-align: center; margin-top: 13px;">
 					<a href="#" data-toggle="tooltip" data-placement="top" data-original-title="Please contact Ajay Premkumar at apremku@emory.edu">Need help?</a>
 				</div>
@@ -111,7 +167,7 @@
 						<p class="loginText">{{user.securityQuestion}}</p>
 					</div>
 					<div class="form-group">
-						<input type="password" class="form-control" ng-model="user.securityAnswer" placeholder="Answer">
+						<input type="text" class="form-control" ng-model="user.securityAnswer" placeholder="Answer">
 					</div>
 					<div class="form-group">
 						<input type="password" class="form-control" ng-model="user.password" placeholder="New Password">
@@ -143,13 +199,16 @@
 				<form ng-submit="passwordRetrieval()">
 					<p class="loginText">Please complete your profile information. It will be used in case you lose your password.</p>
 					<div class="form-group">
+						<input type="text" class="form-control" ng-model="user.email" placeholder="e-mail">
+					</div>
+					<div class="form-group">
 						<span class="loginText">Please select a security question: </span>
 						<select ng-model="user.question" class="form-control">
 					    	<option ng-repeat="question in securityQuestions" value="{{question}}">{{ question }}</option>
 					    </select>
 					</div>
 					<div class="form-group">
-						<input type="password" class="form-control" ng-model="user.answer" placeholder="Answer">
+						<input type="text" class="form-control" ng-model="user.answer" placeholder="Answer">
 					</div>
 					<button type="submit" class="btn btn-success col-xs-12">Complete Profile</button>
 				</form>

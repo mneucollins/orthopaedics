@@ -46,7 +46,9 @@ orthopaedicsServices.factory('Session', ['$resource',
 	function($resource){
 		return $resource('/auth', {}, {
 		login: {method: "POST", url: "/auth/login"},
-        logout: {method: "GET", url: "/auth/logout"}
+        logout: {method: "GET", url: "/auth/logout"},
+        signup: {method: "POST", url: "/auth/signup"},
+        restoreLogin:{method: "POST", url: "/auth/restoreLogin"}
 	});
 }]);
 
@@ -117,11 +119,16 @@ orthopaedicsServices.factory('AuthService', ["Session", "$cookieStore", function
         $cookieStore.put("currentUser", usr);
         currentUser = usr; 
     },
- //    signup: function(usuario, callback) {			
-	// 	Session.signup(usuario, function (user) {
- //    		callback(user);
-	// 	});
-	// }
+    signup: function(usuario, callback) {
+        Session.signup(usuario, function (user) {
+            callback(user);
+        });
+    },
+    restoreLogin: function(usuario,callback){
+        Session.restoreLogin(usuario, function (user) {
+            callback(user);
+        });
+    }
   };
 
 }]);

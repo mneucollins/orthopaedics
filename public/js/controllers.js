@@ -132,6 +132,37 @@ orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthSer
         });
     };
 
+    $scope.signup = function () {
+
+        if($scope.user.password != $scope.user.passwordRepeat) {
+            Alerts.addAlert("warning", "passwords must match!");
+            return;
+        }
+
+        if(!$scope.user.name
+        || !$scope.user.department
+        || !$scope.user.email
+        || !$scope.user.username
+        || !$scope.user.password
+        || ($scope.user.isPhysician && !$scope.user.npi)
+        || !$scope.user.securityQuestion
+        || !$scope.user.securityAnswer) {
+
+            Alerts.addAlert("warning", "Please fill all fields");
+            return;
+        }
+
+        delete $scope.user.passwordRepeat;
+
+        AuthService.signup($scope.user, function(user) {
+
+            // goToDashboard();
+
+        }, function (err) {
+            Alerts.addAlert("error", "ups! we got an error: " + JSON.stringify(err));
+        });
+    };
+
     $scope.completeProfile = function () {
         User.setSecurityQuestions({userId: theUser._id}, {securityQuestion: $scope.user.question, securityAnswer: $scope.user.question}, 
         function(user) {

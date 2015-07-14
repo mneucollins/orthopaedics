@@ -1,3 +1,4 @@
+var crypto          = require('crypto');
 
 var LocalStrategy   = require('passport-local').Strategy;
 var User            = require('../models/userModel');
@@ -44,6 +45,11 @@ module.exports = function(passport) {
 	                newUser.username = username;
 	                newUser.password = newUser.generateHash(password);
                     newUser.name = frontUser.name;
+                    newUser.department = frontUser.department;
+                    newUser.npi = frontUser.npi;
+                    newUser.role = frontUser.isPhysician ? "Physician" : "Receptionist";
+                    newUser.securityQuestion = frontUser.securityQuestion;
+                    newUser.securityAnswer = frontUser.securityAnswer;
 
 	                newUser.save(function(err) {
 	                    if (err)
@@ -53,6 +59,43 @@ module.exports = function(passport) {
 	            }
 	        });    
         });
+    }));
+
+    // =========================================================================
+    // LOCAL RE-PASSWORD ============================================================
+    // =========================================================================
+
+    passport.use('local-restore-login', new LocalStrategy({
+        usernameField : 'email',
+        passReqToCallback : true
+    }, function(req, email,password, done) {
+
+        process.nextTick(function() {
+            User.findOne({ 'email' :  email }, function(err, user) {
+                if (err) {
+                    console.log(err);
+                    return done(err);
+                }
+
+                if (!user) {
+                    return done(null, false,  { message: 'This email doesn\'t exist in our database.' });
+                }
+
+                if(user) {
+
+                    var token = crypto.randomBytes(20).toString('hex');
+                    user.newUserToken = token;
+
+                    user.save(function(err) { // se actualiza la información de FB
+                        if (err) return done(err);
+
+                        emailController.sendTokenPassword(email, req.get('host'), token);
+                        return done(null, user);
+                    });
+                }
+            });
+        });
+
     }));
 
 	// =========================================================================

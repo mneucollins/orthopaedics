@@ -6,10 +6,30 @@ module.exports = function(router, passport) {
 		res.send(200);
 	});
 
-	// process the signup form
-	router.post('/signup', passport.authenticate('local-signup'),
+	router.post('/signup', function(req, res, next) {
+        passport.authenticate('local-signup',
+            function(err, user, info) {
+            if (err) {
+                return res.send(500, "Error de Servidor");
+            }
+            if (!user) {
+                console.log(info)
+                return res.send(401, info);
+            }
+            
+            req.user.password = null;
+            return res.json(req.user);
+
+            /*req.logIn(user, function(err) {
+				if (err) { return next(err); }
+				return res.json(req.user);
+			});*/
+
+        })(req, res, next);
+    });
+
+	router.post('/restoreLogin', passport.authenticate('local-restore-login'),
 		function (req, res) {
-			req.user.password = null;
 			res.json(req.user);
 		});
 
