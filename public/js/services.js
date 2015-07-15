@@ -1,5 +1,11 @@
 var orthopaedicsServices = angular.module('orthopaedicsServices', ['ngResource', 'ngCookies']);
 
+
+//////////////////////////////////////////////////////////////
+//////////////////////    SERVICES    ////////////////////////
+//////////////////////////////////////////////////////////////
+
+
 orthopaedicsServices.factory('Patient', ['$resource',
 	function($resource){
 		return $resource('/api/patients/:patientId', {patientId: "@_id"}, {
@@ -14,7 +20,8 @@ orthopaedicsServices.factory('User', ['$resource',
         return $resource('/api/users/:userId', {userId: "@_id"}, {
             update: {method: "PUT"},
             setSecurityQuestions: {method: "PUT", url: "/api/users/:userId/questions"},
-            passwordRetrieval: {method: "PUT", url: "/api/users/passwordRetrieval"},
+            setNewPassword: {method: "PUT", url: "/api/users/passwordRetrieval"},
+            getByToken: {method: "GET", url: "/api/token/:token"}
     });
 }]);
 
@@ -133,35 +140,61 @@ orthopaedicsServices.factory('AuthService', ["Session", "$cookieStore", function
 
 }]);
 
-orthopaedicsServices.factory('AuthenticationInterceptor', ['$q', '$injector',
-  function ($q, $injector) {
-  return {
-    response: function (response) {
-      
-        var AuthService = $injector.get('AuthService');
-        var Alerts = $injector.get('Alerts');
 
-        if(response.user && response.user !== AuthService.currentUser)
-            AuthService.login(response.user);
+//////////////////////////////////////////////////////////////
+/////////////////////// INTERCEPTORS  ////////////////////////
+//////////////////////////////////////////////////////////////
 
+orthopaedicsServices.factory('AuthenticationInterceptor', ['$q', '$injector','$location','$rootScope',
+    function ($q, $injector,$location,$rootScope) {
+    return {
 
-        return response;
-    },
-    responseError: function (response) {
-      // Sign out if the user is no longer authorized.
-      if (response.status == 401) {
-        var AuthService = $injector.get('AuthService');
-        var Alerts = $injector.get('Alerts');
-        AuthService.logout();
+        response: function (response) {
 
-        if(response.data.message)
-            Alerts.addAlert("warning", response.data.message);
-      }
-      if (response.status == 500) {
-        Alerts.addAlert("error", "ups! we got an error: " + JSON.stringify(response.body));
-      }
-      
-      return $q.reject(response);
-    }
-  };
+            var AuthService = $injector.get('AuthService');
+
+            if(response.status == 401) {
+                var AuthService = $injector.get('AuthService');
+                var Alerts = $injector.get('Alerts');
+                AuthService.logout();
+
+                if(response.data.message)
+                    Alerts.addAlert("warning", response.data.message);
+            }
+            else if(response.status==202) {
+                $rootScope.tempUser = response.user;
+                $location.path("/");
+            }
+            else {
+                if(response.user && response.user !== AuthService.currentUser())
+                    AuthService.login(response.user);
+
+                if(response.data && response.data.message) {
+                    var Alerts = $injector.get('Alerts');
+                    Alerts.addAlert("warning", response.data.message);
+                }
+            }
+
+            return response;
+        },
+        responseError: function (response) {
+
+            // Sign out if the user is no longer authorized.
+            if (response.status == 401) {
+                var AuthService = $injector.get('AuthService');
+                var Alerts = $injector.get('Alerts');
+                AuthService.logout();
+
+                if(response.data.message)
+                    Alerts.addAlert("warning", response.data.message);
+            }
+            else if (response.status == 500) {
+                var Alerts = $injector.get('Alerts');
+                Alerts.addAlert("danger", "server error: " + JSON.stringify(response.body));
+            }
+
+            return $q.reject(response);
+        }
+    };
 }]);
+

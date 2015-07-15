@@ -44,28 +44,24 @@ orthopaedicsApp.config(['$routeProvider','$locationProvider', '$httpProvider', '
 
 // ========================= NAVIGATION ===================
     $routeProvider
-      // .when('/', {  // THIS IS TEMPORARY, WHIE LOGIN IS FINISHED
-      //   templateUrl: '/partials/schedule.html',
-      //   controller: 'scheduleCtrl'
-      // }) // end of temp code
 
       .when('/login', {
         templateUrl: '/partials/login.html',
         controller: 'loginCtrl'
       })
-      // .when('/schedule', {
-      //   templateUrl: '/partials/schedule.html',
-      //   controller: 'scheduleCtrl',
-      //   resolve: {
-      //     loggedin: checkLoggedin
-      //   }
-      // })
+
+      .when('/restore/:token', {
+        templateUrl: '/partials/login.html',
+        controller: 'restoreCtrl'
+      })
+
       .when('/dashboard1', {
         templateUrl: '/partials/dashboard1.html',
         resolve: {
           loggedin: checkLoggedin
         }
       })
+
       .when('/dashboard2', {
         templateUrl: '/partials/dashboard2.html',
         resolve: {

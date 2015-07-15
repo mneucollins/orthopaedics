@@ -125,7 +125,7 @@ orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthSer
                 return;
             }
 
-            goToDashboard();
+            goToDashboard(user);
 
         }, function (err) {
             Alerts.addAlert("error", "ups! we got an error: " + JSON.stringify(err));
@@ -156,7 +156,8 @@ orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthSer
 
         AuthService.signup($scope.user, function(user) {
 
-            // goToDashboard();
+            // goToDashboard(user);
+            $scope.panelStatus = 'afterSignup';
 
         }, function (err) {
             Alerts.addAlert("error", "ups! we got an error: " + JSON.stringify(err));
@@ -164,10 +165,17 @@ orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthSer
     };
 
     $scope.completeProfile = function () {
-        User.setSecurityQuestions({userId: theUser._id}, {securityQuestion: $scope.user.question, securityAnswer: $scope.user.question}, 
-        function(user) {
+        User.setSecurityQuestions({userId: theUser._id}, {
+            email: $scope.user.email, 
+            securityQuestion: $scope.user.question, 
+            securityAnswer: $scope.user.answer
+        }, function(user) {
+            if(!user) {
+                Alerts.addAlert("warning", "There was an error saving the user");
+                return;
+            }
             
-            goToDashboard();
+            goToDashboard(user);
 
         }, function (err) {
             Alerts.addAlert("error", "ups! we got an error: " + JSON.stringify(err));
@@ -175,7 +183,7 @@ orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthSer
     };
 
     $scope.passwordRetrieval = function () {
-        User.passwordRetrieval({}, {email: $scope.user.email}, 
+        AuthService.restoreLogin({email: $scope.user.email}, 
         function(user) {
             Alerts.addAlert("success", "Please verify your email");
 
@@ -184,7 +192,7 @@ orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthSer
         });
     };
 
-    function goToDashboard () {
+    function goToDashboard (user) {
         Alerts.addAlert("success", "Welcome " + user.name);
 
         if(user.role == "Imaging" || user.role == "Receptionist")
@@ -195,6 +203,24 @@ orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthSer
 
 }]);
 
+orthopaedicsControllers.controller('restoreCtrl', ['$scope', '$location', '$routeParams', 'AuthService', 'Alerts', 'User',
+    function($scope, $location, $routeParams, AuthService, Alerts, User) {
+
+        $scope.panelStatus = 'newPassword';
+        User.getByToken({token: $routeParams.token}, function (user) {
+            
+            $scope.user = {
+                securityQuestion: user.securityQuestion
+            };
+
+        }, function () {
+            Alerts.addAlert("error", "Invalid token request!");
+        });
+
+        $scope.restorePassword = function () {
+            
+        };
+}]);
 // =============================== LOGIN CTRL ===================================
 
 orthopaedicsControllers.controller('completeProfileCtrl', ['$scope', '$location', 'AuthService', 'Alerts',

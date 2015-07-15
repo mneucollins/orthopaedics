@@ -17,6 +17,10 @@ var UsersSchema = new Schema({
         required: true,
         unique: true
     },
+    password: {
+        type: String,
+        required: true,
+    },
     role: {
         type: String,
         enum: "Physician Imaging FirstProvider Receptionist".split(" "),
@@ -25,10 +29,8 @@ var UsersSchema = new Schema({
         type: Boolean,
         default: false
     },
-    password: {
-        type: String,
-        required: true,
-    },
+    email: String,
+    token: String,
     securityQuestion: String,
     securityAnswer: String,
     provider: {

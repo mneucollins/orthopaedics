@@ -62,6 +62,7 @@ require("./routes/patientRoutes")(router, io);
 require("./routes/physicianRoutes")(router);
 require("./routes/messageRoutes")(router);
 require("./routes/reportsRoutes")(router);
+require("./routes/userRoutes")(router);
 
 // REGISTER OUR ROUTES -------------------------------
 app.use('/api', router);

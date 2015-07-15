@@ -84,7 +84,7 @@ module.exports = function(passport) {
                 if(user) {
 
                     var token = crypto.randomBytes(20).toString('hex');
-                    user.newUserToken = token;
+                    user.token = token;
 
                     user.save(function(err) { // se actualiza la información de FB
                         if (err) return done(err);
