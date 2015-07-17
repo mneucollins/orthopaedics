@@ -29,7 +29,10 @@ var UsersSchema = new Schema({
         type: Boolean,
         default: false
     },
-    email: String,
+    email: {
+        type: String,
+        unique: true
+    },
     token: String,
     securityQuestion: String,
     securityAnswer: String,
@@ -37,10 +40,7 @@ var UsersSchema = new Schema({
         type: String,
         default: 'local'
     },
-    npi: {
-        type: String,
-        unique: true
-    },
+    npi: String,
     patientsClinicDelay: [{
         type: Schema.ObjectId,
         ref: "patients",

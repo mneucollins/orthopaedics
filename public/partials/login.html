@@ -28,13 +28,13 @@
 				</div>
 			</div>
 			<div class="row">
-				<div style="text-align: center; margin-top: 13px;">
+				<div class="login-link">
 					<a href="#" ng-click="panelStatus = 'signup'">Sign Up</a>
 				</div>
-				<div style="text-align: center; margin-top: 13px;">
+				<div class="login-link">
 					<a href="#" ng-click="panelStatus = 'passwdRetrieval'">Forgot your password?</a>
 				</div>
-				<div style="text-align: center; margin-top: 13px;">
+				<div class="login-link">
 					<a href="#" data-toggle="tooltip" data-placement="top" data-original-title="Please contact Ajay Premkumar at apremku@emory.edu">Need help?</a>
 				</div>
 			</div>
@@ -59,10 +59,10 @@
 				</div>
 			</div>
 			<div class="row">
-				<div style="text-align: center; margin-top: 13px;">
+				<div class="login-link">
 					<a href="#" ng-click="panelStatus = 'login'">Login</a>
 				</div>
-				<div style="text-align: center; margin-top: 13px;">
+				<div class="login-link">
 					<a href="#" data-toggle="tooltip" data-placement="top" data-original-title="Please contact Ajay Premkumar at apremku@emory.edu">Need help?</a>
 				</div>
 			</div>
@@ -78,9 +78,12 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-offset-2 col-sm-8">
-				<form ng-submit="login()">
+				<form ng-submit="signup()">
 					<div class="form-group">
 						<input type="text" class="form-control" ng-model="user.name" placeholder="Name">
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" ng-model="user.email" placeholder="e-mail">
 					</div>
 					<div class="form-group">
 						<input type="text" class="form-control" ng-model="user.department" placeholder="Department">
@@ -94,22 +97,22 @@
 					<div class="form-group">
 						<input type="password" class="form-control" ng-model="user.passwordRepeat" placeholder="Confirm Password">
 					</div>
-					<div class="checkbox">
+					<!-- <div class="checkbox">
 						<label>
 							<input type="checkbox" ng-model="user.isPhysician"> I'm a physician
 						</label>
 					</div>
 					<div class="form-group">
 						<input type="text" class="form-control" ng-disabled="!user.isPhysician" ng-model="user.npi" placeholder="NPI">
-					</div>
+					</div> -->
 					<div class="form-group">
 						<span class="loginText">Please select a security question: </span>
-						<select ng-model="user.question" class="form-control">
+						<select ng-model="user.securityQuestion" class="form-control">
 					    	<option ng-repeat="question in securityQuestions" value="{{question}}">{{ question }}</option>
 					    </select>
 					</div>
 					<div class="form-group">
-						<input type="text" class="form-control" ng-model="user.answer" placeholder="Answer">
+						<input type="text" class="form-control" ng-model="user.securityAnswer" placeholder="Answer">
 					</div>
 					
 					<button type="submit" class="btn btn-success col-xs-12">Sign Up</button>
@@ -117,13 +120,13 @@
 				</div>
 			</div>
 			<div class="row">
-				<div style="text-align: center; margin-top: 13px;">
+				<div class="login-link">
 					<a href="#" ng-click="panelStatus = 'login'">Sign In</a>
 				</div>
-				<div style="text-align: center; margin-top: 13px;">
+				<div class="login-link">
 					<a href="#" ng-click="panelStatus = 'passwdRetrieval'">Forgot your password?</a>
 				</div>
-				<div style="text-align: center; margin-top: 13px;">
+				<div class="login-link">
 					<a href="#" data-toggle="tooltip" data-placement="top" data-original-title="Please contact Ajay Premkumar at apremku@emory.edu">Need help?</a>
 				</div>
 			</div>
@@ -140,12 +143,15 @@
 			<div class="row">
 				<div class="col-xs-12 col-sm-offset-2 col-sm-8">
 				<form ng-submit="passwordRetrieval()">
-					<p class="loginText">Your signup process is complete. You will be notified once your user is activated by the system administrator.</p>
+					<p class="loginText">Thank you. Your registration process is now complete. You will be notified by email once your account is activated by the system administrator.</p>
 				</form>
 				</div>
 			</div>
 			<div class="row">
-				<div style="text-align: center; margin-top: 13px;">
+				<div class="login-link">
+					<a href="#" ng-click="panelStatus = 'login'">Login</a>
+				</div>
+				<div class="login-link">
 					<a href="#" data-toggle="tooltip" data-placement="top" data-original-title="Please contact Ajay Premkumar at apremku@emory.edu">Need help?</a>
 				</div>
 			</div>
@@ -161,26 +167,29 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-offset-2 col-sm-8">
-				<p class="loginText">Password retrieval</p>
-				<form ng-submit="passwordRetrieval()">
+				<!-- <p class="loginText">Password retrieval</p> -->
+				<form ng-submit="restorePassword()">
 					<div class="form-group">
-						<p class="loginText">{{user.securityQuestion}}</p>
-					</div>
-					<div class="form-group">
-						<input type="text" class="form-control" ng-model="user.securityAnswer" placeholder="Answer">
+						<p class="loginText">Set your new password:</p>
 					</div>
 					<div class="form-group">
 						<input type="password" class="form-control" ng-model="user.password" placeholder="New Password">
 					</div>
 					<div class="form-group">
-						<input type="password" class="form-control" ng-model="user.confirmPassword" placeholder="Confirm New Password">
+						<input type="password" class="form-control" ng-model="user.passwordRepeat" placeholder="Confirm New Password">
+					</div>
+					<div class="form-group">
+						<b class="loginText">{{user.securityQuestion}}</b>
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" ng-model="user.securityAnswer" placeholder="Answer">
 					</div>
 					<button type="submit" class="btn btn-success col-xs-12">Change Password</button>
 				</form>
 				</div>
 			</div>
 			<div class="row">
-				<div style="text-align: center; margin-top: 13px;">
+				<div class="login-link">
 					<a href="#" data-toggle="tooltip" data-placement="top" data-original-title="Please contact Ajay Premkumar at apremku@emory.edu">Need help?</a>
 				</div>
 			</div>
@@ -215,7 +224,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div style="text-align: center; margin-top: 13px;">
+				<div class="login-link">
 					<a href="#" data-toggle="tooltip" data-placement="top" data-original-title="Please contact Ajay Premkumar at apremku@emory.edu">Need help?</a>
 				</div>
 			</div>

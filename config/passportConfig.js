@@ -31,12 +31,15 @@ module.exports = function(passport) {
     }, function(req, username, password, done) {
 
         process.nextTick(function() {
-	        User.findOne({ 'username' :  username }, function(err, user) {
+	        User.findOne({$or:[{'username' :  username }, {'email' :  req.body.email }]}, function(err, user) {
 	            if (err)
 	                return done(err);
 	            
-	            if (user) {
-	                return done(null, false,  { message: 'This username is already taken' });
+                if(user && user.email == req.body.email){
+                    return done(null, false,  { message: 'email already in use' });
+                } 
+	            else if (user) {
+	                return done(null, false,  { message: 'this username is already taken' });
 	            } 
 	            else {
                     var frontUser = req.body;
@@ -45,12 +48,13 @@ module.exports = function(passport) {
 	                newUser.username = username;
 	                newUser.password = newUser.generateHash(password);
                     newUser.name = frontUser.name;
+                    newUser.email = frontUser.email;
                     newUser.department = frontUser.department;
-                    newUser.npi = frontUser.npi;
+                    if(frontUser.npi) newUser.npi = frontUser.npi;
                     newUser.role = frontUser.isPhysician ? "Physician" : "Receptionist";
                     newUser.securityQuestion = frontUser.securityQuestion;
                     newUser.securityAnswer = frontUser.securityAnswer;
-
+                     
 	                newUser.save(function(err) {
 	                    if (err)
 	                        throw err;
@@ -66,9 +70,8 @@ module.exports = function(passport) {
     // =========================================================================
 
     passport.use('local-restore-login', new LocalStrategy({
-        usernameField : 'email',
-        passReqToCallback : true
-    }, function(req, email,password, done) {
+        usernameField : 'email'
+    }, function(req, email, done) {
 
         process.nextTick(function() {
             User.findOne({ 'email' :  email }, function(err, user) {

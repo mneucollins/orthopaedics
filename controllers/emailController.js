@@ -1,20 +1,27 @@
 var nodemailer = require("nodemailer");
 var smtpTransport = require('nodemailer-smtp-transport');
-var auditorioModel = require('../models/auditorioModel');
 
 module.exports = {
     sendTokenPassword:sendTokenPassword
 }
 
 
-var smtpTransport = nodemailer.createTransport(smtpTransport({
-    host: 'smtpout.secureserver.net',
-    port: 25,
+var transporter = nodemailer.createTransport({
+    service: 'Gmail',
     auth: {
-        user: 'no-reply@imbassolutions.com',
-        pass: 'Aw3n'
+        user: 'customerserviceorthoworkflow@gmail.com',
+        pass: '3m0RYf33D'
     }
-}));
+});
+
+// var transporter = nodemailer.createTransport(smtpTransport({
+//     host: 'smtpout.secureserver.net',
+//     port: 25,
+//     auth: {
+//         user: 'no-reply@spica.com.co', //imbassolutions.com',
+//         pass: '12X1r1UX'
+//     }
+// }));
 
 // function sendConfirmationEmail (email, host, token) {
 // 	console.log("token de verificación generado: " + token);
@@ -42,7 +49,7 @@ var smtpTransport = nodemailer.createTransport(smtpTransport({
 //                  'El receptor deberá verificar posibles virus informáticos que tenga el correo o cualquier anexo a él, razón por la cual TELECARIBE, no es responsable de los daños causados por cualquier virus transmitido en este correo electrónico. La información contenida en este mensaje y en los archivos electrónicos adjuntos es confidencial y reservada, conforme a lo previsto en la Constitución y en las políticas del CANAL, y está dirigida exclusivamente a su destinatario, sin la intención de que sea revelada o divulgada a otras personas. El acceso al contenido de esta comunicación por cualquier otra persona diferente al destinatario no está autorizado por TELECARIBE y está sancionado de acuerdo con las normas legales aplicables. El que ilícitamente sustraiga, oculte, extravíe, destruya, intercepte, controle o impida esta comunicación, antes de que llegue a su destinatario, estará sujeto a las sanciones penales correspondientes. Igualmente, incurrirá en sanciones penales el que, en provecho propio o ajeno o con perjuicio de otro, divulgue o emplee la información contenida en esta comunicación. En particular, las personas que reciban este mensaje están obligadas a asegurar y mantener la confidencialidad de la información contenida en el mismo y en general a cumplir con los deberes de custodia, cuidado, manejo y demás previstos en la Ley. Si por error recibe este mensaje, le solicitamos  borrarlo inmediatamente.</p></div>'
 //     }
 //     console.log(mailOptions);
-//     smtpTransport.sendMail(mailOptions, function(error, response){
+//     transporter.sendMail(mailOptions, function(error, response){
 //         if(error){
 //             console.log(error);
 //         }
@@ -58,26 +65,26 @@ function sendTokenPassword (email, host, token) {
     link="http://" + host + "/restore/" + token;
 
     mailOptions={
-        from: "Orthoworkflow <no-reply@imbassolutions.com>",
+        from: "Orthoworkflow <no-reply@spica.com.co>",
         to : email,
         subject : "Orthoworkflow: Password Retrieval",
         html :
                 '<div style="font-family:helevetica,arial">'+
-                '<div style="background-color:#5193C5">'+
+                '<div style="padding: 8px 12px;background-color:#5193C5">'+
                     '<img src="http://orthoworkflow.org/img/emory-logo-login.png"/>'+
                 '</div>'+
                 '<br>'+
                 'Hello,'+
                 '<p>Please follow this link to restore your password:<br><br>'+
 
-                    '<a href="'+link+'" style="padding: 8px 12px; overflow: hidden; border-width: 0; outline: none; border-radius: 2px;box-shadow: 0 1px 4px rgba(0, 0, 0, .6);background-color: #5cb85c; color: #fff;text-decoration:none;font-family: helvetica"> Restablecer mi contraseña</a>'+
+                    '<a href="'+link+'" style="padding: 8px 12px; overflow: hidden; border-width: 0; outline: none; border-radius: 2px;box-shadow: 0 1px 4px rgba(0, 0, 0, .6);background-color: #5cb85c; color: #fff;text-decoration:none;font-family: helvetica"> Restore my Password</a>'+
                 '</p>'+
                 '<br><br><br>'+
                 '<p>_______________________________________________________________________________</p>'+
                 '<strong>DO NOT REPLY - Message generated automatically</strong><br>'
     }
     console.log(mailOptions);
-    smtpTransport.sendMail(mailOptions, function(error, response){
+    transporter.sendMail(mailOptions, function(error, response){
         if(error){
             console.log(error);
         }

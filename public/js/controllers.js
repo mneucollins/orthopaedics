@@ -108,7 +108,7 @@ orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthSer
     var theUser;
     $scope.panelStatus = 'login';
     $scope.securityQuestions = [
-        "Who was your first kiss?",
+        // "Who was your first kiss?",
         "Who was your favorite teacher in school?",
         "What was the first concert you attended?",
         "What is your mother's maiden name?",
@@ -128,7 +128,7 @@ orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthSer
             goToDashboard(user);
 
         }, function (err) {
-            Alerts.addAlert("error", "ups! we got an error: " + JSON.stringify(err));
+            Alerts.addAlert("danger", "ups! we got an error: " + JSON.stringify(err));
         });
     };
 
@@ -144,7 +144,7 @@ orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthSer
         || !$scope.user.email
         || !$scope.user.username
         || !$scope.user.password
-        || ($scope.user.isPhysician && !$scope.user.npi)
+        // || ($scope.user.isPhysician && !$scope.user.npi)
         || !$scope.user.securityQuestion
         || !$scope.user.securityAnswer) {
 
@@ -152,7 +152,11 @@ orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthSer
             return;
         }
 
+        // if($scope.user.isPhysician && !$scope.user.npi)
+
         delete $scope.user.passwordRepeat;
+        $scope.user.email = $scope.user.email.toLowerCase();
+        $scope.user.username = $scope.user.username.toLowerCase();
 
         AuthService.signup($scope.user, function(user) {
 
@@ -160,7 +164,7 @@ orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthSer
             $scope.panelStatus = 'afterSignup';
 
         }, function (err) {
-            Alerts.addAlert("error", "ups! we got an error: " + JSON.stringify(err));
+            Alerts.addAlert("danger", "ups! we got an error: " + JSON.stringify(err));
         });
     };
 
@@ -178,17 +182,17 @@ orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthSer
             goToDashboard(user);
 
         }, function (err) {
-            Alerts.addAlert("error", "ups! we got an error: " + JSON.stringify(err));
+            Alerts.addAlert("danger", "ups! we got an error: " + JSON.stringify(err));
         });
     };
 
     $scope.passwordRetrieval = function () {
-        AuthService.restoreLogin({email: $scope.user.email}, 
+        User.retrievePassword({}, {email: $scope.user.email}, 
         function(user) {
-            Alerts.addAlert("success", "Please verify your email");
+            Alerts.addAlert("success", "Please check your email");
 
         }, function (err) {
-            Alerts.addAlert("error", "ups! we got an error: " + JSON.stringify(err));
+            Alerts.addAlert("danger", "ups! we got an error: " + JSON.stringify(err));
         });
     };
 
@@ -206,19 +210,38 @@ orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthSer
 orthopaedicsControllers.controller('restoreCtrl', ['$scope', '$location', '$routeParams', 'AuthService', 'Alerts', 'User',
     function($scope, $location, $routeParams, AuthService, Alerts, User) {
 
+        $("nav").addClass("hidden");
+        $("body").addClass("body-login");
+
         $scope.panelStatus = 'newPassword';
         User.getByToken({token: $routeParams.token}, function (user) {
             
-            $scope.user = {
-                securityQuestion: user.securityQuestion
-            };
+            $scope.user = user;
 
         }, function () {
-            Alerts.addAlert("error", "Invalid token request!");
+            Alerts.addAlert("danger", "Invalid token request!");
+            $scope.panelStatus = 'keine';
         });
 
         $scope.restorePassword = function () {
-            
+
+            if($scope.user.password != $scope.user.passwordRepeat) {
+                Alerts.addAlert("warning", "passwords must match!");
+                return;
+            }
+
+            User.restorePassword({userId: $scope.user._id}, $scope.user, 
+            function (user) {
+                if(!user) {
+                    Alerts.addAlert("warning", "There was an error updating your data. Please verify your data and try again");
+                    return;
+                }
+
+                Alerts.addAlert("success", "password updated! Please log in with your new password");
+                $location.path("/login");
+            }, function () {
+                Alerts.addAlert("warning", "There was an error updating your data. Please verify your data and try again");
+            });
         };
 }]);
 // =============================== LOGIN CTRL ===================================
@@ -244,7 +267,7 @@ orthopaedicsControllers.controller('completeProfileCtrl', ['$scope', '$location'
                 $location.path("/dashboard2");
 
         }, function (err) {
-            Alerts.addAlert("error", "ups! we got an error: " + JSON.stringify(err));
+            Alerts.addAlert("danger", "ups! we got an error: " + JSON.stringify(err));
         });
     };
 }]);
@@ -928,7 +951,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                 $scope.$apply();
             }
             else {
-                Alerts.addAlert("error", "Unknown error updating the patient. Please refresh the page");
+                Alerts.addAlert("danger", "Unknown error updating the patient. Please refresh the page");
             }
         }, function () {
             $log.info('Message Modal dismissed at: ' + new Date());
@@ -947,7 +970,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                         $scope.patientList[index].isDeleted = updatedPatient.isDeleted;
                         $scope.patientList[index].deletedTimestamp = updatedPatient.deletedTimestamp;
                     }
-                    Alerts.addAlert("error", "Unknown error updating the patient. Please refresh the page");
+                    Alerts.addAlert("danger", "Unknown error updating the patient. Please refresh the page");
                 });       
         }   
     }

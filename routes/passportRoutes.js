@@ -17,7 +17,7 @@ module.exports = function(router, passport) {
                 return res.send(401, info);
             }
             
-            req.user.password = null;
+            user.password = null;
             return res.json(req.user);
 
             /*req.logIn(user, function(err) {
@@ -28,10 +28,11 @@ module.exports = function(router, passport) {
         })(req, res, next);
     });
 
-	router.post('/restoreLogin', passport.authenticate('local-restore-login'),
-		function (req, res) {
-			res.json(req.user);
+	router.post('/restoreLogin', function (req, res, next) {
+		passport.authenticate('local-restore-login', function (err, user, info) {
+			res.json(user);
 		});
+	});
 
 	router.post('/login', function(req, res, next) {
 		passport.authenticate('local-login', function(err, user, info) {

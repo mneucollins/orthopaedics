@@ -20,8 +20,9 @@ orthopaedicsServices.factory('User', ['$resource',
         return $resource('/api/users/:userId', {userId: "@_id"}, {
             update: {method: "PUT"},
             setSecurityQuestions: {method: "PUT", url: "/api/users/:userId/questions"},
-            setNewPassword: {method: "PUT", url: "/api/users/passwordRetrieval"},
-            getByToken: {method: "GET", url: "/api/token/:token"}
+            restorePassword: {method: "PUT", url: "/api/users/:userId/restorePassword"},
+            getByToken: {method: "GET", url: "/api/users/token/:token"},
+            retrievePassword:{method: "POST", url: "/api/users/passwordRetrieval"}
     });
 }]);
 
@@ -54,8 +55,7 @@ orthopaedicsServices.factory('Session', ['$resource',
 		return $resource('/auth', {}, {
 		login: {method: "POST", url: "/auth/login"},
         logout: {method: "GET", url: "/auth/logout"},
-        signup: {method: "POST", url: "/auth/signup"},
-        restoreLogin:{method: "POST", url: "/auth/restoreLogin"}
+        signup: {method: "POST", url: "/auth/signup"}
 	});
 }]);
 
