@@ -5,6 +5,7 @@ var mongoose     = require('mongoose');
 var patientController = require('./controllers/patientController');
 var patientModel = require('./models/patientModel');
 var userModel = require('./models/userModel');
+var config = require("./config.json");
 
 module.exports = {
 	leerExcel : leerExcel
@@ -15,10 +16,10 @@ module.exports = {
 
 function leerExcel () {
 	console.log("hakuna matata - The loader is starting");
-	mongoose.connect('mongodb://localhost:27017/orthopaedics');
+	mongoose.connect(config.databaseURL);
 
 	//Load excel template
-	var workbook = XLSX.readFile('/opt/Orthopaedics/HL7.xlsx', {cellStyles:true});
+	var workbook = XLSX.readFile(config.excelFeedPath, {cellStyles:true});
 	var sheet_name_list = workbook.SheetNames;
 	var sheetName = workbook.SheetNames.length > 0 ? workbook.SheetNames[0] : 'eospine';
 	var result = {};

@@ -64,6 +64,9 @@ setInterval(function () {
 								" minutes behind. Please keep in mind that this is just an estimate. Thank you for your " +
 								"patience and understanding, and for choosing Emory Healthcare.";
 							}
+							else if(messages.length >= 5) {
+								return;  // if patient received 5 or more messages, stop thr sending
+							}
 							else {
 								console.log("(" + i + ") " + patient.firstName + " is getting a standard reminder update");
 								msgData.message = patient.physician.name + " is now running at least " + phyWaitTime + 

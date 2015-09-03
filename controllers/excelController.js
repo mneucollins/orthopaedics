@@ -4,6 +4,7 @@ var _ 		 	 = require('underscore');
 var patientController = require('../controllers/patientController');
 var physicianController = require('../controllers/physicianController');
 var tools = require('../tools');
+var config = require('../config');
 
 module.exports = {
 	escribirExcel : escribirExcel
@@ -22,7 +23,7 @@ function escribirExcel (lowDate, highDate, callback) {
     	console.log("Total patients: " + patientList.length);
 
     	//Load excel template
-		var workbook = XLSX.readFile('/opt/Orthopaedics/reports/report_template.xlsx', {cellStyles:true});
+		var workbook = XLSX.readFile(config.reportTemplatePath, {cellStyles:true});
 		var sheet_name_list = workbook.SheetNames;
 		var worksheet = workbook.Sheets["Hoja1"];
 

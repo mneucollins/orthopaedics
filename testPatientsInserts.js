@@ -239,9 +239,9 @@ var nPlusHours = 0;
 // }];
 
 var initYear = 2015,
-	initMonth = 5,
-	initDay = 1,
-	initHours = 0,
+	initMonth = 7,
+	initDay = 11,
+	initHours = 8,
 	initMinutes = 0;
 
 var testPatients = [{

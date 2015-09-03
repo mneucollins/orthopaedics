@@ -1,9 +1,10 @@
 {
 	"host": "127.0.0.1",
 	"expressPort": 8181,
-	"transcoderURL": "http://localhost:8282",
-	"databaseURL": "mongodb://localhost:27017/orthopaedics",
+	"databaseURL": "mongodb://demo.xiriux.net:27017/orthopaedics",
 	"tmpFolder": "tmp/",
+	"reportTemplatePath": "/opt/nodeServer/Orthopaedics/reports/report_template.xlsx",
+	"excelFeedPath": "/opt/nodeServer/Orthopaedics/HL7.xlsx",
 	"accountSid": "AC716f002192768dfda4ee8b815f8d981e",
 	"authToken": "b2b3c79d443a029b286ac0fd782e6ff2",
 	"fromNumber": "+14047245024",
