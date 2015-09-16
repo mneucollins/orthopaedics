@@ -49,15 +49,17 @@ var testPhysicians = [{npi:"8221653205216597",name:"Dr. X",username:"drx",passwo
 	{npi:"1871506279",name:"Dr. Dreyer",username:"susandre",password:"123456",role:"Physician",department:"Spine"},
 	{npi:"1417028507",name:"Dr. Maughon",username:"scottmau",password:"123456",role:"Physician",department:"Sports Medicine"},
 	{npi:"1720019698",name:"Dr. Bradbury",username:"thomasbra",password:"123456",role:"Physician",department:"Adult Reconstruction"},
-	{npi:"1669689865",name:"Dr. Beckworth",username:"jeremybeck",password:"123456",role:"Physician",department:"Spine"}];
+	{npi:"1669689865",name:"Dr. Beckworth",username:"jeremybeck",password:"123456",role:"Physician",department:"Spine"},
+	{npi:"9000000001",name:"Diane Butler",username:"dianebu",password:"123456",role:"Physician",department:"Sports Medicine"},
+	{npi:"9000000002",name:"Sydney Wang",username:"sydneywang",password:"123456",role:"Physician",department:"Sports Medicine"},
+	{npi:"9000000003",name:"Dr. Michael Gottschalk",username:"michaelgot",password:"123456",role:"Physician",department:"Sports Medicine"}];
 
 // var testUsrs = [{name:"Imaging User",username:"imaging",password:"123456",role:"Imaging"},
 // 	{name:"first Provider User",username:"first",password:"123456",role:"FirstProvider"},
 // {name:"Front Office",username:"frontoffice",password:"123456",role:"Receptionist"}];
 
 // var testUsrs = [{name:"psat", username:"psat",password:"54321",role:"Imaging", isAdmin: true}];
-
-for (var i = 0; i < testPhysicians.length; i++) {
+r (var i = 0; i < testPhysicians.length; i++) {
 	
 	var newUser = new User();
 	newUser.username  = testPhysicians[i].username;

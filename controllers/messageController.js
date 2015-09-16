@@ -46,7 +46,7 @@ setInterval(function () {
 						console.log("(" + i + ") " + patient.firstName + " Physician's has a " + phyWaitTime + " minutes delay");
 						if(isBreakAppt) console.log("(" + i + ") " + patient.firstName + " Physician's is on break!");
 
-						phyWaitTime = isBreakAppt ? Math.floor(phyWaitTime / 2) + 5 : phyWaitTime + 5;
+						phyWaitTime = isBreakAppt ? 5 * Math.ceil(Math.floor(phyWaitTime / 2 ) / 5) : 5 * Math.ceil(phyWaitTime  / 5);
 						console.log("(" + i + ") " + patient.firstName + " will receive a " + phyWaitTime + " minutes delay message");
 
 						getReminderMessagesByPatient(patient.id, function (err, messages) {
@@ -145,10 +145,12 @@ function sendWelcomeMessage (msgData, callback) {
 		toNumber = toNumber.indexOf("+") > -1 ? toNumber : config.numberPrefix + toNumber;
 		var theMessage = "";
 
-		if(waitTime > 0)
+		if(waitTime > 0){
+			waitTime = 5 * Math.ceil(waitTime / 5);
 			var theMessage = "Welcome " + msgData.patient.firstName + ", " + msgData.patient.physician.name +
-				" is currently running " + (waitTime + 5) + " minutes behind schedule. " +
+				" is currently running " + (waitTime) + " minutes behind schedule. " +
 				"We will keep you informed about waits and delays as a part of a desire to be sensitive to your needs as a patient.";
+			}
 		else
 			var theMessage = "Welcome " + msgData.patient.firstName + ", " + msgData.patient.physician.name +
 				" is currently running on schedule. " +
