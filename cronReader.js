@@ -1,7 +1,33 @@
 var CronJob = require('cron').CronJob;
 var reader = require('./excelReader');
+var spawn = require('child_process').spawn;
 
-new CronJob('00 45 23 * * *', function() {
+var config = require("./config");
+
+
+// Try bringind the HL7 file for the first time
+new CronJob('00 55 02 * * *', function() {
+
+	var excelRetrievalJob = spawn('sh', [config.excelFeedPath]);
+
+    excelRetrievalJob.on("exit", function () {
+  		console.log('Excel brought successfuly ^_^');
+    });
+}, null, true, 'America/Detroit');
+
+// // Try bringind the HL7 file for the second time time, in case first failed
+// new CronJob('00 15 20 * * *', function() {
+
+// 	var excelRetrievalJob = spawn('sh', [config.excelFeedPath]);
+
+//     excelRetrievalJob.on("exit", function () {
+//   		console.log('Excel brought successfuly ^_^');
+//     });
+// }, null, true, 'America/Detroit');
+
+
+// Reading the feed
+new CronJob('00 57 02 * * *', function() {
 // new CronJob('* * * * * *', function() { // test 
 	reader.leerExcel();
   	console.log('Excel readed successfuly :P');

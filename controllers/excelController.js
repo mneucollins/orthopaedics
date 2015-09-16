@@ -88,7 +88,7 @@ function escribirExcel (lowDate, highDate, callback) {
 		var month = Math.round(dateReport.getMonth()+1);
 		nombreArc = 'report' + dateReport.getFullYear()+'_'+month+'_'+dateReport.getDate()+
 	  		'_'+dateReport.getHours()+dateReport.getMinutes()+dateReport.getSeconds()+'.xlsx';
-	  	XLSX.writeFile(workbook, '/opt/Orthopaedics/reports/' + nombreArc);
+	  	XLSX.writeFile(workbook, config.reportsFolderPath + nombreArc);
 	  	console.log("archivo escrito :)");
 
 	  	callback(null, nombreArc);

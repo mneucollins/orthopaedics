@@ -1,4 +1,6 @@
 var _ = require('underscore');
+var moment = require('moment');
+
 var tools = require('../tools');
 var patientModel = require('../models/patientModel');
 
@@ -217,10 +219,12 @@ function listPatientsbyPhysician(physicianId, callback) {
 
 function listPatientsbyPhysicianToday(physicianId, callback) {
 
-    var lowDate = new Date();
-    lowDate.setHours(0);
-    lowDate.setMinutes(0);
-    lowDate.setSeconds(0);
+    var lowDate = moment();
+    lowDate.hours(0);
+    lowDate.minutes(0);
+    lowDate.seconds(0);
+    lowDate.subtract(1, 'seconds');
+    lowDate = lowDate.toDate();
 
     var highDate = new Date();
     highDate.setHours(0);
@@ -228,13 +232,11 @@ function listPatientsbyPhysicianToday(physicianId, callback) {
     highDate.setSeconds(0);
     highDate.setDate(highDate.getDate()+1);
 
-    patientModel.find({
-        physician: physicianId, 
-        apptTime: {$gte: lowDate, $lt: highDate},
-        isDeleted: false
-    })
+    console.log(lowDate.toDateString());
+    console.log(highDate.toDateString());
+
+    patientModel.find({physician: physicianId, apptTime: {$gte: lowDate, $lt: highDate}})
     .populate("physician")
-    .sort({apptTime: 1})
     .exec(function(err, patients) {
         if (err) callback(err);
         else callback(null, patients);

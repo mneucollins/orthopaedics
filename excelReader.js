@@ -2,6 +2,7 @@
 var XLSX 		 = require('xlsx');
 var _ 		 	 = require('underscore');
 var mongoose     = require('mongoose');
+var emailController = require('./controllers/emailController');
 var patientController = require('./controllers/patientController');
 var patientModel = require('./models/patientModel');
 var userModel = require('./models/userModel');
@@ -38,6 +39,8 @@ function leerExcel () {
 	userModel.find({}, function (err, physicians) {
 		var totalPatients = list.length;
 		var savedPatients = 0;
+		var dummyApptDate, dummy;
+
 		for(var k in list){
 
 			var patient = new patientModel();
@@ -68,21 +71,26 @@ function leerExcel () {
 			else
 				patient.patientType = list[k].ApptType;
 
-			var now = new Date;
+			var now = new Date();
 			if(patient.dateBirth.getFullYear() > now.getFullYear()) {
 				var year = patient.dateBirth.getFullYear() - 100;
 				patient.dateBirth.setFullYear(year);
 			}
 
 			console.log("saving patient: " + patient.lastName + ". Phy: " + patient.physician);
+			dummyApptDate = list[k].Appt;
+
 			patientController.nuevoPatient(patient, function (err, data) {
 			    if(err) console.log(err);
 			    else{
 			    	console.log("Patient Added");
 			    	savedPatients++;
+
 			    	if(savedPatients >= totalPatients) {
 			    		mongoose.connection.close();
 			    		console.log("Connection is closed!");
+
+			    		sendConfirmation(savedPatients, new Date(dummyApptDate));
 			    	}
 			    } 
 			});
@@ -90,4 +98,12 @@ function leerExcel () {
 	});
 
 	//console.log(result);
+}
+
+function sendConfirmation (nPatients, theDate) {
+	var body = "<p>Newly added patients: " + nPatients + "</p>" + 
+				"<p>Appointment date: " + (theDate.getMonth() + 1) + "/" + theDate.getDate() + "/" + theDate.getFullYear() + "</p>";
+
+	emailController.sendCustomMail("ezabaw@gmail.com", "Orthoworkflow Report", body);
+
 }

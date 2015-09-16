@@ -1,8 +1,9 @@
 var nodemailer = require("nodemailer");
-var smtpTransport = require('nodemailer-smtp-transport');
+// var smtpTransport = require('nodemailer-smtp-transport');
 
 module.exports = {
-    sendTokenPassword:sendTokenPassword
+    sendTokenPassword:sendTokenPassword,
+    sendCustomMail: sendCustomMail
 }
 
 
@@ -65,7 +66,7 @@ function sendTokenPassword (email, host, token) {
     link="http://" + host + "/restore/" + token;
 
     mailOptions={
-        from: "Orthoworkflow <no-reply@spica.com.co>",
+        from: "Orthoworkflow <customerserviceorthoworkflow@gmail.com>",
         to : email,
         subject : "Orthoworkflow: Password Retrieval",
         html :
@@ -90,6 +91,24 @@ function sendTokenPassword (email, host, token) {
         }
         else{
             console.log("Confirmation eMail sent: " + response.message);
+        }
+    });
+}
+
+function sendCustomMail (to, subject, htmlBody) {
+    mailOptions={
+        from: "Orthoworkflow <customerserviceorthoworkflow@gmail.com>",
+        to : to,
+        subject : subject,
+        html : htmlBody
+    }
+    console.log(mailOptions);
+    transporter.sendMail(mailOptions, function(error, response){
+        if(error){
+            console.log(error);
+        }
+        else{
+            console.log("Custom message sent: " + response.message);
         }
     });
 }

@@ -1,0 +1,75 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   '--save',
+1 verbose cli   'momentjs' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.33
+4 verbose node symlink C:\Program Files\nodejs\\node.exe
+5 warn package.json Orthopaedics@0.0.1 No repository field.
+6 warn package.json crypto@0.0.3 crypto is also the name of a node core module.
+7 verbose readDependencies using package.json deps
+8 verbose cache add [ 'momentjs', null ]
+9 verbose cache add name=undefined spec="momentjs" args=["momentjs",null]
+10 verbose parsed url { protocol: null,
+10 verbose parsed url   slashes: null,
+10 verbose parsed url   auth: null,
+10 verbose parsed url   host: null,
+10 verbose parsed url   port: null,
+10 verbose parsed url   hostname: null,
+10 verbose parsed url   hash: null,
+10 verbose parsed url   search: null,
+10 verbose parsed url   query: null,
+10 verbose parsed url   pathname: 'momentjs',
+10 verbose parsed url   path: 'momentjs',
+10 verbose parsed url   href: 'momentjs' }
+11 silly lockFile 6617700a-momentjs momentjs
+12 verbose lock momentjs C:\Users\ezabaw\AppData\Roaming\npm-cache\6617700a-momentjs.lock
+13 silly lockFile 6617700a-momentjs momentjs
+14 silly lockFile 6617700a-momentjs momentjs
+15 verbose addNamed [ 'momentjs', '' ]
+16 verbose addNamed [ null, '*' ]
+17 silly lockFile 04d76c48-momentjs momentjs@
+18 verbose lock momentjs@ C:\Users\ezabaw\AppData\Roaming\npm-cache\04d76c48-momentjs.lock
+19 silly addNameRange { name: 'momentjs', range: '*', hasData: false }
+20 verbose request where is /momentjs
+21 verbose request registry https://registry.npmjs.org/
+22 verbose request id d4b5544bd00b82bc
+23 verbose url raw /momentjs
+24 verbose url resolving [ 'https://registry.npmjs.org/', './momentjs' ]
+25 verbose url resolved https://registry.npmjs.org/momentjs
+26 verbose request where is https://registry.npmjs.org/momentjs
+27 info trying registry request attempt 1 at 07:23:41
+28 http GET https://registry.npmjs.org/momentjs
+29 http 404 https://registry.npmjs.org/momentjs
+30 silly registry.get cb [ 404,
+30 silly registry.get   { 'content-type': 'application/json',
+30 silly registry.get     'cache-control': 'max-age=0',
+30 silly registry.get     'content-length': '2',
+30 silly registry.get     'accept-ranges': 'bytes',
+30 silly registry.get     date: 'Mon, 14 Sep 2015 11:23:44 GMT',
+30 silly registry.get     via: '1.1 varnish',
+30 silly registry.get     age: '0',
+30 silly registry.get     connection: 'keep-alive',
+30 silly registry.get     'x-served-by': 'cache-iad2129-IAD',
+30 silly registry.get     'x-cache': 'MISS',
+30 silly registry.get     'x-cache-hits': '0',
+30 silly registry.get     'x-timer': 'S1442229824.128333,VS0,VE374' } ]
+31 silly lockFile 04d76c48-momentjs momentjs@
+32 silly lockFile 04d76c48-momentjs momentjs@
+33 error 404 Not Found
+33 error 404
+33 error 404 'momentjs' is not in the npm registry.
+33 error 404 You should bug the author to publish it
+33 error 404 It was specified as a dependency of 'Orthopaedics'
+33 error 404
+33 error 404 Note that you can also install from a
+33 error 404 tarball, folder, or http url, or git url.
+34 error System Windows_NT 6.2.9200
+35 error command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "--save" "momentjs"
+36 error cwd E:\Documents\DesarrolloImbas\orthopaedics
+37 error node -v v0.10.33
+38 error npm -v 1.4.28
+39 error code E404
+40 verbose exit [ 1, true ]

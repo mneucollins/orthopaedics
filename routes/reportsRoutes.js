@@ -1,6 +1,7 @@
 module.exports = function (router) {
 
     var tools = require('../tools');
+    var config = require('../config');
     var fs = require('fs');
     var path = require('path');
     var mime = require('mime');
@@ -27,7 +28,7 @@ module.exports = function (router) {
                 return;
             }
 
-            var file = __dirname + '/../reports/' + data;
+            var file = config.reportsFolderPath + data;
             res.download(file);
             // var filename = path.basename(file);
             // var mimetype = mime.lookup(file);

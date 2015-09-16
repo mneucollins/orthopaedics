@@ -289,22 +289,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     $rootScope.$watch("selectedPhysicians", function (newValue, oldValue) {
-        $scope.patientList = [];
-
-        for (var i = 0; i < newValue.length; i++) {
-            var physician = newValue[i];
-
-            Physician.getPatientsToday({physicianId: physician._id}, function (patients) {
-                var pList = _.sortBy(patients, function(patient){ return new Date(patient.apptTime).getTime(); });  // sort by appt time (hours)
-                _.each(pList, function (element, index, list) {
-                    list[index].messageSelectorPos = 1;
-                });
-                $scope.patientList = $scope.patientList.concat(pList);
-                pList = _.sortBy($scope.patientList, function(patient){ return new Date(patient.apptTime).getTime(); }); 
-                $scope.patientList = pList;
-                $rootScope.patientList = pList;
-            });
-        };
+        retrievePatients(newValue);
         retrieveClinicDelays();
     });
 
@@ -342,6 +327,25 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         $scope.hidePhysicians = $rootScope.selectedPhysicians.length == 1 && $rootScope.dashboard == 2;
     });
 
+    function retrievePatients (physicians) {
+        $scope.patientList = [];
+
+        for (var i = 0; i < physicians.length; i++) {
+            var physician = physicians[i];
+
+            Physician.getPatientsToday({physicianId: physician._id}, function (patients) {
+                var pList = _.sortBy(patients, function(patient){ return new Date(patient.apptTime).getTime(); });  // sort by appt time (hours)
+                _.each(pList, function (element, index, list) {
+                    list[index].messageSelectorPos = 1;
+                });
+                $scope.patientList = $scope.patientList.concat(pList);
+                pList = _.sortBy($scope.patientList, function(patient){ return new Date(patient.apptTime).getTime(); }); 
+                $scope.patientList = pList;
+                $rootScope.patientList = pList;
+            });
+        };
+    }
+
     function retrieveClinicDelays () {  
         var physicianIds = _.map($rootScope.selectedPhysicians, function (phy) {
             return phy._id;
@@ -354,6 +358,9 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     }
 
     $interval(retrieveClinicDelays, 60000);
+    $interval(function () {
+        retrievePatients($scope.selectedPhysicians);
+    }, 3 * 60 * 1000);
 
     // Sync
     ///////////////////////////////////////////////////////////////////////////////////////////////
