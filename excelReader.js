@@ -2,6 +2,8 @@
 var XLSX 		 = require('xlsx');
 var _ 		 	 = require('underscore');
 var mongoose     = require('mongoose');
+var moment = require('moment');
+
 var emailController = require('./controllers/emailController');
 var patientController = require('./controllers/patientController');
 var patientModel = require('./models/patientModel');
@@ -60,6 +62,9 @@ function leerExcel () {
 				return physician.npi == list[k].NPI;
 			});
 			patient.physician = patient.physician ? patient.physician.id : null;
+			// var apptDummy = moment(list[k].Appt, "DD/MM/YYYY hh:mm:ss");
+			// var apptDummy = moment(list[k].Appt);
+			// patient.apptTime = apptDummy.toDate();
 			patient.apptTime = list[k].Appt;
 			patient.apptDuration = list[k].ApptLength;
 			patient.apptType = list[k].ApptType;
@@ -77,7 +82,7 @@ function leerExcel () {
 				patient.dateBirth.setFullYear(year);
 			}
 
-			console.log("saving patient: " + patient.lastName + ". Phy: " + patient.physician);
+			console.log("saving patient: " + patient.lastName + ". Phy: " + patient.physician + ". Appt: " + patient.apptTime);
 			dummyApptDate = list[k].Appt;
 
 			patientController.nuevoPatient(patient, function (err, data) {
