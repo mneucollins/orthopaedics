@@ -59,7 +59,8 @@ var testPhysicians = [{npi:"8221653205216597",name:"Dr. X",username:"drx",passwo
 // {name:"Front Office",username:"frontoffice",password:"123456",role:"Receptionist"}];
 
 // var testUsrs = [{name:"psat", username:"psat",password:"54321",role:"Imaging", isAdmin: true}];
-r (var i = 0; i < testPhysicians.length; i++) {
+
+for (var i = 0; i < testPhysicians.length; i++) {
 	
 	var newUser = new User();
 	newUser.username  = testPhysicians[i].username;
