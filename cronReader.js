@@ -33,9 +33,9 @@ new CronJob('00 15 20 * * *', function() {
 
 
 // Reading the feed
-new CronJob('00 57 02 * * *', function() {
+new CronJob('00 20 20 * * *', function() {
 // new CronJob('* * * * * *', function() { // test 
-	
+
 	reader.leerExcel();
   	console.log('Excel readed successfuly :P');
 }, null, true, 'America/Detroit');
