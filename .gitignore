@@ -2,3 +2,5 @@ public/videos
 public/thumbs
 public/assets
 physicianInserts.js
+node_modules
+HL7.xlsx

@@ -2,9 +2,13 @@
 var XLSX 		 = require('xlsx');
 var _ 		 	 = require('underscore');
 var mongoose     = require('mongoose');
+var moment = require('moment');
+
+var emailController = require('./controllers/emailController');
 var patientController = require('./controllers/patientController');
 var patientModel = require('./models/patientModel');
 var userModel = require('./models/userModel');
+var config = require("./config.json");
 
 module.exports = {
 	leerExcel : leerExcel
@@ -15,10 +19,10 @@ module.exports = {
 
 function leerExcel () {
 	console.log("hakuna matata - The loader is starting");
-	mongoose.connect('mongodb://localhost:27017/orthopaedics');
+	mongoose.connect(config.databaseURL);
 
 	//Load excel template
-	var workbook = XLSX.readFile('/opt/Orthopaedics/HL7.xlsx', {cellStyles:true});
+	var workbook = XLSX.readFile(config.excelFeedPath, {cellStyles:true});
 	var sheet_name_list = workbook.SheetNames;
 	var sheetName = workbook.SheetNames.length > 0 ? workbook.SheetNames[0] : 'eospine';
 	var result = {};
@@ -37,6 +41,8 @@ function leerExcel () {
 	userModel.find({}, function (err, physicians) {
 		var totalPatients = list.length;
 		var savedPatients = 0;
+		var dummyApptDate, dummy;
+
 		for(var k in list){
 
 			var patient = new patientModel();
@@ -56,6 +62,9 @@ function leerExcel () {
 				return physician.npi == list[k].NPI;
 			});
 			patient.physician = patient.physician ? patient.physician.id : null;
+			// var apptDummy = moment(list[k].Appt, "DD/MM/YYYY hh:mm:ss");
+			// var apptDummy = moment(list[k].Appt);
+			// patient.apptTime = apptDummy.toDate();
 			patient.apptTime = list[k].Appt;
 			patient.apptDuration = list[k].ApptLength;
 			patient.apptType = list[k].ApptType;
@@ -67,21 +76,26 @@ function leerExcel () {
 			else
 				patient.patientType = list[k].ApptType;
 
-			var now = new Date;
+			var now = new Date();
 			if(patient.dateBirth.getFullYear() > now.getFullYear()) {
 				var year = patient.dateBirth.getFullYear() - 100;
 				patient.dateBirth.setFullYear(year);
 			}
 
-			console.log("saving patient: " + patient.lastName + ". Phy: " + patient.physician);
+			console.log("saving patient: " + patient.lastName + ". Phy: " + patient.physician + ". Appt: " + patient.apptTime);
+			dummyApptDate = list[k].Appt;
+
 			patientController.nuevoPatient(patient, function (err, data) {
 			    if(err) console.log(err);
 			    else{
 			    	console.log("Patient Added");
 			    	savedPatients++;
+
 			    	if(savedPatients >= totalPatients) {
 			    		mongoose.connection.close();
 			    		console.log("Connection is closed!");
+
+			    		sendConfirmation(savedPatients, new Date(dummyApptDate));
 			    	}
 			    } 
 			});
@@ -89,4 +103,12 @@ function leerExcel () {
 	});
 
 	//console.log(result);
+}
+
+function sendConfirmation (nPatients, theDate) {
+	var body = "<p>Newly added patients: " + nPatients + "</p>" + 
+				"<p>Appointment date: " + (theDate.getMonth() + 1) + "/" + theDate.getDate() + "/" + theDate.getFullYear() + "</p>";
+
+	emailController.sendCustomMail("ezabaw@gmail.com", "Orthoworkflow Report", body);
+
 }

@@ -289,22 +289,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     $rootScope.$watch("selectedPhysicians", function (newValue, oldValue) {
-        $scope.patientList = [];
-
-        for (var i = 0; i < newValue.length; i++) {
-            var physician = newValue[i];
-
-            Physician.getPatientsToday({physicianId: physician._id}, function (patients) {
-                var pList = _.sortBy(patients, function(patient){ return new Date(patient.apptTime).getTime(); });  // sort by appt time (hours)
-                _.each(pList, function (element, index, list) {
-                    list[index].messageSelectorPos = 1;
-                });
-                $scope.patientList = $scope.patientList.concat(pList);
-                pList = _.sortBy($scope.patientList, function(patient){ return new Date(patient.apptTime).getTime(); }); 
-                $scope.patientList = pList;
-                $rootScope.patientList = pList;
-            });
-        };
+        retrievePatients(newValue);
         retrieveClinicDelays();
     });
 
@@ -418,6 +403,29 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
 
         $log.log("socket is ready!");
     }
+
+    function retrievePatients () {
+        $scope.patientList = [];
+        var physicians = $scope.selectedPhysicians;
+
+        for (var i = 0; i < physicians.length; i++) {
+            var physician = physicians[i];
+
+            Physician.getPatientsToday({physicianId: physician._id}, function (patients) {
+                var pList = _.sortBy(patients, function(patient){ return new Date(patient.apptTime).getTime(); });  // sort by appt time (hours)
+                _.each(pList, function (element, index, list) {
+                    list[index].messageSelectorPos = 1;
+                });
+                $scope.patientList = $scope.patientList.concat(pList);
+                pList = _.sortBy($scope.patientList, function(patient){ return new Date(patient.apptTime).getTime(); }); 
+                $scope.patientList = pList;
+                $rootScope.patientList = pList;
+            });
+        };
+    }
+
+    $rootScope.syncPatients = retrievePatients;
+    $interval(retrievePatients, 3 * 60 * 1000);
 
     // Filters & sorting
     ///////////////////////////////////////////////////////////////////////////////////////////////

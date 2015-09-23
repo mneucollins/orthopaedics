@@ -2,26 +2,27 @@ var nodemailer = require("nodemailer");
 var smtpTransport = require('nodemailer-smtp-transport');
 
 module.exports = {
-    sendTokenPassword:sendTokenPassword
+    sendTokenPassword:sendTokenPassword,
+    sendCustomMail: sendCustomMail
 }
 
 
-var transporter = nodemailer.createTransport({
-    service: 'Gmail',
-    auth: {
-        user: 'customerserviceorthoworkflow@gmail.com',
-        pass: '3m0RYf33D'
-    }
-});
-
-// var transporter = nodemailer.createTransport(smtpTransport({
-//     host: 'smtpout.secureserver.net',
-//     port: 25,
+// var transporter = nodemailer.createTransport({
+//     service: 'Gmail',
 //     auth: {
-//         user: 'no-reply@spica.com.co', //imbassolutions.com',
-//         pass: '12X1r1UX'
+//         user: 'orthoworkflow@imbassolutions.com',
+//         pass: '3m0RYf33D'
 //     }
-// }));
+// });
+
+var transporter = nodemailer.createTransport(smtpTransport({
+    host: 'mail.imbassolutions.com',
+    port: 26,
+    auth: {
+        user: 'orthoworkflow@imbassolutions.com', //imbassolutions.com',
+        pass: 'xxxxxx'
+    }
+}));
 
 // function sendConfirmationEmail (email, host, token) {
 // 	console.log("token de verificación generado: " + token);
@@ -65,7 +66,7 @@ function sendTokenPassword (email, host, token) {
     link="http://" + host + "/restore/" + token;
 
     mailOptions={
-        from: "Orthoworkflow <no-reply@spica.com.co>",
+        from: "Orthoworkflow <orthoworkflow@imbassolutions.com>",
         to : email,
         subject : "Orthoworkflow: Password Retrieval",
         html :
@@ -90,6 +91,24 @@ function sendTokenPassword (email, host, token) {
         }
         else{
             console.log("Confirmation eMail sent: " + response.message);
+        }
+    });
+}
+
+function sendCustomMail (to, subject, htmlBody) {
+    mailOptions={
+        from: "Orthoworkflow <orthoworkflow@imbassolutions.com>",
+        to : to,
+        subject : subject,
+        html : htmlBody
+    }
+    console.log(mailOptions);
+    transporter.sendMail(mailOptions, function(error, response){
+        if(error){
+            console.log(error);
+        }
+        else{
+            console.log("Custom message sent: " + response.message);
         }
     });
 }

@@ -4,6 +4,7 @@ var _ 		 	 = require('underscore');
 var patientController = require('../controllers/patientController');
 var physicianController = require('../controllers/physicianController');
 var tools = require('../tools');
+var config = require('../config');
 
 module.exports = {
 	escribirExcel : escribirExcel
@@ -22,7 +23,7 @@ function escribirExcel (lowDate, highDate, callback) {
     	console.log("Total patients: " + patientList.length);
 
     	//Load excel template
-		var workbook = XLSX.readFile('/opt/Orthopaedics/reports/report_template.xlsx', {cellStyles:true});
+		var workbook = XLSX.readFile(config.reportTemplatePath, {cellStyles:true});
 		var sheet_name_list = workbook.SheetNames;
 		var worksheet = workbook.Sheets["Hoja1"];
 
@@ -87,7 +88,7 @@ function escribirExcel (lowDate, highDate, callback) {
 		var month = Math.round(dateReport.getMonth()+1);
 		nombreArc = 'report' + dateReport.getFullYear()+'_'+month+'_'+dateReport.getDate()+
 	  		'_'+dateReport.getHours()+dateReport.getMinutes()+dateReport.getSeconds()+'.xlsx';
-	  	XLSX.writeFile(workbook, '/opt/Orthopaedics/reports/' + nombreArc);
+	  	XLSX.writeFile(workbook, config.reportsFolderPath + nombreArc);
 	  	console.log("archivo escrito :)");
 
 	  	callback(null, nombreArc);

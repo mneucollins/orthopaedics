@@ -100,7 +100,7 @@ function getNextPatientWaitTime (physicianId, callback) {
                 });
             else if(lastEXCalled.clinicDelay) {
                 if(wrTimePatient.currentState == "WR")
-                    callback(null, wrTime < lastEXCalled.clinicDelay ? lastEXCalled.clinicDelay: wrTime);
+                    callback(null, wrTime < lastEXCalled.clinicDelay ? lastEXCalled.clinicDelay : wrTime);
                 else
                     callback(null, lastEXCalled.clinicDelay);
             }
@@ -148,12 +148,17 @@ function getAvgDelay (physicianId, seed, callback) {
             }
 
             var sum = 0;
+            var negativeWR = 0;
             for (var i = 0; i < physician.patientsClinicDelay.length; i++) {
-                sum += tools.getWRTime(physician.patientsClinicDelay[i]);
+                var dummyWRTime = tools.getWRTime(physician.patientsClinicDelay[i]);
+                if(dummyWRTime >= 0) 
+                    sum += dummyWRTime;
+                else
+                    negativeWR++;       
             };
             var avg = 0;
-            if(seed) avg = (sum + seed) / (physician.patientsClinicDelay.length + 1);
-            else     avg = sum / physician.patientsClinicDelay.length;
+            if(seed) avg = (sum + seed) / (physician.patientsClinicDelay.length - negativeWR + 1);
+            else     avg = sum / (physician.patientsClinicDelay.length - negativeWR);
             callback(null, Math.round(avg));
         }
     });
@@ -180,7 +185,7 @@ function isPhysicianInBreak (physicianId, callback) {
                     if(index < list.length-1)
                         isBreak |= list[index+1].apptTime.getTime() - element.apptTime.getTime() >= 60 * 60 * 1000;
             });
-            callback(err, isBreak);
+            callback(err, isBreak); 
         }
     });
-}
+}       
