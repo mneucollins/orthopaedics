@@ -1,7 +1,7 @@
 {
 	"host": "127.0.0.1",
 	"expressPort": 8182,
-	"databaseURL": "mongodb://orthoworkflow.org:27017/orthopaedics",
+	"databaseURL": "mongodb://orthoworkflow.org:27017/orthotest",
 	"tmpFolder": "tmp/",
 	"reportTemplatePath": "/opt/nodeServer/Orthopaedics/reports/report_template.xlsx",
 	"reportsFolderPath": "/opt/nodeServer/Orthopaedics/gen_reports/",
@@ -10,5 +10,6 @@
 	"accountSid": "AC716f002192768dfda4ee8b815f8d981e",
 	"authToken": "b2b3c79d443a029b286ac0fd782e6ff2",
 	"fromNumber": "+14047245024",
-	"numberPrefix": "+57"
+	"numberPrefix": "+57",
+	"adminEmail": "ezabaw@gmail.com"
 }

@@ -145,7 +145,10 @@ function actualizarPatient(id, updPatient, callback) {
             else listPatientsbyPhysicianByStateToday(dbPatient.physician, "WR", function (err, phyPatients) {
                 if (err) callback(err);
                 else physicianController.getAvgDelay(dbPatient.physician, tools.getWRTime(dbPatient), function (err, avgDelay) {
-                    if (err) callback(err);
+                    if (err) {
+                        callback(err);
+                        return;
+                    } 
 
                     updPatient.clinicDelay = avgDelay;
                     var priorApptPatient = _.find(phyPatients, function (pat) {

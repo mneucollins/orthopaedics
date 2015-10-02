@@ -53,7 +53,7 @@ orthopaedicsControllers.controller('headerCtrl', ['$scope', '$rootScope', '$loca
             });
 
             modalInstance.result.then(function () {
-                $log.info('reports generated!');
+                $log.info('notes shown!');
             }, function () {
                 $log.info('Message Modal dismissed at: ' + new Date());
             });
@@ -96,8 +96,8 @@ orthopaedicsControllers.controller('AlertsCtrl', ['$scope', 'Alerts',
 
 // =============================== LOGIN CTRL ===================================
 
-orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthService', 'Alerts', 'User',
-	function($scope, $location, AuthService, Alerts, User) {
+orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', '$modal','AuthService', 'Alerts', 'User',
+	function($scope, $location, $modal, AuthService, Alerts, User) {
 
     $("nav").addClass("hidden");
     $("body").addClass("body-login");
@@ -203,6 +203,29 @@ orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', 'AuthSer
             $location.path("/dashboard1");
         else
             $location.path("/dashboard2");
+    }
+
+        // E-Mail Management
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    $scope.openHelpModal = function () {
+
+        var modalInstance = $modal.open({
+            templateUrl: '/partials/sendMail.html',
+            controller: 'sendEmailCtrl',
+            resolve: {
+                messageType: function () {
+                    return "help";
+                }
+            }
+        });
+
+        modalInstance.result.then(function () {
+            $log.info('Help message sent!');
+        }, function () {
+            $log.info('Help Modal dismissed at: ' + new Date());
+        });  
+    
     }
 
 }]);
@@ -1283,6 +1306,32 @@ orthopaedicsControllers.controller('sendMessageCtrl', ['$scope', '$modalInstance
         $modalInstance.dismiss('cancel');
     };
 }]);
+orthopaedicsControllers.controller('sendEmailCtrl', ['$scope', '$modalInstance', 'Emails', 'Alerts', 'messageType',
+  function($scope, $modalInstance, Emails, Alerts, messageType) {
+
+    $scope.messageType = messageType;
+    $scope.mailSender = {};
+    
+    $scope.sendMail = function () {
+
+        if(messageType == "help")
+            Emails.sendHelpMail({
+                name: $scope.mailSender.name,
+                email: $scope.mailSender.email,
+                subject: $scope.mailSender.subject,
+                mailBody: $scope.mailSender.message
+            }, function emailSent (sentMessage) {
+                $scope.mailSender = {};
+                $modalInstance.close();
+                Alerts.addAlert("success", "message sent");
+            });
+    }
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+}]);
+
 orthopaedicsControllers.controller('registerPatientCtrl', ['$scope', '$modalInstance', 'Messages', 'Patient', 'Alerts', 'patient', 'physicians', 'modalFunction',
   function($scope, $modalInstance, Messages, Patient, Alerts, patient, physicians, modalFunction) {
 

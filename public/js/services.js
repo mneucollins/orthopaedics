@@ -43,6 +43,13 @@ orthopaedicsServices.factory('Messages', ['$resource',
         });
 }]);
 
+orthopaedicsServices.factory('Emails', ['$resource',
+    function($resource){
+        return $resource('/api/emails/:emailId', {emailId: "@_id"}, {
+            sendHelpMail: {method: "POST", url: '/api/emails/help'}
+        });
+}]);
+
 orthopaedicsServices.factory('Reports', ['$resource',
     function($resource){
         return $resource('/api/reports/:reportId', {messageId: "@_id"}, {

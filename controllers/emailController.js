@@ -1,9 +1,11 @@
 var nodemailer = require("nodemailer");
 var smtpTransport = require('nodemailer-smtp-transport');
 
+var config = require("../config.json");
+
 module.exports = {
-    sendTokenPassword:sendTokenPassword,
-    sendCustomMail: sendCustomMail
+    sendHelpMail: sendHelpMail,
+    sendCustomMail: sendMail
 }
 
 
@@ -16,11 +18,14 @@ module.exports = {
 // });
 
 var transporter = nodemailer.createTransport(smtpTransport({
-    host: 'mail.imbassolutions.com',
-    port: 26,
+    host: 'box1112.bluehost.com',
+    port: 465,
+    secure: true,
+    // host: 'mail.imbassolutions.com',
+    // port: 26,
     auth: {
         user: 'orthoworkflow@imbassolutions.com', //imbassolutions.com',
-        pass: 'xxxxxx'
+        pass: '3m0RYf33D'
     }
 }));
 
@@ -95,7 +100,29 @@ function sendTokenPassword (email, host, token) {
     });
 }
 
-function sendCustomMail (to, subject, htmlBody) {
+function sendHelpMail (name, email, subject, body) {
+
+    var htmlBody = "<p><b>Name:</b> " + name + "</p>" +
+                "<p><b>email:</b> " + email + "</p>" + 
+                "<br><p>" + body + "</p>";
+
+    mailOptions = {
+        to : config.adminEmail,
+        subject : "Orthoworkflow - " + subject,
+        html : htmlBody
+    }
+
+    sendMail(mailOptions.to, mailOptions.subject, mailOptions.html, function(success){
+        if(success){
+            console.log("^_^");
+        }
+        else{
+            console.log(");");
+        }
+    });
+}
+
+function sendMail (to, subject, htmlBody, callback) {
     mailOptions={
         from: "Orthoworkflow <orthoworkflow@imbassolutions.com>",
         to : to,
@@ -106,9 +133,11 @@ function sendCustomMail (to, subject, htmlBody) {
     transporter.sendMail(mailOptions, function(error, response){
         if(error){
             console.log(error);
+            if(callback) callback(false);
         }
         else{
-            console.log("Custom message sent: " + response.message);
+            console.log("Email sent: " + response.message);
+            if(callback) callback(true);
         }
     });
 }

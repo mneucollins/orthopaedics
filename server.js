@@ -58,6 +58,7 @@ router.get('*', function noCache (req, res, next) {
 });
 
 require('./routes/passportRoutes')(authRouter, passport);
+require("./routes/emailRoutes")(router);
 require("./routes/userRoutes")(router);
 require("./routes/patientRoutes")(router, io);
 require("./routes/physicianRoutes")(router);
