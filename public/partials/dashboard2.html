@@ -159,8 +159,12 @@
             <div class="hidden-xs col-sm-1 patientData bordered physicianRow" ng-hide="hidePhysicians">{{ patient.physician.name }}</div>
             <div class="hidden-xs col-sm-1 patientData bordered ageRow">{{ patient.age }}</div>
             <div class="col-xs-2 col-sm-2 patientData bordered fcRow">
-                <div class="retinaContainer dashboardSVG">
+                <div ng-if="!showFCMinutes(patient)" class="retinaContainer dashboardSVG">
                     <img ng-src="{{ getFCIcon(patient) }}" ng-click="toogleFCState(patient)" ng-class="{clickable: isFCClickable(patient)}" />
+                </div>
+
+                <div class="fcMinutes" ng-if="showFCMinutes(patient)" ng-click="toogleFCState(patient)" ng-class="{clickable: isFCClickable(patient)}">
+                    {{ getFCMinutes(patient) }}m
                 </div>
             </div>
             <div class="col-xs-2 col-sm-1 patientData bordered imagingRow2">

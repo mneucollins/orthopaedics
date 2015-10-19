@@ -706,6 +706,28 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         return FCStateIcon;
     }
 
+    $scope.showFCMinutes = function (patient) {
+        
+        if(patient.fcFinishedTimestamp) 
+            return false;
+
+        var mins = $scope.getFCMinutes(patient);
+        return mins >= 15;
+
+    }
+
+    $scope.getFCMinutes = function (patient) {
+
+        if(!patient.fcStartedTimestamp) return 0;
+
+        var fcIniDate = new Date(patient.fcStartedTimestamp).getTime();
+        var nowDate = new Date().getTime();
+
+        var fcTime = nowDate - fcIniDate;
+
+        return Math.round(fcTime / (60*1000));
+    }
+
     $scope.toogleFCState = function (patient){
 
         if(!$scope.isFCClickable(patient)) return;

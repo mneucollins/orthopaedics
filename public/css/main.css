@@ -455,6 +455,17 @@ body {
 .divMarginLine hr{
 	border-color: transparent;
 }
+
+.fcMinutes {
+    border-style: solid;
+    border-radius: 18px;
+    border-width: 2px;
+	color: #CD4449;
+    font-weight: bold;
+    padding-top: .5em;
+    padding-bottom: .5em;
+    text-align: center;
+}
 /* 
 //////////////////////////////////////////////////////////////////////
 ///////////////////////////  EXPANDIBLE  /////////////////////////////
