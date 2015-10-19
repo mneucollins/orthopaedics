@@ -115,13 +115,16 @@
             </div>
             <div class="col-sm-2 patientData bordered imagingRow1">
                 <div class="retinaContainer dashboardSVG">
-                        <img ng-src="{{ getImagingState(patient) }}" ng-click="toogleImagingState(patient)" ng-class="{clickable: isImagingClickable(patient)}" />
+                    <img ng-src="{{ getImagingState(patient) }}" ng-click="toogleImagingState(patient)" ng-class="{clickable: isImagingClickable(patient)}" />
                 </div>
-                <div id="{{ 'imagingIcons' + patient._id }}" ng-show="patient.needsImaging && !patient.imagingTimestamp" style="display: inline-block;">
-                    <div class="retinaContainer dashboardSVG">
-                        <img src="img/emailicon.svg" ng-class="{clickable: !patient.noPhone}" ng-click="sendImagingMessage(patient)"/>
+                <div id="{{ 'imagingIcons' + patient._id }}" ng-show="patient.needsImaging" style="display: inline-block;">
+                    <div class="retinaContainer dashboardSVG" ng-if="!isImagingStarted(patient)">
+                        <img src="img/start-icon.png" class="clickable" ng-click="startImaging(patient)"/>
                     </div>
-                    <div class="retinaContainer dashboardSVG">
+                    <div class="imagingMinutes" ng-if="isImagingStarted(patient)">
+                        {{ getImagingMinutes(patient) }}m
+                    </div>
+                    <div class="retinaContainer dashboardSVG" ng-if="!patient.imagingTimestamp">
                         <img src="img/ok2icon.svg" class="clickable" ng-click="completeImagingState(patient)"/>
                     </div> 
                 </div>

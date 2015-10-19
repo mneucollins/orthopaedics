@@ -169,7 +169,10 @@
             </div>
             <div class="col-xs-2 col-sm-1 patientData bordered imagingRow2">
                 <div class="retinaContainer dashboardSVG">
-                    <img ng-src="{{ getImagingState(patient) }}" ng-click="toogleImagingState(patient)" ng-class="{clickable: isImagingClickable(patient)}"/>
+                    <img ng-if="!isImagingStarted(patient) || patient.imagingTimestamp" ng-src="{{ getImagingState(patient) }}" ng-click="toogleImagingState(patient)" ng-class="{clickable: isImagingClickable(patient)}"/>
+                    <div class="imagingMinutes" ng-if="isImagingStarted(patient) && !patient.imagingTimestamp">
+                        {{ getImagingMinutes(patient) }}m
+                    </div>
                 </div>
             </div>   
             <div class="col-xs-2 col-sm-1 patientData bordered atRow" ng-class="{atRowBig: hidePhysicians}">

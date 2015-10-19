@@ -651,7 +651,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
 
         if(patient.needsImaging)
         {
-            Patient.update({patientId: patient.id}, {needsImaging: false, imagingRequestedTimestamp: null}, patientImagingUpdated);
+            Patient.update({patientId: patient.id}, {needsImaging: false, imagingRequestedTimestamp: null, imagingStartedTimestamp: null}, patientImagingUpdated);
         }
         else
         {
@@ -677,6 +677,35 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
             $scope.patientList[index].imagingTimestamp = updatedPatient.imagingTimestamp;
         });
     }
+
+    $scope.startImaging = function (patient) {
+        Patient.update({patientId: patient.id}, {imagingStartedTimestamp: new Date()}, function (updatedPatient) {
+            var index = $scope.patientList.indexOf(patient); 
+            $scope.patientList[index].imagingStartedTimestamp = updatedPatient.imagingStartedTimestamp;
+        });
+    }
+
+    $scope.getImagingMinutes = function (patient) {
+
+        if(!patient.imagingStartedTimestamp) return 0;
+
+        var imagingIniDate = new Date(patient.imagingStartedTimestamp).getTime();
+        var imagingEndDate = new Date(patient.imagingTimestamp).getTime();
+        var nowDate = new Date().getTime();
+
+        var imagingTime = 0;
+
+        if(patient.imagingTimestamp)
+            imagingTime = imagingEndDate - imagingIniDate;
+        else
+            imagingTime = nowDate - imagingIniDate;
+
+        return Math.round(imagingTime / (60*1000));
+    }
+
+    $scope.isImagingStarted = function (patient) {
+        return !!patient.imagingStartedTimestamp;
+    }    
 
     $scope.isImagingClickable = function (patient) {
         if(patient.needsImaging && patient.imagingTimestamp)
