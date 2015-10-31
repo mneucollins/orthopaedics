@@ -17,10 +17,12 @@
 				<div class="col-xs-12 col-sm-offset-2 col-sm-8">
 				<form ng-submit="login()">
 					<div class="form-group">
-						<input type="text" class="form-control" ng-model="user.username" placeholder="Username">
+						<span class="loginText">Username: </span>
+						<input type="text" class="form-control" ng-model="user.username">
 					</div>
 					<div class="form-group">
-						<input type="password" class="form-control" ng-model="user.password" placeholder="Password">
+						<span class="loginText">Password: </span>
+						<input type="password" class="form-control" ng-model="user.password">
 					</div>
 
 					<button type="submit" class="btn btn-success col-xs-12">Sign In</button>
@@ -53,7 +55,8 @@
 				<div class="col-xs-12 col-sm-offset-2 col-sm-8">
 				<form ng-submit="passwordRetrieval()">
 					<div class="form-group">
-						<input type="text" class="form-control" ng-model="user.email" placeholder="e-mail">
+						<span class="loginText">e-mail: </span>
+						<input type="text" class="form-control" ng-model="user.email" >
 					</div>
 					<button type="submit" class="btn btn-success col-xs-12">Retrieve Password</button>
 				</form>
@@ -81,22 +84,28 @@
 				<div class="col-xs-12 col-sm-offset-2 col-sm-8">
 				<form ng-submit="signup()">
 					<div class="form-group">
-						<input type="text" class="form-control" ng-model="user.name" placeholder="Name">
+						<span class="loginText">Name: </span>
+						<input type="text" class="form-control" ng-model="user.name" >
 					</div>
 					<div class="form-group">
-						<input type="text" class="form-control" ng-model="user.email" placeholder="e-mail">
+						<span class="loginText">e-mail: </span>
+						<input type="text" class="form-control" ng-model="user.email" >
 					</div>
 					<div class="form-group">
-						<input type="text" class="form-control" ng-model="user.department" placeholder="Department">
+						<span class="loginText">Department: </span>
+						<input type="text" class="form-control" ng-model="user.department" >
 					</div>
 					<div class="form-group">
-						<input type="text" class="form-control" ng-model="user.username" placeholder="Username">
+						<span class="loginText">Username: </span>
+						<input type="text" class="form-control" ng-model="user.username" >
 					</div>
 					<div class="form-group">
-						<input type="password" class="form-control" ng-model="user.password" placeholder="Password">
+						<span class="loginText">Password: </span>
+						<input type="password" class="form-control" ng-model="user.password" >
 					</div>
 					<div class="form-group">
-						<input type="password" class="form-control" ng-model="user.passwordRepeat" placeholder="Confirm Password">
+						<span class="loginText">Confirm Password: </span>
+						<input type="password" class="form-control" ng-model="user.passwordRepeat" >
 					</div>
 					<!-- <div class="checkbox">
 						<label>
@@ -113,7 +122,8 @@
 					    </select>
 					</div>
 					<div class="form-group">
-						<input type="text" class="form-control" ng-model="user.securityAnswer" placeholder="Answer">
+						<span class="loginText">Answer: </span>
+						<input type="text" class="form-control" ng-model="user.securityAnswer" >
 					</div>
 					
 					<button type="submit" class="btn btn-success col-xs-12">Sign Up</button>
@@ -174,16 +184,19 @@
 						<p class="loginText">Set your new password:</p>
 					</div>
 					<div class="form-group">
-						<input type="password" class="form-control" ng-model="user.password" placeholder="New Password">
+						<span class="loginText">New Password: </span>
+						<input type="password" class="form-control" ng-model="user.password" >
 					</div>
 					<div class="form-group">
-						<input type="password" class="form-control" ng-model="user.passwordRepeat" placeholder="Confirm New Password">
+						<span class="loginText">Confirm New Password: </span>
+						<input type="password" class="form-control" ng-model="user.passwordRepeat">
 					</div>
 					<div class="form-group">
 						<b class="loginText">{{user.securityQuestion}}</b>
 					</div>
 					<div class="form-group">
-						<input type="text" class="form-control" ng-model="user.securityAnswer" placeholder="Answer">
+						<span class="loginText">Answer: </span>
+						<input type="text" class="form-control" ng-model="user.securityAnswer" >
 					</div>
 					<button type="submit" class="btn btn-success col-xs-12">Change Password</button>
 				</form>
@@ -209,7 +222,8 @@
 				<form ng-submit="completeProfile()">
 					<p class="loginText">Please complete your profile information. It will be used in case you lose your password.</p>
 					<div class="form-group">
-						<input type="text" class="form-control" ng-model="user.email" placeholder="e-mail">
+						<span class="loginText">e-mail: </span>
+						<input type="text" class="form-control" ng-model="user.email" >
 					</div>
 					<div class="form-group">
 						<span class="loginText">Please select a security question: </span>
@@ -218,7 +232,8 @@
 					    </select>
 					</div>
 					<div class="form-group">
-						<input type="text" class="form-control" ng-model="user.answer" placeholder="Answer">
+						<span class="loginText">Answer: </span>
+						<input type="text" class="form-control" ng-model="user.answer" >
 					</div>
 					<button type="submit" class="btn btn-success col-xs-12">Complete Profile</button>
 				</form>
