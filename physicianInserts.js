@@ -51,7 +51,7 @@ var testPhysicians = [
 	// {npi:"1417028507",name:"Dr. Maughon",username:"scottmau",password:"123456",role:"Physician",department:"Sports Medicine"},
 	// {npi:"1720019698",name:"Dr. Bradbury",username:"thomasbra",password:"123456",role:"Physician",department:"Adult Reconstruction"},
 	// {npi:"1669689865",name:"Dr. Beckworth",username:"jeremybeck",password:"123456",role:"Physician",department:"Spine"},
-	{npi:"9000000001",name:"Diane Butler",username:"dianebu",password:"123456",role:"Physician",department:"Spine"},
+	{npi:"1245445055",name:"Diane Butler",username:"dianebu",password:"123456",role:"Physician",department:"Spine"},
 	{npi:"1801293550",name:"Syndey Wang",username:"sydneywang",password:"123456",role:"Physician",department:"Spine"},
 	{npi:"9000000003",name:"Dr. Gottschalk",username:"michaelgot",password:"123456",role:"Physician",department:"Sports Medicine"}
 ];
