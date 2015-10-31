@@ -133,13 +133,14 @@ var users = [
 	// {name: "Brigham, Carmen", username: "cbrigha", role: "FirstProvider"},
 	// {name: "Pittman, J'nai", username: "jpittm8", role: "FirstProvider"},
 	// {name: "Ortega, Erika", username: "n319533", role: "FirstProvider"},
-	{name: "Watson, Patrisha", username: "n729468", role: "FirstProvider"},
+	// {name: "Watson, Patrisha", username: "n729468", role: "FirstProvider"},
+	{name: "McGahee, Tammie", username: "n582700", role: "FirstProvider"},
 
 	// {name: "Neumeyer, Jeanie", username: "n363435", role: "FirstProvider"},
 	// {name: "Madera, Meraris", username: "n924258", role: "Receptionist"},
 	// {name: "Bailey, Debbie", username: "eopbdk", role: "Receptionist"},
 
-	// {name: "First PROVIDERder", username: "first", role: "FirstProvider"},
+	// {name: "First Provider", username: "first", role: "FirstProvider"},
 	// {name: "Admin", username: "admin", role: "FirstProvider", isAdmin: true},
 ];
 

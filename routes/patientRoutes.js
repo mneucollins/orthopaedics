@@ -8,13 +8,6 @@ module.exports = function (router, io) {
     var patientController = require('../controllers/patientController');
     var syncController = require('../controllers/syncController');
 
-    // UNCOMMENT ON PRODUCTION
-    router.use(function (req, res, next) {
-        if (tools.isLoggedIn(req, res))
-            next();
-        else
-            tools.sendUnauthorized(req, res);
-    });
 
     router.route('/patients')
     .post(function(req, res) { 

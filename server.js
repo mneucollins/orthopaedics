@@ -13,7 +13,9 @@ var passport 	 = require('passport');
 var cookieParser = require('cookie-parser');
 var session      = require('express-session');
 var socketio 	 = require('socket.io');
+
 var config = require("./config.json");
+var tools = require('./tools');
 
 // START THE SERVER
 // =============================================================================
@@ -58,6 +60,16 @@ router.get('*', function noCache (req, res, next) {
 });
 
 require('./routes/passportRoutes')(authRouter, passport);
+
+router.use(function (req, res, next) {
+    if (req.url == "/messages/response")
+        next();
+    else if (tools.isLoggedIn(req, res))
+        next();
+    // else
+    //     tools.sendUnauthorized(req, res);
+});
+
 
 require("./routes/emailRoutes")(router);
 require("./routes/userRoutes")(router);
