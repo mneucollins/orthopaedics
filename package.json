@@ -16,6 +16,7 @@
     "moment": "^2.10.6",
     "mongoose": "3.8.24",
     "morgan": "~1.0.0",
+    "msexcel-builder": "0.0.2",
     "nodemailer": "^1.4.0",
     "nodemailer-smtp-transport": "^1.0.3",
     "passport": "~0.1.17",

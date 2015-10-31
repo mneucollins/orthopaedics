@@ -1,10 +1,13 @@
 var XLSX 		 = require('xlsx');
+var excelbuilder = require('msexcel-builder');
 var _ 		 	 = require('underscore');
 
 var patientController = require('../controllers/patientController');
 var physicianController = require('../controllers/physicianController');
+var userModel = require("../models/userModel")
 var tools = require('../tools');
 var config = require('../config');
+var mongoose     = require('mongoose');
 
 module.exports = {
 	escribirExcel : escribirExcel
@@ -97,6 +100,60 @@ function escribirExcel (lowDate, highDate, callback) {
 	// return nombreArc;
 }
 
+function listarUsuarios(){
+	console.log("listar usuarios:");
+	//para usar cuándo no está ejecutándose la aplicación
+	//mongoose.connect(config.databaseURL);
+	userModel.find({},function(err,users){
+		if(users){
+			console.log(users.length+" users found!");
+			var workbook = excelbuilder.createWorkbook('./', 'usersList.xlsx');
+
+			var sheet1 = workbook.createSheet('sheet1', 10, users.length+5);
+
+			sheet1.align(1,1,'center');
+			sheet1.font(1,1,{bold:'true'});
+			sheet1.set(1,1,"Name");
+			sheet1.align(2,1,'center');
+			sheet1.font(2,1,{bold:'true'});
+			sheet1.set(2,1,"User Name");
+			sheet1.align(3,1,'center');
+			sheet1.font(3,1,{bold:'true'});
+			sheet1.set(3,1,"Password");
+			sheet1.align(4,1,'center');
+			sheet1.font(4,1,{bold:'true'});
+			sheet1.set(4,1,"Role");
+			sheet1.align(5,1,'center');
+			sheet1.font(5,1,{bold:'true'});
+			sheet1.set(5,1,"Is Admin");
+
+			for(var i=0 ; i<users.length ; i++){
+				sheet1.set(1,i+2,users[i].name);
+				sheet1.set(2,i+2,users[i].username);
+				sheet1.set(3,i+2,users[i].password);
+				sheet1.set(4,i+2,users[i].role);
+				if(users[i].isAdmin){
+					sheet1.set(5,i+2,"Yes");
+				} else{
+					sheet1.set(5,i+2,"No");
+				}
+			}
+
+			workbook.save(function(ok){
+				if (!ok){
+					workbook.cancel();
+				} else{
+			      console.log('libro creado');
+				}
+			});
+
+		} else{
+			console.log("no users found");
+		}
+	});
+
+}
+
 
 //esto es solo para pruebas, se debe borrar al final
 
@@ -104,3 +161,7 @@ function escribirExcel (lowDate, highDate, callback) {
 // var highDate = new Date();
 
 // escribirExcel(lowDate,highDate);
+
+//para probar listarUsuarios: 
+
+//listarUsuarios();
