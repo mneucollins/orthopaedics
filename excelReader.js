@@ -45,6 +45,9 @@ function leerExcel () {
 
 		for(var k in list){
 
+			if(list[k].ApptType != "EXP")
+				continue;
+
 			var patient = new patientModel();
 
 			patient.medicalRecordNumber = list[k].MRN;
