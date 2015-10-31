@@ -3,13 +3,7 @@ module.exports = function (router) {
     var tools = require('../tools');
 
     var messageController = require('../controllers/messageController');
-
-    router.use(function (req, res, next) {
-        if (tools.isLoggedIn(req, res))
-            next();
-        else
-            tools.sendUnauthorized(err, req, res);
-    });
+    
 
     router.route('/messages')
     .post(function(req, res) { 
@@ -53,6 +47,21 @@ module.exports = function (router) {
 
             console.log(data, "New Message Sent");
             res.json(data);
+        });
+    });
+
+    router.route('/messages/response')
+    .post(function(req, res) { 
+        
+        var messageData = req.body;
+        messageController.sendTwimlResponse(messageData, function (err, responseFilePath) {
+            if(err) {
+                // tools.sendServerError(err, req, res);
+                console.log(err);
+            }
+
+            // res.set('Content-Type', 'text/xml');
+            res.sendFile(responseFilePath);
         });
     });
 }

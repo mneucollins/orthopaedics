@@ -8,13 +8,6 @@ module.exports = function (router) {
 
 
     var excelController = require('../controllers/excelController');
-    // UNCOMMENT ON PRODUCTION
-    router.use(function (req, res, next) {
-        if (tools.isLoggedIn(req, res) && req.user.isAdmin)
-            next();
-        else
-            tools.sendUnauthorized(req, res);
-    });
 
     router.route('/reports/generate')
     .get(function(req, res) { 

@@ -10,7 +10,8 @@ module.exports = {
 	getReminderMessagesByPatient: getReminderMessagesByPatient,
 	sendMessage: sendMessage,
 	sendWelcomeMessage: sendWelcomeMessage,
-	sendBulkMessages: sendBulkMessages
+	sendBulkMessages: sendBulkMessages,
+	sendTwimlResponse: sendTwimlResponse
 }
 
 setInterval(function () {
@@ -222,16 +223,32 @@ function sendBulkMessages (patientsData, callback) {
 	callback(null, true);
 }
 
+function sendTwimlResponse (patientData, callback) {
+
+	// newMessage = new messageModel();
+	// newMessage.message = patientData.message;
+	// newMessage.sid = patientData.sid;
+	// newMessage.patient = patient.id;
+
+	// newMessage.save(function messageSaved (err, message, numberAffected) {
+	// 	if(err) callback(err, filePath);
+
+		var filePath = __dirname.substr(0, __dirname.lastIndexOf('/')) + "/xml/twilioDefaultResponse.xml";
+		
+		callback(null, filePath);
+	// });
+}
+
 function validarIntervalo(waitTime){
 	var calculateTime = 5 * Math.round(waitTime / 5);
 	calculateTime = calculateTime == 0 ? 5 : calculateTime ;
 	switch (calculateTime){
-		case 0   :
-		case 5   :
-		case 10  :
-		case 15  :
-		case 20  :
-		case 25  :
+		// case 0   :
+		// case 5   :
+		// case 10  :
+		// case 15  :
+		// case 20  :
+		// case 25  :
 		case 30  : return calculateTime;
 		case 35  : return "20-35";
 		case 40  : return "25-40";
@@ -245,17 +262,17 @@ function validarIntervalo(waitTime){
 		case 80  : return "50-80";
 		case 85  : return "50-85";
 		case 90  : return "60-90";
-		case 95  :
-		case 100 : 
-		case 105 :
-		case 110 :
-		case 115 : 
+		// case 95  :
+		// case 100 : 
+		// case 105 :
+		// case 110 :
+		// case 115 : 
 		case 120 : return "90-120";
-		case 125 : 
-		case 130 :
-		case 135 :
-		case 140 :
-		case 145 : 
+		// case 125 : 
+		// case 130 :
+		// case 135 :
+		// case 140 :
+		// case 145 : 
 		case 150 : return "120-150";
 		default : var bigTime = 15 * Math.round(waitTime / 15);
 			return bigTime;
