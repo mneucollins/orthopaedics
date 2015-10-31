@@ -13,6 +13,8 @@ orthopaedicsControllers.controller('headerCtrl', ['$scope', '$rootScope', '$loca
         $rootScope.hideDischarged = true;
         $rootScope.hideDeleted = true;
 
+        $scope.updateDate = "10/29/15";
+
         $scope.$watch(AuthService.isLoggedIn, function ( isLoggedIn ) {
             $scope.isLoggedIn = isLoggedIn;
             $scope.currentUser = AuthService.currentUser();
@@ -73,6 +75,28 @@ orthopaedicsControllers.controller('headerCtrl', ['$scope', '$rootScope', '$loca
                     $location.url("/dashboard1");
             }
         }, 1000);
+
+        // E-Mail Management
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+
+        $rootScope.openHelpModal = function () {
+
+            var modalInstance = $modal.open({
+                templateUrl: '/partials/sendMail.html',
+                controller: 'sendEmailCtrl',
+                resolve: {
+                    messageType: function () {
+                        return "help";
+                    }
+                }
+            });
+
+            modalInstance.result.then(function () {
+                $log.info('Help message sent!');
+            }, function () {
+                $log.info('Help Modal dismissed at: ' + new Date());
+            });  
+        }
 }]);
 
 orthopaedicsControllers.controller('AlertsCtrl', ['$scope', 'Alerts',
@@ -205,28 +229,27 @@ orthopaedicsControllers.controller('loginCtrl', ['$scope', '$location', '$modal'
             $location.path("/dashboard2");
     }
 
-        // E-Mail Management
+    // E-Mail Management
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
-    $scope.openHelpModal = function () {
+    // $scope.openHelpModal = function () {
 
-        var modalInstance = $modal.open({
-            templateUrl: '/partials/sendMail.html',
-            controller: 'sendEmailCtrl',
-            resolve: {
-                messageType: function () {
-                    return "help";
-                }
-            }
-        });
+    //     var modalInstance = $modal.open({
+    //         templateUrl: '/partials/sendMail.html',
+    //         controller: 'sendEmailCtrl',
+    //         resolve: {
+    //             messageType: function () {
+    //                 return "help";
+    //             }
+    //         }
+    //     });
 
-        modalInstance.result.then(function () {
-            $log.info('Help message sent!');
-        }, function () {
-            $log.info('Help Modal dismissed at: ' + new Date());
-        });  
-    
-    }
+    //     modalInstance.result.then(function () {
+    //         $log.info('Help message sent!');
+    //     }, function () {
+    //         $log.info('Help Modal dismissed at: ' + new Date());
+    //     });  
+    // }
 
 }]);
 

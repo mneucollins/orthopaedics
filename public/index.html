@@ -95,6 +95,7 @@
                             <a href="#" ng-hide="$root.hideDeleted" ng-click="$root.hideDeleted=true">Show All Patients</a>
                         </li>
                         <li class="divider"></li>
+                        <li><a href="#" ng-click="$root.openHelpModal()">Need Help?</a></li>
                         <li><a href="#" ng-click="logout()">Log Out</a></li>
                     </ul>
                 </li>
@@ -109,6 +110,8 @@
 </div>
 
 <div data-ng-view class="backgroundMobile"></div>
+
+<h7 ng-controller="headerCtrl" style="margin-left: 45%;">updated on {{updateDate}}</h7>
 
 <!-- jQuery -->
 <script src="/js/vendor/jquery.js"></script>

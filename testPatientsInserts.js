@@ -239,10 +239,10 @@ var nPlusHours = 0;
 // }];
 
 var initYear = 2015,
-	initMonth = 7,
-	initDay = 11,
-	initHours = 8,
-	initMinutes = 0;
+	initMonth = 9,
+	initDay = 18,
+	initHours = 17,
+	initMinutes = 40;
 
 var testPatients = [{
 	firstName: "Doug",
