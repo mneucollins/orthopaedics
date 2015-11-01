@@ -14,6 +14,8 @@ module.exports = {
 }
 
 function escribirExcel (lowDate, highDate, callback) {
+	//para usar cuándo no está ejecutándose la aplicación
+	mongoose.connect(config.databaseURL);
 	var nombreArc = "";
 	console.log("Generating report between " + lowDate + " and " + highDate);
 
@@ -49,6 +51,7 @@ function escribirExcel (lowDate, highDate, callback) {
 			var fcStart = patient.fcStartedTimestamp?patient.fcStartedTimestamp.getHours()+":"+patient.fcStartedTimestamp.getMinutes()+":"+patient.fcStartedTimestamp.getSeconds():"";
 			var fcEnd = patient.fcFinishedTimestamp?patient.fcFinishedTimestamp.getHours()+":"+patient.fcFinishedTimestamp.getMinutes()+":"+patient.fcFinishedTimestamp.getSeconds():"";
 			var imaging = patient.imagingTimestamp ? patient.imagingTimestamp.getHours()+":"+patient.imagingTimestamp.getMinutes()+":"+patient.imagingTimestamp.getSeconds() : "";
+			var imagingStart = patient.imagingStartedTimestamp ? patient.imagingStartedTimestamp.getHours()+":"+patient.imagingStartedTimestamp.getMinutes()+":"+patient.imagingStartedTimestamp.getSeconds() : "";
 			var dcTime = patient.DCTimestamp?patient.DCTimestamp.getHours()+":"+patient.DCTimestamp.getMinutes()+":"+patient.DCTimestamp.getSeconds():"";
 			var wrTotalTime = tools.getWRTime(patient);
 			var exTotalTime = tools.getEXTime(patient);
@@ -70,6 +73,7 @@ function escribirExcel (lowDate, highDate, callback) {
     		data.push({data:fcEnd, tipo: "s"});
     		data.push({data: !!patient.imagingRequestedTimestamp, tipo: "b"});
     		data.push({data: imaging, tipo: "s"});
+    		data.push({data: imagingStart, tipo: "s"});
     		data.push({data:dcTime, tipo: "s"});
     		data.push({data:wrTotalTime, tipo: "s"});
     		data.push({data:exTotalTime, tipo: "s"});
@@ -119,23 +123,19 @@ function listarUsuarios(){
 			sheet1.set(2,1,"User Name");
 			sheet1.align(3,1,'center');
 			sheet1.font(3,1,{bold:'true'});
-			sheet1.set(3,1,"Password");
+			sheet1.set(3,1,"Role");
 			sheet1.align(4,1,'center');
 			sheet1.font(4,1,{bold:'true'});
-			sheet1.set(4,1,"Role");
-			sheet1.align(5,1,'center');
-			sheet1.font(5,1,{bold:'true'});
-			sheet1.set(5,1,"Is Admin");
+			sheet1.set(4,1,"Is Admin");
 
 			for(var i=0 ; i<users.length ; i++){
 				sheet1.set(1,i+2,users[i].name);
 				sheet1.set(2,i+2,users[i].username);
-				sheet1.set(3,i+2,users[i].password);
-				sheet1.set(4,i+2,users[i].role);
+				sheet1.set(3,i+2,users[i].role);
 				if(users[i].isAdmin){
-					sheet1.set(5,i+2,"Yes");
+					sheet1.set(4,i+2,"Yes");
 				} else{
-					sheet1.set(5,i+2,"No");
+					sheet1.set(4,i+2,"No");
 				}
 			}
 
@@ -157,10 +157,10 @@ function listarUsuarios(){
 
 //esto es solo para pruebas, se debe borrar al final
 
-// var lowDate = new Date();
-// var highDate = new Date();
+var lowDate = new Date();
+var highDate = new Date();
 
-// escribirExcel(lowDate,highDate);
+escribirExcel(lowDate,highDate);
 
 //para probar listarUsuarios: 
 
