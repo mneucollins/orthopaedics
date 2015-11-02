@@ -107,7 +107,7 @@ function escribirExcel (lowDate, highDate, callback) {
 function listarUsuarios(){
 	console.log("listar usuarios:");
 	//para usar cuándo no está ejecutándose la aplicación
-	//mongoose.connect(config.databaseURL);
+	mongoose.connect(config.databaseURL);
 	userModel.find({},function(err,users){
 		if(users){
 			console.log(users.length+" users found!");
@@ -127,6 +127,9 @@ function listarUsuarios(){
 			sheet1.align(4,1,'center');
 			sheet1.font(4,1,{bold:'true'});
 			sheet1.set(4,1,"Is Admin");
+			sheet1.align(5,1,'center');
+			sheet1.font(5,1,{bold:'true'});
+			sheet1.set(5,1,"Email");
 
 			for(var i=0 ; i<users.length ; i++){
 				sheet1.set(1,i+2,users[i].name);
@@ -137,6 +140,7 @@ function listarUsuarios(){
 				} else{
 					sheet1.set(4,i+2,"No");
 				}
+				sheet1.set(5,i+2,users[i].email);
 			}
 
 			workbook.save(function(ok){
@@ -157,11 +161,11 @@ function listarUsuarios(){
 
 //esto es solo para pruebas, se debe borrar al final
 
-var lowDate = new Date();
-var highDate = new Date();
+//var lowDate = new Date();
+//var highDate = new Date();
 
-escribirExcel(lowDate,highDate);
+//escribirExcel(lowDate,highDate);
 
 //para probar listarUsuarios: 
 
-//listarUsuarios();
+listarUsuarios();
