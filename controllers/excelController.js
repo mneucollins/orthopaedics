@@ -107,7 +107,7 @@ function escribirExcel (lowDate, highDate, callback) {
 function listarUsuarios(){
 	console.log("listar usuarios:");
 	//para usar cuándo no está ejecutándose la aplicación
-	mongoose.connect(config.databaseURL);
+	//mongoose.connect(config.databaseURL);
 	userModel.find({},function(err,users){
 		if(users){
 			console.log(users.length+" users found!");
@@ -168,4 +168,4 @@ function listarUsuarios(){
 
 //para probar listarUsuarios: 
 
-listarUsuarios();
+//listarUsuarios();
