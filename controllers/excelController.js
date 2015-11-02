@@ -15,7 +15,7 @@ module.exports = {
 
 function escribirExcel (lowDate, highDate, callback) {
 	//para usar cuándo no está ejecutándose la aplicación
-	mongoose.connect(config.databaseURL);
+	//mongoose.connect(config.databaseURL);
 	var nombreArc = "";
 	console.log("Generating report between " + lowDate + " and " + highDate);
 
@@ -161,7 +161,7 @@ function listarUsuarios(){
 
 //esto es solo para pruebas, se debe borrar al final
 
-//var lowDate = new Date();
+//var lowDate = new Date(2015,9,1,0,0,0,0);
 //var highDate = new Date();
 
 //escribirExcel(lowDate,highDate);
