@@ -384,7 +384,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         });
     }
 
-    $interval(retrieveClinicDelays, 60000);
+    $interval(retrieveClinicDelays, 5 * 60 * 1000);
 
     // Sync
     ///////////////////////////////////////////////////////////////////////////////////////////////
