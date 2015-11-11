@@ -118,7 +118,8 @@ module.exports = function(passport) {
                 return done(null, false, { message: 'User not found!' });
             if (!user.validPassword(password))
                 return done(null, false, { message: 'Wrong Password!' }); 
-
+            if (!user.isActive)
+                return done(null, false, { message: 'The user is not activated!' }); 
 
             return done(null, user);
         });
