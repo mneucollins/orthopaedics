@@ -33,7 +33,7 @@ function escribirExcel (lowDate, highDate, callback) {
 		var sheet_name_list = workbook.SheetNames;
 		var worksheet = workbook.Sheets["PatientStats"];
 
-		var range = {s: {c:0,r:0}, e:{c:16, r: patientList.length + 1}};
+		var range = {s: {c:0,r:0}, e:{c:17, r: patientList.length + 1}};
 		worksheet['!ref'] = XLSX.utils.encode_range(range);
 
 		var R = range.s.r + 1;
@@ -58,7 +58,8 @@ function escribirExcel (lowDate, highDate, callback) {
 			var imagingEnd = patient.imagingTimestamp ? moment(patient.imagingTimestamp).format("HH:mm:ss") : "";
 			var imagingTotal = patient.imagingTimestamp && patient.imagingStartedTimestamp ? Math.round((patient.imagingTimestamp.getTime() - patient.imagingStartedTimestamp.getTime()) / (60*1000)) : "";
 
-			var wrTotalTime = tools.getWRTime(patient);
+			var timeFromAppt = tools.getWRTime(patient);
+			var wrTotalTime = patient.EXTimestamp ? Math.round((patient.EXTimestamp.getTime() - patient.WRTimestamp.getTime()) / (60*1000)) : 0;
 			var exTotalTime = tools.getEXTime(patient);
 			var totalTime = tools.getTotalTime(patient);
 
@@ -85,6 +86,7 @@ function escribirExcel (lowDate, highDate, callback) {
     		data.push({data: imagingEnd, tipo: "s"});
     		data.push({data: imagingTotal, tipo: "s"});
 
+    		data.push({data: timeFromAppt, tipo: "s"});
     		data.push({data: wrTotalTime, tipo: "s"});
     		data.push({data: exTotalTime, tipo: "s"});
     		data.push({data: totalTime, tipo: "s"});
