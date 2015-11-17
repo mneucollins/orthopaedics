@@ -45,8 +45,10 @@ function leerExcel () {
 
 		for(var k in list){
 
-			if(list[k].ApptType != "EXP")
+			if(list[k].ApptLoc != "EXP") {
+				savedPatients++;
 				continue;
+			}
 
 			var patient = new patientModel();
 

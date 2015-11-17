@@ -1,6 +1,7 @@
 var XLSX 		 = require('xlsx');
 var excelbuilder = require('msexcel-builder');
 var _ 		 	 = require('underscore');
+var moment 		 = require('moment');
 
 var patientController = require('../controllers/patientController');
 var physicianController = require('../controllers/physicianController');
@@ -15,7 +16,7 @@ module.exports = {
 
 function escribirExcel (lowDate, highDate, callback) {
 	//para usar cuándo no está ejecutándose la aplicación
-	mongoose.connect(config.databaseURL);
+	// mongoose.connect(config.databaseURL);
 	var nombreArc = "";
 	console.log("Generating report between " + lowDate + " and " + highDate);
 
@@ -30,9 +31,9 @@ function escribirExcel (lowDate, highDate, callback) {
     	//Load excel template
 		var workbook = XLSX.readFile(config.reportTemplatePath, {cellStyles:true});
 		var sheet_name_list = workbook.SheetNames;
-		var worksheet = workbook.Sheets["Hoja1"];
+		var worksheet = workbook.Sheets["PatientStats"];
 
-		var range = {s: {c:0,r:0}, e:{c:12, r: patientList.length + 1}};
+		var range = {s: {c:0,r:0}, e:{c:16, r: patientList.length + 1}};
 		worksheet['!ref'] = XLSX.utils.encode_range(range);
 
 		var R = range.s.r + 1;
@@ -40,45 +41,54 @@ function escribirExcel (lowDate, highDate, callback) {
     	for(var i=0 ; i<patientList.length ; i++, ++R ){
 
     		var patient = patientList[i];
-    		var name = patient.firstName?patient.firstName+" ":"";
-    		name = patient.lastName?name+patient.lastName:name;
-    		var physician = patient.physician?patient.physician.name:"";
-    		//var apptDate = patient.apptTime;
-    		var apptTime = patient.apptTime?(patient.apptTime.getMonth()+1)+"/"+patient.apptTime.getDate()+"/"+patient.apptTime.getFullYear()+" "+patient.apptTime.getHours()+":"+patient.apptTime.getMinutes()+":"+patient.apptTime.getSeconds():"";
-			var wrTime = patient.WRTimestamp?patient.WRTimestamp.getHours()+":"+patient.WRTimestamp.getMinutes()+":"+patient.WRTimestamp.getSeconds():"";
-			var exTime = patient.EXTimestamp?patient.EXTimestamp.getHours()+":"+patient.EXTimestamp.getMinutes()+":"+patient.EXTimestamp.getSeconds():"";
-			//var fcDate = new Date(patient.fcStartedTimestamp);
-			var fcStart = patient.fcStartedTimestamp?patient.fcStartedTimestamp.getHours()+":"+patient.fcStartedTimestamp.getMinutes()+":"+patient.fcStartedTimestamp.getSeconds():"";
-			var fcEnd = patient.fcFinishedTimestamp?patient.fcFinishedTimestamp.getHours()+":"+patient.fcFinishedTimestamp.getMinutes()+":"+patient.fcFinishedTimestamp.getSeconds():"";
-			var imaging = patient.imagingTimestamp ? patient.imagingTimestamp.getHours()+":"+patient.imagingTimestamp.getMinutes()+":"+patient.imagingTimestamp.getSeconds() : "";
-			var imagingStart = patient.imagingStartedTimestamp ? patient.imagingStartedTimestamp.getHours()+":"+patient.imagingStartedTimestamp.getMinutes()+":"+patient.imagingStartedTimestamp.getSeconds() : "";
-			var dcTime = patient.DCTimestamp?patient.DCTimestamp.getHours()+":"+patient.DCTimestamp.getMinutes()+":"+patient.DCTimestamp.getSeconds():"";
+    		var name = patient.firstName ? patient.firstName + " " : "" ;
+    		name = patient.lastName ? name + patient.lastName : name;
+    		var physician = patient.physician ? patient.physician.name : "";
+    		var apptType = patient.apptType ? patient.apptType : "";
+
+    		var apptTime = patient.apptTime ? moment(patient.apptTime).format("DD/MM/YYYY HH:mm:ss") : "";
+			var wrTime = patient.WRTimestamp ? moment(patient.WRTimestamp).format("HH:mm:ss") : "";
+			var exTime = patient.EXTimestamp ? moment(patient.EXTimestamp).format("HH:mm:ss") : "";
+			var dcTime = patient.DCTimestamp ? moment(patient.DCTimestamp).format("HH:mm:ss") : "";
+
+			var fcStart = patient.fcStartedTimestamp ? moment(patient.fcStartedTimestamp).format("HH:mm:ss") : "";
+			var fcEnd = patient.fcFinishedTimestamp ? moment(patient.fcFinishedTimestamp).format("HH:mm:ss") : "";
+			
+			var imagingStart = patient.imagingStartedTimestamp ? moment(patient.imagingStartedTimestamp).format("HH:mm:ss") : "";
+			var imagingEnd = patient.imagingTimestamp ? moment(patient.imagingTimestamp).format("HH:mm:ss") : "";
+			var imagingTotal = patient.imagingTimestamp && patient.imagingStartedTimestamp ? Math.round((patient.imagingTimestamp.getTime() - patient.imagingStartedTimestamp.getTime()) / (60*1000)) : "";
+
 			var wrTotalTime = tools.getWRTime(patient);
 			var exTotalTime = tools.getEXTime(patient);
 			var totalTime = tools.getTotalTime(patient);
+
 			var atTotalTime = tools.getATtimer(patient);
+			
 			if(patient.fcStartedTimestamp && patient.fcFinishedTimestamp){
 				Math.round((patient.fcFinishedTimestamp.getTime() - patient.fcStartedTimestamp.getTime()) / (60*1000));
 			}
 
     		var data = [];
 
-    		data.push({data:patient.medicalRecordNumber, tipo: "s"});
-    		data.push({data:name, tipo: "s"});
-    		data.push({data:physician, tipo: "s"});
-    		data.push({data:apptTime, tipo: "s"});
-    		data.push({data:wrTime, tipo: "s"});
-    		data.push({data:exTime, tipo: "s"});
-    		data.push({data:fcStart, tipo: "s"});
-    		data.push({data:fcEnd, tipo: "s"});
-    		data.push({data: !!patient.imagingRequestedTimestamp, tipo: "b"});
-    		data.push({data: imaging, tipo: "s"});
+    		data.push({data: patient.medicalRecordNumber, tipo: "s"});
+    		data.push({data: name, tipo: "s"});
+    		data.push({data: physician, tipo: "s"});
+    		data.push({data: apptType, tipo: "s"});
+    		data.push({data: apptTime, tipo: "s"});
+    		data.push({data: wrTime, tipo: "s"});
+    		data.push({data: exTime, tipo: "s"});
+    		data.push({data: dcTime, tipo: "s"});
+    		data.push({data: fcStart, tipo: "s"});
+    		data.push({data: fcEnd, tipo: "s"});
+    		// data.push({data: !!patient.imagingRequestedTimestamp, tipo: "b"});
     		data.push({data: imagingStart, tipo: "s"});
-    		data.push({data:dcTime, tipo: "s"});
-    		data.push({data:wrTotalTime, tipo: "s"});
-    		data.push({data:exTotalTime, tipo: "s"});
-    		data.push({data:totalTime, tipo: "s"});
-    		data.push({data:atTotalTime, tipo: "s"});
+    		data.push({data: imagingEnd, tipo: "s"});
+    		data.push({data: imagingTotal, tipo: "s"});
+
+    		data.push({data: wrTotalTime, tipo: "s"});
+    		data.push({data: exTotalTime, tipo: "s"});
+    		data.push({data: totalTime, tipo: "s"});
+    		data.push({data: atTotalTime, tipo: "s"});
 
 			for(var C = 0; C < data.length; C++) {
 				var cellAddr = XLSX.utils.encode_cell({c:C, r:R});
@@ -93,15 +103,16 @@ function escribirExcel (lowDate, highDate, callback) {
 		
 		var dateReport = new Date();
 		var month = Math.round(dateReport.getMonth()+1);
-		nombreArc = 'report' + dateReport.getFullYear()+'_'+month+'_'+dateReport.getDate()+
-	  		'_'+dateReport.getHours()+dateReport.getMinutes()+dateReport.getSeconds()+'.xlsx';
+		nombreArc = 'report' + dateReport.getFullYear()
+			+ '_' + month +'_' + dateReport.getDate()
+			+ '_' + dateReport.getHours() + dateReport.getMinutes()
+			+ dateReport.getSeconds() + '.xlsx';
+
 	  	XLSX.writeFile(workbook, config.reportsFolderPath + nombreArc);
 	  	console.log("archivo escrito :)");
 
 	  	callback(null, nombreArc);
     });
-
-	// return nombreArc;
 }
 
 function listarUsuarios(){
@@ -157,15 +168,3 @@ function listarUsuarios(){
 	});
 
 }
-
-
-//esto es solo para pruebas, se debe borrar al final
-
-//var lowDate = new Date();
-//var highDate = new Date();
-
-//escribirExcel(lowDate,highDate);
-
-//para probar listarUsuarios: 
-
-//listarUsuarios();
