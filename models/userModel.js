@@ -46,7 +46,11 @@ var UsersSchema = new Schema({
         ref: "patients",
         default: []
     }],
-    timestamp: { type: Date, default: Date.now }
+    timestamp: { type: Date, default: Date.now },
+    isActive: {
+        type: Boolean,
+        default: false
+    }
 });
 
 

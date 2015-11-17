@@ -384,7 +384,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
         });
     }
 
-    $interval(retrieveClinicDelays, 60000);
+    $interval(retrieveClinicDelays, 5 * 60 * 1000);
 
     // Sync
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -466,6 +466,9 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                 pList = _.sortBy($scope.patientList, function(patient){ return new Date(patient.apptTime).getTime(); }); 
                 $scope.patientList = pList;
                 $rootScope.patientList = pList;
+
+                //alert('col:' + $scope.colFilter);
+                $scope.filteringActive($scope.colFilter, 0);
             });
         };
     }
@@ -481,7 +484,7 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
     $scope.arrowDirection = 0;
     $scope.colFilter  = 1;
 
-    $scope.filteringActive = function (idLauncher){
+    $scope.filteringActive = function (idLauncher, changeArrow){
         $scope.colFilter = idLauncher;
         var pList;
 
@@ -555,13 +558,17 @@ orthopaedicsControllers.controller('scheduleCtrl', ['$scope', '$location', '$roo
                 break;
         }
 
-        if($scope.arrowDirection == 1){
+        if($scope.arrowDirection == 1 && changeArrow != 0  ){
             $scope.patientList = pList;
             $scope.arrowDirection = 0;
         }
-        else{
+        else if ( ($scope.arrowDirection == 0 && changeArrow != 0)  || ($scope.arrowDirection == 1 && changeArrow == 0  )){
             $scope.patientList = pList.reverse();
             $scope.arrowDirection = 1;
+        }
+        else{
+            $scope.patientList = pList;
+            $scope.arrowDirection = 0;
         }
     }
 
