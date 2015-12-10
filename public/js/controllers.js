@@ -13,7 +13,7 @@ orthopaedicsControllers.controller('headerCtrl', ['$scope', '$rootScope', '$loca
         $rootScope.hideDischarged = true;
         $rootScope.hideDeleted = true;
 
-        $scope.updateDate = "10/31/15";
+        $scope.updateDate = "11/15/15";
 
         $scope.$watch(AuthService.isLoggedIn, function ( isLoggedIn ) {
             $scope.isLoggedIn = isLoggedIn;
