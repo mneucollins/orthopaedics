@@ -7,9 +7,9 @@
 	"reportsFolderPath": "/opt/nodeServer/Orthopaedics/gen_reports/",
 	"excelFeedPath": "/Documents/DesarrolloImbas/orthopaedics/HL7.xlsx",
 	"excelFeedScriptPath": "/Documents/DesarrolloImbas/orthopaedics/hl7feeder.sh",
-	"accountSid": "AC716f002192768dfda4ee8b815f8d981e",
-	"authToken": "b2b3c79d443a029b286ac0fd782e6ff2",
-	"fromNumber": "+14047245024",
+	"accountSid": "ACf2babfb32a4c493396b47efd3e7e39ec",
+	"authToken": "a1a8faab9e27ca826e5485420df0b208",
+	"fromNumber": "+14043342413",
 	"numberPrefix": "+57",
 	"adminEmail": "andrew.wurtzel@emoryhealthcare.org"
 }

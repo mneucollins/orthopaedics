@@ -5,6 +5,7 @@ var mongoose     = require('mongoose');
 var moment = require('moment');
 
 var emailController = require('./controllers/emailController');
+var messageController = require('./controllers/messageController');
 var patientController = require('./controllers/patientController');
 var patientModel = require('./models/patientModel');
 var userModel = require('./models/userModel');
@@ -114,9 +115,18 @@ function leerExcel () {
 }
 
 function sendConfirmation (nPatients, theDate) {
+
+	console.log("sending email and sms confirmation...");
+
 	var body = "<p>Newly added patients: " + nPatients + "</p>" + 
-				"<p>Appointment date: " + (theDate.getMonth() + 1) + "/" + theDate.getDate() + "/" + theDate.getFullYear() + "</p>";
+		"<p>Appointment date: " + (theDate.getMonth() + 1) + "/" + theDate.getDate() + "/" + theDate.getFullYear() + "</p>";
+	
+	var message = "Orthoworkflow upload complete. Newly added patients: " + nPatients + ". " + 
+		"Appointment date: " + (theDate.getMonth() + 1) + "/" + theDate.getDate() + "/" + theDate.getFullYear();
 
 	emailController.sendCustomMail("ezabaw@gmail.com", "Orthoworkflow Report", body);
-
+	
+	messageController.sendCustomMessage("+17038991598", message, function (err, message) {
+		if(!err) console.log("text message sent!");
+	})
 }
