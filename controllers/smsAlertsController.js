@@ -83,3 +83,45 @@ setInterval(function () {
 		});
 	});
 }, 60000);
+
+
+
+function validarIntervalo(waitTime){
+	var calculateTime = 5 * Math.round(waitTime / 5);
+	calculateTime = calculateTime == 0 ? 5 : calculateTime ;
+	switch (calculateTime){
+		// case 0   :
+		// case 5   :
+		// case 10  :
+		// case 15  :
+		// case 20  :
+		// case 25  :
+		case 30  : return calculateTime;
+		case 35  : return "20-35";
+		case 40  : return "25-40";
+		case 45  : return "30-45";
+		case 50  : return "30-50";
+		case 55  : return "30-55";
+		case 60  : return "30-60";
+		case 65  : return "45-65";
+		case 70  : return "45-70";
+		case 75  : return "50-75";
+		case 80  : return "50-80";
+		case 85  : return "50-85";
+		case 90  : return "60-90";
+		// case 95  :
+		// case 100 : 
+		// case 105 :
+		// case 110 :
+		// case 115 : 
+		case 120 : return "90-120";
+		// case 125 : 
+		// case 130 :
+		// case 135 :
+		// case 140 :
+		// case 145 : 
+		case 150 : return "120-150";
+		default : var bigTime = 15 * Math.round(waitTime / 15);
+			return bigTime;
+	}
+}

@@ -72,7 +72,7 @@ function sendCustomMessage (toNumber, message, callback) {
 		body: message,
 		to: toNumber,
 		from: config.fromNumber,
-	}, function(err, message) {
+	}, function(err, msgData) {
 		if(err) {
 			console.log(err);
 			callback(err);
@@ -80,7 +80,7 @@ function sendCustomMessage (toNumber, message, callback) {
 		else {
 			newMessage = new messageModel();
 			newMessage.message = msgData.message;
-			newMessage.sid = message.sid;
+			newMessage.sid = msgData.sid;
 			newMessage.patient = msgData.patient.id;
 			if(msgData.msjType) newMessage.msjType = msgData.msjType;
 
@@ -234,6 +234,5 @@ function validarIntervalo(waitTime){
 		case 150 : return "120-150";
 		default : var bigTime = 15 * Math.round(waitTime / 15);
 			return bigTime;
-
 	}
 }
