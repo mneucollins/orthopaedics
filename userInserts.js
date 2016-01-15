@@ -134,7 +134,9 @@ var users = [
 	// {name: "Pittman, J'nai", username: "jpittm8", role: "FirstProvider"},
 	// {name: "Ortega, Erika", username: "n319533", role: "FirstProvider"},
 	// {name: "Watson, Patrisha", username: "n729468", role: "FirstProvider"},
-	{name: "McGahee, Tammie", username: "n582700", role: "FirstProvider"},
+	// {name: "McGahee, Tammie", username: "n582700", role: "FirstProvider"},
+	// {name: "Smith, Lutisha", username: "n288121", role: "FirstProvider"},
+	{name: "Armstrong, Chris", username: "n972022", role: "FirstProvider"},
 
 	// {name: "Neumeyer, Jeanie", username: "n363435", role: "FirstProvider"},
 	// {name: "Madera, Meraris", username: "n924258", role: "Receptionist"},
