@@ -34,4 +34,18 @@ module.exports = function (router) {
             console.log("report sent!");
         });
     });
+
+    router.route('/reports/users')
+    .get(function(req, res){
+        excelController.listarUsuarios(function(err, data) {
+            if(err) {
+                tools.sendServerError(err,req, res);
+                return;
+            }
+
+            var file = data;
+            res.download(file);
+            console.log("report sent");
+        });
+    });
 }

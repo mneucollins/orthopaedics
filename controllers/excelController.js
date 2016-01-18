@@ -11,7 +11,8 @@ var config = require('../config');
 var mongoose     = require('mongoose');
 
 module.exports = {
-	escribirExcel : escribirExcel
+	escribirExcel : escribirExcel,
+	listarUsuarios : listarUsuarios
 }
 
 function escribirExcel (lowDate, highDate, callback) {
@@ -117,14 +118,18 @@ function escribirExcel (lowDate, highDate, callback) {
     });
 }
 
-function listarUsuarios(){
+function listarUsuarios(callback){
 	console.log("listar usuarios:");
 	//para usar cuándo no está ejecutándose la aplicación
 	//mongoose.connect(config.databaseURL);
 	userModel.find({},function(err,users){
+    	if(err) {
+    		callback(err);
+    		return;
+    	}
 		if(users){
 			console.log(users.length+" users found!");
-			var workbook = excelbuilder.createWorkbook('./', 'usersList.xlsx');
+			var workbook = excelbuilder.createWorkbook(config.reportsFolderPath, 'usersList.xlsx');
 
 			var sheet1 = workbook.createSheet('sheet1', 10, users.length+5);
 
@@ -164,8 +169,11 @@ function listarUsuarios(){
 				}
 			});
 
+			callback(null, config.reportsFolderPath + 'usersList.xlsx');
+
 		} else{
 			console.log("no users found");
+			callback("no users found", null);
 		}
 	});
 
