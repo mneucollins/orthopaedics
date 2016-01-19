@@ -41,6 +41,21 @@ orthopaedicsControllers.controller('headerCtrl', ['$scope', '$rootScope', '$loca
             });
         }
 
+        $scope.usersReportsDialog = function () {
+            var modalInstance = $modal.open({
+                templateUrl: '/partials/usersReport.html',
+                controller: 'usersReportCtrl',
+                resolve: {
+                }
+            });
+
+            modalInstance.result.then(function () {
+                $log.info('reports generated!');
+            }, function () {
+                $log.info('Message Modal dismissed at: ' + new Date());
+            });
+        }
+
         $scope.showNotesDialog = function () {
             var modalInstance = $modal.open({
                 templateUrl: '/partials/showNotes.html',
@@ -1684,5 +1699,40 @@ orthopaedicsControllers.controller('physiciansCtrl', ['$scope', '$location', '$r
             physician.selected = $scope.phySelectAll;
         });
     }
+
+}]);
+
+orthopaedicsControllers.controller('usersReportCtrl', ['$scope', '$modalInstance', 'Reports',
+  function($scope, $modalInstance, Reports) {
+
+    $scope.dateOptions = {
+        formatYear: 'yy',
+        startingDay: 1
+    };
+
+    $scope.submit = function () {
+        window.open("/api/reports/users");
+        // Reports.generate($scope.reportGen, function (data) {
+            $modalInstance.close();
+        // });
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+
+    $scope.openStartDate = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        $scope.startDateOpened = true;
+    };
+
+    $scope.openEndDate = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        $scope.endDateOpened = true;
+    };
 
 }]);

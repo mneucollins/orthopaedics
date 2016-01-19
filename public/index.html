@@ -86,7 +86,8 @@
                     <ul class="dropdown-menu" role="menu">
                         <li>
                             <a href="#" ng-click="showNotesDialog()">Check Notes</a>
-                            <a href="#" ng-show="currentUser.isAdmin" ng-click="showReportsDialog()">Generate Report</a>
+                            <a href="#" ng-show="currentUser.isAdmin" ng-click="showReportsDialog()">Patients Report</a>
+                            <a href="#" ng-show="currentUser.isAdmin" ng-click="usersReportsDialog()">Users Report</a>
                             <a href="#" ng-show="$root.hideDischarged" ng-click="$root.hideDischarged=false">Show Discharged Patients</a>
                             <a href="#" ng-hide="$root.hideDischarged" ng-click="$root.hideDischarged=true">Hide Discharged Patients</a>
                         </li>

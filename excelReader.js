@@ -46,8 +46,11 @@ function leerExcel () {
 
 		for(var k in list){
 
-			if(list[k].ApptLoc != "EXP") {
-			    savedPatients++;
+			if(list[k].ApptLoc != "EXP" &&
+			   list[k].ApptLoc != "JCM" &&
+			   list[k].ApptLoc != "EMY" &&
+			   list[k].ApptLoc != "NOR") {
+				savedPatients++;
 				continue;
 			}
 

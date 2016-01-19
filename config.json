@@ -1,7 +1,7 @@
 {
 	"host": "127.0.0.1",
 	"expressPort": 8182,
-	"databaseURL": "mongodb://orthoworkflow.org:27017/orthotest",
+	"databaseURL": "mongodb://orthoworkflow.org:27017/orthopaedics",
 	"tmpFolder": "tmp/",
 	"reportTemplatePath": "/opt/nodeServer/Orthopaedics/reports/report_template.xlsx",
 	"reportsFolderPath": "/opt/nodeServer/Orthopaedics/gen_reports/",

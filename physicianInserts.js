@@ -53,9 +53,17 @@ var testPhysicians = [
 	// {npi:"1669689865",name:"Dr. Beckworth",username:"jeremybeck",password:"123456",role:"Physician",department:"Spine"},
 	// {npi:"1245445055",name:"Diane Butler",username:"dianebu",password:"123456",role:"Physician",department:"Spine"},
 	// {npi:"1801293550",name:"Syndey Wang",username:"sydneywang",password:"123456",role:"Physician",department:"Spine"},
-	// {npi:"9000000003",name:"Dr. Gottschalk",username:"michaelgot",password:"123456",role:"Physician",department:"Sports Medicine"},
-	{npi:"1225297237",name:"Dr. Thomas",username:"thomas",password:"123456",role:"Physician",department:"Physician"},
-	{npi:"1770562852",name:"Dr. Jayanthi",username:"Jayanthi",password:"123456",role:"Physician",department:"Physician"}
+	// {npi:"9000000003",name:"Dr. Gottschalk",username:"michaelgot",password:"123456",role:"Physician",department:"Sports Medicine"}
+	{npi:"1740482850",name:"Dr. Bariteau",username:"drbariteau",password:"123456",role:"Physician",department:"Foot & Ankle"},
+	{npi:"1184877151",name:"Dr. Kneer",username:"drkneer",password:"123456",role:"Physician",department:"Sports Medicine"},
+	{npi:"1033385679",name:"Dr. Michael",username:"drmichael",password:"123456",role:"Physician",department:"Spine"},
+	{npi:"1225297237",name:"Dr. Thomas",username:"drthomas",password:"123456",role:"Physician",department:"General Orthopaedics"},
+	{npi:"1366490757",name:"Dr. Axelrod",username:"draxelrod",password:"123456",role:"Physician",department:"General Orthopaedics"},
+	{npi:"1689833329",name:"Dr. Gary",username:"drgary",password:"123456",role:"Physician",department:"Spine"},
+	{npi:"1770562852",name:"Dr. Jayanthi",username:"drjayanthi",password:"123456",role:"Physician",department:"Sports Medicine"},
+	{npi:"1689059180",name:"Liz Berman",username:"lizberman",password:"123456",role:"Physician",department:"Spine"},
+	{npi:"1447573779",name:"Darvin Foo",username:"darvinfoo",password:"123456",role:"Physician",department:"Spine"}
+
 ];
 
 // var testUsrs = [{name:"Imaging User",username:"imaging",password:"123456",role:"Imaging"},
@@ -71,6 +79,7 @@ for (var i = 0; i < testPhysicians.length; i++) {
 	newUser.password = newUser.generateHash(testPhysicians[i].password);
 	newUser.name = testPhysicians[i].name;
 	newUser.npi = testPhysicians[i].npi;
+	newUser.isActive = true;
 	newUser.department = testPhysicians[i].department;
 	
 	newUser.role = "Physician";
