@@ -47,7 +47,8 @@ function escribirExcel (lowDate, highDate, callback) {
     		var physician = patient.physician ? patient.physician.name : "";
     		var apptType = patient.apptType ? patient.apptType : "";
 
-    		var apptTime = patient.apptTime ? moment(patient.apptTime).format("DD/MM/YYYY HH:mm:ss") : "";
+    		var apptDate = patient.apptTime ? moment(patient.apptTime).format("DD/MM/YYYY") : "";
+    		var apptTime = patient.apptTime ? moment(patient.apptTime).format("HH:mm:ss") : "";
 			var wrTime = patient.WRTimestamp ? moment(patient.WRTimestamp).format("HH:mm:ss") : "";
 			var exTime = patient.EXTimestamp ? moment(patient.EXTimestamp).format("HH:mm:ss") : "";
 			var dcTime = patient.DCTimestamp ? moment(patient.DCTimestamp).format("HH:mm:ss") : "";
@@ -76,6 +77,7 @@ function escribirExcel (lowDate, highDate, callback) {
     		data.push({data: name, tipo: "s"});
     		data.push({data: physician, tipo: "s"});
     		data.push({data: apptType, tipo: "s"});
+    		data.push({data: apptDate, tipo: "s"});
     		data.push({data: apptTime, tipo: "s"});
     		data.push({data: wrTime, tipo: "s"});
     		data.push({data: exTime, tipo: "s"});
