@@ -63,6 +63,7 @@ var testPhysicians = [
 	{npi:"1770562852",name:"Dr. Jayanthi",username:"drjayanthi",password:"123456",role:"Physician",department:"Sports Medicine"},
 	{npi:"1689059180",name:"Liz Berman",username:"lizberman",password:"123456",role:"Physician",department:"Spine"},
 	{npi:"1447573779",name:"Darvin Foo",username:"darvinfoo",password:"123456",role:"Physician",department:"Spine"}
+
 ];
 
 // var testUsrs = [{name:"Imaging User",username:"imaging",password:"123456",role:"Imaging"},
