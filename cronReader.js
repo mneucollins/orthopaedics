@@ -1,5 +1,6 @@
 var CronJob = require('cron').CronJob;
 var reader = require('./excelReader');
+var patientsVerifier = require('./patientsVerifier');
 var spawn = require('child_process').spawn;
 
 var config = require("./config");
@@ -38,4 +39,10 @@ new CronJob('00 20 20 * * *', function() {
 
 	reader.leerExcel();
   	console.log('Excel readed successfuly :P');
+}, null, true, 'America/Detroit');
+
+//validating patients charge
+
+new CronJob('00 00 21 * * 0-4', function(){
+	patientsVerifier.validatePatientCharge();
 }, null, true, 'America/Detroit');

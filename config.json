@@ -11,5 +11,6 @@
 	"authToken": "a1a8faab9e27ca826e5485420df0b208",
 	"fromNumber": "+14043342413",
 	"numberPrefix": "+57",
-	"adminEmail": "andrew.wurtzel@emoryhealthcare.org"
+	"adminEmail": "andrew.wurtzel@emoryhealthcare.org",
+	"verifierEmails":"apremkumar10@gmail.com,ezael.bello@imbassolutions.com,camilo.rodriguez@imbassolutions.com,david.rodriguez@imbassolutions.com"
 }
