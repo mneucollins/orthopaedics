@@ -5,6 +5,10 @@ var mongoose     = require('mongoose');
 var config = require('./config');
 var users = require('./models/userModel');
 
+module.exports = {
+	validatePatientCharge : validatePatientCharge
+}
+
 function validatePatientCharge (){
 
 
