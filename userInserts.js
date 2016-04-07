@@ -96,8 +96,29 @@ var users = [
 	// {name: "Oluseun Olufade", username: "n779402", role: "FirstProvider"},
 	// {name: "Mathew Pombo", username: "n701453", role: "FirstProvider"},
 	// {name: "Richard Thomas", username: "n230553", role: "FirstProvider"},
-	{name: "Samantha Jenkins", username: "n727103", role: "FirstProvider"},
-	{name: "Walter Johnson", username: "n143610", role: "FirstProvider"},
+	// {name: "Samantha Jenkins", username: "n727103", role: "FirstProvider"},
+	// {name: "Walter Johnson", username: "n143610", role: "FirstProvider"},
+	// {name: "Kingsley, Payton", username: "pnkings", role: "FirstProvider"},
+	// {name: "Rodik, Tristan", username: "trodik", role: "FirstProvider"},
+	// {name: "Teboda, Jordan", username: "jteboda", role: "FirstProvider"},
+	// {name: "Brueck, Lauren", username: "lbrueck", role: "FirstProvider"},
+	// {name: "Brigham, Carmen", username: "cbrigha", role: "FirstProvider"},
+	// {name: "Pittman, J'nai", username: "jpittm8", role: "FirstProvider"},
+	// {name: "Ortega, Erika", username: "n319533", role: "FirstProvider"},
+	// {name: "Watson, Patrisha", username: "n729468", role: "FirstProvider"},
+	// {name: "McGahee, Tammie", username: "n582700", role: "FirstProvider"},
+	// {name: "Smith, Lutisha", username: "n288121", role: "FirstProvider"},
+	// {name: "Armstrong, Chris", username: "n972022", role: "FirstProvider"},
+	// {name: "Neumeyer, Jeanie", username: "n363435", role: "FirstProvider"},
+	// {name: "Lee Smith, Lutisha", username: "n288121", role: "FirstProvider"},
+	// {name: "White, Julia", username: "n908397", role: "FirstProvider"},
+	// {name: "Dr. Gary, Matthew", username: "n000578", role: "FirstProvider"},
+	// {name: "Pittman, J’nai", username: "n988714", role: "FirstProvider"},
+	// {name: "Brown, Alnisa", username: "n843464", role: "FirstProvider"},
+	// {name: "Bradstreet, Cristina", username: "n361553", role: "FirstProvider"},
+	// {name: "Buggs, Norma", username: "n505361", role: "FirstProvider"},
+	{name: "Benn, Ana", username: "n8514410", role: "FirstProvider"},
+
 
 	// // // IMAGING
 
@@ -109,7 +130,6 @@ var users = [
 	// {name: "Kim Landmon", username: "exrlkr", role: "Imaging"},
 	// {name: "George McMaster", username: "n304722", role: "Imaging"},
 	// {name: "Loredana Nitti", username: "n481576", role: "Imaging"},
-	// {name: "Emilia Rodriguez", username: "n414193", role: "Imaging"},
 	// {name: "Debbie Slappey", username: "slasdh", role: "Imaging"},
 	// {name: "Jason Smitherman", username: "n951491", role: "Imaging"},
 	// {name: "Nancy Stauffer", username: "exr5snx", role: "Imaging"},
@@ -125,6 +145,9 @@ var users = [
 	// {name: "Maria Narvaez", username: "n713524", role: "Imaging"},
 	// {name: "Rooks, Amy", username: "n658957", role: "Imaging"},
 	// {name: "Selz, Donna", username: "n052987", role: "Imaging"},
+	// {name: "Hopper, Heather", username: "n215946", role: "Imaging"},
+	// {name: "Kingsenamongkhol, Viengsanh", username: "n439568", role: "Imaging"},
+	// {name: "Rodriguez, Emilia", username: "n414193", role: "Imaging"},
 	
 	// // FRONT OFFICE
 
@@ -155,27 +178,16 @@ var users = [
 	// {name: "Donaphin, Kathleen", username: "n724896", role: "Receptionist"},
 	// {name: "Madison, Eric", username: "n687653", role: "Receptionist"},
 	// {name: "Para, Natasha", username: "n179414", role: "Receptionist"},
-
-
-	// {name: "Kingsley, Payton", username: "pnkings", role: "FirstProvider"},
-	// {name: "Rodik, Tristan", username: "trodik", role: "FirstProvider"},
-	// {name: "Teboda, Jordan", username: "jteboda", role: "FirstProvider"},
-	// {name: "Brueck, Lauren", username: "lbrueck", role: "FirstProvider"},
-	// {name: "Brigham, Carmen", username: "cbrigha", role: "FirstProvider"},
-	// {name: "Pittman, J'nai", username: "jpittm8", role: "FirstProvider"},
-	// {name: "Ortega, Erika", username: "n319533", role: "FirstProvider"},
-	// {name: "Watson, Patrisha", username: "n729468", role: "FirstProvider"},
-	// {name: "McGahee, Tammie", username: "n582700", role: "FirstProvider"},
-	// {name: "Smith, Lutisha", username: "n288121", role: "FirstProvider"},
-	// {name: "Armstrong, Chris", username: "n972022", role: "FirstProvider"},
-
-	// {name: "Neumeyer, Jeanie", username: "n363435", role: "FirstProvider"},
 	// {name: "Madera, Meraris", username: "n924258", role: "Receptionist"},
 	// {name: "Bailey, Debbie", username: "eopbdk", role: "Receptionist"},
+	// {name: "Morant, Nefretiti A.", username: "n759725", role: "Receptionist"},
+	// {name: "Wallace, Pamela", username: "n055456", role: "Receptionist"},
+	// {name: "Breiding, Majorie", username: "n047776", role: "Receptionist"},
 
 	
 	// {name: "Admin", username: "admin", role: "FirstProvider", isAdmin: true},
 	// {name: "Hines, Stephanie", username: "upd7msd", role: "FirstProvider", isAdmin: true},
+	// {name: "Varner, Kobi", username: "n600113", role: "FirstProvider", isAdmin: true},
 ];
 
 for (var i = 0; i < users.length; i++) {
