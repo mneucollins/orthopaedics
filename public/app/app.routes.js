@@ -1,7 +1,7 @@
 orthopaedicsApp.config(['$routeProvider',
   function($routeProvider) {
 
-    
+
 
     var checkLoggedin = function($q, $timeout, $http, $location, $rootScope){
       // Initialize a new promise
@@ -32,7 +32,7 @@ orthopaedicsApp.config(['$routeProvider',
     $routeProvider
 
       .when('/login', {
-        templateUrl: '/partials/login.html',
+        templateUrl: '/app/modules/login/login.html',
         controller: 'loginCtrl'
       })
 

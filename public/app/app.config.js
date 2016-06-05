@@ -2,6 +2,9 @@ var orthopaedicsApp = angular.module('orthopaedicsApp', [
   "ngRoute",
   "ngAnimate",
   "ngCookies",
+
+  "appCommons",
+  "loginModule",
   "orthopaedicsServices",
   "orthopaedicsControllers",
   "orthopaedicsFilters",
