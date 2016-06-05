@@ -31,30 +31,25 @@ orthopaedicsApp.config(['$routeProvider',
     
     $routeProvider
 
-      .when('/login', {
+      .when('/', {
         templateUrl: '/app/modules/login/login.html',
         controller: 'loginCtrl'
       })
 
       .when('/restore/:token', {
-        templateUrl: '/partials/login.html',
+        templateUrl: '/app/modules/login/login.html',
         controller: 'restoreCtrl'
       })
 
-      .when('/dashboard1', {
-        templateUrl: '/partials/dashboard1.html',
+      .when('/dashboard', {
+        templateUrl: '/app/modules/dashboard/dashboard.html',
+        controller: 'dashboardCtrl',
         resolve: {
           loggedin: checkLoggedin
         }
       })
 
-      .when('/dashboard2', {
-        templateUrl: '/partials/dashboard2.html',
-        resolve: {
-          loggedin: checkLoggedin
-        }
-      })
       .otherwise({
-        redirectTo: '/login'
+        redirectTo: '/'
       });
 }]);

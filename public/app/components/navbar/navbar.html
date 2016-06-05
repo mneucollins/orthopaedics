@@ -1,0 +1,47 @@
+
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand page-scroll" href="#page-top">
+                <div class="imglogo1 retinaContainer">
+                    <img src="img/emory-logo-small.png" alt="Emory Clinics">
+                </div>
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <p class="navbar-text helpText" ng-show="dashboard == 1">We are sensitive to your time and needs and will notify you about any waits and delays by sending a text message to your phone. What is the number for the cell phone you have with you today?</p>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="hidden-sm"><p class="navbar-text">Dashboard {{dashboard}}</p></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ currentUser.name }} <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="#" ng-click="showNotesDialog()">Check Notes</a>
+                            <a href="#" ng-show="currentUser.isAdmin" ng-click="showReportsDialog()">Patients Report</a>
+                            <a href="#" ng-show="currentUser.isAdmin" ng-click="usersReportsDialog()">Users Report</a>
+                            <a href="#" ng-show="$root.hideDischarged" ng-click="$root.hideDischarged=false">Show Discharged Patients</a>
+                            <a href="#" ng-hide="$root.hideDischarged" ng-click="$root.hideDischarged=true">Hide Discharged Patients</a>
+                        </li>
+                        <li>
+                            <a href="#" ng-show="$root.hideDeleted" ng-click="$root.hideDeleted=false">Show Deleted Patients</a>
+                            <a href="#" ng-hide="$root.hideDeleted" ng-click="$root.hideDeleted=true">Show All Patients</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="#" ng-click="$root.openHelpModal()">Need Help?</a></li>
+                        <li><a href="#" ng-click="logout()">Log Out</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>

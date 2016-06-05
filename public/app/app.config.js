@@ -3,12 +3,22 @@ var orthopaedicsApp = angular.module('orthopaedicsApp', [
   "ngAnimate",
   "ngCookies",
 
+  "ui.bootstrap",
+
   "appCommons",
   "loginModule",
+  "dashboardModule",
+  "patientsModule",
+  "physiciansModule",
+  "messagesModule",
+  "reportsModule",
+  "usersModule",
+
   "orthopaedicsServices",
-  "orthopaedicsControllers",
+  // "orthopaedicsControllers",
   "orthopaedicsFilters",
   "orthopaedicsDirectives"
+
 ]);
 
 orthopaedicsApp.config(['$locationProvider', '$httpProvider', '$injector',

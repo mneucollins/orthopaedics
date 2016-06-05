@@ -1,0 +1,34 @@
+<div class="modal-header">
+	<h3 class="modal-title">Notes</h3>
+</div>
+<div class="modal-body">
+	<div class="row">
+		<div class="col-sm-12">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Patient</th>
+						<th>Physician</th>
+						<th class="hidden-xs">Type</th>
+						<th class="hidden-xs">Appt Time</th>
+						<th class="hidden-xs">Age</th>
+						<th>Notes</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="patient in patients">
+						<td>{{ patient.fullName }}</td>
+						<td>{{ patient.physician.name }}</td>
+						<td class="hidden-xs">{{ patient.apptType }}</td>
+						<td class="hidden-xs">{{ patient.apptTime | date:'hh:mm a'}}</td>
+						<td class="hidden-xs">{{ patient.age }}</td>
+						<td>{{ patient.notes }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-default circled" ng-click="cancel()">Close</button>
+</div>

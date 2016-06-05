@@ -1,4 +1,5 @@
-angular.module('loginModule').controller('loginCtrl', ['$scope', '$location', '$modal','AuthService', 'Alerts', 'User',
+angular.module('loginModule')
+.controller('loginCtrl', ['$scope', '$location', '$modal','AuthService', 'Alerts', 'User',
 	function($scope, $location, $modal, AuthService, Alerts, User) {
 
     $("nav").addClass("hidden");
@@ -101,10 +102,11 @@ angular.module('loginModule').controller('loginCtrl', ['$scope', '$location', '$
     function goToDashboard (user) {
         Alerts.addAlert("success", "Welcome " + user.name);
 
-        if(user.role == "Imaging" || user.role == "Receptionist")
-            $location.path("/dashboard1");
-        else
-            $location.path("/dashboard2");
+        // if(user.role == "Imaging" || user.role == "Receptionist")
+        //     $location.path("/dashboard1");
+        // else
+        //     $location.path("/dashboard2");
+        $location.path("/dashboard");
     }
 
     // E-Mail Management
