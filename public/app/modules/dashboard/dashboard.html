@@ -17,37 +17,9 @@
 </div>
 
 <div class="col-sm-11 col-sm-offset-1 schedule-container" ng-controller="dashboardCtrl">
-    <div class="panel panel-default infoHeader">
-        <div class="panel-default" role="tab" id="headingOne">
-            <div class="row">
-                <div class="visible-xs col-xs-3 menuPhysicians retinaContainer" ng-controller="dashboardCtrl">
-                    <img src="../img/Doctor_Selected.png" ng-click="$root.tooglePhysiciansList()"/>
-                </div>
-                <div class="col-xs-8 col-sm-5 col-md-4 clock">
-                    <h3>{{ currentTime | date: 'h:mm a MMMM d, yyyy'}}</h3>
-                </div>
-                <h3 class="hidden-xs col-sm-6 col-md-7 text-right btnBarHeader">
-                    <button class="btn btn-default circled" ng-click="sendBulkMessages()"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button>
-                    <button class="btn btn-default circled" ng-click="newPatient()">+ Add Patient</span></button>
-                </h3>
-                <div class="col-xs-1 col-sm-1 col-md-1 expandBtnHeader">
-                    <div class="retinaContainer dashboardSVG">
-                        <img src="img/collapseIcon.svg" class="imageButton"  data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"  aria-controls="collapseOne" style="  padding-top: 43%;" onclick="onCollapseButton(this);"/>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-            <div class="panel-body">
-                <h3 class="physiciansHeader">
-                    <span class="col-xs-6 col-sm-6 col-md-4 mobilePhysicians" ng-repeat="physician in selectedPhysicians">
-                        <span class="col-xs-8 col-sm-8">{{ physician.name }}</span>
-                        <span class="col-sm-3 col-md-2 roundMiniBox" ng-class="{'timer-on-clinicDelay': physician.clinicDelay<=15, 'timer-delay-15': physician.clinicDelay>15 && physician.clinicDelay<=30, 'timer-delay-30': physician.clinicDelay>30 && physician.clinicDelay<=45, 'timer-delay-45': physician.clinicDelay>45}">{{ physician.clinicDelay }}</span>
-                    </span>
-                </h3>
-            </div>
-        </div>
-    </div>
+
+
+    <info-header></info-header>
 
 
     <div class="panel col-sm-12 dashboardBody backgroundMobile">

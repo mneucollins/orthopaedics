@@ -1,0 +1,63 @@
+<div class="modal-header">
+	<h3 class="modal-title">New Patient</h3>
+</div>
+<div class="modal-body">
+	<form class="form-group" name="patientForm">
+	<div class="row form-group">
+		<div class="col-sm-3">First Name</div>
+		<div class="col-sm-7 input-group"><input type="text" class="form-control" ng-model="patient.firstName" ng-disabled="fieldsDisabled"></div>
+	</div>
+	<div class="row form-group">
+		<div class="col-sm-3">Last Name</div>
+		<div class="col-sm-7 input-group"><input type="text" class="form-control" ng-model="patient.lastName" ng-disabled="fieldsDisabled" name="lastName" required></div>	</div>
+	<div class="row form-group">
+		<div class="col-sm-3">DOB</div>
+		<div class="col-sm-7 input-group">
+			<input type="text" class="form-control" datepicker-popup="MM/dd/yy" ng-model="patient.dateBirth" is-open="dobOpened" datepicker-options="dateOptions" close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="openDOB($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+		</div>
+	</div>
+	<div class="row form-group">
+		<div class="col-sm-3">Phone Number</div>
+		<div class="col-sm-7 input-group">
+			<input type="text" class="form-control col-sm-7" ng-model="patient.cellphone" maxlength="10" ng-disabled="patient.noPhone">
+			<div class="checkbox">
+				<label><input type="checkbox" ng-model="patient.noPhone">No Phone Number</label>
+			</div>
+		</div>
+	</div>
+	<div class="row form-group">
+		<div class="col-sm-3" ng-style="apptTimeLabel">Appointment Time</div>
+		<div class="col-sm-7 input-group">
+			<timepicker ng-model="patient.apptTime" minute-step="5" ng-hide="fieldsDisabled"></timepicker>
+			<input type="text" class="form-control" ng-model="patient.apptTime | date: 'HH:mm'" ng-disabled="fieldsDisabled" ng-show="fieldsDisabled" required>
+		</div>
+	</div>
+	<div class="row form-group">
+		<div class="col-sm-3">Appointment Type</div>
+		<div class="col-sm-3 input-group"><input type="text" class="form-control" ng-model="patient.apptType" ng-disabled="fieldsDisabled" maxlength="3"></div>
+	</div>
+	<div class="row form-group">
+		<div class="col-sm-3">MRN Number</div>
+		<div class="col-sm-7 input-group"><input type="text" class="form-control" ng-model="patient.medicalRecordNumber" ng-disabled="fieldsDisabled" required></div>
+	</div>
+	<div class="row form-group" ng-show="modalFunction == 'edit'">
+		<div class="col-sm-3">Room</div>
+		<div class="col-sm-7"><input type="text" class="form-control" ng-model="patient.roomNumber" maxlength="5"></div>
+	</div>
+	<div class="row form-group">
+		<div class="col-sm-3">Physician</div>
+		<div class="col-sm-7 input-group">
+			<select class="form-control" ng-model="patient.physician"  
+				 ng-options="physician as physician.name for physician in physicians" ng-disabled="fieldsDisabled" required></select>
+			<!-- <input type="text" class="form-control" ng-model="patient.physician.name" ng-disabled="fieldsDisabled"> -->
+		</div>
+	</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-default circled" ng-click="cancel()">Cancel</button>
+	<button class="btn btn-primary circled" ng-click="submit()">Submit</button>
+</div>

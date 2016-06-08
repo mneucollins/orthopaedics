@@ -549,25 +549,6 @@ angular.module('dashboardModule')
         Alerts.addAlert("success", "message on it's way...");
     }
 
-    $scope.sendBulkMessages = function () {
-
-        var modalInstance = $modal.open({
-            templateUrl: '/partials/sendMessageBulk.html',
-            controller: 'bulkMessageCtrl',
-            resolve: {
-                patients: function () {
-                    return $scope.patientList;
-                }
-            }
-        });
-
-        modalInstance.result.then(function () {
-            $log.info('Imaging message sent!');
-        }, function () {
-            $log.info('Message Modal dismissed at: ' + new Date());
-        });  
-    }
-
 
     // Times calculation
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -687,40 +668,10 @@ angular.module('dashboardModule')
     }
 
 
-    // Patient CRUD
-    ///////////////////////////////////////////////////////////////////////////////////////////////
-
-    $scope.newPatient = function () {
-        
-        var modalInstance = $modal.open({
-            templateUrl: '/partials/registerPatient.html',
-            controller: 'registerPatientCtrl',
-            resolve: {
-                patient: function () {
-                    return null;
-                },
-                physicians: function () {
-                    return $rootScope.selectedPhysicians;
-                },
-                modalFunction: function () {
-                    return "new";
-                }
-            }
-        });
-
-        modalInstance.result.then(function (patient) {
-            $scope.patientList.push(patient);
-            $scope.filteringActive($scope.colFilter);
-            $scope.filteringActive($scope.colFilter);
-        }, function () {
-            $log.info('Message Modal dismissed at: ' + new Date());
-        });
-    }
-
     $scope.editPatient = function (patient) {
         
         var modalInstance = $modal.open({
-            templateUrl: '/partials/registerPatient.html',
+            templateUrl: '/app/modules/patients/register-patient.html',
             controller: 'registerPatientCtrl',
             resolve: {
                 patient: function () {
@@ -824,7 +775,7 @@ angular.module('dashboardModule')
     $scope.register = function (patient) {
         
         var modalInstance = $modal.open({
-            templateUrl: '/partials/registerPatient.html',
+            templateUrl: '/app/modules/patients/register-patient.html',
             controller: 'registerPatientCtrl',
             resolve: {
                 patient: function () {

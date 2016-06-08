@@ -21,6 +21,17 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="hidden-sm"><p class="navbar-text">Dashboard {{dashboard}}</p></li>
                 <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Ops <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <button class="btn btn-default circled" ng-click="sendBulkMessages()"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button> Write message
+                        </li>
+                        <li>
+                            <button class="btn btn-default circled" ng-click="newPatient()"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></button> Add patient
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ currentUser.name }} <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li>

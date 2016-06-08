@@ -115,6 +115,58 @@ angular.module("appCommons")
                     $log.info('Help Modal dismissed at: ' + new Date());
                 });  
             }
+
+            // Add Patient
+            /////////////////////////////////////////////////////////////////////////////////////////////
+
+            $scope.newPatient = function () {
+                
+                var modalInstance = $modal.open({
+                    templateUrl: '/app/modules/patients/register-patient.html',
+                    controller: 'registerPatientCtrl',
+                    resolve: {
+                        patient: function () {
+                            return null;
+                        },
+                        physicians: function () {
+                            return $rootScope.selectedPhysicians;
+                        },
+                        modalFunction: function () {
+                            return "new";
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function (patient) {
+                    $scope.patientList.push(patient);
+                    $scope.filteringActive($scope.colFilter);
+                    $scope.filteringActive($scope.colFilter);
+                }, function () {
+                    $log.info('Message Modal dismissed at: ' + new Date());
+                });
+            }
+
+
+            // Bulk Messages
+            ////////////////////////////////////////////////////////////////////////////////////
+            $scope.sendBulkMessages = function () {
+
+                var modalInstance = $modal.open({
+                    templateUrl: '/partials/sendMessageBulk.html',
+                    controller: 'bulkMessageCtrl',
+                    resolve: {
+                        patients: function () {
+                            return $scope.patientList;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function () {
+                    $log.info('Imaging message sent!');
+                }, function () {
+                    $log.info('Message Modal dismissed at: ' + new Date());
+                });  
+            }
         }]
     }
 });

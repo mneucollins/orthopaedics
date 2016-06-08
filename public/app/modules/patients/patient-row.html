@@ -1,0 +1,205 @@
+<div>
+	
+	<div class="col-xs-12 visible-xs borderedFull">
+        <div class="row">
+            <div class="col-xs-4 visible-xs patienInfo" style="padding-top: 3%;  ">
+                {{ patient.apptTime | date:'hh:mm a'}} 
+            </div>
+            <div class="col-xs-1 visible-xs patienInfo" style="padding-top: 3%;  text-align: center;">
+                |
+            </div>
+            <div class="col-xs-3 visible-xs patienInfo" style="padding-top: 3%;  text-align: center;">
+               {{ patient.apptType }} 
+            </div>
+            <div class="col-xs-1 visible-xs patienInfo" style="padding-top: 3%;  text-align: center;">
+                |
+            </div>
+            <div class="col-xs-2 visible-xs patienInfo" style="padding-top: 3%;  text-align: left;">
+                {{ patient.roomNumber }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 visible-xs patienInfo">
+               <b>{{ patient.fullName }}</b>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 visible-xs patienInfo" ng-show="!hidePhysicians">
+                {{ patient.physician.name }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 visible-xs" style="margin-top: -5%;  margin-bottom: -5%;">
+                <hr />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3 visible-xs patienInfoFocus" style="  padding-top: 2%; font-size: 1.2em;">
+                <span ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }} </span>
+            </div>
+            <div class="col-xs-3 visible-xs patienInfoFocus" style="  padding-top: 2%; font-size: 1.2em;">
+                <span ng-class="getTimerColor('EX', patient)"> EX {{ getEXTime(patient) }} </span>
+            </div>
+            <div class="col-xs-5 visible-xs " style="padding-bottom: 12px;">
+            <div class="roundMiniBox "  ng-class="{'timer-not-started': patient.currentState == 'DC' || patient.currentState == 'NCI' || getTotalTime(patient) < 0}"><div class="patienInfoFocus" style="color: #0099F0">{{ getTotalTime(patient) }}</div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix visible-xs-block"></div>
+
+    <div class="col-xs-3 col-sm-1 patientData buttonRow patientState" ng-class="{buttonRowBig: hidePhysicians}" style="background-color:white; border-top:transparent;">
+        <button type="button" ng-show="patient.currentState == 'DC'" class="btn btn-default circled btnDischarge" ng-click="restoreDischargedPatient(patient)">Restore</button>
+        <button type="button" ng-show="patient.currentState == 'EX'" class="btn btn-default circled btnDischarge" ng-class="patient._id" ng-click="discharge(patient)">Discharge</button>
+        <button type="button" class="btn circled btnCallBack" ng-class="{'btn-primary': patient.callbackEnabled, 'btn-default': !patient.callbackEnabled}" ng-show="patient.currentState == 'WR'" ng-click="callBack(patient)" ng-disabled="patient.fcStartedTimestamp && !patient.fcFinishedTimestamp">Call Back</button>
+        <button type="button" class="btn btn-default circled" ng-show="patient.currentState == 'NCI'" ng-click="register(patient)">Register</button>
+    </div>
+    <div class="hidden-xs col-sm-1 patientData bordered apptTimeRow">{{ patient.apptTime | date:'hh:mm a'}}</div>
+    <div class="hidden-xs col-sm-1 patientData bordered nameRow" ng-class="{nameRowBig: hidePhysicians}" style="font-weight: bold;">{{ patient.fullName }}</div>
+    <div class="hidden-xs col-sm-1 patientData bordered typeRow">{{ patient.apptType }}</div>
+    <div class="hidden-xs col-sm-1 patientData bordered roomRow" ng-show="hidePhysicians">{{ patient.roomNumber }}</div>
+    <div class="hidden-xs col-sm-1 patientData bordered physicianRow" ng-hide="hidePhysicians">{{ patient.physician.name }}</div>
+    <div class="hidden-xs col-sm-1 patientData bordered ageRow">{{ patient.age }}</div>
+    <div class="col-xs-2 col-sm-2 patientData bordered fcRow">
+        <div ng-if="!showFCMinutes(patient)" class="retinaContainer dashboardSVG">
+            <img ng-src="{{ getFCIcon(patient) }}" ng-click="toogleFCState(patient)" ng-class="{clickable: isFCClickable(patient)}" />
+        </div>
+
+        <div class="fcMinutes" ng-if="showFCMinutes(patient)" ng-click="toogleFCState(patient)" ng-class="{clickable: isFCClickable(patient)}">
+            {{ getFCMinutes(patient) }}m
+        </div>
+    </div>
+    <div class="col-xs-2 col-sm-1 patientData bordered imagingRow2">
+        <div class="retinaContainer dashboardSVG">
+            <img ng-if="!isImagingStarted(patient) || patient.imagingTimestamp" ng-src="{{ getImagingState(patient) }}" ng-click="toogleImagingState(patient)" ng-class="{clickable: isImagingClickable(patient)}"/>
+            <div class="imagingMinutes" ng-if="isImagingStarted(patient) && !patient.imagingTimestamp">
+                {{ getImagingMinutes(patient) }}m
+            </div>
+        </div>
+    </div>   
+    <div class="col-xs-2 col-sm-1 patientData bordered atRow" ng-class="{atRowBig: hidePhysicians}">
+        <div class="retinaContainer dashboardSVG">
+            <img ng-src="{{ getATIcon(patient) }}" ng-class="{clickable: patient.currentState == 'EX'}" ng-click="toogleATEntry(patient)"/>
+        </div>
+        <span ng-show="patient.enterTimestamp.length > 0" ng-class="colorStateAT">{{ getATtimer(patient) | date:'mm.ss' }}</span>
+    </div>              
+    <div class="hidden-xs col-sm-2 patientData bordered statusRow" ng-class="{statusRowBig: hidePhysicians}">
+        <span class="col-sm-6" ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }}</span>
+        <span class="col-sm-6" ng-class="getTimerColor('EX', patient)">EX {{ getEXTime(patient) }}</span>
+    </div>
+    <div class="hidden-xs col-sm-1 patientData bordered totalRow"><div class="roundMiniBox" ng-class="{'timer-not-started': patient.currentState == 'DC' || patient.currentState == 'NCI' || getTotalTime(patient) < 0}">{{ getTotalTime(patient) }}</div></div>
+    <div class="col-xs-4 col-sm-1 patientData bordered expandBtnRow">
+        <div class="retinaContainer dashboardSVG">
+            <img src="img/expandIcon.svg" class="imageButton" data-toggle="collapse" data-target="{{ '#miniform' + patient._id }}" onclick="onCollapseButton(this);" ng-click="loadPatientHistory(patient)"/>
+        </div>
+    </div>
+
+    <div class="clearfix visible-xs-block"></div>
+    
+    <!-- Start Collapsible -->
+    <div class="col-sm-offset-1 col-sm-11 accordian-body collapse patientExpandible" ng-class="{patientExpandibleShort: hidePhysicians}" id="{{ 'miniform' + patient._id }}" ng-init="showTab='info'">
+        <div class="row expandibleTitles">
+            <div class="col-xs-2 col-sm-2 clickable" ng-click="showTab='info'" ng-class="{'attentionFont': showTab=='info'} " style="font-family: 'ProximaNova';">
+                <span class="glyphicon glyphicon-info-sign hidden-xs" aria-hidden="true"></span>Info 
+            </div>
+            <div class="col-xs-3 col-sm-2 clickable" ng-click="showTab='msg'" ng-class="{'attentionFont': showTab=='msg'}" style="font-family: 'ProximaNova';">
+                <span class="glyphicon glyphicon-envelope hidden-xs" aria-hidden="true"></span>Contact 
+            </div>
+            <div class="col-xs-3 col-sm-2 clickable" ng-click="showTab='notes'" ng-class="{'attentionFont': showTab=='notes'}" style="font-family: 'ProximaNova';">
+                <span class="glyphicon glyphicon-pencil hidden-xs" aria-hidden="true"></span>Notes 
+            </div>
+            <div class="col-xs-4 visible-xs clickable" ng-click="showTab='prior'" ng-class="{'attentionFont': showTab=='prior'}" style="font-family: 'ProximaNova';">
+                Prior 
+            </div>
+            <div class="col-sm-6 hidden-xs">
+                <div>Prior Appointment Wait Times</div>
+            </div>
+        </div>
+
+        <br/>
+        <div class="row rowFullWhite" style="text-align:left">
+            <div class="col-sm-6 panelPrior" >
+                <div id="{{ 'miniformInfo' + patient._id }}" ng-show="showTab=='info'" class="patInfoPanel">
+                    <div class="" style="  padding-top: 3%;">Room: {{ patient.roomNumber }}</div>
+                    <div class="divMarginLine"><hr/></div>
+                    <div class="">MRN: {{ patient.medicalRecordNumber }}</div>
+                    <div class="divMarginLine"><hr/></div>
+                    <div class="visible-xs"> AGE: {{ patient.age }}</div>
+                    <div class="visible-xs divMarginLine"><hr/></div>
+                    <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+                    {{ patient.cellphone }}
+                    <div class="divMarginLine"><hr/></div>
+                    <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                    {{ patient.email }}
+                    <div class="divMarginLine"><hr/></div>
+                    <span class="glyphicon glyphicon-map-marker" aria-hidden="true" style="  padding-bottom: 7%;"></span>
+                    {{ patient.adress }}
+                    <br>
+                    <div class="col-sm-4 col-sm-offset-3 btn ok-btn clickable circled" ng-click="restoreDeletedPatient(patient)" ng-show="patient.isDeleted">Restore</div>
+                    <div class="col-xs-4 col-xs-offset-1 btn ok-btn clickable circled" ng-click="editPatient(patient)" ng-hide="patient.isDeleted">Edit</div>
+                    <div class="col-xs-4 col-xs-offset-2 btn btn-danger clickable circled" ng-click="deletePatient(patient)" ng-hide="patient.isDeleted">Delete</div>
+                </div>
+                <div ng-show="showTab=='msg'">
+                    <div class="row textAreaMsg">
+                        <div class="col-sm-12 fullSpaceRow">
+                            <textarea id="{{ 'miniformTextArea' + patient._id }}" class="form-control rowTextArea" rows="5" id="comment" placeholder="Send text message..." ng-model="patient.message" ></textarea>
+                        </div>
+                    </div>
+                    <div class="hidden-xs row">
+                        <div class="col-sm-12 fullSpaceRow">
+                            <div id="{{ 'miniformTriangle' + patient._id }}" style="margin-left: {{ patient.messageSelectorPos }}%;">
+                                <div class="popTriangle" style="border-width: 12px 13px 0px 13px; border-color: #C9C9C9 transparent;"></div>
+                                <div class="popTriangle" style="margin-top: -12px; margin-left: 15px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row rowButtonsMargin">
+                        <div class="hidden-xs col-sm-3 col-md-2 clickable" ng-click="msjToCustom(patient)" ng-class="{'messageOn' : patient.messageSelectorPos == '1'}">Custom</div>
+                        <div class="hidden-xs col-sm-3 col-md-2 clickable defaultMsjTag" ng-click="msjToDefault(patient)" ng-class="{'messageOn' : patient.messageSelectorPos != '1'} ">Default</div>
+                        <div class="col-xs-2 hidden-sm col-md-4"></div>
+                        <div class="col-xs-4 col-sm-3 col-md-2 clickable" style="font-weight: bold; color:#7F7F7F;">Cancel</div>
+                        <div class="col-xs-5 col-sm-3 col-md-2 btn ok-btn clickable" ng-disabled="patient.noPhone" ng-click="sendMessage(patient)">Send</div>
+                    </div>
+                </div>
+                <div ng-show="showTab=='notes'">
+                    <div class="row textAreaMsg">
+                        <div class="col-sm-12 fullSpaceRow">
+                            <textarea class="form-control rowTextArea" rows="5" id="comment" placeholder="Place any notes here" ng-model="patient.notes" ></textarea>
+                        </div>
+                    </div>
+                    <div style="height: 1em"></div>
+                    <div class="row rowButtonsMargin">
+                        <div class="col-xs-5 col-sm-3 col-md-2 col-xs-offset-6 col-sm-offset-9 col-md-offset-10 btn ok-btn clickable" ng-click="saveNotes(patient)">Save</div>
+                    </div>
+                </div>
+                <div id="{{ 'miniformTimes' + patient._id }}" class="visible-xs" ng-show="showTab=='prior'">
+                    <div class="row" ng-repeat="record in patient.history" style="padding-bottom: 2%; padding-top: 2%;">
+                        <div class="col-xs-2 priorTimeCol">{{ record.apptTime | date: 'MM/dd/yy'}}</div>
+                        <div class="col-xs-7 priorStatusCol ">
+                            <span class="col-xs-6 col-sm-6" ng-class="getTimerColor('WRH', record)"> WR {{ getWRTime(patient) }}  </span>
+                            <span class="col-xs-6 col-sm-6" ng-class="getTimerColor('EXH', record)"> EX {{ getEXTime(record) }}  </span>
+                        </div>
+                        <div class="col-xs-3 priorTotalCol"><div class="roundMiniBox"><div class="patienInfoFocus" style="color: #0099F0">{{ getTotalTime(record) }}</div></div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="hidden-xs col-sm-6 col-lg-5" style="border-left: thick solid #C9C9C9; border-width: 1px;">
+                <div class="row priorApptRow" ng-repeat="record in patient.history">
+                    <div class="col-sm-3 priorTimeCol">{{ record.apptTime | date: 'MM/dd/yy'}}</div>
+                    <div class="col-sm-6 priorStatusCol">
+                        <span class="col-sm-6" ng-class="getTimerColor('WRH', record)">WR {{ getWRTime(record) }}</span>
+                        <span class="col-sm-6" ng-class="getTimerColor('EXH', record)">EX {{ getEXTime(record) }}</span>
+                    </div>
+                    <div class="col-sm-3 priorTotalCol"><div class="roundMiniBox">{{ getTotalTime(record) }}</div></div>
+                </div>
+                <br />
+                <div style="text-align:right;color:#7F7F7F;font-weight: normal;">
+                    See all
+                </div>
+                <br/>
+            </div>
+        </div>
+    </div>
+    <!-- End Collapsible -->  
+
+</div>
