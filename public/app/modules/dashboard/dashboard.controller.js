@@ -11,6 +11,9 @@ angular.module('dashboardModule')
         $scope.currentTime = new Date();
     }, 500);
 
+
+
+
     // Physician managment
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -988,4 +991,28 @@ angular.module('dashboardModule')
             
         }
     }
+
+
+
+
+
+
+
+
+
+    $rootScope.tooglePhysiciansList = function () {
+        $rootScope.hidePhysiciansList = !$rootScope.hidePhysiciansList;
+    }
+    
+    setTimeout(resizePhybar, 100); // método en el main.js
+    $rootScope.selectedPhysicians = [];
+    $rootScope.hidePhysiciansList = false;
+
+    Physician.query(function (physicians) {
+        _.each(physicians, function (element, index, list) {
+            list[index].selected = false;
+        });
+        $scope.physicianList = physicians;
+    });
+
 }]);
