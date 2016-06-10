@@ -33,7 +33,7 @@ orthopaedicsApp.config(['$locationProvider', '$httpProvider', '$injector',
 
 }]);
 
-orthopaedicsApp.run(function($rootScope,WaitTime){
+orthopaedicsApp.run(function($rootScope, WaitTime){
 
   $rootScope.getWRTime = WaitTime.getWRTime;
   $rootScope.getEXTime = WaitTime.getEXTime;

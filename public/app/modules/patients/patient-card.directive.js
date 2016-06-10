@@ -3,9 +3,9 @@ angular.module('patientsModule')
 	return {
 		replace : true,
 		restrict : 'E',
-		// scope : {
-		// 	patient : "="
-		// },
+		scope : {
+			patient : "="
+		},
 		templateUrl : '/app/modules/patients/patient-card.html',
 		controller:['$scope', '$rootScope', '$modal', '$log', 'Patient', 'Alerts',
 			function($scope, $rootScope, $modal, $log, Patient, Alerts){

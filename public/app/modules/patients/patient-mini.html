@@ -38,10 +38,10 @@
         <span ng-show="patient.enterTimestamp.length > 0" ng-class="colorStateAT">{{ getATtimer(patient) | date:'mm.ss' }}</span>
     </div>              
     <div class="hidden-xs col-sm-2 patientData bordered statusRow" ng-class="{statusRowBig: hidePhysicians}">
-        <span class="col-sm-6" ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }}</span>
-        <span class="col-sm-6" ng-class="getTimerColor('EX', patient)">EX {{ getEXTime(patient) }}</span>
+        <span class="col-sm-6" ng-class="$root.getTimerColor('WR', patient)">WR {{ $root.getWRTime(patient) }}</span>
+        <span class="col-sm-6" ng-class="$root.getTimerColor('EX', patient)">EX {{ $root.getEXTime(patient) }}</span>
     </div>
-    <div class="hidden-xs col-sm-1 patientData bordered totalRow"><div class="roundMiniBox" ng-class="{'timer-not-started': patient.currentState == 'DC' || patient.currentState == 'NCI' || getTotalTime(patient) < 0}">{{ getTotalTime(patient) }}</div></div>
+    <div class="hidden-xs col-sm-1 patientData bordered totalRow"><div class="roundMiniBox" ng-class="{'timer-not-started': patient.currentState == 'DC' || patient.currentState == 'NCI' || getTotalTime(patient) < 0}">{{ $root.getTotalTime(patient) }}</div></div>
     <div class="col-xs-4 col-sm-1 patientData bordered expandBtnRow">
         <div class="retinaContainer dashboardSVG">
             <img src="img/expandIcon.svg" class="imageButton" data-toggle="collapse" data-target="{{ '#miniform' + patient._id }}" onclick="onCollapseButton(this);" ng-click="loadPatientHistory(patient)"/>

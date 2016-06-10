@@ -132,7 +132,7 @@ function sendWelcomeMessage (msgData, callback) {
 				newMessage.message = theMessage;
 				newMessage.sid = message.sid;
 				newMessage.patient = msgData.patient.id;
-				newMessage.msjType = 
+				newMessage.msjType = "welcome";
 
 				newMessage.save(function messageSaved (err, message, numberAffected) {
 					if(err) callback(err);
@@ -197,7 +197,8 @@ function sendTwimlResponse (patientData, callback) {
 	// });
 }
 
-function validarIntervalo(waitTime){
+function validarIntervalo(waitTime) {
+	
 	var calculateTime = 5 * Math.round(waitTime / 5);
 	calculateTime = calculateTime == 0 ? 5 : calculateTime ;
 	switch (calculateTime){

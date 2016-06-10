@@ -2,7 +2,7 @@
 	
 	<div class="col-xs-12 visible-xs borderedFull">
         <div class="row">
-            <div class="col-xs-4 visible-xs patienInfo" style="padding-top: 3%;  ">
+            <div class="col-xs-4 visible-xs patienInfo" style="padding-top: 3%;">
                 {{ patient.apptTime | date:'hh:mm a'}} 
             </div>
             <div class="col-xs-1 visible-xs patienInfo" style="padding-top: 3%;  text-align: center;">
@@ -45,19 +45,18 @@
             </div>
         </div>
     </div>
-
     <div class="clearfix visible-xs-block"></div>
 
 
 
 
-    <patient-mini></patient-mini>
+    <patient-mini patient="patient"></patient-mini>
 
 
 
 
     <div class="clearfix visible-xs-block"></div>
     
-    <patient-card></patient-card>
+    <patient-card patient="patient"></patient-card>
 
 </div>

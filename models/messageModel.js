@@ -4,7 +4,7 @@ var Schema      	= mongoose.Schema;
 var MessageSchema   = new Schema({
 	message: String,
 	sid: String,
-	msjType: String,  //reminder, other
+	msjType: String,  //reminder, welcome, other
 	patient: {
 		type: Schema.ObjectId,
 		ref: "patients"

@@ -154,7 +154,7 @@ function getAvgDelay (physicianId, seed, callback) {
                 if(dummyWRTime >= 0) 
                     sum += dummyWRTime;
                 else
-                    negativeWR++;       
+                    negativeWR++;  // patient that are early     
             };
             var avg = 0;
             if(seed) avg = (sum + seed) / (physician.patientsClinicDelay.length - negativeWR + 1);
