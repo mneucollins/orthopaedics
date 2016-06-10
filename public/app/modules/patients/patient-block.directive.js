@@ -1,5 +1,5 @@
 angular.module('patientsModule')
-.directive('patientRow',function(){
+.directive('patientBlock',function(){
 	return {
 		replace : true,
 		restrict : 'E',
@@ -7,7 +7,7 @@ angular.module('patientsModule')
 			patient : "=",
 			patientList : "="
 		},
-		templateUrl : '/app/modules/patients/patient-row.html',
+		templateUrl : '/app/modules/patients/patient-block.html',
 		controller:['$scope', function($scope){}]
 
 	};

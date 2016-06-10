@@ -1,0 +1,6 @@
+<div class="col-xs-2 col-sm-1 patientData bordered atRow" ng-class="{atRowBig: hidePhysicians}">
+    <div class="retinaContainer dashboardSVG">
+        <img ng-src="{{ getATIcon(patient) }}" ng-class="{clickable: patient.currentState == 'EX'}" ng-click="toogleATEntry(patient)"/>
+    </div>
+    <span ng-show="patient.enterTimestamp.length > 0" ng-class="colorStateAT">{{ getATtimer(patient) | date:'mm.ss' }}</span>
+</div>

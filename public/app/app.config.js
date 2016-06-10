@@ -10,6 +10,7 @@ var orthopaedicsApp = angular.module('orthopaedicsApp', [
   "dashboardModule",
   "infoHeaderModule",
   "patientsModule",
+  "patientRowModule",
   "physiciansModule",
   "messagesModule",
   "reportsModule",

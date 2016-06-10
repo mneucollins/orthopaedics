@@ -1,0 +1,22 @@
+<div>
+	
+	<action-column patient="patient"></action-column>
+    <appt-time-column patient="patient"></appt-time-column>
+    <name-column patient="patient"></name-column>
+    <appt-type-column patient="patient"></appt-type-column>
+    <div class="hidden-xs col-sm-1 patientData bordered roomRow" ng-show="hidePhysicians">{{ patient.roomNumber }}</div>
+    <physician-column patient="patient"></physician-column>
+    <age-column patient="patient"></age-column>
+    <fc-column patient="patient"></fc-column>
+    <imaging-column patient="patient"></imaging-column>  
+    <at-column patient="patient"></at-column>              
+    <wait-status-column patient="patient"></wait-status-column>
+    <wait-total-column patient="patient"></wait-total-column>
+    <div class="col-xs-4 col-sm-1 patientData bordered expandBtnRow">
+        <div class="retinaContainer dashboardSVG">
+            <img src="img/expandIcon.svg" class="imageButton" data-toggle="collapse" data-target="{{ '#miniform' + patient._id }}" onclick="onCollapseButton(this);" ng-click="loadPatientHistory(patient)"/>
+        </div>
+    </div>
+
+
+</div>

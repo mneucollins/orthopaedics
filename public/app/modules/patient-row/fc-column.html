@@ -1,0 +1,9 @@
+<div class="col-xs-2 col-sm-2 patientData bordered fcRow">
+    <div ng-if="!showFCMinutes(patient)" class="retinaContainer dashboardSVG">
+        <img ng-src="{{ getFCIcon(patient) }}" ng-click="toogleFCState(patient)" ng-class="{clickable: isFCClickable(patient)}" />
+    </div>
+
+    <div class="fcMinutes" ng-if="showFCMinutes(patient)" ng-click="toogleFCState(patient)" ng-class="{clickable: isFCClickable(patient)}">
+        {{ getFCMinutes(patient) }}m
+    </div>
+</div>

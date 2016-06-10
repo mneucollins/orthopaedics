@@ -1,0 +1,3 @@
+<div class="hidden-xs col-sm-1 patientData bordered totalRow">
+	<div class="roundMiniBox" ng-class="{'timer-not-started': patient.currentState == 'DC' || patient.currentState == 'NCI' || getTotalTime(patient) < 0}">{{ $root.getTotalTime(patient) }}</div>
+</div>
