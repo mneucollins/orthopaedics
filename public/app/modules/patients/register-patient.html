@@ -31,8 +31,8 @@
 	<div class="row form-group">
 		<div class="col-sm-3" ng-style="apptTimeLabel">Appointment Time</div>
 		<div class="col-sm-7 input-group">
-			<timepicker ng-model="patient.apptTime" minute-step="5" ng-hide="fieldsDisabled"></timepicker>
-			<input type="text" class="form-control" ng-model="patient.apptTime | date: 'HH:mm'" ng-disabled="fieldsDisabled" ng-show="fieldsDisabled" required>
+			<timepicker ng-model="patient.apptTime" minute-step="5" ng-if="!fieldsDisabled"></timepicker>
+			<input type="text" class="form-control" ng-model="patient.apptTime " ng-disabled="fieldsDisabled" ng-if="fieldsDisabled" required>
 		</div>
 	</div>
 	<div class="row form-group">

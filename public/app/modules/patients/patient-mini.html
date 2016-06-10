@@ -1,0 +1,54 @@
+<div>
+	
+
+
+	<div class="col-xs-3 col-sm-1 patientData buttonRow patientState" ng-class="{buttonRowBig: hidePhysicians}" style="background-color:white; border-top:transparent;">
+        <button type="button" ng-show="patient.currentState == 'DC'" class="btn btn-default circled btnDischarge" ng-click="restoreDischargedPatient(patient)">Restore</button>
+        <button type="button" ng-show="patient.currentState == 'EX'" class="btn btn-default circled btnDischarge" ng-class="patient._id" ng-click="discharge(patient)">Discharge</button>
+        <button type="button" class="btn circled btnCallBack" ng-class="{'btn-primary': patient.callbackEnabled, 'btn-default': !patient.callbackEnabled}" ng-show="patient.currentState == 'WR'" ng-click="callBack(patient)" ng-disabled="patient.fcStartedTimestamp && !patient.fcFinishedTimestamp">Call Back</button>
+        <button type="button" class="btn btn-default circled" ng-show="patient.currentState == 'NCI'" ng-click="register(patient)">Register</button>
+    </div>
+    <div class="hidden-xs col-sm-1 patientData bordered apptTimeRow">{{ patient.apptTime | date:'hh:mm a'}}</div>
+    <div class="hidden-xs col-sm-1 patientData bordered nameRow" ng-class="{nameRowBig: hidePhysicians}" style="font-weight: bold;">{{ patient.fullName }}</div>
+    <div class="hidden-xs col-sm-1 patientData bordered typeRow">{{ patient.apptType }}</div>
+    <div class="hidden-xs col-sm-1 patientData bordered roomRow" ng-show="hidePhysicians">{{ patient.roomNumber }}</div>
+    <div class="hidden-xs col-sm-1 patientData bordered physicianRow" ng-hide="hidePhysicians">{{ patient.physician.name }}</div>
+    <div class="hidden-xs col-sm-1 patientData bordered ageRow">{{ patient.age }}</div>
+    <div class="col-xs-2 col-sm-2 patientData bordered fcRow">
+        <div ng-if="!showFCMinutes(patient)" class="retinaContainer dashboardSVG">
+            <img ng-src="{{ getFCIcon(patient) }}" ng-click="toogleFCState(patient)" ng-class="{clickable: isFCClickable(patient)}" />
+        </div>
+
+        <div class="fcMinutes" ng-if="showFCMinutes(patient)" ng-click="toogleFCState(patient)" ng-class="{clickable: isFCClickable(patient)}">
+            {{ getFCMinutes(patient) }}m
+        </div>
+    </div>
+    <div class="col-xs-2 col-sm-1 patientData bordered imagingRow2">
+        <div class="retinaContainer dashboardSVG">
+            <img ng-if="!isImagingStarted(patient) || patient.imagingTimestamp" ng-src="{{ getImagingState(patient) }}" ng-click="toogleImagingState(patient)" ng-class="{clickable: isImagingClickable(patient)}"/>
+            <div class="imagingMinutes" ng-if="isImagingStarted(patient) && !patient.imagingTimestamp">
+                {{ getImagingMinutes(patient) }}m
+            </div>
+        </div>
+    </div>   
+    <div class="col-xs-2 col-sm-1 patientData bordered atRow" ng-class="{atRowBig: hidePhysicians}">
+        <div class="retinaContainer dashboardSVG">
+            <img ng-src="{{ getATIcon(patient) }}" ng-class="{clickable: patient.currentState == 'EX'}" ng-click="toogleATEntry(patient)"/>
+        </div>
+        <span ng-show="patient.enterTimestamp.length > 0" ng-class="colorStateAT">{{ getATtimer(patient) | date:'mm.ss' }}</span>
+    </div>              
+    <div class="hidden-xs col-sm-2 patientData bordered statusRow" ng-class="{statusRowBig: hidePhysicians}">
+        <span class="col-sm-6" ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }}</span>
+        <span class="col-sm-6" ng-class="getTimerColor('EX', patient)">EX {{ getEXTime(patient) }}</span>
+    </div>
+    <div class="hidden-xs col-sm-1 patientData bordered totalRow"><div class="roundMiniBox" ng-class="{'timer-not-started': patient.currentState == 'DC' || patient.currentState == 'NCI' || getTotalTime(patient) < 0}">{{ getTotalTime(patient) }}</div></div>
+    <div class="col-xs-4 col-sm-1 patientData bordered expandBtnRow">
+        <div class="retinaContainer dashboardSVG">
+            <img src="img/expandIcon.svg" class="imageButton" data-toggle="collapse" data-target="{{ '#miniform' + patient._id }}" onclick="onCollapseButton(this);" ng-click="loadPatientHistory(patient)"/>
+        </div>
+    </div>
+
+
+
+	
+</div>

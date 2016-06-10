@@ -1,7 +1,7 @@
 
 angular.module('dashboardModule')
-.controller('dashboardCtrl', ['$scope', '$location', '$rootScope', '$log', '$interval', '$modal', 'Patient', 'Messages', 'Physician',
-  function($scope, $location, $rootScope, $log, $interval, $modal, Patient, Messages, Physician) {
+.controller('dashboardCtrl', ['$scope', '$location', '$rootScope', '$log', '$interval', '$timeout', '$modal', 'Patient', 'Messages', 'Physician', 'WaitTime',
+  function($scope, $location, $rootScope, $log, $interval, $timeout, $modal, Patient, Messages, Physician, WaitTime) {
 
     $("nav").removeClass("hidden");
     $("body").removeClass("body-login");
@@ -46,9 +46,9 @@ angular.module('dashboardModule')
         if(searchList.length <= 0) return 0;
 
         var wrTime = _.max(searchList, function (item) {
-            return $scope.getWRTime(item);
+            return WaitTime.getWRTime(item);
         });
-        physician.time = $scope.getWRTime(wrTime);
+        physician.time = WaitTime.getWRTime(wrTime);
         return physician.time > 0 ? physician.time : 0;
     }
 
@@ -229,14 +229,14 @@ angular.module('dashboardModule')
                 break;
             case 6:
                 pList = _.sortBy($scope.patientList, function(patient){ 
-                            var wrt = $scope.getWRTime(patient);
-                            var ext = $scope.getEXTime(patient);
+                            var wrt = WaitTime.getWRTime(patient);
+                            var ext = WaitTime.getEXTime(patient);
                             return wrt + ext; 
                         }); 
                 break;
             case 7:
                 pList = _.sortBy($scope.patientList, function(patient){ 
-                            return $scope.getTotalTime(patient); 
+                            return WaitTime.getTotalTime(patient); 
                         }); 
                 break;
         }
@@ -303,119 +303,119 @@ angular.module('dashboardModule')
     // Times calculation
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
-    $rootScope.getWRTime = function (patient) {
+    // $rootScope.getWRTime = function (patient) {
 
-        if(patient.currentState == "NCI") return 0;
+    //     if(patient.currentState == "NCI") return 0;
 
-        var wrDate = new Date(patient.WRTimestamp).getTime();
-        var apptDate = new Date(patient.apptTime).getTime();
-        var exDate = new Date(patient.EXTimestamp).getTime();
-        var fcIniDate = new Date(patient.fcStartedTimestamp).getTime();
-        var fcFinDate = new Date(patient.fcFinishedTimestamp).getTime();
-        var nowDate = new Date().getTime();
+    //     var wrDate = new Date(patient.WRTimestamp).getTime();
+    //     var apptDate = new Date(patient.apptTime).getTime();
+    //     var exDate = new Date(patient.EXTimestamp).getTime();
+    //     var fcIniDate = new Date(patient.fcStartedTimestamp).getTime();
+    //     var fcFinDate = new Date(patient.fcFinishedTimestamp).getTime();
+    //     var nowDate = new Date().getTime();
 
-        var isLate = apptDate < wrDate;
-        var wrTime = 0;
+    //     var isLate = apptDate < wrDate;
+    //     var wrTime = 0;
 
-        if(patient.currentState == "WR") {
-            if(isLate) // patient arrived late
-                wrTime = nowDate - wrDate;
-            else // patient arrived in time
-                wrTime = nowDate - apptDate;
+    //     if(patient.currentState == "WR") {
+    //         if(isLate) // patient arrived late
+    //             wrTime = nowDate - wrDate;
+    //         else // patient arrived in time
+    //             wrTime = nowDate - apptDate;
             
-            if(patient.fcFinishedTimestamp) { // finished FC
-                if(apptDate <= fcFinDate)
-                    wrTime = nowDate - fcFinDate;
-                else if(apptDate < fcIniDate)
-                    wrTime = wrTime - patient.fcDuration;
-            }
-            else if(patient.fcStartedTimestamp) { // in FC
-                if(apptDate < nowDate)
-                    wrTime = 0;
-                else if(apptDate < fcIniDate)
-                    if(isLate)
-                        wrTime = fcIniDate - wrDate;
-                    else
-                        wrTime = fcIniDate - apptDate; 
-            }  
-        }
-        else {
-            if(isLate)
-                wrTime = exDate - wrDate;
-            else
-                wrTime = exDate - apptDate;
+    //         if(patient.fcFinishedTimestamp) { // finished FC
+    //             if(apptDate <= fcFinDate)
+    //                 wrTime = nowDate - fcFinDate;
+    //             else if(apptDate < fcIniDate)
+    //                 wrTime = wrTime - patient.fcDuration;
+    //         }
+    //         else if(patient.fcStartedTimestamp) { // in FC
+    //             if(apptDate < nowDate)
+    //                 wrTime = 0;
+    //             else if(apptDate < fcIniDate)
+    //                 if(isLate)
+    //                     wrTime = fcIniDate - wrDate;
+    //                 else
+    //                     wrTime = fcIniDate - apptDate; 
+    //         }  
+    //     }
+    //     else {
+    //         if(isLate)
+    //             wrTime = exDate - wrDate;
+    //         else
+    //             wrTime = exDate - apptDate;
 
-            if(patient.fcDuration) // finished FC
-                if(apptDate <= fcFinDate)
-                    wrTime = exDate - fcFinDate;
-                else if(apptDate < fcIniDate)
-                    wrTime = wrTime - patient.fcDuration;
-        }
+    //         if(patient.fcDuration) // finished FC
+    //             if(apptDate <= fcFinDate)
+    //                 wrTime = exDate - fcFinDate;
+    //             else if(apptDate < fcIniDate)
+    //                 wrTime = wrTime - patient.fcDuration;
+    //     }
         
-        return Math.round(wrTime / (60*1000));
-    }
+    //     return Math.round(wrTime / (60*1000));
+    // }
 
-    $rootScope.getEXTime = function (patient) {
+    // $rootScope.getEXTime = function (patient) {
 
-        if(patient.currentState == "NCI" || patient.currentState == "WR") return 0;
+    //     if(patient.currentState == "NCI" || patient.currentState == "WR") return 0;
 
-        var exDate = new Date(patient.EXTimestamp);
-        var dcDate = new Date(patient.DCTimestamp);
-        var nowDate = new Date();
+    //     var exDate = new Date(patient.EXTimestamp);
+    //     var dcDate = new Date(patient.DCTimestamp);
+    //     var nowDate = new Date();
 
-        if(patient.currentState == "EX")
-            return Math.round((nowDate.getTime() - exDate.getTime()) / (60*1000));
-        else 
-            return Math.round((dcDate.getTime() - exDate.getTime()) / (60*1000));
-    }    
+    //     if(patient.currentState == "EX")
+    //         return Math.round((nowDate.getTime() - exDate.getTime()) / (60*1000));
+    //     else 
+    //         return Math.round((dcDate.getTime() - exDate.getTime()) / (60*1000));
+    // }    
 
-    $scope.getTotalTime = function (patient){
+    // $rootScope.getTotalTime = function (patient){
 
-        if(patient.currentState == "NCI") return 0;  
+    //     if(patient.currentState == "NCI") return 0;  
 
-        var wrDate = new Date(patient.WRTimestamp);
-        var apptDate = new Date(patient.apptTime);
-        var dcDate = new Date(patient.DCTimestamp);
-        var nowDate = new Date();
-        var totalTime = 0;
+    //     var wrDate = new Date(patient.WRTimestamp);
+    //     var apptDate = new Date(patient.apptTime);
+    //     var dcDate = new Date(patient.DCTimestamp);
+    //     var nowDate = new Date();
+    //     var totalTime = 0;
 
-        if(patient.currentState == "EX" || patient.currentState == "WR")
-            totalTime = Math.round((nowDate.getTime() - wrDate.getTime()) / (60*1000));
-        else 
-            totalTime = Math.round((dcDate.getTime() - wrDate.getTime()) / (60*1000));
+    //     if(patient.currentState == "EX" || patient.currentState == "WR")
+    //         totalTime = Math.round((nowDate.getTime() - wrDate.getTime()) / (60*1000));
+    //     else 
+    //         totalTime = Math.round((dcDate.getTime() - wrDate.getTime()) / (60*1000));
 
-        return totalTime > 0 ? totalTime : 0;
-    }
+    //     return totalTime > 0 ? totalTime : 0;
+    // }
 
-    $rootScope.getTimerColor = function (type, patient) {
-        var nMins = 0;
+    // $rootScope.getTimerColor = function (type, patient) {
+    //     var nMins = 0;
 
-        if(type == "WR") {
-            if(patient.currentState == "NCI" || patient.currentState == "EX" || patient.currentState == "DC") 
-                return "timer-not-started";
-            nMins = $scope.getWRTime(patient);
-        }
-        else if(type == "EX") {
-            if(patient.currentState == "NCI" || patient.currentState == "WR" || patient.currentState == "DC") 
-                return "timer-not-started";
-            nMins = $scope.getEXTime(patient);
-        }
-        else if(type == "WRH") {
-            nMins = $scope.getWRTime(patient);
-        }
-        else if(type == "EXH") {
-            nMins = $scope.getEXTime(patient);
-        }
+    //     if(type == "WR") {
+    //         if(patient.currentState == "NCI" || patient.currentState == "EX" || patient.currentState == "DC") 
+    //             return "timer-not-started";
+    //         nMins = $scope.getWRTime(patient);
+    //     }
+    //     else if(type == "EX") {
+    //         if(patient.currentState == "NCI" || patient.currentState == "WR" || patient.currentState == "DC") 
+    //             return "timer-not-started";
+    //         nMins = $scope.getEXTime(patient);
+    //     }
+    //     else if(type == "WRH") {
+    //         nMins = $scope.getWRTime(patient);
+    //     }
+    //     else if(type == "EXH") {
+    //         nMins = $scope.getEXTime(patient);
+    //     }
 
-        if(nMins <= 15)
-            return "timer-on-time";
-        else if(nMins > 15 && nMins <= 30)
-            return "timer-delay-15";
-        else if(nMins > 30 && nMins <= 45)
-            return "timer-delay-30";
-        else if(nMins > 45)
-            return "timer-delay-45";
-    }
+    //     if(nMins <= 15)
+    //         return "timer-on-time";
+    //     else if(nMins > 15 && nMins <= 30)
+    //         return "timer-delay-15";
+    //     else if(nMins > 30 && nMins <= 45)
+    //         return "timer-delay-30";
+    //     else if(nMins > 45)
+    //         return "timer-delay-45";
+    // }
 
 
 
@@ -431,7 +431,7 @@ angular.module('dashboardModule')
         $rootScope.hidePhysiciansList = !$rootScope.hidePhysiciansList;
     }
     
-    setTimeout(resizePhybar, 100); // método en el main.js
+    $timeout(resizePhybar, 300); // método en el main.js
     $rootScope.selectedPhysicians = [];
     $rootScope.hidePhysiciansList = false;
 

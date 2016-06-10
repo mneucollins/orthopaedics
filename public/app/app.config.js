@@ -32,3 +32,13 @@ orthopaedicsApp.config(['$locationProvider', '$httpProvider', '$injector',
 
 
 }]);
+
+orthopaedicsApp.run(function($rootScope,WaitTime){
+
+  $rootScope.getWRTime = WaitTime.getWRTime;
+  $rootScope.getEXTime = WaitTime.getEXTime;
+  $rootScope.getTotalTime = WaitTime.getTotalTime;
+  $rootScope.getTimerColor = WaitTime.getTimerColor;
+  
+
+});

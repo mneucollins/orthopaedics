@@ -1,0 +1,5 @@
+
+<div>
+	<span class="col-xs-8 col-sm-8">{{ physician.name }}</span>
+	<span class="col-sm-3 col-md-2 roundMiniBox" ng-class="{'timer-on-clinicDelay': physician.clinicDelay<=15, 'timer-delay-15': physician.clinicDelay>15 && physician.clinicDelay<=30, 'timer-delay-30': physician.clinicDelay>30 && physician.clinicDelay<=45, 'timer-delay-45': physician.clinicDelay>45}">{{ physician.clinicDelay }}</span>
+</div>
