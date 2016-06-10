@@ -70,6 +70,15 @@ function leerExcel () {
 			patient.physician = _.find(physicians, function (physician) {
 				return physician.npi == list[k].NPI;
 			});
+
+			if(!patient.physician && list[k].NPI.charAt(0) == '-'){
+				var npi = list[k].NPI.substr(1);
+
+				patient.physician = _.find(physicians, function (physician) {
+					return physician.npi == npi;
+				});
+			}
+
 			patient.physician = patient.physician ? patient.physician.id : null;
 			// var apptDummy = moment(list[k].Appt, "DD/MM/YYYY hh:mm:ss");
 			// var apptDummy = moment(list[k].Appt);
@@ -126,7 +135,8 @@ function sendConfirmation (nPatients, theDate) {
 
 	emailController.sendCustomMail("ezabaw@gmail.com", "Orthoworkflow Report", body);
 	
-	messageController.sendCustomMessage("+17038991598", message, function (err, message) {
+	// messageController.sendCustomMessage("+17038991598", message, function (err, message) {
+	messageController.sendCustomMessage(config.adminPhone, message, function (err, message) {
 		if(!err) console.log("text message sent!");
-	})
+	});
 }
