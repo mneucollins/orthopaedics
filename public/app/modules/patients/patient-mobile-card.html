@@ -1,29 +1,28 @@
 <div>
         <div class="row">
-            <div class="col-xs-4 patienInfo" style="padding-top: 3%;">
+            <appt-time-column class="col-xs-4 patienInfo"  style="padding-top: 3%;" patient="patient"></appt-time-column>
+            <!-- <div class="col-xs-4 patienInfo" style="padding-top: 3%;">
                 {{ patient.apptTime | date:'hh:mm a'}} 
-            </div>
-            <div class="col-xs-1 patienInfo" style="padding-top: 3%;  text-align: center;">
-                |
-            </div>
-            <div class="col-xs-3 patienInfo" style="padding-top: 3%;  text-align: center;">
+            </div> -->
+            <div class="col-xs-1 patienInfo" style="padding-top: 3%;  text-align: center;">|</div>
+            <appt-type-column  class="col-xs-3 patienInfo" style="padding-top: 3%;  text-align: center;" patient="patient"></appt-type-column>
+            <!-- <div class="col-xs-3 patienInfo" style="padding-top: 3%;  text-align: center;">
                {{ patient.apptType }} 
-            </div>
-            <div class="col-xs-1 patienInfo" style="padding-top: 3%;  text-align: center;">
-                |
-            </div>
-            <div class="col-xs-2 patienInfo" style="padding-top: 3%;  text-align: left;">
+            </div> -->
+            <div class="col-xs-1 patienInfo" style="padding-top: 3%;  text-align: center;">|</div>
+            <room-number-column class="col-xs-2 patienInfo" style="padding-top: 3%;  text-align: left;" patient="patient"></room-number-column>
+            <!-- <div class="col-xs-2 patienInfo" style="padding-top: 3%;  text-align: left;">
                 {{ patient.roomNumber }}
-            </div>
+            </div> -->
         </div>
         <div class="row">
             <div class="col-xs-12 patienInfo">
-               <b>{{ patient.fullName }}</b>
+               <b><name-column patient="patient"></name-column></b>
             </div>
         </div>
         <div class="row">
             <div class="col-xs-12 patienInfo" ng-show="!hidePhysicians">
-                {{ patient.physician.name }}
+                <physician-column patient="patient"></physician-column>
             </div>
         </div>
         <div class="row">
