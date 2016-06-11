@@ -77,4 +77,20 @@ module.exports = function (router) {
         });
     });
 
+    router.route('/users/:userId/changePassword')
+    .put(function(req, res) { 
+
+        var updData = req.body;
+
+        userController.changePassword(req.params.userId, updData, function (err, user) {
+            if(err) {
+                tools.sendServerError(err, req, res);
+                return;
+            }
+
+            console.log("Password changed for user " + user._id);
+            res.json({par: "salian"});
+        });
+    });
+
 }

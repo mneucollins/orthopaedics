@@ -44,7 +44,7 @@ body {
     text-align: center;
     top: 77px;
     width: 40%;
-    z-index: 1000;
+    z-index: 5000;
 }
 #alertContainer div {
     position: relative;

@@ -7,7 +7,8 @@ module.exports = {
 	completeProfile: completeProfile,
 	restorePassword: restorePassword,
 	findByToken: findByToken,
-	passwordRetrieval: passwordRetrieval
+	passwordRetrieval: passwordRetrieval,
+	changePassword: changePassword
 }
 
 function completeProfile (id, profileData, callback) {
@@ -73,5 +74,27 @@ function passwordRetrieval (email, host, callback) {
                 callback(null, user);
             });
         }
+    });
+}
+
+function changePassword (userId, passwdData, callback) {
+	userModel.findById(userId, function(err, user) {
+        if (err) {
+            console.log(err);
+            return callback(err);
+        }
+
+        // console.log(user.password);
+        // console.log(user.generateHash(passwdData.oldPass));
+
+        if (!user.validPassword(passwdData.oldPass)) {
+            callback('Wrong user password');
+            return;
+        }
+    	
+        user.password = user.generateHash(passwdData.newPass);
+        user.save(function (err, data) {
+            callback(err, data);
+        });
     });
 }

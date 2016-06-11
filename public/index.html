@@ -117,7 +117,7 @@
 <body id="page-top" ng-cloak>
 
 <div ng-controller="AlertsCtrl" id="alertContainer">
-    <alert ng-repeat="alert in systemAlerts" type="{{alert.type}}" close="closeAlert($index)" style="z-index: 9000">{{alert.msg}}</alert>
+    <alert ng-repeat="alert in systemAlerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
 </div>
 
 <div ng-view class="backgroundMobile"></div>
