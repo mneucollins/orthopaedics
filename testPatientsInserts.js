@@ -238,10 +238,10 @@ var nPlusHours = 0;
 // 	adress: "338 West 23rd Street New York City"
 // }];
 
-var initYear = 2015,
-	initMonth = 9,
-	initDay = 18,
-	initHours = 17,
+var initYear = 2016,
+	initMonth = 5,
+	initDay = 11,
+	initHours = 9,
 	initMinutes = 40;
 
 var testPatients = [{

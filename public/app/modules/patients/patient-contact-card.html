@@ -1,0 +1,22 @@
+<div ng-show="showTab=='msg'">
+<div class="row textAreaMsg">
+    <div class="col-sm-12 fullSpaceRow">
+        <textarea id="{{ 'miniformTextArea' + patient._id }}" class="form-control rowTextArea" rows="5" id="comment" placeholder="Send text message..." ng-model="patient.message" ></textarea>
+    </div>
+</div>
+<div class="hidden-xs row">
+    <div class="col-sm-12 fullSpaceRow">
+        <div id="{{ 'miniformTriangle' + patient._id }}" style="margin-left: {{ patient.messageSelectorPos }}%;">
+            <div class="popTriangle" style="border-width: 12px 13px 0px 13px; border-color: #C9C9C9 transparent;"></div>
+            <div class="popTriangle" style="margin-top: -12px; margin-left: 15px;"></div>
+        </div>
+    </div>
+</div>
+<div class="row rowButtonsMargin">
+    <div class="hidden-xs col-sm-3 col-md-2 clickable" ng-click="msjToCustom(patient)" ng-class="{'messageOn' : patient.messageSelectorPos == '1'}">Custom</div>
+    <div class="hidden-xs col-sm-3 col-md-2 clickable defaultMsjTag" ng-click="msjToDefault(patient)" ng-class="{'messageOn' : patient.messageSelectorPos != '1'} ">Default</div>
+    <div class="col-xs-2 hidden-sm col-md-4"></div>
+    <div class="col-xs-4 col-sm-3 col-md-2 clickable" style="font-weight: bold; color:#7F7F7F;">Cancel</div>
+    <div class="col-xs-5 col-sm-3 col-md-2 btn ok-btn clickable" ng-disabled="patient.noPhone" ng-click="sendMessage(patient)">Send</div>
+</div>
+</div>
