@@ -1,0 +1,23 @@
+<div class="modal-header">
+	<h3 class="modal-title">Change Password</h3>
+</div>
+<div class="modal-body">
+	<form class="form-group" name="changePasswdForm">
+	<div class="row form-group">
+		<div class="col-sm-3">Old Password</div>
+		<div class="col-sm-7 input-group"><input type="text" class="form-control" ng-model="passwd.oldPass" name="oldPass" required></div>
+	</div>
+	<div class="row form-group">
+		<div class="col-sm-3">New Password</div>
+		<div class="col-sm-7 input-group"><input type="text" class="form-control" ng-model="passwd.newPass" name="newPass" required></div>	
+	</div>
+	<div class="row form-group">
+		<div class="col-sm-3">Confirm New Password</div>
+		<div class="col-sm-7 input-group"><input type="text" class="form-control" ng-model="passwd.newConfirm" name="newPass" required></div>	
+	</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-default circled" ng-click="cancel()">Cancel</button>
+	<button class="btn btn-primary circled" ng-disabled=" !passwd.oldPass || !passwd.newPass || (passwd.newPass != passwd.newConfirm)" ng-click="submit()">Submit</button>
+</div>
