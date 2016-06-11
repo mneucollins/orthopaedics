@@ -20,14 +20,27 @@
             <p class="navbar-text helpText" ng-show="dashboard == 1">We are sensitive to your time and needs and will notify you about any waits and delays by sending a text message to your phone. What is the number for the cell phone you have with you today?</p>
             <ul class="nav navbar-nav navbar-right">
                 <li class="hidden-sm"><p class="navbar-text">Dashboard {{dashboard}}</p></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Ops <span class="caret"></span></a>
+                <li class="dropdown" ng-if="currentUser.isAdmin">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li>
-                            <button class="btn btn-default circled" ng-click="sendBulkMessages()"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button> Write message
+                            <a href="#"  ng-click="showReportsDialog()">Patients Report</a>
+                            <a href="#" ng-click="usersReportsDialog()">Users Report</a>
                         </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Actions<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
                         <li>
-                            <button class="btn btn-default circled" ng-click="newPatient()"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></button> Add patient
+                            <a href="#" ng-click="sendBulkMessages()"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Write message</a>
+                            <a href="#" ng-click="showNotesDialog()">Check Notes</a>
+                            <a href="#" ng-click="newPatient()"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add patient</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#" ng-show="$root.hideDischarged" ng-click="$root.hideDischarged=false">Show Discharged Patients</a>
+                            <a href="#" ng-hide="$root.hideDischarged" ng-click="$root.hideDischarged=true">Hide Discharged Patients</a>
                         </li>
                     </ul>
                 </li>
@@ -35,19 +48,13 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ currentUser.name }} <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li>
-                            <a href="#" ng-click="showNotesDialog()">Check Notes</a>
-                            <a href="#" ng-show="currentUser.isAdmin" ng-click="showReportsDialog()">Patients Report</a>
-                            <a href="#" ng-show="currentUser.isAdmin" ng-click="usersReportsDialog()">Users Report</a>
-                            <a href="#" ng-show="$root.hideDischarged" ng-click="$root.hideDischarged=false">Show Discharged Patients</a>
-                            <a href="#" ng-hide="$root.hideDischarged" ng-click="$root.hideDischarged=true">Hide Discharged Patients</a>
-                        </li>
-                        <li>
-                            <a href="#" ng-show="$root.hideDeleted" ng-click="$root.hideDeleted=false">Show Deleted Patients</a>
-                            <a href="#" ng-hide="$root.hideDeleted" ng-click="$root.hideDeleted=true">Show All Patients</a>
+                            <a href="#" ng-click="$root.openHelpModal()">Need Help?</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="#" ng-click="$root.openHelpModal()">Need Help?</a></li>
-                        <li><a href="#" ng-click="logout()">Log Out</a></li>
+                        <li>
+                            <a href="#" ng-click="showChangePasswdDialog()">Change Password</a>
+                            <a href="#" ng-click="logout()">Log Out</a>
+                        </li>
                     </ul>
                 </li>
             </ul>

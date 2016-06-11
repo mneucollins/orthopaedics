@@ -16,18 +16,41 @@ angular.module("appCommons")
             $rootScope.hideDischarged = true;
             $rootScope.hideDeleted = true;
 
-            $scope.updateDate = "11/15/15";
+            // $scope.updateDate = "11/15/15";
 
             $scope.$watch(AuthService.isLoggedIn, function ( isLoggedIn ) {
                 $scope.isLoggedIn = isLoggedIn;
                 $scope.currentUser = AuthService.currentUser();
             });
 
+            /////////////////////////////////////////////////////////////////////////////////////////////
+            // User Options
+            /////////////////////////////////////////////////////////////////////////////////////////////
+
             $scope.logout = function () {
                 AuthService.logout(function () {
                     $location.path("/login");            
                 });
             }
+
+            $scope.showChangePasswdDialog = function () {
+                var modalInstance = $modal.open({
+                    templateUrl: '/app/modules/users/change-passwd.dialog.html',
+                    controller: 'showChangePasswdCtrl',
+                    resolve: {
+                    }
+                });
+
+                modalInstance.result.then(function () {
+                    $log.info('reports generated!');
+                }, function () {
+                    $log.info('Message Modal dismissed at: ' + new Date());
+                });
+            }
+
+            /////////////////////////////////////////////////////////////////////////////////////////////
+            // Admin Options
+            ///////////////////////////////////////////////////////////////////////////////////////////////
 
             $scope.showReportsDialog = function () {
                 var modalInstance = $modal.open({
@@ -59,41 +82,7 @@ angular.module("appCommons")
                 });
             }
 
-            $scope.showNotesDialog = function () {
-                var modalInstance = $modal.open({
-                    templateUrl: '/app/modules/patients/show-notes.dialog.html',
-                    controller: 'showNotesCtrl',
-                    resolve: {
-                        patients: function () {
-                            return _.filter($rootScope.patientList, function (pat) {
-                                return pat.notes && pat.notes != "";
-                            });
-                        }
-                    }
-                });
-
-                modalInstance.result.then(function () {
-                    $log.info('notes shown!');
-                }, function () {
-                    $log.info('Message Modal dismissed at: ' + new Date());
-                });
-            }
-
-            $interval(function () {
-                var url = $location.path();
-
-                if(url.indexOf("dashboard1") != -1){
-                    $rootScope.dashboard = "1";
-                    if($scope.currentUser.role == "Physician" || $scope.currentUser.role == "FirstProvider")
-                        $location.url("/dashboard2");
-                } 
-                else if(url.indexOf("dashboard2") != -1) {
-                    $rootScope.dashboard = "2";
-                    if($scope.currentUser.role == "Imaging" || $scope.currentUser.role == "Receptionist") 
-                        $location.url("/dashboard1");
-                }
-            }, 1000);
-
+            /////////////////////////////////////////////////////////////////////////////////////////////
             // E-Mail Management
             ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -116,13 +105,14 @@ angular.module("appCommons")
                 });  
             }
 
-            // Add Patient
+            /////////////////////////////////////////////////////////////////////////////////////////////
+            // Patient Options
             /////////////////////////////////////////////////////////////////////////////////////////////
 
             $scope.newPatient = function () {
                 
                 var modalInstance = $modal.open({
-                    templateUrl: '/app/modules/patients/register-patient.html',
+                    templateUrl: '/app/modules/patients/register-patient.dialog.html',
                     controller: 'registerPatientCtrl',
                     resolve: {
                         patient: function () {
@@ -146,9 +136,30 @@ angular.module("appCommons")
                 });
             }
 
+            $scope.showNotesDialog = function () {
+                var modalInstance = $modal.open({
+                    templateUrl: '/app/modules/patients/show-notes.dialog.html',
+                    controller: 'showNotesCtrl',
+                    resolve: {
+                        patients: function () {
+                            return _.filter($rootScope.patientList, function (pat) {
+                                return pat.notes && pat.notes != "";
+                            });
+                        }
+                    }
+                });
 
+                modalInstance.result.then(function () {
+                    $log.info('notes shown!');
+                }, function () {
+                    $log.info('Message Modal dismissed at: ' + new Date());
+                });
+            }
+
+            /////////////////////////////////////////////////////////////////////////////////////////////
             // Bulk Messages
             ////////////////////////////////////////////////////////////////////////////////////
+            
             $scope.sendBulkMessages = function () {
 
                 var modalInstance = $modal.open({
