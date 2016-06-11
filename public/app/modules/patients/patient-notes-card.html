@@ -1,0 +1,11 @@
+<div ng-show="showTab=='notes'">
+    <div class="row textAreaMsg">
+        <div class="col-sm-12 fullSpaceRow">
+            <textarea class="form-control rowTextArea" rows="5" id="comment" placeholder="Place any notes here" ng-model="patient.notes" ></textarea>
+        </div>
+    </div>
+    <div style="height: 1em"></div>
+    <div class="row rowButtonsMargin">
+        <div class="col-xs-5 col-sm-3 col-md-2 col-xs-offset-6 col-sm-offset-9 col-md-offset-10 btn ok-btn clickable" ng-click="saveNotes(patient)">Save</div>
+    </div>
+</div>

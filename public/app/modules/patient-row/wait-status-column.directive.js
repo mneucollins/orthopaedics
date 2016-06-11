@@ -4,7 +4,8 @@ angular.module('patientRowModule')
 		replace : true,
 		restrict : 'E',
 		scope : {
-			patient : "="
+			patient : "=",
+			card : "="
 		},
 		templateUrl : '/app/modules/patient-row/wait-status-column.html',
 		controller:['$scope', function($scope){

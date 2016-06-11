@@ -1,4 +1,4 @@
-<div class="col-xs-3 col-sm-1 patientData buttonRow patientState" ng-class="{buttonRowBig: hidePhysicians}" style="background-color:white; border-top:transparent;">
+<div class="patientData buttonRow patientState" ng-class="{buttonRowBig: hidePhysicians}" style="background-color:white; border-top:transparent;">
         <button type="button" ng-show="patient.currentState == 'DC'" class="btn btn-default circled btnDischarge" ng-click="restoreDischargedPatient(patient)">Restore</button>
         <button type="button" ng-show="patient.currentState == 'EX'" class="btn btn-default circled btnDischarge" ng-class="patient._id" ng-click="discharge(patient)">Discharge</button>
         <button type="button" class="btn circled btnCallBack" ng-class="{'btn-primary': patient.callbackEnabled, 'btn-default': !patient.callbackEnabled}" ng-show="patient.currentState == 'WR'" ng-click="callBack(patient)" ng-disabled="patient.fcStartedTimestamp && !patient.fcFinishedTimestamp">Call Back</button>

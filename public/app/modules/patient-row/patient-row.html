@@ -1,17 +1,17 @@
 <div>
 	
-	<action-column patient="patient"></action-column>
-    <appt-time-column patient="patient"></appt-time-column>
-    <name-column patient="patient"></name-column>
-    <appt-type-column patient="patient"></appt-type-column>
+	<action-column class="col-xs-3 col-sm-1" patient="patient"></action-column>
+    <appt-time-column class="hidden-xs col-sm-1" patient="patient"></appt-time-column>
+    <name-column class="hidden-xs col-sm-1" patient="patient"></name-column>
+    <appt-type-column class="hidden-xs col-sm-1" patient="patient"></appt-type-column>
     <div class="hidden-xs col-sm-1 patientData bordered roomRow" ng-show="hidePhysicians">{{ patient.roomNumber }}</div>
-    <physician-column patient="patient"></physician-column>
-    <age-column patient="patient"></age-column>
-    <fc-column patient="patient"></fc-column>
-    <imaging-column patient="patient"></imaging-column>  
-    <at-column patient="patient"></at-column>              
-    <wait-status-column patient="patient"></wait-status-column>
-    <wait-total-column patient="patient"></wait-total-column>
+    <physician-column class="hidden-xs col-sm-1" patient="patient"></physician-column>
+    <age-column class="hidden-xs col-sm-1" patient="patient"></age-column>
+    <fc-column class="col-xs-2 col-sm-2" patient="patient"></fc-column>
+    <imaging-column class="col-xs-2 col-sm-1" patient="patient"></imaging-column>  
+    <at-column class="col-xs-2 col-sm-1" patient="patient"></at-column>
+    <wait-status-column class="hidden-xs col-sm-2 patientData bordered statusRow" ng-class="{statusRowBig: hidePhysicians}" patient="patient" card="false"></wait-status-column>
+    <wait-total-column class="hidden-xs col-sm-1 patientData bordered totalRow" patient="patient" card="false"></wait-total-column>
     <div class="col-xs-4 col-sm-1 patientData bordered expandBtnRow">
         <div class="retinaContainer dashboardSVG">
             <img src="img/expandIcon.svg" class="imageButton" data-toggle="collapse" data-target="{{ '#miniform' + patient._id }}" onclick="onCollapseButton(this);" ng-click="loadPatientHistory(patient)"/>

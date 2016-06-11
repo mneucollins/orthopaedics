@@ -35,13 +35,13 @@
         </div>
         <div class="row">
             <div class="col-xs-3 visible-xs patienInfoFocus" style="  padding-top: 2%; font-size: 1.2em;">
-                <span ng-class="getTimerColor('WR', patient)">WR {{ getWRTime(patient) }} </span>
+                <span ng-class="$root.getTimerColor('WR', patient)">WR {{ $root.getWRTime(patient) }} </span>
             </div>
             <div class="col-xs-3 visible-xs patienInfoFocus" style="  padding-top: 2%; font-size: 1.2em;">
-                <span ng-class="getTimerColor('EX', patient)"> EX {{ getEXTime(patient) }} </span>
+                <span ng-class="$root.getTimerColor('EX', patient)"> EX {{ $root.getEXTime(patient) }} </span>
             </div>
             <div class="col-xs-5 visible-xs " style="padding-bottom: 12px;">
-            <div class="roundMiniBox "  ng-class="{'timer-not-started': patient.currentState == 'DC' || patient.currentState == 'NCI' || getTotalTime(patient) < 0}"><div class="patienInfoFocus" style="color: #0099F0">{{ getTotalTime(patient) }}</div></div>
+            <div class="roundMiniBox "  ng-class="{'timer-not-started': patient.currentState == 'DC' || patient.currentState == 'NCI' || $root.getTotalTime(patient) < 0}"><div class="patienInfoFocus" style="color: #0099F0">{{ $root.getTotalTime(patient) }}</div></div>
             </div>
         </div>
     </div>

@@ -33,7 +33,7 @@ angular.module('patientRowModule')
 		    $scope.register = function (patient) {
 		        
 		        var modalInstance = $modal.open({
-		            templateUrl: '/app/modules/patients/register-patient.html',
+		            templateUrl: '/app/modules/patients/register-patient.dialog.html',
 		            controller: 'registerPatientCtrl',
 		            resolve: {
 		                patient: function () {
