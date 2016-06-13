@@ -1,7 +1,7 @@
 
 angular.module('dashboardModule')
-.controller('dashboardCtrl', ['$scope', '$location', '$rootScope', '$log', '$interval', '$timeout', '$modal', 'Patient', 'Messages', 'Physician', 'WaitTime',
-  function($scope, $location, $rootScope, $log, $interval, $timeout, $modal, Patient, Messages, Physician, WaitTime) {
+.controller('dashboardCtrl', ['$scope', '$location', '$rootScope', '$log', '$interval', '$timeout', '$modal', 'Patient', 'Messages', 'Physician', 'WaitTime', 'AuthService',
+  function($scope, $location, $rootScope, $log, $interval, $timeout, $modal, Patient, Messages, Physician, WaitTime, AuthService) {
 
     $("nav").removeClass("hidden");
     $("body").removeClass("body-login");
@@ -53,7 +53,8 @@ angular.module('dashboardModule')
     }
 
     $scope.$on('onPatientListed', function(scope, element, attrs){
-        $scope.hidePhysicians = $rootScope.selectedPhysicians.length == 1 && $rootScope.dashboard == 2;
+        var role = AuthService.currentUser().role;
+        $scope.hidePhysicians = $rootScope.selectedPhysicians.length == 1 && role == "Physician";
     });
 
     function retrieveClinicDelays () {  

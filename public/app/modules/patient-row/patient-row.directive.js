@@ -5,11 +5,12 @@ angular.module('patientRowModule')
 		restrict : 'E',
 		scope : {
 			patient : "=",
-			patientList : "="
+			patientList : "=",
+			hidePhysicians : "="
 		},
 		templateUrl : '/app/modules/patient-row/patient-row.html',
-		controller:['$scope', '$rootScope', '$modal', '$log', 'Patient', 'Alerts',
-			function($scope, $rootScope, $modal, $log, Patient, Alerts){
+		controller:['$scope', '$rootScope', '$modal', '$log', 'Patient', 'Alerts', 'AuthService',
+			function($scope, $rootScope, $modal, $log, Patient, Alerts, AuthService){
 
 
 		    // Patient History
@@ -19,6 +20,10 @@ angular.module('patientRowModule')
 		      Patient.getHistory({patientId: patient.id}, function (history) {
 		          patient.history = history;
 		      })
+		    }
+
+		    $scope.getUser = function (){
+		    	return AuthService.currentUser().role;
 		    }
 
 

@@ -5,7 +5,8 @@ angular.module('patientsModule')
 		restrict : 'E',
 		scope : {
 			patient : "=",
-			patientList : "="
+			patientList : "=",
+			hidePhysicians : "="
 		},
 		templateUrl : '/app/modules/patients/patient-block.html',
 		controller:['$scope', function($scope){}]
