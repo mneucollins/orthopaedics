@@ -1,0 +1,42 @@
+<!-- Navigation -->
+<app-navbar></app-navbar>
+<div class="modal-header">
+    <h3 class="modal-title">Administration Panel</h3>
+</div>
+
+<div  style="padding: 2%;">
+  <p>Select a tab by setting active binding to true:</p>
+  <p>
+    <button class="btn btn-default btn-sm" ng-click="tabs[0].active = true">Select second tab</button>
+    <button class="btn btn-default btn-sm" ng-click="tabs[1].active = true">Select third tab</button>
+  </p>
+  <p>
+    <button class="btn btn-default btn-sm" ng-click="tabs[1].disabled = ! tabs[1].disabled">Enable / Disable third tab</button>
+  </p>
+  <hr />
+
+  <tabset>
+    <tab heading="Users">
+        <div class="row">
+            <p>
+                <div class="col-sm-3 ">
+                    <input type="text" class="form-control">
+                </div>
+            </p>
+        </div>
+    </tab>
+    <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disabled="tab.disabled">
+      {{tab.content}}
+    </tab>
+    <tab select="alertMe()">
+      <tab-heading>
+        <i class="glyphicon glyphicon-bell"></i> Alert!
+      </tab-heading>
+      I've got an HTML heading, and a select callback. Pretty cool!
+    </tab>
+    <tab heading="Roles">Static content</tab>
+    <tab heading="Physicians">Static content</tab>
+    <tab heading="Messages">Static content</tab>
+    <tab heading="General">Static content</tab>
+  </tabset>
+</div>

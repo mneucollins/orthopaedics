@@ -1,4 +1,4 @@
-orthopaedicsApp.config(['$routeProvider',
+  orthopaedicsApp.config(['$routeProvider',
   function($routeProvider) {
 
 
@@ -44,6 +44,14 @@ orthopaedicsApp.config(['$routeProvider',
       .when('/dashboard', {
         templateUrl: '/app/modules/dashboard/dashboard.html',
         controller: 'dashboardCtrl',
+        resolve: {
+          loggedin: checkLoggedin
+        }
+      })
+
+      .when('/admin', {
+        templateUrl: '/app/modules/admin-panel/admin-panel.html',
+        controller: 'adminCtrl',
         resolve: {
           loggedin: checkLoggedin
         }
