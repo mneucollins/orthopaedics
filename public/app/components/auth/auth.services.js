@@ -111,8 +111,9 @@ angular.module("appCommons")
                     Alerts.addAlert("warning", response.data.message);
             }
             else if (response.status == 500) {
-                var Alerts = $injector.get('Alerts');
-                Alerts.addAlert("danger", "server error: " + JSON.stringify(response.body));
+                // var Alerts = $injector.get('Alerts');
+                // Alerts.addAlert("danger", "server error: " + JSON.stringify(response.body));
+                console.log("server error: " + JSON.stringify(response.body));
             }
 
             return $q.reject(response);
