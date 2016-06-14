@@ -1,7 +1,7 @@
 {
 	"host": "127.0.0.1",
 	"expressPort": 8182,
-	"databaseURL": "mongodb://localhost:27017/orthotest",
+	"databaseURL": "mongodb://orthoworkflow.org:27017/orthotest",
 	"tmpFolder": "tmp/",
 	"reportTemplatePath": "/opt/nodeServer/Orthopaedics/reports/report_template.xlsx",
 	"reportsFolderPath": "/opt/nodeServer/Orthopaedics/gen_reports/",
@@ -11,6 +11,7 @@
 	"authToken": "a1a8faab9e27ca826e5485420df0b208",
 	"fromNumber": "+14043342413",
 	"numberPrefix": "+57",
+	"adminPhone": "+573185757889",
 	"adminEmail": "david.rodriguez@imbassolutions.com",
 	"verifierEmails":"ezael.bello@imbassolutions.com,camilo.rodriguez@imbassolutions.com,david.rodriguez@imbassolutions.com"
 }

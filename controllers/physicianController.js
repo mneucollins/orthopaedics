@@ -1,7 +1,7 @@
 var _ = require('underscore');
 
 var tools = require('../tools');
-var userModel = require('../models/userModel');
+var physicianModel = require('../models/physicianModel');
 var patientModel = require('../models/patientModel');
 
 module.exports = {
@@ -16,17 +16,17 @@ module.exports = {
 }
 
 function listarPhysicians(callback) {
-    userModel
-    .find({role: "Physician"}, "name department role npi")
+    physicianModel
+    .find({}, "name department npi")
     .sort("name")
     .exec(callback);
 }
 
 function obtenerPhysician(id, callback) {
-  userModel.findById(id, "name department role npi", function(err, users) {
-    if (err) callback(err);
-    else callback(null, users);
-  });
+    physicianModel.findById(id, "firstName lastName name email department npi isActive", 
+    function(err, users) {
+        callback(err, users);
+    });
 }
 
 function getClinicDelay (physicianIdArray, callback) {
@@ -114,7 +114,7 @@ function getNextPatientWaitTime (physicianId, callback) {
 }
 
  function addPatientToAvgDelay (physicianId, patient, callback) {
-    userModel.findByIdAndUpdate(physicianId, {$addToSet: {patientsClinicDelay: patient._id}}
+    physicianModel.findByIdAndUpdate(physicianId, {$addToSet: {patientsClinicDelay: patient._id}}
     , function (err, physician) {
         if (err) callback(err);
         else callback(null, physician);
@@ -122,7 +122,7 @@ function getNextPatientWaitTime (physicianId, callback) {
 }
 
 function clearAvgDelay (physicianId, callback) {
-    userModel.findByIdAndUpdate(physicianId, {$unset: {patientsClinicDelay: ""}}
+    physicianModel.findByIdAndUpdate(physicianId, {$unset: {patientsClinicDelay: ""}}
     , function (err, physician) {
         if (err) callback(err);
         else callback(null, physician);
@@ -136,7 +136,7 @@ function getAvgDelay (physicianId, seed, callback) {
         seed = null;
     }
 
-    userModel.findById(physicianId)
+    physicianModel.findById(physicianId)
     .populate("patientsClinicDelay")
     .exec(function (err, physician) {
         if (err) callback(err);

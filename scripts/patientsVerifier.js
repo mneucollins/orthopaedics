@@ -3,7 +3,6 @@ var patientController = require('./controllers/patientController');
 var emailController = require('./controllers/emailController');
 var mongoose     = require('mongoose');
 var config = require('./config');
-var users = require('./models/userModel');
 
 module.exports = {
 	validatePatientCharge : validatePatientCharge

@@ -20,7 +20,7 @@ var PatientSchema = new Schema({
 	notes: String,
 	physician: {
 		type: Schema.ObjectId,
-		ref: "users"
+		ref: "physicians"
 	},
 	currentState: {
 		type: String,
