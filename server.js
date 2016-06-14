@@ -74,6 +74,7 @@ require("./controllers/smsAlertsController"); // Inicio de Mensajes Automáticos
 
 require("./routes/emailRoutes")(router);
 require("./routes/userRoutes")(router);
+require("./routes/roleRoutes")(router, io);
 require("./routes/patientRoutes")(router, io);
 require("./routes/physicianRoutes")(router);
 require("./routes/messageRoutes")(router);

@@ -5,14 +5,34 @@ var physicianModel = require('../models/physicianModel');
 var patientModel = require('../models/patientModel');
 
 module.exports = {
+    nuevoPhysician: nuevoPhysician,
     listarPhysicians: listarPhysicians,
     obtenerPhysician: obtenerPhysician,
+    actualizarPhysician: actualizarPhysician,
+    eliminarPhysician: eliminarPhysician,
     getClinicDelay: getClinicDelay,
     getNextPatientWaitTime: getNextPatientWaitTime,
     addPatientToAvgDelay: addPatientToAvgDelay,
     clearAvgDelay: clearAvgDelay,
     getAvgDelay: getAvgDelay,
     isPhysicianInBreak: isPhysicianInBreak
+}
+
+function nuevoPhysician(newPhysician, callback) {
+
+    var physician = new physicianModel();
+    physician.firstName = newPhysician.firstName;
+    physician.lastName = newPhysician.lastName;
+    physician.name = newPhysician.name;
+    physician.department = newPhysician.department;
+    physician.email = newPhysician.email;
+    physician.npi = newPhysician.npi;
+    physician.isActive = newPhysician.isActive;
+    physician.patientsClinicDelay = [];
+
+    physician.save(function(err, elPhysician) {
+        callback(err, elPhysician);
+    });
 }
 
 function listarPhysicians(callback) {
@@ -26,6 +46,20 @@ function obtenerPhysician(id, callback) {
     physicianModel.findById(id, "firstName lastName name email department npi isActive", 
     function(err, users) {
         callback(err, users);
+    });
+}
+
+function actualizarPhysician(id, newPhysician, callback) {
+    physicianModel.findByIdAndUpdate(id, newPhysician, function(err, numAffected, physician) {
+        callback(err, physician);
+    });
+}
+
+function eliminarPhysician(id, callback) {
+    physicianModel.remove({
+        _id: id
+    }, function(err, physician) {
+        callback(err, physician);
     });
 }
 
@@ -113,9 +147,9 @@ function getNextPatientWaitTime (physicianId, callback) {
 	});
 }
 
- function addPatientToAvgDelay (physicianId, patient, callback) {
-    physicianModel.findByIdAndUpdate(physicianId, {$addToSet: {patientsClinicDelay: patient._id}}
-    , function (err, physician) {
+function addPatientToAvgDelay (physicianId, patient, callback) {
+    physicianModel.findByIdAndUpdate(physicianId, {$addToSet: {patientsClinicDelay: patient._id}}, 
+    function (err, physician) {
         if (err) callback(err);
         else callback(null, physician);
     })
