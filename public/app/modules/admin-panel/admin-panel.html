@@ -8,9 +8,17 @@
   <tabset>
     <tab heading="Users">
         <div class="row">
-            <p>
+            <p class="col-sm-12 ">
                 <div class="col-sm-3 ">
                     <input type="text" class="form-control" ng-model="findUser" ng-keyup="search(findUser)">
+                </div>
+            </p>
+            <p class="col-sm-12 ">
+                <div class="col-sm-6 ">
+                    <div ng-repeat="user in result" style="border-style: solid; border-radius: 7px; padding: 5px; margin: 7px;  width: 40%; cursor:pointer;">{{ user }} </div>
+                </div>
+                <div class="col-sm-5 ">
+                    <div ng-repeat="user in result">{{ user }} </div>
                 </div>
             </p>
         </div>
