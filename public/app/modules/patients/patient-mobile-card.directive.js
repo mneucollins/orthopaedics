@@ -1,14 +1,12 @@
 angular.module('patientsModule')
-.directive('patientBlock',function(){
+.directive('patientMobileCard',function(){
 	return {
 		replace : true,
 		restrict : 'E',
 		scope : {
 			patient : "=",
-			patientList : "=",
-			hidePhysicians : "="
 		},
-		templateUrl : '/app/modules/patients/patient-block.html',
+		templateUrl : '/app/modules/patients/patient-mobile-card.html',
 		controller:['$scope', function($scope){}]
 
 	};

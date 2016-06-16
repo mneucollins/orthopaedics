@@ -124,7 +124,9 @@ function listarUsuarios(callback){
 	console.log("listar usuarios:");
 	//para usar cuándo no está ejecutándose la aplicación
 	//mongoose.connect(config.databaseURL);
-	userModel.find({},function(err,users){
+	userModel.find({})
+	.populate("role")
+	.exec(function(err,users){
     	if(err) {
     		callback(err);
     		return;
@@ -154,12 +156,13 @@ function listarUsuarios(callback){
 			for(var i=0 ; i<users.length ; i++){
 				sheet1.set(1,i+2,users[i].name);
 				sheet1.set(2,i+2,users[i].username);
-				sheet1.set(3,i+2,users[i].role);
-				if(users[i].isAdmin){
-					sheet1.set(4,i+2,"Yes");
-				} else{
-					sheet1.set(4,i+2,"No");
-				}
+				sheet1.set(3,i+2,users[i].role.name);
+				// if(users[i].isAdmin){
+				// 	sheet1.set(4,i+2,"Yes");
+				// } else {
+				// 	sheet1.set(4,i+2,"No");
+				// }
+				sheet1.set(4,i+2,"-");
 				sheet1.set(5,i+2,users[i].email);
 			}
 

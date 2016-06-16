@@ -4,7 +4,7 @@ var userModel = require('../models/userModel');
 var emailController = require('./emailController');
 
 module.exports = {
-	listUsers: listUsers,
+	listarUsers: listarUsers,
 	completeProfile: completeProfile,
 	restorePassword: restorePassword,
 	findByToken: findByToken,
@@ -12,11 +12,46 @@ module.exports = {
 	changePassword: changePassword
 }
 
-function listUsers(callback) {
-    userModel
-    .find({})
-    .sort("name")
-    .exec(callback);
+function nuevoUser(newUser, callback) {
+
+    var user = new userModel();
+    user.name = newUser.name;
+    user.username = newUser.username;
+    user.password = user.generateHash(newUser.posicion);
+    user.role = newUser.role;
+    user.email = newUser.email;
+    user.isActive = newUser.isActive;
+
+    user.save(function(err, laUser) {
+        callback(err, laUser);
+    });
+}
+
+function listarUsers(callback) {
+    userModel.find(function(err, users) {
+        callback(err, users);
+    });
+}
+
+function obtenerUser(id, callback) {
+    userModel.findById(id, function(err, user) {
+        callback(err, user);
+    });
+}
+
+function actualizarUser(id, newUser, callback) {
+    userModel.findByIdAndUpdate(id, newUser, function(err, numAffected, user) {
+        callback(err, user);
+    });
+}
+
+function eliminarUser(id, callback) {
+    userModel.remove({
+        _id: id
+    }, function(err, user) {
+        callback(err, user);
+    });
+    
 }
 
 function completeProfile (id, profileData, callback) {

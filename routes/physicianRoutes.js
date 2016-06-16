@@ -8,8 +8,19 @@ module.exports = function (router) {
     var physicianController = require('../controllers/physicianController');
     var patientController = require('../controllers/patientController');
 
-
     router.route('/physicians')
+    .post(function(req, res) {
+        var data = req.body;
+        physicianController.nuevoPhysician(data,function (err, data) {
+            if(err) {
+                tools.sendServerError(err, req, res);
+                return;
+            }
+
+            console.log("new physician added");
+            res.json(data);
+        });
+    })
     .get(function(req, res) {
         physicianController.listarPhysicians(function (err, data) {
             if(err) {
@@ -21,6 +32,44 @@ module.exports = function (router) {
             res.json(data);
         });
 	});
+
+    router.route('/physicians/:physicianId')
+    .get(function(req, res) {
+        physicianController.obtenerPhysician(req.params.physicianId, function (err, data) {
+            if(err) {
+                tools.sendServerError(err, req, res);
+                return;
+            }
+
+            console.log("Physician " + req.params.physicianId + " listed");
+            res.json(data);
+        });
+    })
+    .put(function(req, res) {
+
+        var data = req.body;
+
+        physicianController.actualizarPhysician(req.params.physicianId, data, function (err, data) {
+            if(err) {
+                tools.sendServerError(err, req, res);
+                return;
+            }
+
+            console.log("new physician added");
+            res.json(data);
+        });
+    })
+    .delete(function(req, res) {
+        physicianController.eliminarPhysician(req.params.physicianId, function (err, data) {
+            if(err) {
+                tools.sendServerError(err, req, res);
+                return;
+            }
+
+            console.log("new physician added");
+            res.json(data);
+        });
+    });
 
     router.route('/physicians/waittime')
     .post(function(req, res) {
@@ -35,19 +84,6 @@ module.exports = function (router) {
             res.json(data);
         });
     }); 
-
-    router.route('/physicians/:physicianId')
-    .get(function(req, res) {
-        physicianController.obtenerPhysician(req.params.physicianId, function (err, data) {
-            if(err) {
-                tools.sendServerError(err, req, res);
-                return;
-            }
-
-            console.log("Physician " + req.params.physicianId + " listed");
-            res.json(data);
-        });
-    });
 
     router.route('/physicians/:physicianId/patients')
     .get(function(req, res) {

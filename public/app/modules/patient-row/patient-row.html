@@ -1,14 +1,14 @@
 <div>
 	
 	<action-column class="col-xs-3 col-sm-1" patient="patient"></action-column>
-    <appt-time-column class="hidden-xs col-sm-1" patient="patient"></appt-time-column>
-    <name-column class="hidden-xs col-sm-1" patient="patient"></name-column>
-    <appt-type-column class="hidden-xs col-sm-1" patient="patient"></appt-type-column>
-    <div class="hidden-xs col-sm-1 patientData bordered roomRow" ng-show="hidePhysicians">{{ patient.roomNumber }}</div>
-    <physician-column class="hidden-xs col-sm-1" patient="patient"></physician-column>
+    <appt-time-column class="hidden-xs col-sm-1 patientData bordered apptTimeRow" patient="patient"></appt-time-column>
+    <name-column class="hidden-xs col-sm-1 patientData bordered nameRow" ng-class="{nameRowBig: hidePhysicians}" style="font-weight: bold;" patient="patient"></name-column>
+    <appt-type-column class="hidden-xs col-sm-1 patientData bordered typeRow" patient="patient"></appt-type-column>
+    <room-number-column class="hidden-xs col-sm-1 patientData bordered roomRow" ng-show="hidePhysicians" patient="patient"></room-number-column>
+    <physician-column class="hidden-xs col-sm-1 patientData bordered physicianRow" ng-hide="hidePhysicians" patient="patient"></physician-column>
     <age-column class="hidden-xs col-sm-1" patient="patient"></age-column>
     <fc-column class="col-xs-2 col-sm-2" patient="patient"></fc-column>
-    <imaging-column class="col-xs-2 col-sm-1" patient="patient"></imaging-column>  
+    <imaging-column class="col-xs-2 col-sm-2" patient="patient" role="getUser()"></imaging-column>  
     <at-column class="col-xs-2 col-sm-1" patient="patient"></at-column>
     <wait-status-column class="hidden-xs col-sm-2 patientData bordered statusRow" ng-class="{statusRowBig: hidePhysicians}" patient="patient" card="false"></wait-status-column>
     <wait-total-column class="hidden-xs col-sm-1 patientData bordered totalRow" patient="patient" card="false"></wait-total-column>

@@ -4,7 +4,8 @@ angular.module('patientRowModule')
 		replace : true,
 		restrict : 'E',
 		scope : {
-			patient : "="
+			patient : "=",
+			role : "="
 		},
 		templateUrl : '/app/modules/patient-row/imaging-column.html',
 		controller:['$scope', 'Patient', function($scope, Patient){

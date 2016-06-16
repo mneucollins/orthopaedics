@@ -1,8 +1,6 @@
 var mongoose = require('mongoose');
 var moment = require('moment');
 var patientController = require('./controllers/patientController');
-var physicianController = require('./controllers/physicianController');
-var User = require('./models/userModel');
 
 var config = require("./config.json");
 

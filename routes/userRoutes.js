@@ -3,18 +3,68 @@ module.exports = function (router) {
     var tools = require('../tools');
     var userController = require('../controllers/userController');
 
-    router.route('/users')
-    .get(function(req, res) {
-        userController.listUsers(function (err, data) {
+    router.route('/users') 
+    .post(function(req, res) {
+        var data = req.body;
+        userController.nuevoUser(data,function (err, data) {
             if(err) {
                 tools.sendServerError(err, req, res);
                 return;
             }
 
-            console.log("Users listed");
+            console.log("new user added");
+            res.json(data);
+        });
+    })
+    .get(function(req, res) {
+        userController.listarUsers(function (err, data) {
+            if(err) {
+                tools.sendServerError(err, req, res);
+                return;
+            }
+
+            console.log("users listed");
             res.json(data);
         });
     });
+
+    router.route('/users/:userId')
+    .get(function(req, res) {
+        userController.obtenerUser(req.params.userId, function (err, data) {
+            if(err) {
+                tools.sendServerError(err, req, res);
+                return;
+            }
+            console.log("User " + req.params.userId + " listed");
+            res.json(data);
+        });
+    })
+    .put(function(req, res) {
+
+        var data = req.body;
+
+        userController.actualizarUser(req.params.userId, data, function (err, data) {
+            if(err) {
+                tools.sendServerError(err, req, res);
+                return;
+            }
+
+            console.log("new user added");
+            res.json(data);
+        });
+    })
+    .delete(function(req, res) {
+        userController.eliminarUser(req.params.userId, function (err, data) {
+            if(err) {
+                tools.sendServerError(err, req, res);
+                return;
+            }
+
+            console.log("new user added");
+            res.json(data);
+        });
+    });
+
 
     router.route('/users/:userId/questions')
     .put(function(req, res) { 

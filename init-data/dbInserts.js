@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var patientController = require('./controllers/patientController');
 var User = require('./models/userModel');
+var physicianModel = require('./models/physicianModel');
 
 var config = require("./config.json");
 
@@ -274,11 +275,11 @@ var physiciansIds = [];
 
 for (var i = 0; i < testPhysicians.length; i++) {
 	
-	var newUser = new User();
-	newUser.username  = testPhysicians[i].username;
-	newUser.password = newUser.generateHash(testPhysicians[i].password);
+	var newUser = new physicianModel();
+	// newUser.username  = testPhysicians[i].username;
+	// newUser.password = newUser.generateHash(testPhysicians[i].password);
 	newUser.name = testPhysicians[i].name;
-	newUser.role = "Physician";
+	// newUser.role = "Physician";
 	newUser.save(function(err, savedUsr) {
 	    if (err) console.log(err);
 	    else {

@@ -8,7 +8,8 @@ var emailController = require('./controllers/emailController');
 var messageController = require('./controllers/messageController');
 var patientController = require('./controllers/patientController');
 var patientModel = require('./models/patientModel');
-var userModel = require('./models/userModel');
+// var userModel = require('./models/userModel');
+var physicianModel = require('./models/physicianModel');
 var config = require("./config.json");
 
 module.exports = {
@@ -39,7 +40,7 @@ function leerExcel () {
 	var list = result[sheetName];
 	console.log("starting to save!");
 
-	userModel.find({}, function (err, physicians) {
+	physicianModel.find({}, function (err, physicians) {
 		var totalPatients = list.length;
 		var savedPatients = 0;
 		var dummyApptDate, dummy;

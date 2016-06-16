@@ -1,6 +1,6 @@
 var CronJob = require('cron').CronJob;
 var reader = require('./excelReader');
-var patientsVerifier = require('./patientsVerifier');
+var patientsVerifier = require('./scripts/patientsVerifier');
 var spawn = require('child_process').spawn;
 
 var config = require("./config");
