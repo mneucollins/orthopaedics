@@ -3,6 +3,18 @@ module.exports = function (router) {
     var tools = require('../tools');
     var userController = require('../controllers/userController');
 
+    router.route('/users')
+    .get(function(req, res) {
+        userController.listUsers(function (err, data) {
+            if(err) {
+                tools.sendServerError(err, req, res);
+                return;
+            }
+
+            console.log("Users listed");
+            res.json(data);
+        });
+    });
 
     router.route('/users/:userId/questions')
     .put(function(req, res) { 

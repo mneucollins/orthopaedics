@@ -4,11 +4,19 @@ var userModel = require('../models/userModel');
 var emailController = require('./emailController');
 
 module.exports = {
+	listUsers: listUsers,
 	completeProfile: completeProfile,
 	restorePassword: restorePassword,
 	findByToken: findByToken,
 	passwordRetrieval: passwordRetrieval,
 	changePassword: changePassword
+}
+
+function listUsers(callback) {
+    userModel
+    .find({})
+    .sort("name")
+    .exec(callback);
 }
 
 function completeProfile (id, profileData, callback) {
