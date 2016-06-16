@@ -256,23 +256,6 @@ angular.module('dashboardModule')
         }
     }
 
-
-
-    $scope.completeImagingState = function (patient){
-
-        Patient.update({patientId: patient.id}, {imagingTimestamp: new Date()}, function (updatedPatient) {
-            var index = $scope.patientList.indexOf(patient); 
-            $scope.patientList[index].imagingTimestamp = updatedPatient.imagingTimestamp;
-        });
-    }
-
-    $scope.startImaging = function (patient) {
-        Patient.update({patientId: patient.id}, {imagingStartedTimestamp: new Date()}, function (updatedPatient) {
-            var index = $scope.patientList.indexOf(patient); 
-            $scope.patientList[index].imagingStartedTimestamp = updatedPatient.imagingStartedTimestamp;
-        });
-    }
-
     // Messages Management
     ///////////////////////////////////////////////////////////////////////////////////////////////
 

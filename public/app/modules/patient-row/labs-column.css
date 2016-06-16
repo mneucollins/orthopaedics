@@ -1,0 +1,16 @@
+
+.labsRow {
+	padding-top: .9em;
+	width: 6%;
+}
+
+.labsMinutes {
+    border-style: solid;
+    border-radius: 18px;
+    border-width: 2px;
+	color: #4ECB95;
+	display: inline-block;
+    font-weight: bold;
+    padding: .5em .5em;
+    text-align: center;
+}

@@ -91,6 +91,22 @@ angular.module('patientRowModule')
 		        return !!patient.imagingStartedTimestamp;
 		    }
 
+
+		    $scope.completeImagingState = function (patient){
+
+		        Patient.update({patientId: patient.id}, {imagingTimestamp: new Date()}, function (updatedPatient) {
+		            //var index = $scope.patientList.indexOf(patient); 
+		            $scope.patient.imagingTimestamp = updatedPatient.imagingTimestamp;
+		        });
+		    }
+
+		    $scope.startImaging = function (patient) {
+		        Patient.update({patientId: patient.id}, {imagingStartedTimestamp: new Date()}, function (updatedPatient) {
+		            //var index = $scope.patientList.indexOf(patient); 
+		            $scope.patient.imagingStartedTimestamp = updatedPatient.imagingStartedTimestamp;
+		        });
+		    }
+
 		}]
 
 	};

@@ -1,0 +1,24 @@
+<div class="patientData bordered labsRow">
+    <div class="retinaContainer dashboardSVG" ng-if="!(role == 'Imaging' || role == 'Receptionist')">
+        <img ng-if="!isLabsStarted(patient) || patient.labsTimestamp" ng-src="{{ getLabsState(patient) }}" ng-click="toogleLabsState(patient)" ng-class="{clickable: isLabsClickable(patient)}"/>
+        <div class="labsMinutes" ng-if="isLabsStarted(patient) && !patient.labsTimestamp">
+            {{ getLabsgMinutes(patient) }}m
+        </div>
+    </div>
+    <div ng-if="(role == 'Imaging' || role == 'Receptionist')">
+        <div class="retinaContainer dashboardSVG">
+            <img ng-src="{{ getLabsState(patient) }}" ng-click="toogleLabsState(patient)" ng-class="{clickable: isLabsClickable(patient)}" />
+        </div>
+        <div id="{{ 'labsIcons' + patient._id }}" ng-show="patient.needsLabs" style="display: inline-block;">
+            <div class="retinaContainer dashboardSVG" ng-if="!isLabsStarted(patient)">
+                <img src="/img/start-icon.png" class="clickable" ng-click="startLabs(patient)"/>
+            </div>
+            <div class="labsMinutes" ng-if="isLabsStarted(patient)">
+                {{ getLabsgMinutes(patient) }}m
+            </div>
+            <div class="retinaContainer dashboardSVG" ng-if="!patient.labsTimestamp">
+                <img src="/img/ok2icon.svg" class="clickable" ng-click="completeLabsState(patient)"/>
+            </div> 
+        </div>
+    </div>
+</div> 

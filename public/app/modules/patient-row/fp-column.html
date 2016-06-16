@@ -1,0 +1,9 @@
+<div class="patientData bordered fpRow">
+    <div ng-if="!showFPMinutes(patient)" class="retinaContainer dashboardSVG">
+        <img ng-src="{{ getFPIcon(patient) }}" ng-click="toogleFPState(patient)" ng-class="{clickable: isFPClickable(patient)}" />
+    </div>
+
+    <div class="fpMinutes" ng-if="showFPMinutes(patient)" ng-click="toogleFPState(patient)" ng-class="{clickable: isFPClickable(patient)}">
+        {{ getFPMinutes(patient) }}m
+    </div>
+</div>
