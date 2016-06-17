@@ -6,18 +6,64 @@
 
 <div  style="padding: 2%;">
   <tabset>
-    <tab heading="Users">
+    <tab heading="Users" select="loadUsers()">
         <div class="row">
-            <p>
+            <p class="col-sm-12 ">
                 <div class="col-sm-3 ">
-                    <input type="text" class="form-control" ng-model="findUser" ng-keyup="search(findUser)">
+                    <input type="text" class="form-control" ng-model="findUser" ng-keyup="search(findUser, 1)">
+                </div>
+            </p>
+            <p class="col-sm-12 ">
+                <div class="col-sm-6 ">
+                    <div ng-repeat="user in result" ng-click="loadRegister(user)" style="border-style: solid; border-radius: 7px; padding: 5px; margin: 7px;  width: 40%; cursor:pointer;">{{ user.name }} </div>
+                </div>
+                <div class="col-sm-5 ">
+                    <span>Name: </span>
+                    <input type="text" class="form-control" ng-model="selectedItem.name">
+                    <span>Username: </span>
+                    <input type="text" class="form-control" ng-model="selectedItem.username">
+                    <span>Password: </span>
+                    <input type="text" class="form-control" ng-model="selectedItem.password">
+                    <span>Role: </span>
+                    <input type="text" class="form-control" ng-model="selectedItem.role">
+                    <span>Email: </span>
+                    <input type="text" class="form-control" ng-model="selectedItem.email">
+                    <input type="checkbox" ng-model="selectedItem.isActive" class="ng-pristine ng-valid ng-touched"> Is Active<br>
+                    <button class="btn btn-primary circled" ng-click="saveChanges()" style="float: right;">Save</button>
                 </div>
             </p>
         </div>
     </tab>
-    <tab heading="Roles">Static content</tab>
-    <tab heading="Physicians">Static content</tab>
-    <tab heading="Messages">Static content</tab>
-    <tab heading="General">Static content</tab>
+    <tab heading="Roles">Static content Roles</tab>
+    <tab heading="Physicians" select="loadPhysicians()">
+        <div class="row">
+            <p class="col-sm-12 ">
+                <div class="col-sm-3 ">
+                    <input type="text" class="form-control" ng-model="findUser" ng-keyup="search(findUser, 3)">
+                </div>
+            </p>
+            <p class="col-sm-12 ">
+                <div class="col-sm-6 ">
+                    <div ng-repeat="physician in result" ng-click="loadRegister(physician)" style="border-style: solid; border-radius: 7px; padding: 5px; margin: 7px;  width: 40%; cursor:pointer;">{{ physician.name }} </div>
+                </div>
+                <div class="col-sm-5 ">
+                    <span>First Name: </span>
+                    <input type="text" class="form-control" ng-model="selectedItem.firstName">
+                    <span>Last Name: </span>
+                    <input type="text" class="form-control" ng-model="selectedItem.lastName">
+                    <span>Name: </span>
+                    <input type="text" class="form-control" ng-model="selectedItem.name">
+                    <span>Department: </span>
+                    <input type="text" class="form-control" ng-model="selectedItem.department">
+                    <span>Email: </span>
+                    <input type="text" class="form-control" ng-model="selectedItem.email">
+                    <input type="checkbox" ng-model="selectedItem.isActive" class="ng-pristine ng-valid ng-touched"> Is Active<br>
+                    <button class="btn btn-primary circled" ng-click="saveChanges()" style="float: right;">Save</button>
+                </div>
+            </p>
+        </div>
+    </tab>
+    <tab heading="Messages">Static content Messages</tab>
+    <tab heading="General">Static content General</tab>
   </tabset>
 </div>
