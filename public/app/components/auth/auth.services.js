@@ -56,8 +56,8 @@ angular.module("appCommons")
 	            callback(user);
 	        });
 	    },
-        isImaging: function(usuario){
-            return false;
+        isImaging: function(){
+            return currentUser.role.isImaging;
         }
   	};
 }]);

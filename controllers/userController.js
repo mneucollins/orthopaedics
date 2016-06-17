@@ -86,6 +86,7 @@ function restorePassword (id, profileData, callback) {
 
 function findByToken (token, callback) {
 	userModel.findOne({token: token})
+    .populate("role")
 	.select("securityQuestion")
 	.exec(function (err, user) {
 		if(err) callback(err);
