@@ -9,7 +9,7 @@
     <age-column class="hidden-xs col-sm-1" patient="patient"></age-column>
     <fc-column class="col-xs-2 col-sm-2" patient="patient"></fc-column>
     <imaging-column class="col-xs-2 col-sm-2" patient="patient" role="getUser()"></imaging-column>  
-    <at-column class="col-xs-2 col-sm-1" patient="patient"></at-column>
+    <at-column class="col-xs-2 col-sm-1" patient="patient", patient-list="patientList"></at-column>
     <wait-status-column class="hidden-xs col-sm-2 patientData bordered statusRow" ng-class="{statusRowBig: hidePhysicians}" patient="patient" card="false"></wait-status-column>
     <wait-total-column class="hidden-xs col-sm-1 patientData bordered totalRow" patient="patient" card="false"></wait-total-column>
     <div class="col-xs-4 col-sm-1 patientData bordered expandBtnRow">
