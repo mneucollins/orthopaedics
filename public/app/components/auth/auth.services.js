@@ -55,7 +55,10 @@ angular.module("appCommons")
 	        Session.restoreLogin(usuario, function (user) {
 	            callback(user);
 	        });
-	    }
+	    },
+        isImaging: function(usuario){
+            return false;
+        }
   	};
 }]);
 
