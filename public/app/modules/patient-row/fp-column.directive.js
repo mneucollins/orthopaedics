@@ -4,85 +4,83 @@ angular.module('patientRowModule')
 		replace : true,
 		restrict : 'E',
 		scope : {
-			patient : "="
+			patient : "=",
+			patientList : "="
 		},
 		templateUrl : '/app/modules/patient-row/fp-column.html',
 		controller:['$scope', 'Patient', function($scope, Patient){
 
-		    // FC Management
+		    // Attending Entry Management
 		    ///////////////////////////////////////////////////////////////////////////////////////////////
 
-		    $scope.getFPIcon = function (patient){
-		        var FPStateIcon = "";
+		    $scope.toogleFPEntry = function (patient) {
+		        if(patient.currentState != 'EX') return;
 
-		        if(!patient.fpStartedTimestamp) {
-		            FPStateIcon = "/img/fc-inactive.svg";  
-		        }
-		        else if(!patient.fpFinishedTimestamp) {
-		            FPStateIcon = "/img/fc-active.svg";
+		        if(patient.fpTimerEnterTimestamp.length > patient.fpTimerExitTimestamp.length){
+		            patient.fpTimerExitTimestamp.push(new Date());
+		            Patient.update({patientId: patient.id}, {fpTimerExitTimestamp: patient.fpTimerExitTimestamp}, patientFPUpdated);
 		        }
 		        else {
-		            FPStateIcon = "/img/fc-complete.svg";
-		        }
-		        
-		        return FPStateIcon;
-		    }
-
-		    $scope.showFPMinutes = function (patient) {
-		        
-		        if(patient.fpFinishedTimestamp) 
-		            return false;
-
-		        var mins = $scope.getFPMinutes(patient);
-		        return mins >= 15;
-
-		    }
-
-		    $scope.getFPMinutes = function (patient) {
-
-		        if(!patient.fpStartedTimestamp) return 0;
-
-		        var fpIniDate = new Date(patient.fpStartedTimestamp).getTime();
-		        var nowDate = new Date().getTime();
-
-		        var fpTime = nowDate - fpIniDate;
-
-		        return Math.round(fpTime / (60*1000));
-		    }
-
-		    $scope.toogleFPState = function (patient){
-
-		        if(!$scope.isFPClickable(patient)) return;
-
-		        if(!patient.fpStartedTimestamp) {
-		            Patient.update({patientId: patient.id}, {fpStartedTimestamp: new Date()}, patientFPUpdated);
-		        }
-		        else if(!patient.fpFinishedTimestamp) {
-		            Patient.update({patientId: patient.id}, {needsFP: true, fpFinishedTimestamp: new Date()}, patientFPUpdated);
-		        }
-		        else {
-		            var resp = confirm("Are you sure you would like to mark FP as incomplete?");
-		            if (resp == true) {
-		                Patient.update({patientId: patient.id}, {fpFinishedTimestamp: null}, patientFPUpdated);       
-		            }
+		            patient.fpTimerEnterTimestamp.push(new Date());
+		            Patient.update({patientId: patient.id}, {fpTimerEnterTimestamp: patient.fpTimerEnterTimestamp}, patientFPUpdated);
+		            _.each($scope.patientList, function (ptnt, index, list) {
+		                if(patient.physician._id === ptnt.physician._id && 
+		                patient._id != ptnt._id && 
+		                ptnt.fpTimerEnterTimestamp.length > ptnt.fpTimerExitTimestamp.length) {
+		    
+		                    ptnt.fpTimerExitTimestamp.push(new Date());
+		                    Patient.update({patientId: ptnt.id}, {fpTimerExitTimestamp: ptnt.fpTimerExitTimestamp}, function (updatedPatient) {
+		                        $scope.patientList[index].fpTimerExitTimestamp = updatedPatient.fpTimerExitTimestamp;
+		                    });
+		                }
+		            });
 		        }
 
 		        function patientFPUpdated (updatedPatient) {
 		            // var index = $scope.patientList.indexOf(patient); 
-		            $scope.patient.fpStartedTimestamp = updatedPatient.fpStartedTimestamp;
-		            $scope.patient.fpFinishedTimestamp = updatedPatient.fpFinishedTimestamp;
+		            $scope.patient.fpTimerEnterTimestamp = updatedPatient.fpTimerEnterTimestamp;
+		            $scope.patient.fpTimerExitTimestamp = updatedPatient.fpTimerExitTimestamp;
 		        }
+		    } 
+
+		    $scope.getFPTimer = function (patient) {
+
+		        var counter = 0;
+		        for (var i = 0; i < patient.fpTimerEnterTimestamp.length; i++) {
+		            if(patient.fpTimerExitTimestamp[i])
+		                counter += (new Date(patient.fpTimerExitTimestamp[i])).getTime() - (new Date(patient.fpTimerEnterTimestamp[i])).getTime();
+		            else
+		                counter += (new Date()).getTime() - (new Date(patient.fpTimerEnterTimestamp[i])).getTime();
+		        };
+
+		        var colorStateFP = "";
+		        var counterAux = counter/60000;  //to minutes.
+		        if(counterAux <= 15)
+		            colorStateFP = "timer-on-time";
+		        else if(counterAux > 15 && counterAux <= 30)
+		            colorStateFP = "timer-delay-15";
+		        else if(counterAux > 30 && counterAux <= 45)
+		            colorStateFP = "timer-delay-30";
+		        else if(counterAux > 45)
+		            colorStateFP = "timer-delay-45";
+		        
+		        $scope.colorStateFP = colorStateFP;
+
+		        return new Date(counter);
 		    }
 
-		    $scope.isFPClickable = function (patient) {
-		        if (patient.currentState == "WR" || patient.currentState == "NCI")
-		            return true;
-		        else
-		            return false;
+
+		    $scope.getFPIcon = function (patient) {
+		        
+		        if(patient.fpTimerEnterTimestamp.length == 0 || patient.currentState == 'DC')
+		            return "/img/at-entry-gray.svg";
+		        else if(patient.fpTimerEnterTimestamp.length > patient.fpTimerExitTimestamp.length)
+		            return "/img/at-entry-green.svg";
+		        else if(patient.fpTimerEnterTimestamp.length == patient.fpTimerExitTimestamp.length && patient.fpTimerEnterTimestamp.length > 0)
+		            return "/img/at-entry-red.svg";
 		    }
 
-		    
-			
+
 		}]
 
 	};
