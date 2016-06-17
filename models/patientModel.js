@@ -40,17 +40,35 @@ var PatientSchema = new Schema({
 		type: Boolean,
 		default: false
 	},
+
+	// Timing
 	WRTimestamp: Date,
 	EXTimestamp: Date,
 	DCTimestamp: Date,
 	clinicDelay: Number,
+	
+	//Imaging
 	imagingRequestedTimestamp: Date,
 	imagingStartedTimestamp: Date,
 	imagingTimestamp: Date,
+	
+	//Labs
+	labsRequestedTimestamp: Date,
+	labsStartedTimestamp: Date,
+	labsTimestamp: Date,
+
+	// FC
 	fcStartedTimestamp: Date,
 	fcFinishedTimestamp: Date,
+
+	// AT Timer
 	enterTimestamp: [Date],
 	exitTimestamp: [Date],
+
+	// FP Timer
+	fpTimerEnterTimestamp: [Date],
+	fpTimerExitTimestamp: [Date],
+
 	timestamp: { type: Date, default: Date.now }
 });
 
