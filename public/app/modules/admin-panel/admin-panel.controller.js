@@ -1,30 +1,62 @@
 
 angular.module('adminModule')
-.controller('adminCtrl', ['$scope', '$location', '$rootScope', '$log', 'User',
-  function($scope, $location, $rootScope, $log, User) {
+.controller('adminCtrl', ['$scope', '$location', '$rootScope', '$log', 'User', 'Physician',
+  function($scope, $location, $rootScope, $log, User, Physician) {
 
-    //$scope.findUser = "b";
+    // var options = {
+    //   keys: ['author', 'title'],   // keys to search in
+    //   id: 'id'                     // return a list of identifiers only
+    // }
 
-// var options = {
-//   keys: ['author', 'title'],   // keys to search in
-//   id: 'id'                     // return a list of identifiers only
-// }
+    var fusePhysicians;
+    var options;
 
-var options = {
-  keys: ['name'],   // keys to search in
-  id: 'name'                     // return a list of identifiers only
-}
+    $scope.loadUsers = function(){
+        $scope.result = "";
+        $scope.findUser = "";
+    }
+    
+    $scope.loadPhysicians = function(){
+        $scope.result = "";
+        $scope.findUser = "";
 
-    //var fuse = new Fuse(books, options);
-    var fuse;// = new Fuse($scope.usersArray, options);
+        options = {
+          keys: ['name']   // keys to search
+        }
+
+        Physician.query(function(data, err) {
+          fusePhysicians = new Fuse(data, options);
+        });
+    }
+
+    var options2 = {
+      keys: ['name']   // keys to search in
+      //id: 'name'                     // return a list of identifiers only
+    }
+
+    var fuseUsers;// = new Fuse($scope.usersArray, options);
+    
 
     User.query(function(data, err) {
-      fuse = new Fuse(data, options);
+      fuseUsers = new Fuse(data, options2);
     });
 
-    $scope.search = function (findUser) {
-        $scope.result = fuse.search(findUser);
+    
+    $scope.search = function (findElement, type) {
+        if(type == "1")
+            $scope.result = fuseUsers.search(findElement);
+        else if(type == "3")
+            $scope.result = fusePhysicians.search(findElement);
     }
+
+    $scope.loadRegister = function (register) {
+        $scope.selectedItem = register;
+    }
+
+    $scope.saveChanges = function (user) {
+        alert("codigo para hacer update...");
+    }
+
 
     function retrievePatients () {
         $scope.patientList = [];
