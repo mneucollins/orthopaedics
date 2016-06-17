@@ -31,7 +31,9 @@ module.exports = function(passport) {
     }, function(req, username, password, done) {
 
         process.nextTick(function() {
-	        User.findOne({$or:[{'username' :  username }, {'email' :  req.body.email }]}, function(err, user) {
+	        User.findOne({$or:[{'username' :  username }, {'email' :  req.body.email }]}) 
+            .populate("role")
+            .exec( function(err, user) {
 	            if (err)
 	                return done(err);
 	            
@@ -111,7 +113,9 @@ module.exports = function(passport) {
         passReqToCallback : true 
     }, function(req, username, password, done) { 
 
-        User.findOne({ 'username' :  username }, function(err, user) {
+        User.findOne({ 'username' :  username } )
+            .populate("role")
+            .exec(function(err, user) {
             if (err)
                 return done(err);
             if (!user)
