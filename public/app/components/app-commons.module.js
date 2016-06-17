@@ -1,1 +1,3 @@
-var appCommons = angular.module('appCommons',[]);
+var appCommons = angular.module('appCommons',[
+	'ngResource'
+]);

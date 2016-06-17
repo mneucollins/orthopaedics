@@ -22,8 +22,10 @@ angular.module('patientRowModule')
 		      })
 		    }
 
-		    $scope.getUser = function (){
-		    	return AuthService.currentUser().role;
+		    $scope.getUserRole = function (){
+		    	var role = AuthService.currentUser();
+		    	console.log("**************************está en get user role:" + role);
+		    	return role;
 		    }
 
 
