@@ -1,8 +1,7 @@
 var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
-var RoleSchema = new Schema({
-    _id: String,
+var RoleSchema = new Schema({ 
     adminUsers: {
         type: Boolean,
         default: false

@@ -38,8 +38,9 @@ function testUsers () {
 	// var role = null;
 
 	// roleModel
-	// .find()
-	// .exec(function (err,roles){
+	// .insert({
+		
+	// }, function (err,rol){
 	// 	if(err){
 	// 		console.log(err)
 	// 	} else {
@@ -52,23 +53,23 @@ function testUsers () {
 
 	// setTimeout(function(){
 
-	// 	userModel
-	// 	.findOne({'username':'admin'})
-	// 	.exec(function(err,user){
-	// 		if(err){
-	// 			console.log(err);
-	// 		} else {
-	// 			user.role = role;
-	// 			console.log(JSON.stringify(user));
-	// 			user.save(function(err,user){
-	// 				if(err){
-	// 					console.log(err);
-	// 				} else{
-	// 					console.log("no error");
-	// 				}
-	// 			});
-	// 		}
-	// 	});
+		// userModel
+		// .findOne({'username':'admin'})
+		// .exec(function(err,user){
+		// 	if(err){
+		// 		console.log(err);
+		// 	} else {
+		// 		user.role = role;
+		// 		console.log(JSON.stringify(user));
+		// 		user.save(function(err,user){
+		// 			if(err){
+		// 				console.log(err);
+		// 			} else{
+		// 				console.log("no error");
+		// 			}
+		// 		});
+		// 	}
+		// });
 
 	// },3000);
 
