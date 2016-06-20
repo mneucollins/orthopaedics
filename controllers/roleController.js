@@ -18,6 +18,7 @@ function nuevoRole(newRole, callback) {
     role.adminGeneral = newRole.adminGeneral;
     role.generateReports = newRole.generateReports;
     role.isImaging = newRole.isImaging;
+    role.isLabs = newRole.isLabs;
     role.isFrontdesk = newRole.isFrontdesk;
     role.layout = newRole.layout;
 

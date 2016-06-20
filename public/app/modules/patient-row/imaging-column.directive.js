@@ -5,7 +5,7 @@ angular.module('patientRowModule')
 		restrict : 'E',
 		scope : {
 			patient : "=",
-			role : "="
+			isImaging : "="
 		},
 		templateUrl : '/app/modules/patient-row/imaging-column.html',
 		controller:['$scope', 'Patient', function($scope, Patient){
@@ -18,10 +18,10 @@ angular.module('patientRowModule')
 
 		        if(patient.needsImaging)
 		            if(patient.imagingTimestamp){
-		                imagingStateIcon = "/img/ok1icon.svg";  
+		                imagingStateIcon = "/img/ok1icon-imaging.svg";  
 		            }
 		            else{
-		                imagingStateIcon = "/img/yicon.png";
+		                imagingStateIcon = "/img/yicon-imaging.png";
 		            }
 		        else
 		            imagingStateIcon = "/img/nicon.png";
