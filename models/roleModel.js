@@ -30,24 +30,34 @@ var RoleSchema = new Schema({
         type: Boolean,
         default: false
     },
-    layout: [{
-        type: String,
-        enum: [
-            "age-column",
-            "appt-time-column",
-            "appt-type-column",
-            "at-column",
-            "fp-column",
-            "fc-column",
-            "imaging-column",
-            "labs-column",
-            "name-column",
-            "physician-column",
-            "room-number-column",
-            "wait-status-column",
-            "wait-total-column"
-        ]
-    }],
+    layout: {
+        coloredPriorTime: {
+            type: Boolean,
+            default: false
+        },
+        highlightNewPatients: {
+            type: Boolean,
+            default: false
+        },
+        columns: [{
+            type: String,
+            enum: [
+                "age-column",
+                "appt-time-column",
+                "appt-type-column",
+                "at-column",
+                "fp-column",
+                "fc-column",
+                "imaging-column",
+                "labs-column",
+                "name-column",
+                "physician-column",
+                "room-number-column",
+                "wait-status-column",
+                "wait-total-column"
+            ]
+        }]
+    },
     timestamp: { type: Date, default: Date.now }
 });
 
