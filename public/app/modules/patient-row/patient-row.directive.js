@@ -23,13 +23,11 @@ angular.module('patientRowModule')
 		    }
 
 		    $scope.isImaging = function (){
-		    	var role = AuthService.currentUser().role.isImaging;
-		    	return role;
+		    	return AuthService.isImaging();
 		    }
 
 		    $scope.isLabs = function (){
-		    	var role = AuthService.currentUser().role.isLabs;
-		    	return role;
+		    	return AuthService.isLabs();
 		    }
 
 

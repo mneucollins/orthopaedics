@@ -58,6 +58,9 @@ angular.module("appCommons")
 	    },
         isImaging: function(){
             return currentUser.role.isImaging;
+        },
+        isLabs: function(){
+            return currentUser.role.isLabs;
         }
   	};
 }]);

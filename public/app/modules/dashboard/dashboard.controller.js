@@ -207,6 +207,19 @@ angular.module('dashboardModule')
             case 4.2:
                 pList = _.sortBy($scope.patientList, function(patient){ return patient.age; });
                 break;
+            case 4.3:
+                pList = _.sortBy($scope.patientList, function(patient){ 
+                            var counter = 0;
+                            for (var i = 0; i < patient.fpTimerEnterTimestamp.length; i++) {
+                                if(patient.fpTimerExitTimestamp[i])
+                                    counter += (new Date(patient.fpTimerExitTimestamp[i])).getTime() - 
+                                                    (new Date(patient.fpTimerEnterTimestamp[i])).getTime();
+                                else
+                                    counter += (new Date()).getTime() - (new Date(patient.fpTimerEnterTimestamp[i])).getTime();
+                            }
+                            return new Date(counter);
+                        });
+                break;
             case 5:
                 pList = _.sortBy($scope.patientList, function(patient){ 
                             if(patient.needsImaging)
@@ -226,6 +239,17 @@ angular.module('dashboardModule')
                                 return 2; 
                             else 
                                 return 3;
+                        }); 
+                break;
+            case 5.2:
+                pList = _.sortBy($scope.patientList, function(patient){ 
+                            if(patient.needsLabs)
+                                if(patient.labsTimestamp)
+                                    return 3;   
+                                else
+                                    return 2;
+                            else
+                                return 1;   
                         }); 
                 break;
             case 6:
