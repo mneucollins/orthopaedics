@@ -26,6 +26,10 @@ var RoleSchema = new Schema({
         type: Boolean,
         default: false
     },
+    isLabs: {
+        type: Boolean,
+        default: false
+    },
     isFrontdesk: {
         type: Boolean,
         default: false

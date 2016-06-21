@@ -36,10 +36,6 @@ var PatientSchema = new Schema({
 		default: false
 	},
 	deletedTimestamp: Date,
-	needsImaging: {
-		type: Boolean,
-		default: false
-	},
 
 	// Timing
 	WRTimestamp: Date,
@@ -51,11 +47,19 @@ var PatientSchema = new Schema({
 	imagingRequestedTimestamp: Date,
 	imagingStartedTimestamp: Date,
 	imagingTimestamp: Date,
+	needsImaging: {
+		type: Boolean,
+		default: false
+	},
 	
 	//Labs
 	labsRequestedTimestamp: Date,
 	labsStartedTimestamp: Date,
 	labsTimestamp: Date,
+	needsLabs: {
+		type: Boolean,
+		default: false
+	},
 
 	// FC
 	fcStartedTimestamp: Date,
