@@ -35,6 +35,7 @@ angular.module("appCommons")
 	    		return true;
 	    	else {
 	            currentUser = $cookieStore.get("currentUser");
+                LayoutService.setLayoutUser(currentUser);
 	            if (currentUser)
 	                return true;
 	            else 
