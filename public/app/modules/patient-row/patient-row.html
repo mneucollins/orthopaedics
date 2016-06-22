@@ -2,7 +2,7 @@
 	
 	<action-column class="col-xs-3 col-sm-1" patient="patient"></action-column>
     <appt-time-column class="hidden-xs col-sm-1 patientData bordered apptTimeRow" patient="patient"></appt-time-column>
-    <name-column class="hidden-xs col-sm-1 patientData bordered nameRow" ng-class="{nameRowBig: hidePhysicians}" style="font-weight: bold;" patient="patient"></name-column>
+    <name-column class="hidden-xs col-sm-1 patientData bordered nameRow" ng-class="{nameRowBig: hidePhysicians}" style="font-weight: bold;" patient="patient" colored-prior-time="coloredPriorTime()"></name-column>
     <appt-type-column class="hidden-xs col-sm-1 patientData bordered typeRow" patient="patient"></appt-type-column>
     <room-number-column class="hidden-xs col-sm-1 patientData bordered roomRow" ng-show="hidePhysicians" patient="patient"></room-number-column>
     <physician-column class="hidden-xs col-sm-1 patientData bordered physicianRow" ng-hide="hidePhysicians" patient="patient"></physician-column>

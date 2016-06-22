@@ -61,6 +61,12 @@ angular.module("appCommons")
         },
         isLabs: function(){
             return currentUser.role.isLabs;
+        },
+        coloredPriorTime: function(){
+            return currentUser.role.layout.coloredPriorTime;
+        },
+        highlightNewPatients: function(){
+            return currentUser.role.layout.highlightNewPatients;
         }
   	};
 }]);

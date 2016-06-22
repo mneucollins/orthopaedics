@@ -9,8 +9,8 @@ angular.module('patientRowModule')
 			hidePhysicians : "="
 		},
 		templateUrl : '/app/modules/patient-row/patient-row.html',
-		controller:['$scope', '$rootScope', '$modal', '$log', 'Patient', 'Alerts', 'AuthService',
-			function($scope, $rootScope, $modal, $log, Patient, Alerts, AuthService){
+		controller:['$scope', '$rootScope', '$modal', '$log', 'Patient', 'Alerts', 'AuthService', 'LayoutService',
+			function($scope, $rootScope, $modal, $log, Patient, Alerts, AuthService, LayoutService){
 
 
 		    // Patient History
@@ -29,6 +29,10 @@ angular.module('patientRowModule')
 		    $scope.isLabs = function (){
 		    	return AuthService.isLabs();
 		    }
+
+			$scope.coloredPriorTime = function(){
+				return LayoutService.coloredPriorTime();
+			}
 
 
 		}]

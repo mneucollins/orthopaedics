@@ -1,1 +1,9 @@
-<div>{{ patient.fullName }}</div>
+<div>
+	<div ng-if="coloredPriorTime">
+		<div ng-if="!patient.previousDate">{{ patient.fullName }}</div>
+		<div ng-if="patient.previousDate" ng-class="$root.getTimerColor('WR', patient.previousDate)">{{ patient.fullName }}</div>
+	</div>
+	<div ng-if="!coloredPriorTime">
+		<div>{{ patient.fullName }}</div>
+	</div>
+</div>

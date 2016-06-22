@@ -4,7 +4,8 @@ angular.module('patientRowModule')
 		replace : true,
 		restrict : 'E',
 		scope : {
-			patient : "="
+			patient : "=",
+			coloredPriorTime : "="
 		},
 		templateUrl : '/app/modules/patient-row/name-column.html',
 		controller:['$scope', function($scope){
