@@ -116,7 +116,6 @@ module.exports = function(passport) {
         User.findOne({ 'username' :  username } )
             .populate("role")
             .exec(function(err, user) {
-                console.log(JSON.stringify(user));
             if (err)
                 return done(err);
             if (!user)

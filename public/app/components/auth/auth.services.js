@@ -31,8 +31,10 @@ angular.module("appCommons")
 	        });
 	    },
 	    isLoggedIn: function() { 
-	    	if (currentUser)
+	    	if (currentUser){
+                LayoutService.setLayoutUser(currentUser);
 	    		return true;
+            }
 	    	else {
 	            currentUser = $cookieStore.get("currentUser");
                 LayoutService.setLayoutUser(currentUser);
@@ -46,6 +48,7 @@ angular.module("appCommons")
 	    currentUser: function() { return currentUser; },
 	    setCurrentUser: function(usr) { 
 	        $cookieStore.put("currentUser", usr);
+            LayoutService.setLayoutUser(currentUser);
 	        currentUser = usr; 
 	    },
 	    signup: function(usuario, callback) {
@@ -59,16 +62,18 @@ angular.module("appCommons")
 	        });
 	    },
         isImaging: function(){
-            return currentUser.role.isImaging;
+            if(currentUser){
+                return currentUser.role.isImaging;
+            } else {
+                return false;
+            }
         },
         isLabs: function(){
-            return currentUser.role.isLabs;
-        },
-        coloredPriorTime: function(){
-            return currentUser.role.layout.coloredPriorTime;
-        },
-        highlightNewPatients: function(){
-            return currentUser.role.layout.highlightNewPatients;
+            if(currentUser){
+                return currentUser.role.isLabs;
+            } else {
+                return false;
+            }
         }
   	};
 }]);
