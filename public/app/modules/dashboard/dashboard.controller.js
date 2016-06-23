@@ -1,7 +1,7 @@
 
 angular.module('dashboardModule')
-.controller('dashboardCtrl', ['$scope', '$location', '$rootScope', '$log', '$interval', '$timeout', '$modal', 'Patient', 'Messages', 'Physician', 'WaitTime', 'AuthService',
-  function($scope, $location, $rootScope, $log, $interval, $timeout, $modal, Patient, Messages, Physician, WaitTime, AuthService) {
+.controller('dashboardCtrl', ['$scope', '$location', '$rootScope', '$log', '$interval', '$timeout', '$modal', 'Patient', 'Messages', 'Physician', 'WaitTime', 'AuthService', 'LayoutService',
+  function($scope, $location, $rootScope, $log, $interval, $timeout, $modal, Patient, Messages, Physician, WaitTime, AuthService, LayoutService) {
 
     $("nav").removeClass("hidden");
     $("body").removeClass("body-login");
@@ -135,6 +135,7 @@ angular.module('dashboardModule')
     }
 
     function retrievePatients () {
+        $scope.highlightNewPatients = LayoutService.highlightNewPatients();
         $scope.patientList = [];
         var physicians = $scope.selectedPhysicians;
 

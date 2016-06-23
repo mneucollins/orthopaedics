@@ -54,16 +54,11 @@
         </div>
         <!-- Header End -->
         <!-- Body Start -->
-        <div class="row patientRow {{'pat_' + patient._id}}" ng-class="{'oddRow': $odd}" ng-repeat="patient in patientList | dischargePatientsFilter: $root.hideDischarged | deletedPatientsFilter: $root.hideDeleted" patient-list>
-            
-
-
-
+        <div class="row patientRow {{'pat_' + patient._id}}" ng-if="!highlightNewPatients" ng-class="{'oddRow': $odd}" ng-repeat="patient in patientList | dischargePatientsFilter: $root.hideDischarged | deletedPatientsFilter: $root.hideDeleted" patient-list>
             <patient-block patient="patient" patient-list="patientList" hide-physicians="hidePhysicians"></patient-block>
-
-
-
-
+        </div>
+        <div class="row newPatientColor {{'pat_' + patient._id}}" ng-if="highlightNewPatients" ng-repeat="patient in patientList | dischargePatientsFilter: $root.hideDischarged | deletedPatientsFilter: $root.hideDeleted" patient-list>
+            <patient-block patient="patient" patient-list="patientList" hide-physicians="hidePhysicians"></patient-block>
         </div>
         <!-- Body End -->
     </div>
