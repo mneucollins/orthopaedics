@@ -4,7 +4,10 @@ angular.module("appCommons")
 
         return {
             addAlert: function (type, message) { 
-                var newAlert = {type: type, msg: message};
+                var newAlert = {
+                    type: type, // might be: success, warning, danger
+                    msg: message
+                };
                 systemAlerts.push(newAlert);
 
                 function autoCloseAlert (value) {

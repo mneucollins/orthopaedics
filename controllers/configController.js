@@ -12,7 +12,7 @@ function obtenerConfig(callback) {
     });
 }
 
-function actualizarConfig(id, newConfig, callback) {
+function actualizarConfig(newConfig, callback) {
     configModel.findOne(function(err, config) {
 
         if(newConfig.callbackInterval) 
@@ -40,6 +40,10 @@ function actualizarConfig(id, newConfig, callback) {
         if(newConfig.maxNumMsgs) 
             config.maxNumMsgs = newConfig.maxNumMsgs;
 
-        config.save(callback);
+        // console.log(JSON.stringify(config));
+        config.save(function (err, newElem) {
+            console.log(JSON.stringify(newElem));
+            callback(err, newElem);
+        });
     });
 }

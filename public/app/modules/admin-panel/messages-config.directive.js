@@ -4,12 +4,31 @@ angular.module('adminModule')
 		replace : true,
 		restrict : 'E',
 		templateUrl : '/app/modules/admin-panel/messages-config.html',
-		controller:['$scope', '$rootScope', '$modal', '$log', 'Patient', 'Alerts', 
-		function($scope, $rootScope, $modal, $log, Patient, Alerts){
+		controller:['$scope', '$rootScope', '$modal', '$log', 'Config', 'Alerts',
+		function($scope, $rootScope, $modal, $log, Config, Alerts) {
 
 			$scope.config ={};
 
-			
+			Config.get(function(data) {
+				$scope.config = data;				
+			});		
+
+			$scope.saveChanges = function () {
+				Config.update({}, {
+					welcomeMsgNoDelayText: $scope.config.welcomeMsgNoDelayText,
+					welcomeMsgDelayText: $scope.config.welcomeMsgDelayText,
+					firstWaitMsgText: $scope.config.firstWaitMsgText,
+					waitMsgText: $scope.config.waitMsgText,
+					longWaitMsgText: $scope.config.longWaitMsgText,
+					longWaitMsgMinutes: $scope.config.longWaitMsgMinutes,
+					msgInterval: $scope.config.msgInterval,
+					maxNumMsgs: $scope.config.maxNumMsgs
+				}, function (data) {
+                	Alerts.addAlert("success", "Configuration saved!");
+				}, function (err) {
+					Alerts.addAlert("danger", "Error saving configuration");
+				});
+			}	
 		}]
 	}
 });
