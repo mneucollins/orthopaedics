@@ -84,7 +84,7 @@ configModel.count({}, function counter (err, count) {
                 if(err) console.log(err);
             });
 
-            console.log("Initial roles added: " + initData.length);
+            console.log("Initial config added");
         }
     }
 });
