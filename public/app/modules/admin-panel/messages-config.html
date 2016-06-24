@@ -1,0 +1,67 @@
+
+<div class="row"><br>
+    <div class="row">
+        <div class="col-sm-5">
+            <span>Welcome Text Message (no delay): </span>
+        </div>
+        <div class="col-sm-5">
+            <textarea rows=5 class="form-control" ng-model="config.welcomeMsgNoDelayText"></textarea>
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-sm-5">
+            <span>Welcome Text Message (Physician delayed): </span>
+        </div>
+        <div class="col-sm-5">
+            <textarea rows=5 class="form-control" ng-model="config.welcomeMsgDelayText"></textarea>
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-sm-5">
+            <span>First Wait Text Message: </span>
+        </div>
+        <div class="col-sm-5">
+            <textarea rows=5 class="form-control" ng-model="config.firstWaitMsgText"></textarea>
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-sm-5">
+            <span>Other Wait Text Messages: </span>
+        </div>
+        <div class="col-sm-5">
+            <textarea rows=5 class="form-control" ng-model="config.waitMsgText"></textarea>
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-sm-5">
+            <span>Text for long wait times: </span>
+        </div>
+        <div class="col-sm-5">
+            <textarea rows=5 class="form-control" ng-model="config.longWaitMsgText"></textarea>
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-sm-5">
+            <span>Minutes to be considered a long wait time: </span>
+        </div>
+        <div class="col-sm-3">
+            <input type="number" class="form-control" ng-model="config.longWaitMsgMinutes">
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-sm-5">
+            <span>Interval between messages (minutes): </span>
+        </div>
+        <div class="col-sm-3">
+            <input type="number" class="form-control" ng-model="config.msgInterval">
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-sm-5">
+            <span>Max number of wait text messages: </span>
+        </div>
+        <div class="col-sm-3">
+            <input type="number" class="form-control" ng-model="config.maxNumMsgs">
+        </div>
+    </div><br>
+</div>
