@@ -10,13 +10,20 @@ angular.module("appCommons")
 	// 	}
 
 	return {
-		setLayoutUser: function (user) {
+		setLayoutUser : function (user) {
 			if(user){
 				if(user.isCustomLayout){
 					layout = user.role.layout;
 				} else {
 					layout = user.layout;
 				}
+			}
+		},
+		getLayoutUser : function (){
+			if(layout){
+				return layout;
+			} else {
+				return null;
 			}
 		},
 		coloredPriorTime : function(){

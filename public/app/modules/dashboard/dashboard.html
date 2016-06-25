@@ -25,41 +25,20 @@
     <div class="panel col-sm-12 dashboardBody backgroundMobile">
         <!-- Header Start -->
         <div class="hidden-xs row patientTitles" style="">
-            <div class="col-sm-1 buttonRow" ng-class="{buttonRowBig: hidePhysicians}"></div>
-            <div class="col-sm-1 apptTimeRow" ng-click="filteringActive(1);" ng-class="{'blueFilter': colFilter=='1','blackFilter': colFilter!='1', buttonRowBig: hidePhysicians}">Appt Time<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='1' && arrowDirection=='0'}" aria-hidden="true"/></div>
+            <div class="col-sm-1 buttonRow"></div>
 
-            <div class="col-sm-1 nameRow" ng-click="filteringActive(2);" ng-class="{'blueFilter': colFilter=='2','blackFilter': colFilter!='2', nameRowBig: hidePhysicians}">Name<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='2' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='2' && arrowDirection=='0'}" aria-hidden="true"/></div>
-
-            <div class="col-sm-1 typeRow" ng-click="filteringActive(2.1);" ng-class="{'blueFilter': colFilter=='2.1','blackFilter': colFilter!='2.1'}">Type<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='2.1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='2.1' && arrowDirection=='0'}" aria-hidden="true"/></div>
-
-            <div class="col-sm-1 physicianRow" ng-click="filteringActive(3);" ng-class="{'blueFilter': colFilter=='3','blackFilter': colFilter!='3'}" ng-hide="hidePhysicians">Physician<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='3' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='3' && arrowDirection=='0'}" aria-hidden="true"/></div>
-
-            <div class="col-sm-1 roomRow" ng-click="filteringActive(3.1);" ng-class="{'blueFilter': colFilter=='3.1','blackFilter': colFilter!='3.1'}" ng-show="hidePhysicians">Room<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='3.1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='3.1' && arrowDirection=='0'}" aria-hidden="true"/></div>
-
-            <div class="col-sm-1 ageRow" ng-click="filteringActive(4.2);" ng-class="{'blueFilter': colFilter=='4.2','blackFilter': colFilter!='4.2'}">Age<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='4.2' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='4.2' && arrowDirection=='0'}" aria-hidden="true"/></div>
-
-            <div class="col-sm-2 fcRow" ng-click="filteringActive(5.1);" ng-class="{'blueFilter': colFilter=='5.1','blackFilter': colFilter!='5.1'}">FC<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='5.1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='5.1' && arrowDirection=='0'}" aria-hidden="true"/></div>
-
-            <div class="col-sm-1 imagingRow" ng-click="filteringActive(5);" ng-class="{'blueFilter': colFilter=='5','blackFilter': colFilter!='5'}">Imaging<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='5' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='5' && arrowDirection=='0'}" aria-hidden="true"/></div>
-
-            <div class="col-sm-1 labsRow" ng-click="filteringActive(5.2);" ng-class="{'blueFilter': colFilter=='5.2','blackFilter': colFilter!='5.2'}">Labs<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='5.2' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='5.2' && arrowDirection=='0'}" aria-hidden="true"/></div>
-
-            <div class="col-sm-1 atRow" ng-click="filteringActive(4.1);" ng-class="{'blueFilter': colFilter=='4.1','blackFilter': colFilter!='4.1', atRowBig: hidePhysicians}">AT Entry<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='4.1' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='4.1' && arrowDirection=='0'}" aria-hidden="true"/></div>
-
-            <div class="col-sm-1 fpRow" ng-click="filteringActive(4.3);" ng-class="{'blueFilter': colFilter=='4.3','blackFilter': colFilter!='4.3', atRowBig: hidePhysicians}">FP Entry<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='4.3' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='4.3' && arrowDirection=='0'}" aria-hidden="true"/></div>
-
-            <div class="col-sm-2 statusRow" ng-click="filteringActive(6);" ng-class="{'blueFilter': colFilter=='6','blackFilter': colFilter!='6', statusRowBig: hidePhysicians}">Status<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='6' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='6' && arrowDirection=='0'}" aria-hidden="true"/></div>
-
-            <div class="col-sm-1 totalRow" ng-click="filteringActive(7);" ng-class="{'blueFilter': colFilter=='7','blackFilter': colFilter!='7'}">Total<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='7' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='7' && arrowDirection=='0'}" aria-hidden="true"/></div>
+            
+                <div ng-repeat="titleData in titles" class="col-sm-1 {{titleData.style}}" ng-click="filteringActive(titleData.title)" ng-class="{'blueFilter': colFilter=='{{titleData.title}}','blackFilter': colFilter!='{{titleData.title}}'}">{{titleData.title}}<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='{{titleData.title}}' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='{{titleData.title}}' && arrowDirection=='0'}" aria-hidden="true"/></div>
+            
         </div>
         <!-- Header End -->
         <!-- Body Start -->
         <div ng-if="!highlightNewPatients" class="row patientRow {{'pat_' + patient._id}}" ng-repeat="patient in patientList | dischargePatientsFilter: $root.hideDischarged | deletedPatientsFilter: $root.hideDeleted" patient-list>
-            <patient-block ng-class="{'oddRow': $odd}" patient="patient" patient-list="patientList" hide-physicians="hidePhysicians"></patient-block>
+            <patient-block ng-class="{'oddRow': $odd}" patient="patient" patient-list="patientList" layout="layout"></patient-block>
         </div>
         <div ng-if="highlightNewPatients" class="row patientRow {{'pat_' + patient._id}}" ng-repeat="patient in patientList | dischargePatientsFilter: $root.hideDischarged | deletedPatientsFilter: $root.hideDeleted" patient-list>
-            <patient-block ng-if="patient.apptType!='New'" ng-class="{'oddRow': $odd}" patient="patient" patient-list="patientList" hide-physicians="hidePhysicians"></patient-block>
-            <patient-block ng-if="patient.apptType=='New'" class="newPatientColor" patient="patient" patient-list="patientList" hide-physicians="hidePhysicians"></patient-block>
+            <patient-block ng-if="patient.apptType!='New'" ng-class="{'oddRow': $odd}" patient="patient" patient-list="patientList" layout="layout"></patient-block>
+            <patient-block ng-if="patient.apptType=='New'" class="newPatientColor" patient="patient" patient-list="patientList" layout="layout"></patient-block>
         </div>
         <!-- Body End -->
     </div>

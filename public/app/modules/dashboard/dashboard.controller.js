@@ -55,7 +55,33 @@ angular.module('dashboardModule')
     $scope.$on('onPatientListed', function(scope, element, attrs){
         var role = AuthService.currentUser().role;
         $scope.hidePhysicians = $rootScope.selectedPhysicians.length == 1 && role == "Physician";
+        $scope.layout = LayoutService.getLayoutUser();
+        $scope.titles=[];
+        for(var directive in $scope.layout.columns){
+            $scope.titles.push(getTitleName($scope.layout.columns[directive]));
+        }
     });
+
+    function getTitleName (directiveName){
+        switch (directiveName){
+
+            case "age-column" : return {title:"Age",style:"ageRow"};
+            case "appt-time-column" : return {title:"Appt Time",style:"apptTimeRow"};
+            case "appt-type-column" : return {title:"Type",style:"typeRow"};
+            case "at-column" : return {title:"AT Entry",style:"atRow"};
+            case "fp-column" : return {title:"FP Entry",style:"fpRow"};
+            case "fc-column" : return {title:"FC",style:"fcRow"};
+            case "imaging-column" : return {title:"Imaging",style:"imagingRow"};
+            case "labs-column" : return {title:"Labs",style:"labsRow"};
+            case "name-column" : return {title:"Name",style:"nameRow"};
+            case "physician-column" : return {title:"Physician",style:"physicianRow"};
+            case "room-number-column" : return {title:"Room",style:"roomRow"};
+            case "wait-status-column" : return {title:"Status",style:"statusRow"};
+            case "wait-total-column" : return {title:"Total",style:"totalRow"};
+            default : return;
+
+        }
+    }
 
     function retrieveClinicDelays () {  
         var physicianIds = _.map($rootScope.selectedPhysicians, function (phy) {
@@ -147,7 +173,7 @@ angular.module('dashboardModule')
                 _.each(pList, function (element, index, list) {
                     list[index].messageSelectorPos = 1;
                     Patient.getHistory({patientId: list[index].id}, function (history) {
-                        if (history.length > 0){
+                        if (history && history.length > 0){
                             list[index].previousDate = history[0];
                         }
                     });
@@ -172,32 +198,32 @@ angular.module('dashboardModule')
     //Filtering function styles.
     //Start ordering by ApptTime, column 1";
     $scope.arrowDirection = 0;
-    $scope.colFilter  = 1;
+    $scope.colFilter  = "appt-time-column";
 
     $scope.filteringActive = function (idLauncher, changeArrow){
         $scope.colFilter = idLauncher;
         var pList;
 
         switch(idLauncher) {
-            case 1:
+            case "appt-time-column":
                 pList = _.sortBy($scope.patientList, function(patient){ return new Date(patient.apptTime).getTime(); }); 
                 break;
-            case 2:
+            case "name-column":
                 pList = _.sortBy($scope.patientList, function(patient){ return patient.fullName; });
                 break;
-            case 2.1:
+            case "appt-type-column":
                 pList = _.sortBy($scope.patientList, function(patient){ return patient.apptType; });
                 break;
-            case 3:
+            case "physician-column":
                 pList = _.sortBy($scope.patientList, function(patient){ return patient.physician.name; }); 
                 break;
-            case 3:
+            case "room-number-column":
                 pList = _.sortBy($scope.patientList, function(patient){ return patient.roomNumber; }); 
                 break;
             case 4:
                 pList = _.sortBy($scope.patientList, function(patient){ return patient.dateBirth; });
                 break;
-            case 4.1:
+            case "at-column":
                 pList = _.sortBy($scope.patientList, function(patient){ 
                             var counter = 0;
                             for (var i = 0; i < patient.enterTimestamp.length; i++) {
@@ -210,10 +236,10 @@ angular.module('dashboardModule')
                             return new Date(counter);
                         });
                 break;
-            case 4.2:
+            case "age-column":
                 pList = _.sortBy($scope.patientList, function(patient){ return patient.age; });
                 break;
-            case 4.3:
+            case "fp-column":
                 pList = _.sortBy($scope.patientList, function(patient){ 
                             var counter = 0;
                             for (var i = 0; i < patient.fpTimerEnterTimestamp.length; i++) {
@@ -226,7 +252,7 @@ angular.module('dashboardModule')
                             return new Date(counter);
                         });
                 break;
-            case 5:
+            case "imaging-column":
                 pList = _.sortBy($scope.patientList, function(patient){ 
                             if(patient.needsImaging)
                                 if(patient.imagingTimestamp)
@@ -237,7 +263,7 @@ angular.module('dashboardModule')
                                 return 1;   
                         }); 
                 break;
-            case 5.1:
+            case "fc-column":
                 pList = _.sortBy($scope.patientList, function(patient){ 
                             if(!patient.fcStartedTimestamp)
                                 return 1;   
@@ -247,7 +273,7 @@ angular.module('dashboardModule')
                                 return 3;
                         }); 
                 break;
-            case 5.2:
+            case "labs-column":
                 pList = _.sortBy($scope.patientList, function(patient){ 
                             if(patient.needsLabs)
                                 if(patient.labsTimestamp)
@@ -258,14 +284,14 @@ angular.module('dashboardModule')
                                 return 1;   
                         }); 
                 break;
-            case 6:
+            case "wait-status-column":
                 pList = _.sortBy($scope.patientList, function(patient){ 
                             var wrt = WaitTime.getWRTime(patient);
                             var ext = WaitTime.getEXTime(patient);
                             return wrt + ext; 
                         }); 
                 break;
-            case 7:
+            case "wait-total-column":
                 pList = _.sortBy($scope.patientList, function(patient){ 
                             return WaitTime.getTotalTime(patient); 
                         }); 

@@ -16,6 +16,7 @@ var orthopaedicsApp = angular.module('orthopaedicsApp', [
   "reportsModule",
   "usersModule",
   "adminModule",
+  "rowTitleModule",
 
   "orthopaedicsServices",
   // "orthopaedicsControllers",

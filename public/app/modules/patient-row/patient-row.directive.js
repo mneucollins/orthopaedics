@@ -6,7 +6,7 @@ angular.module('patientRowModule')
 		scope : {
 			patient : "=",
 			patientList : "=",
-			hidePhysicians : "="
+			columnName : "="
 		},
 		templateUrl : '/app/modules/patient-row/patient-row.html',
 		controller:['$scope', '$rootScope', '$modal', '$log', 'Patient', 'Alerts', 'AuthService', 'LayoutService',

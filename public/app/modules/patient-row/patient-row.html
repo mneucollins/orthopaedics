@@ -1,24 +1,19 @@
 <div>
-	
-	<action-column class="col-xs-3 col-sm-1" patient="patient"></action-column>
-    <appt-time-column class="hidden-xs col-sm-1 patientData bordered apptTimeRow" patient="patient"></appt-time-column>
-    <name-column class="hidden-xs col-sm-1 patientData bordered nameRow" ng-class="{nameRowBig: hidePhysicians}" style="font-weight: bold;" patient="patient" colored-prior-time="coloredPriorTime()"></name-column>
-    <appt-type-column class="hidden-xs col-sm-1 patientData bordered typeRow" patient="patient"></appt-type-column>
-    <room-number-column class="hidden-xs col-sm-1 patientData bordered roomRow" ng-show="hidePhysicians" patient="patient"></room-number-column>
-    <physician-column class="hidden-xs col-sm-1 patientData bordered physicianRow" ng-hide="hidePhysicians" patient="patient"></physician-column>
-    <age-column class="hidden-xs col-sm-1" patient="patient"></age-column>
-    <fc-column class="col-xs-2 col-sm-2" patient="patient"></fc-column>
-    <imaging-column class="col-xs-2 col-sm-2" patient="patient" is-imaging="isImaging()"></imaging-column>
-    <labs-column class="col-xs-2 col-sm-2" patient="patient" is-labs="isLabs()"></labs-column>
-    <at-column class="col-xs-2 col-sm-1" patient="patient" patient-list="patientList"></at-column>
-    <fp-column class="col-xs-2 col-sm-1" patient="patient" patient-list="patientList"></fp-column>
-    <wait-status-column class="hidden-xs col-sm-2 patientData bordered statusRow" ng-class="{statusRowBig: hidePhysicians}" patient="patient" card="false"></wait-status-column>
-    <wait-total-column class="hidden-xs col-sm-1 patientData bordered totalRow" patient="patient" card="false"></wait-total-column>
-    <div class="col-xs-4 col-sm-1 patientData bordered expandBtnRow">
-        <div class="retinaContainer dashboardSVG">
-            <img src="img/expandIcon.svg" class="imageButton" data-toggle="collapse" data-target="{{ '#miniform' + patient._id }}" onclick="onCollapseButton(this);" ng-click="loadPatientHistory(patient)"/>
-        </div>
-    </div>
+    
+    <action-column ng-if="columnName=='action-column'" class="col-xs-3 col-sm-1" patient="patient"></action-column>
+    <appt-time-column ng-if="columnName=='appt-time-column'" class="hidden-xs col-sm-1 patientData bordered apptTimeRow" patient="patient"></appt-time-column>
+    <name-column ng-if="columnName=='name-column'" class="hidden-xs col-sm-1 patientData bordered nameRow" style="font-weight: bold;" patient="patient" colored-prior-time="coloredPriorTime()"></name-column>
+    <appt-type-column ng-if="columnName=='appt-type-column'" class="hidden-xs col-sm-1 patientData bordered typeRow" patient="patient"></appt-type-column>
+    <physician-column ng-if="columnName=='physician-column'" class="hidden-xs col-sm-1 patientData bordered physicianRow" patient="patient"></physician-column>
+    <room-number-column ng-if="columnName=='room-number-column'" class="hidden-xs col-sm-1 patientData bordered roomRow" patient="patient"></room-number-column>
+    <age-column ng-if="columnName=='age-column'" class="hidden-xs col-sm-1" patient="patient"></age-column>
+    <fc-column ng-if="columnName=='fc-column'" class="col-xs-2 col-sm-2" patient="patient"></fc-column>
+    <imaging-column ng-if="columnName=='imaging-column'" class="col-xs-2 col-sm-2" patient="patient" is-imaging="isImaging()"></imaging-column>
+    <labs-column ng-if="columnName=='labs-column'" class="col-xs-2 col-sm-2" patient="patient" is-labs="isLabs()"></labs-column>
+    <at-column ng-if="columnName=='at-column'" class="col-xs-2 col-sm-1" patient="patient" patient-list="patientList"></at-column>
+    <fp-column ng-if="columnName=='fp-column'" class="col-xs-2 col-sm-1" patient="patient" patient-list="patientList"></fp-column>
+    <wait-status-column ng-if="columnName=='wait-status-column'" class="hidden-xs col-sm-2 patientData bordered statusRow" patient="patient" card="false"></wait-status-column>
+    <wait-total-column ng-if="columnName=='wait-total-column'" class="hidden-xs col-sm-1 patientData bordered totalRow" patient="patient" card="false"></wait-total-column>
 
 
 </div>

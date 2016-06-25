@@ -6,7 +6,7 @@ angular.module('patientsModule')
 		scope : {
 			patient : "=",
 			patientList : "=",
-			hidePhysicians : "="
+			layout : "="
 		},
 		templateUrl : '/app/modules/patients/patient-block.html',
 		controller:['$scope', function($scope){}]

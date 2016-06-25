@@ -8,7 +8,12 @@
 
 
 
-    <patient-row patient="patient" patient-list="patientList" hide-physicians="hidePhysicians"></patient-row>
+    <patient-row ng-repeat="column in layout.columns" column-name="column" patient="patient" patient-list="patientList"></patient-row>
+    <div class="col-xs-4 col-sm-1 patientData bordered expandBtnRow">
+        <div class="retinaContainer dashboardSVG">
+            <img src="img/expandIcon.svg" class="imageButton" data-toggle="collapse" data-target="{{ '#miniform' + patient._id }}" onclick="onCollapseButton(this);" ng-click="loadPatientHistory(patient)"/>
+        </div>
+    </div>
 
 
 
