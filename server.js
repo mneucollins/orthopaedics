@@ -70,8 +70,6 @@ router.use(function (req, res, next) {
     //     tools.sendUnauthorized(req, res);
 });
 
-require("./controllers/smsAlertsController"); // Inicio de Mensajes Automáticos
-
 require("./routes/emailRoutes")(router);
 require("./routes/userRoutes")(router);
 require("./routes/roleRoutes")(router, io);

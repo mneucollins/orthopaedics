@@ -2,14 +2,30 @@ var configModel = require('../models/configModel');
 
 module.exports = {
   obtenerConfig: obtenerConfig,
+  obtenerConfigSync: obtenerConfigSync,
   actualizarConfig: actualizarConfig
 }
 
+var configActual = {};
+configModel.findOne(function(err, config) {
+    configActual = config;
+});
+
+setInterval(function (argument) {
+    configModel.findOne(function(err, config) {
+        configActual = config;
+    });
+}, 5 * 60 * 1000);
 
 function obtenerConfig(callback) {
     configModel.findOne(function(err, config) {
+        configActual = config;
         callback(err, config);
     });
+}
+
+function obtenerConfigSync() {
+    return configActual;
 }
 
 function actualizarConfig(newConfig, callback) {
@@ -42,7 +58,7 @@ function actualizarConfig(newConfig, callback) {
 
         // console.log(JSON.stringify(config));
         config.save(function (err, newElem) {
-            console.log(JSON.stringify(newElem));
+            configActual = newElem;
             callback(err, newElem);
         });
     });
