@@ -17,26 +17,26 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <p class="navbar-text helpText" ng-show="dashboard == 1">We are sensitive to your time and needs and will notify you about any waits and delays by sending a text message to your phone. What is the number for the cell phone you have with you today?</p>
+            <p class="navbar-text helpText" ng-show="showFrontDeskMessage">{{ frontdeskBanner }}</p>
             <ul class="nav navbar-nav navbar-right">
-                <li class="hidden-sm"><p class="navbar-text">Dashboard {{dashboard}}</p></li>
+                <li class="hidden-sm"><p class="navbar-text"><a href="/dashboard">Dashboard</a></p></li>
                 <li class="dropdown" ng-if="currentUser.isAdmin">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li>
+                            <a href="#" ng-click="showAdminPanel()">Administration Panel</a>
                             <a href="#"  ng-click="showReportsDialog()">Patients Report</a>
                             <a href="#" ng-click="usersReportsDialog()">Users Report</a>
-                            <a href="#" ng-click="showAdminPanel()">Administration Panel</a>
                         </li>
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Actions<span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Patients<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li>
-                            <a href="#" ng-click="sendBulkMessages()"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Write message</a>
-                            <a href="#" ng-click="showNotesDialog()">Check Notes</a>
-                            <a href="#" ng-click="newPatient()"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add patient</a>
+                            <a href="#" ng-click="newPatient()"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Add patient</a>
+                            <a href="#" ng-click="sendBulkMessages()"><i class="fa fa-envelope-o" aria-hidden="true"></i></span> Write message</a>
+                            <a href="#" ng-click="showNotesDialog()"><i class="fa fa-sticky-note-o" aria-hidden="true"></i> Check Notes</a>
                         </li>
                         <li class="divider"></li>
                         <li>

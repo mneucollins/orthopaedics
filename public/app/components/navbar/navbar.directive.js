@@ -7,15 +7,20 @@ angular.module("appCommons")
 	    scope: {
 	    },
 	    templateUrl: '/app/components/navbar/navbar.html',
-	    controller:['$scope', '$rootScope', '$location', '$interval', '$modal', '$log', 'AuthService',
-        function($scope, $rootScope, $location, $interval, $modal, $log, AuthService) {
+	    controller:['$scope', '$rootScope', '$location', '$interval', '$timeout', '$modal', '$log', 'AuthService', 'Config',
+        function($scope, $rootScope, $location, $interval, $timeout, $modal, $log, AuthService, Config) {
             
             $scope.showTab = "info"; // info, msg, prior, notes
             $scope.showMessage = false;
             $scope.showMessageAux = false;
             $rootScope.hideDischarged = true;
             $rootScope.hideDeleted = true;
-
+            
+            $timeout(function () {
+                $scope.showFrontDeskMessage = AuthService.isFrontdesk();
+                if($scope.showFrontDeskMessage)
+                    $scope.frontdeskBanner = Config.getFrontdeskBanner();
+            }, 200);
             // $scope.updateDate = "11/15/15";
 
             $scope.$watch(AuthService.isLoggedIn, function ( isLoggedIn ) {

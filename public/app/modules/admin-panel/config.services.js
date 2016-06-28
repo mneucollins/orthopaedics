@@ -7,18 +7,22 @@ angular.module("adminModule")
 	        update: {method: "PUT"}
 	    });
 
-    	function updateConfig() {
+    	function loadConfig() {
 		    configResource.get(function (data) {
 		    	sysConfig = data;
 		    });
     	}
 
-    	updateConfig();
-    	$interval(updateConfig, 3 * 60 * 60 * 1000);
+    	loadConfig();
+    	$interval(loadConfig, 3 * 60 * 60 * 1000);
 
         return {
         	get: configResource.get,
         	update: configResource.update,
+        	reload: loadConfig,
+        	getFrontdeskBanner: function () {
+        		return sysConfig.frontdeskBanner;
+        	},
         	getLongWaitMinutes: function () {
         		return sysConfig.longWaitMinutes;
         	},

@@ -11,7 +11,7 @@ angular.module("appCommons")
 
 
 angular.module("appCommons")
-.factory('AuthService', ["$cookieStore", "Session", "LayoutService", function($cookieStore, Session, LayoutService) {
+.factory('AuthService', ["$cookieStore", "Session", "Config", "LayoutService", function($cookieStore, Session, Config, LayoutService) {
  	var currentUser;
 
   	return {
@@ -19,7 +19,10 @@ angular.module("appCommons")
 			Session.login(usuario, function (user) {
 	    		currentUser = user;
 	            $cookieStore.put("currentUser", user);
+                
                 LayoutService.setLayoutUser(user);
+                Config.reload();
+
 	    		callback(user);
 			});
 		},
@@ -61,6 +64,13 @@ angular.module("appCommons")
 	            callback(user);
 	        });
 	    },
+        isFrontdesk: function(){
+            if(currentUser){
+                return currentUser.role.isFrontdesk;
+            } else {
+                return false;
+            }
+        },
         isImaging: function(){
             if(currentUser){
                 return currentUser.role.isImaging;
