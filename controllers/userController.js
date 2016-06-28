@@ -31,13 +31,13 @@ function nuevoUser(newUser, callback) {
 }
 
 function listarUsers(callback) {
-    userModel.find({}, "name username role email", function(err, users) {
+    userModel.find({}, "name username role email isActive", function(err, users) {
         callback(err, users);
     });
 }
 
 function obtenerUser(id, callback) {
-    userModel.findById(id, "name username role email", function(err, user) {
+    userModel.findById(id, "name username role email isActive", function(err, user) {
         callback(err, user);
     });
 }
