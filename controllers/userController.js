@@ -4,6 +4,7 @@ var userModel = require('../models/userModel');
 var emailController = require('./emailController');
 
 module.exports = {
+    nuevoUser: nuevoUser,
 	listarUsers: listarUsers,
     obtenerUser: obtenerUser,
     actualizarUser: actualizarUser,
