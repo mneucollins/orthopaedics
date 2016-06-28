@@ -2,7 +2,9 @@ var twilio = require('twilio');
 var _ = require('underscore');
 
 var messageModel = require('../models/messageModel');
+var patientController = require('./patientController');
 var physicianController = require("./physicianController");
+var configController = require("./configController");
 var config = require("../config.json");
 
 module.exports = {
@@ -14,6 +16,62 @@ module.exports = {
 	sendCustomMessage: sendCustomMessage
 }
 
+////////////////////////////////////////////////////////////
+// Message updates by minute
+////////////////////////////////////////////////////////////
+
+setInterval(function () {
+	var now = new Date();
+	var sysConfig = configController.obtenerConfigSync();
+
+	console.log("Checking WR patients");
+	patientController.listPatientsTodayByState("WR", function (err, patients) {
+		console.log("Done! " + patients.length + " patients found.");
+
+		_.each(patients, function (patient, i, list) {
+			if(!patient.physician) {
+				console.log("(" + i + ") " + "Patient " + patient._id + " has no physician!");
+				return;
+			}
+			if(patient.noPhone) {
+				console.log("(" + i + ") " + patient.firstName + " has no phone number.");
+				return;
+			}
+
+			var waitedMins = Math.round((now.getTime() - patient.WRTimestamp.getTime()) / (60*1000));
+			console.log("(" + i + ") " + patient.firstName + " waited " + waitedMins + " minutes");
+			
+			if(waitedMins > 0 && waitedMins % sysConfig.msgInterval == 0) {
+				console.log("(" + i + ") " + patient.firstName + " waited long enough!");
+				
+				getMessage("wait", patient, function (err, theMessage) {
+					if(err) {
+						console.log(err);
+						return;
+					}
+
+					if(theMessage) { 
+						var msgData = {
+							patient: patient,
+							msjType: "reminder",
+							message: theMessage
+						};
+
+						sendMessage(msgData, function (err, msj) {
+							if (err) console.log(err);
+	    					else console.log("reminder sms sent. ID: " + msj.sid);
+						});
+					}
+				});
+			}
+		});
+	});
+}, 60000);
+
+
+////////////////////////////////////////////////////////////
+// API 
+////////////////////////////////////////////////////////////
 
 function getReminderMessagesByPatient (patientId, callback) {
 	messageModel.find({patient: patientId, msjType: "reminder"}, function (err, messages) {
@@ -47,7 +105,7 @@ function sendMessage (msgData, callback) {
 			newMessage = new messageModel();
 			newMessage.message = msgData.message;
 			newMessage.sid = message.sid;
-			newMessage.patient = msgData.patient.id;
+			newMessage.patient = msgData.patient._id;
 			if(msgData.msjType) newMessage.msjType = msgData.msjType;
 
 			newMessage.save(function messageSaved (err, message, numberAffected) {
@@ -81,7 +139,7 @@ function sendCustomMessage (toNumber, message, callback) {
 			newMessage = new messageModel();
 			newMessage.message = msgData.message;
 			newMessage.sid = msgData.sid;
-			newMessage.patient = msgData.patient.id;
+			newMessage.patient = msgData.patient._id;
 			if(msgData.msjType) newMessage.msjType = msgData.msjType;
 
 			newMessage.save(function messageSaved (err, message, numberAffected) {
@@ -94,27 +152,14 @@ function sendCustomMessage (toNumber, message, callback) {
 
 function sendWelcomeMessage (msgData, callback) {
 
-	physicianController.getNextPatientWaitTime(msgData.patient.physician._id, function (err, waitTime) {
-		
+	getMessage("welcome", msgData.patient, function (err, theMessage) {
+		if(err) return callback(err);
+
 		var toNumber = msgData.patient.cellphone;
-		if(!toNumber) {
-			callback("Patient has no phone number!");
-			return;
-		}
+		if(!toNumber) 
+			return callback("Patient has no phone number!");
 
 		toNumber = toNumber.indexOf("+") > -1 ? toNumber : config.numberPrefix + toNumber;
-		var theMessage = "";
-
-		if(waitTime > 0){
-
-			var theMessage = "Welcome " + msgData.patient.firstName + ", " + msgData.patient.physician.name +
-				" is currently running approximately " + validarIntervalo(waitTime) + " minutes behind schedule. " +
-				"We will keep you informed about waits and delays as a part of a desire to be sensitive to your needs as a patient.";
-			}
-		else
-			var theMessage = "Welcome " + msgData.patient.firstName + ", " + msgData.patient.physician.name +
-				" is currently running on schedule. " +
-				"We will keep you informed about waits and delays as a part of a desire to be sensitive to your needs as a patient.";
 
 		var client = twilio(config.accountSid, config.authToken);
 
@@ -131,7 +176,7 @@ function sendWelcomeMessage (msgData, callback) {
 				newMessage = new messageModel();
 				newMessage.message = theMessage;
 				newMessage.sid = message.sid;
-				newMessage.patient = msgData.patient.id;
+				newMessage.patient = msgData.patient._id;
 				newMessage.msjType = "welcome";
 
 				newMessage.save(function messageSaved (err, message, numberAffected) {
@@ -169,7 +214,7 @@ function sendBulkMessages (patientsData, callback) {
 				newMessage = new messageModel();
 				newMessage.message = patientsData.message;
 				newMessage.sid = message.sid;
-				newMessage.patient = patient.id;
+				newMessage.patient = patient._id;
 
 				newMessage.save(function messageSaved (err, message, numberAffected) {
 					if(err) console.log(err);
@@ -186,7 +231,7 @@ function sendTwimlResponse (patientData, callback) {
 	// newMessage = new messageModel();
 	// newMessage.message = patientData.message;
 	// newMessage.sid = patientData.sid;
-	// newMessage.patient = patient.id;
+	// newMessage.patient = patient._id;
 
 	// newMessage.save(function messageSaved (err, message, numberAffected) {
 	// 	if(err) callback(err, filePath);
@@ -195,6 +240,70 @@ function sendTwimlResponse (patientData, callback) {
 		
 		callback(null, filePath);
 	// });
+}
+
+
+////////////////////////////////////////////////////////////
+// Helpers
+////////////////////////////////////////////////////////////
+
+function getMessage(msgType, patient, callback) {
+	var sysConfig = configController.obtenerConfigSync();
+
+	console.log("Setting up new " + msgType + " message for patient " + patient.firstName + "physician: " + patient.physician.name);
+	console.log(JSON.stringify(patient.physician));
+
+	physicianController.getNextPatientWaitTime(patient.physician._id, function (err, phyWaitTime) {
+		if(err) return callback(err);
+		else physicianController.isPhysicianInBreak(patient.physician._id, function (err, isBreakAppt) {
+			if(err) return callback(err);
+
+			var theMessage = "";
+			phyWaitTime = isBreakAppt ? Math.floor(phyWaitTime / 2 ) : phyWaitTime;
+			
+			if(isBreakAppt) console.log(patient.firstName + " Physician's is on break!");
+			console.log(patient.firstName + " Physician's has a " + phyWaitTime + " minutes delay");
+
+			if(msgType == "welcome") {
+				if(phyWaitTime > 0) {
+					console.log(patient.firstName + " is getting a welcome Delay message");
+					theMessage = replaceTokens(sysConfig.welcomeMsgDelayText, patient, phyWaitTime);
+				}
+				else {
+					console.log(patient.firstName + " is getting a welcome No-Delay message");
+					theMessage = replaceTokens(sysConfig.welcomeMsgNoDelayText, patient, phyWaitTime);
+				}
+				callback(null, theMessage);
+			}
+			else if(msgType == "wait") {
+				getReminderMessagesByPatient(patient._id, function (err, messages) {
+					if(err) return callback(err);
+					
+					console.log(patient.firstName + " received a total of " + messages.length + " reminder updates");
+
+					if(messages.length == 0) {
+						console.log(patient.firstName + " is getting reminder update #1!");
+						theMessage = replaceTokens(sysConfig.firstWaitMsgText, patient, phyWaitTime);
+					}
+					else if(messages.length >= sysConfig.maxNumMsgs) {
+						console.log(patient.firstName + " already got too many update messages");
+						theMessage = false;
+					}
+					else {
+						console.log(patient.firstName + " is getting a standard reminder update");
+						theMessage = replaceTokens(sysConfig.waitMsgText, patient, phyWaitTime);
+					}
+
+					if(theMessage && phyWaitTime > sysConfig.longWaitMsgMinutes) {
+						console.log(patient.firstName + " wait time is more than longWaitMsgMinutes");
+						theMessage += " " + sysConfig.longWaitMsgText;
+					}
+
+					callback(null, theMessage);
+				});
+			}
+		});
+	});
 }
 
 function validarIntervalo(waitTime) {
@@ -237,3 +346,17 @@ function validarIntervalo(waitTime) {
 			return bigTime;
 	}
 }
+
+function replaceTokens(message, patient, waitTime) {
+	
+	var sysConfig = configController.obtenerConfigSync();
+
+	message = message.replace("%PAT-FIRSTNAME%", patient.firstName);
+	message = message.replace("%PAT-LASTNAME%", patient.lastName);
+	message = message.replace("%PHY-NAME%", patient.physician.name);
+	message = message.replace("%PHY-DELAY%", validarIntervalo(waitTime));
+	message = message.replace("%SYS-MSGINTERVAL%", sysConfig.msgInterval);
+
+	return message;
+}
+
