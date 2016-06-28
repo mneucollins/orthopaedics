@@ -11,10 +11,15 @@ var ConfigSchema = new Schema({
         type: String,
         required: true
     },
-    warnWaitMinutes: {
+    longWaitMinutes: {
         type: Number,
         required: true,
         default: 15
+    },
+    warnWaitMinutes: {
+        type: Number,
+        required: true,
+        default: 30
     },
     dangerWaitMinutes: {
         type: Number,

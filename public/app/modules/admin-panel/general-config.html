@@ -1,0 +1,56 @@
+
+<div class="row"><br>
+    <div class="row">
+        <div class="col-sm-4">
+            <span class="admin-title">Minutes to enable One-click Callback: </span>
+        </div>
+        <div class="col-sm-3">
+            <input type="number" class="form-control" ng-model="config.maxNumMsgs">
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-sm-4">
+            <span class="admin-title">Frontdesk Banner Text: </span>
+        </div>
+        <div class="col-sm-5">
+            <textarea rows=5 class="form-control" ng-model="config.frontdeskBanner"></textarea>
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-sm-4">
+            <span class="admin-title">First Color Change: </span>
+            <br><br>
+            <span class="admin-description">Minutes at wich the timer canges to <i class="timer-delay-15 fa fa-square" aria-hidden="true"></i> </span>
+        </div>
+        <div class="col-sm-3">
+            <input type="number" class="form-control" ng-model="config.longWaitMinutes">
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-sm-4">
+            <span class="admin-title">Second Color Change: </span>
+            <br><br>
+            <span class="admin-description">Minutes at wich the timer canges to <i class="timer-delay-30 fa fa-square" aria-hidden="true"></i> </span>
+        </div>
+        <div class="col-sm-3">
+            <input type="number" class="form-control" ng-model="config.warnWaitMinutes">
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-sm-4">
+            <span class="admin-title">Third Color Change: </span>
+            <br><br>
+            <span class="admin-description">Minutes at wich the timer canges to <i class="timer-delay-45 fa fa-square" aria-hidden="true"></i> </span>
+        </div>
+        <div class="col-sm-3">
+            <input type="number" class="form-control" ng-model="config.dangerWaitMinutes">
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-sm-4 col-sm-offset-4">
+            <button class="btn btn-primary btn-lg circled" ng-click="saveChanges()">Save</button>
+        </div>
+    </div><br>
+
+
+</div>
