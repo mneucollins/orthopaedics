@@ -31,18 +31,22 @@ function nuevoUser(newUser, callback) {
 }
 
 function listarUsers(callback) {
-    userModel.find(function(err, users) {
+    userModel.find({}, "name username role email", function(err, users) {
         callback(err, users);
     });
 }
 
 function obtenerUser(id, callback) {
-    userModel.findById(id, function(err, user) {
+    userModel.findById(id, "name username role email", function(err, user) {
         callback(err, user);
     });
 }
 
 function actualizarUser(id, newUser, callback) {
+    if(newUser.password && newUser.password != "") {
+        var dummy = new userModel();
+        newUser.password = dummy.generateHash(newUser.password);
+    }
     userModel.findByIdAndUpdate(id, newUser, function(err, numAffected, user) {
         callback(err, user);
     });
@@ -54,7 +58,6 @@ function eliminarUser(id, callback) {
     }, function(err, user) {
         callback(err, user);
     });
-    
 }
 
 function completeProfile (id, profileData, callback) {

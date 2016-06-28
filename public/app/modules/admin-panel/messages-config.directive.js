@@ -13,7 +13,7 @@ angular.module('adminModule')
 				$scope.config = data;				
 			});		
 
-			$scope.saveChanges = function () {
+			$scope.saveMessagesChanges = function () {
 				Config.update({}, {
 					welcomeMsgNoDelayText: $scope.config.welcomeMsgNoDelayText,
 					welcomeMsgDelayText: $scope.config.welcomeMsgDelayText,

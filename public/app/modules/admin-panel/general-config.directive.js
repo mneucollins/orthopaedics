@@ -13,7 +13,7 @@ angular.module('adminModule')
 				$scope.config = data;				
 			});		
 
-			$scope.saveChanges = function () {
+			$scope.saveGeneralChanges = function () {
 				Config.update({}, {
 					callbackInterval: $scope.config.callbackInterval,
 					frontdeskBanner: $scope.config.frontdeskBanner,
