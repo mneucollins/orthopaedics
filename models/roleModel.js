@@ -46,6 +46,7 @@ var RoleSchema = new Schema({
         columns: [{
             type: String,
             enum: [
+                "action-column",
                 "age-column",
                 "appt-time-column",
                 "appt-type-column",

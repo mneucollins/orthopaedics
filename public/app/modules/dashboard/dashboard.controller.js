@@ -174,6 +174,7 @@ angular.module('dashboardModule')
                     list[index].messageSelectorPos = 1;
                     Patient.getHistory({patientId: list[index].id}, function (history) {
                         if (history && history.length > 0){
+                            list[index].history = history;
                             list[index].previousDate = history[0];
                         }
                     });
