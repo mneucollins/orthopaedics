@@ -31,13 +31,19 @@ function nuevoUser(newUser, callback) {
 }
 
 function listarUsers(callback) {
-    userModel.find({}, "name username role email isActive", function(err, users) {
+    userModel.find()
+    .select("name username role email isActive")
+    .populate("role", "name")
+    .exec(function(err, users) {
         callback(err, users);
     });
 }
 
 function obtenerUser(id, callback) {
-    userModel.findById(id, "name username role email isActive", function(err, user) {
+    userModel.findById(id)
+    .select("name username role email isActive")
+    .populate("role", "name")
+    exec("name username role email isActive", function(err, user) {
         callback(err, user);
     });
 }
