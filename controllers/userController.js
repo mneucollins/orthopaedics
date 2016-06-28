@@ -5,6 +5,9 @@ var emailController = require('./emailController');
 
 module.exports = {
 	listarUsers: listarUsers,
+    obtenerUser: obtenerUser,
+    actualizarUser: actualizarUser,
+    eliminarUser: eliminarUser,
 	completeProfile: completeProfile,
 	restorePassword: restorePassword,
 	findByToken: findByToken,
