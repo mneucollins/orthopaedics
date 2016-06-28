@@ -1,46 +1,3 @@
-//============================ Alert managment ==========================================
-
-// orthopaedicsServices.factory('Alerts', ['$rootScope', function ($rootScope) {
-//         var systemAlerts = [];
-
-//         return {
-//             addAlert: function (type, message) { 
-//                 var newAlert = {type: type, msg: message};
-//                 systemAlerts.push(newAlert);
-
-//                 function autoCloseAlert (value) {
-//                     setTimeout(function () {
-//                         var index = systemAlerts.indexOf(value);
-//                         if(index != -1) {
-//                             systemAlerts.splice(index, 1);
-//                             $rootScope.$broadcast('alerts:updated',systemAlerts);
-//                         }
-//                     }, 3000);
-//                 }
-
-//                 autoCloseAlert(newAlert);
-//             },
-//             closeAlert: function (index) {
-//                 systemAlerts.splice(index, 1);
-//             },
-//             getAlerts: function () {
-//                 return systemAlerts;
-//             }
-//         };
-// }]);
-
-//////////////////////////////////////////
-////  API General
-//////////////////////////////////////////
-
-// orthopaedicsServices.factory('Messages', ['$resource',
-//     function($resource){
-//         return $resource('/api/messages/:messageId', {messageId: "@_id"}, {
-//             sendMessage: {method: "POST"},
-//             sendWelcomeMessage: {method: "POST", url: '/api/messages/welcome'},
-//             sendBulkMessages: {method: "POST", url: '/api/messages/bulk'}
-//         });
-// }]);
 
 orthopaedicsServices.factory('Emails', ['$resource',
     function($resource){
@@ -49,7 +6,7 @@ orthopaedicsServices.factory('Emails', ['$resource',
         });
 }]);
 
-orthopaedicsServices.factory('WaitTime',[function(){
+orthopaedicsServices.factory('WaitTime', ["Config", function(Config){
     
     function getWRTime(patient) {
 
@@ -155,13 +112,13 @@ orthopaedicsServices.factory('WaitTime',[function(){
             nMins = getEXTime(patient);
         }
 
-        if(nMins <= 15)
+        if(nMins <= Config.getLongWaitMinutes())
             return "timer-on-time";
-        else if(nMins > 15 && nMins <= 30)
+        else if(nMins > Config.getLongWaitMinutes() && nMins <= Config.getWarnWaitMinutes())
             return "timer-delay-15";
-        else if(nMins > 30 && nMins <= 45)
+        else if(nMins > Config.getWarnWaitMinutes() && nMins <= Config.getDangerWaitMinutes())
             return "timer-delay-30";
-        else if(nMins > 45)
+        else if(nMins > Config.getDangerWaitMinutes())
             return "timer-delay-45";
     }
 
