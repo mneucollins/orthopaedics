@@ -10,26 +10,30 @@
         <div class="row">
             <p class="col-sm-12 ">
                 <div class="col-sm-3 ">
-                    <input type="text" class="form-control" ng-model="findUser" ng-keyup="search(findUser, 1)">
+                    <input ng-model="findUser" class="form-control circled search-field" type="search" placeholder="Find a User" ng-keyup="search(findUser, 1)">
+                </div>
+                <div class="col-sm-3 ">
+                    <button class="btn btn-primary circled" ng-click="newUser()" >New User</button>
                 </div>
             </p>
             <p class="col-sm-12 ">
-                <div class="col-sm-6 ">
-                    <div ng-repeat="user in result" ng-click="loadRegister(user)" style="border-style: solid; border-radius: 7px; padding: 5px; margin: 7px;  width: 40%; cursor:pointer;">{{ user.name }} </div>
+                <div class="col-sm-4 " style="height: 350px; overflow-y: scroll;">
+                    <div ng-repeat="user in result" ng-click="loadRegister(user)" style="border-style: solid; border-radius: 7px; padding: 5px; margin: 7px;  width: 90%; cursor:pointer;">{{ user.name }} </div>
                 </div>
-                <div class="col-sm-5 ">
+                <div class="col-sm-5 " ng-if="selectedItem">
                     <span>Name: </span>
                     <input type="text" class="form-control" ng-model="selectedItem.name">
                     <span>Username: </span>
                     <input type="text" class="form-control" ng-model="selectedItem.username">
                     <span>Password: </span>
-                    <input type="text" class="form-control" ng-model="selectedItem.password">
+                    <input type="password" class="form-control" ng-model="selectedItem.password">
                     <span>Role: </span>
-                    <input type="text" class="form-control" ng-model="selectedItem.role">
+                    <select class="form-control" ng-model="selectedItem.role" ng-options="role.name for role in roles track by role._id"></select>
                     <span>Email: </span>
                     <input type="text" class="form-control" ng-model="selectedItem.email">
                     <input type="checkbox" ng-model="selectedItem.isActive" class="ng-pristine ng-valid ng-touched"> Is Active<br>
-                    <button class="btn btn-primary circled" ng-click="saveChanges()" style="float: right;">Save</button>
+                    <button class="btn btn-primary circled" ng-click="saveUserChanges()" style="float: right;">Save</button>
+                    <button class="btn btn-default circled" ng-click="cancelChanges()" style="float: right;">Cancel</button>
                 </div>
             </p>
         </div>
@@ -58,7 +62,8 @@
                     <span>Email: </span>
                     <input type="text" class="form-control" ng-model="selectedItem.email">
                     <input type="checkbox" ng-model="selectedItem.isActive" class="ng-pristine ng-valid ng-touched"> Is Active<br>
-                    <button class="btn btn-primary circled" ng-click="saveChanges()" style="float: right;">Save</button>
+
+                    <button class="btn btn-primary circled" ng-click="savePhysChanges()" style="float: right;">Save</button>
                 </div>
             </p>
         </div>

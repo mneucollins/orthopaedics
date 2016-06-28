@@ -1,7 +1,7 @@
 
 angular.module('adminModule')
-.controller('adminCtrl', ['$scope', '$location', '$rootScope', '$log', 'User', 'Physician',
-  function($scope, $location, $rootScope, $log, User, Physician) {
+.controller('adminCtrl', ['$scope', '$location', '$rootScope', '$log', 'User', 'Physician','Alerts','Role',
+  function($scope, $location, $rootScope, $log, User, Physician, Alerts, Role) {
 
     // var options = {
     //   keys: ['author', 'title'],   // keys to search in
@@ -10,6 +10,8 @@ angular.module('adminModule')
 
     var fusePhysicians;
     var options;
+    var newUser = false;
+    $scope.selectedItem = null;
 
     $scope.loadUsers = function(){
         $scope.result = "";
@@ -30,7 +32,8 @@ angular.module('adminModule')
     }
 
     var options2 = {
-      keys: ['name']   // keys to search in
+      keys: ['name','username'],   // keys to search in
+      threshold: 0.2
       //id: 'name'                     // return a list of identifiers only
     }
 
@@ -38,9 +41,13 @@ angular.module('adminModule')
     
 
     User.query(function(data, err) {
+      $scope.result = data;
       fuseUsers = new Fuse(data, options2);
     });
 
+    Role.query(function(data, err) {
+        $scope.roles = data;
+    });
     
     $scope.search = function (findElement, type) {
         if(type == "1")
@@ -53,10 +60,41 @@ angular.module('adminModule')
         $scope.selectedItem = register;
     }
 
-    $scope.saveChanges = function (user) {
-        alert("codigo para hacer update...");
+    $scope.newUser = function(){
+        $scope.selectedItem = {};
+        newUser = true;
     }
 
+    $scope.saveUserChanges = function () {
+        if(newUser == true)
+        {
+            User.save($scope.selectedItem, 
+               function (argument) {
+               Alerts.addAlert("success", "User created!");
+               $scope.selectedItem = null;
+               newUser = false;
+            }, function (err) {
+                Alerts.addAlert("warning", "Error");
+            });
+        }
+        else
+        {
+            $scope.selectedItem.role = $scope.selectedItem.role._id;
+            User.update({userId: $scope.selectedItem._id}, 
+                $scope.selectedItem, 
+                function (argument) {
+               Alerts.addAlert("success", "User updated!");
+               $scope.selectedItem = null;
+            }, function (err) {
+                Alerts.addAlert("warning", "Error");
+            });
+        }
+    }
+
+    $scope.cancelChanges = function(){
+        $scope.selectedItem = null;
+        newUser = false;
+    }
 
     function retrievePatients () {
         $scope.patientList = [];

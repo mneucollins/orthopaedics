@@ -5,3 +5,8 @@
  .admin-description {
     font-size: 0.8em;
  }
+ .search-field{
+    background-image: url("/img/searchIcon.svg");
+    background-repeat: no-repeat;
+    padding-left: 2em;
+}
