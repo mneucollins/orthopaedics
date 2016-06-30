@@ -4,7 +4,6 @@ var orthopaedicsApp = angular.module('orthopaedicsApp', [
   "ngCookies",
 
   "ui.bootstrap",
-  "dragularModule",
 
   "appCommons",
   "loginModule",
