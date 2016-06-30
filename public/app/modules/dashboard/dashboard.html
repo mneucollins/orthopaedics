@@ -21,12 +21,16 @@
 
     <info-header></info-header>
 
+    <div id="collapseLayout" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseLayout">
+        <layout-columns user="user"></layout-columns>
+    </div>
+
 
     <div class="panel col-sm-12 dashboardBody backgroundMobile">
         <!-- Header Start -->
         <div class="hidden-xs row patientTitles" style="">
-            <div class="col-sm-1 buttonRow"></div>
-
+            <!-- <div class="col-sm-1 buttonRow"></div>
+ -->
             
                 <div ng-repeat="titleData in titles" class="col-sm-1 {{titleData.style}}" ng-click="filteringActive(titleData.title)" ng-class="{'blueFilter': colFilter=='{{titleData.title}}','blackFilter': colFilter!='{{titleData.title}}'}">{{titleData.title}}<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='{{titleData.title}}' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='{{titleData.title}}' && arrowDirection=='0'}" aria-hidden="true"/></div>
             

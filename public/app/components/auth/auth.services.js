@@ -35,7 +35,7 @@ angular.module("appCommons")
 	    },
 	    isLoggedIn: function() { 
 	    	if (currentUser){
-                LayoutService.setLayoutUser(currentUser);
+                // LayoutService.setLayoutUser(currentUser);
 	    		return true;
             }
 	    	else {

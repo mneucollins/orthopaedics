@@ -65,6 +65,7 @@ angular.module('dashboardModule')
     function getTitleName (directiveName){
         switch (directiveName){
 
+            case "action-column" : return {title:"",style:"buttonRow"};
             case "age-column" : return {title:"Age",style:"ageRow"};
             case "appt-time-column" : return {title:"Appt Time",style:"apptTimeRow"};
             case "appt-type-column" : return {title:"Type",style:"typeRow"};
