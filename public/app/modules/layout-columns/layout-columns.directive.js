@@ -5,8 +5,42 @@ angular.module('layoutColumnsModule')
 		restrict : 'E',
 		// scope : {},
 		templateUrl : '/app/modules/layout-columns/layout-columns.html',
-		controller:['$scope', function($scope){
-			
+		controller:['$scope', '$timeout', 'LayoutService', function($scope, $timeout, LayoutService){
+
+			var layout = null; 
+
+			var columns = [
+                "action-column",
+                "age-column",
+                "appt-time-column",
+                "appt-type-column",
+                "at-column",
+                "fp-column",
+                "fc-column",
+                "imaging-column",
+                "labs-column",
+                "name-column",
+                "physician-column",
+                "room-number-column",
+                "wait-status-column",
+                "wait-total-column"
+            ];
+
+			$timeout(function(){
+				layout = LayoutService.getLayoutUser();
+				$scope.items2 = layout.columns;
+
+				// for (var i in columns){
+
+				// 	if (layout.columns.indexOf(columns[i])==-1)
+				// 		$scope.items1.push(columns[i]);	
+
+				// }
+
+				$scope.items1 = LayoutService.getOtherColumns();
+
+			} , 500);
+						
 		}]
 
 	};

@@ -2,6 +2,26 @@ angular.module("appCommons")
 .factory('LayoutService',[/*'AuthService',*/function(/*AuthService*/){
 
 	var layout;
+
+	var columns = [
+        "action-column",
+        "age-column",
+        "appt-time-column",
+        "appt-type-column",
+        "at-column",
+        "fp-column",
+        "fc-column",
+        "imaging-column",
+        "labs-column",
+        "name-column",
+        "physician-column",
+        "room-number-column",
+        "wait-status-column",
+        "wait-total-column"
+    ];
+
+
+
 	// if(AuthService.currentUser())
 	// 	if(AuthService.currentUser().isCustomLayout){
 	// 		layout = AuthService.currentUser().role.layout;
@@ -38,6 +58,21 @@ angular.module("appCommons")
 				return false;
 			}
 			return layout.highlightNewPatients;
+		},
+
+		getOtherColumns : function(){
+			if(layout){
+				var actualColumns = layout.columns;
+				var otherColumns = [];
+				for(var i in columns){
+					if(actualColumns.indexOf(columns[i]) == -1){
+						otherColumns.push(columns[i]);
+					}
+				}
+				return otherColumns;
+			} else {
+				return null;
+			}
 		}
 
 	};
