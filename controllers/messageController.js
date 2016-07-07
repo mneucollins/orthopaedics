@@ -26,7 +26,8 @@ setInterval(function () {
 
 	console.log("Checking WR patients");
 	patientController.listPatientsTodayByState("WR", function (err, patients) {
-		console.log("Done! " + patients.length + " patients found.");
+		if(patients && patients.length>0)
+			console.log("Done! " + patients.length + " patients found.");
 
 		_.each(patients, function (patient, i, list) {
 			if(!patient.physician) {

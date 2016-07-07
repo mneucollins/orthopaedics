@@ -1,0 +1,11 @@
+<div class='wrapper'>
+	<div> Inactive Columns </div>
+	<div class="container hidden-xs row patientTitles" dragula='"bag-one"' id="inactiveElements" dragula-model="items1">
+    	<div class="col-sm-1 column-title {{item.style}}" ng-repeat="item in items1">{{ item.title }}</div>
+	</div>
+	<div> Active Columns </div>
+	<div class="container hidden-xs row patientTitles" dragula='"bag-one"' id="activeElements" dragula-model="items2">
+    	<div class="col-sm-1 column-title {{item.style}}" ng-repeat="item in items2">{{ item.title }}<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"/></div>
+	</div>
+	<hr>
+</div>

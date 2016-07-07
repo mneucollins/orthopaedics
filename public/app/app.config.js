@@ -18,6 +18,7 @@ var orthopaedicsApp = angular.module('orthopaedicsApp', [
   "rolesModule",
   "adminModule",
   "rowTitleModule",
+  "layoutColumnsModule",
 
   "orthopaedicsServices",
   // "orthopaedicsControllers",
@@ -37,12 +38,14 @@ orthopaedicsApp.config(['$locationProvider', '$httpProvider', '$injector',
 
 }]);
 
-orthopaedicsApp.run(function($rootScope, WaitTime){
+orthopaedicsApp.run(function($rootScope, WaitTime, AuthService){
 
   $rootScope.getWRTime = WaitTime.getWRTime;
   $rootScope.getEXTime = WaitTime.getEXTime;
   $rootScope.getTotalTime = WaitTime.getTotalTime;
   $rootScope.getTimerColor = WaitTime.getTimerColor;
+
+  $rootScope.user = AuthService.currentUser();
   
 
 });

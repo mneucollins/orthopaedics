@@ -58,30 +58,9 @@ angular.module('dashboardModule')
         $scope.layout = LayoutService.getLayoutUser();
         $scope.titles=[];
         for(var directive in $scope.layout.columns){
-            $scope.titles.push(getTitleName($scope.layout.columns[directive]));
+            $scope.titles.push(LayoutService.getTitleName($scope.layout.columns[directive]));
         }
     });
-
-    function getTitleName (directiveName){
-        switch (directiveName){
-
-            case "age-column" : return {title:"Age",style:"ageRow"};
-            case "appt-time-column" : return {title:"Appt Time",style:"apptTimeRow"};
-            case "appt-type-column" : return {title:"Type",style:"typeRow"};
-            case "at-column" : return {title:"AT Entry",style:"atRow"};
-            case "fp-column" : return {title:"FP Entry",style:"fpRow"};
-            case "fc-column" : return {title:"FC",style:"fcRow"};
-            case "imaging-column" : return {title:"Imaging",style:"imagingRow"};
-            case "labs-column" : return {title:"Labs",style:"labsRow"};
-            case "name-column" : return {title:"Name",style:"nameRow"};
-            case "physician-column" : return {title:"Physician",style:"physicianRow"};
-            case "room-number-column" : return {title:"Room",style:"roomRow"};
-            case "wait-status-column" : return {title:"Status",style:"statusRow"};
-            case "wait-total-column" : return {title:"Total",style:"totalRow"};
-            default : return;
-
-        }
-    }
 
     function retrieveClinicDelays () {  
         var physicianIds = _.map($rootScope.selectedPhysicians, function (phy) {
