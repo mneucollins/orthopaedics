@@ -1,0 +1,29 @@
+ .column-title {
+ 	background-color: #E3EFFA;
+ 	opacity: 0.5;
+ 	/*border-color: white;
+ 	border-style: solid;
+ 	border-width: 0.2em;*/
+ 	border-radius: 2em;
+
+ }
+
+ .grabbable {
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+
+ /* (Optional) Apply a "closed-hand" cursor during drag operation. */
+.grabbable:active { 
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+}
+
+.layout-button {
+	padding-top: .9em;
+	/*transition: all 0.5s;*/
+	width: 5%;
+}

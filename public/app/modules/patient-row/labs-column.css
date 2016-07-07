@@ -4,6 +4,11 @@
 	width: 14%;
 }
 
+.labsRowSmall {
+    padding-top: .9em;
+    width: 6%;
+}
+
 .labsMinutes {
     border-style: solid;
     border-radius: 18px;

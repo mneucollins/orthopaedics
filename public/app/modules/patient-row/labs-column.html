@@ -1,4 +1,4 @@
-<div class="patientData bordered labsRow">
+<div class="patientData bordered" ng-class="{ labsRow : isLabs, labsRowSmall : !isLabs}">
     <div class="retinaContainer dashboardSVG" ng-if="!isLabs">
         <img ng-if="!isLabsStarted(patient) || patient.labsTimestamp" ng-src="{{ getLabsState(patient) }}" ng-click="toogleLabsState(patient)" ng-class="{clickable: isLabsClickable(patient)}"/>
         <div class="labsMinutes" ng-if="isLabsStarted(patient) && !patient.labsTimestamp">
