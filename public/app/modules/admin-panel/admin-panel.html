@@ -8,18 +8,10 @@
   <tabset>
     <tab heading="Users" select="loadUsers()">
         <div class="row">
-            <p class="col-sm-12 ">
-                <div class="col-sm-3 ">
-                    <input ng-model="findUser" class="form-control circled search-field" type="search" placeholder="Find a User" ng-keyup="search(findUser, 1)">
-                </div>
-                <div class="col-sm-3 ">
-                    <button class="btn btn-primary circled" ng-click="newUser()" >New User</button>
-                </div>
+            <p class="col-sm-6 ">
+                <find-list listado="result"></find-list>
             </p>
-            <p class="col-sm-12 ">
-                <div class="col-sm-4 " style="height: 350px; overflow-y: scroll;">
-                    <div ng-repeat="user in result" ng-click="loadRegister(user)" style="border-style: solid; border-radius: 7px; padding: 5px; margin: 7px;  width: 90%; cursor:pointer;">{{ user.name }} </div>
-                </div>
+            <p class="col-sm-6 ">
                 <div class="col-sm-5 " ng-if="selectedItem">
                     <span>Name: </span>
                     <input type="text" class="form-control" ng-model="selectedItem.name">
@@ -38,19 +30,18 @@
             </p>
         </div>
     </tab>
-    <tab heading="Roles">Static content Roles</tab>
+
+    <tab heading="Roles">
+        Static content Roles
+    </tab>
+
     <tab heading="Physicians" select="loadPhysicians()">
         <div class="row">
-            <p class="col-sm-12 ">
-                <div class="col-sm-3 ">
-                    <input type="text" class="form-control" ng-model="findUser" ng-keyup="search(findUser, 3)">
-                </div>
+            <p class="col-sm-6 ">
+                <find-list listado="resultPhys"></find-list>
             </p>
-            <p class="col-sm-12 ">
-                <div class="col-sm-6 ">
-                    <div ng-repeat="physician in result" ng-click="loadRegister(physician)" style="border-style: solid; border-radius: 7px; padding: 5px; margin: 7px;  width: 40%; cursor:pointer;">{{ physician.name }} </div>
-                </div>
-                <div class="col-sm-5 ">
+            <p class="col-sm-6 ">
+                <div class="col-sm-5 " ng-if="selectedItem">
                     <span>First Name: </span>
                     <input type="text" class="form-control" ng-model="selectedItem.firstName">
                     <span>Last Name: </span>
@@ -61,16 +52,20 @@
                     <input type="text" class="form-control" ng-model="selectedItem.department">
                     <span>Email: </span>
                     <input type="text" class="form-control" ng-model="selectedItem.email">
+                    <span>NPI: </span>
+                    <input type="text" class="form-control" ng-model="selectedItem.npi">
                     <input type="checkbox" ng-model="selectedItem.isActive" class="ng-pristine ng-valid ng-touched"> Is Active<br>
-
                     <button class="btn btn-primary circled" ng-click="savePhysChanges()" style="float: right;">Save</button>
+                    <button class="btn btn-default circled" ng-click="cancelChanges()" style="float: right;">Cancel</button>
                 </div>
             </p>
         </div>
     </tab>
+
     <tab heading="Messages">
         <messages-config></messages-config>
     </tab>
+
     <tab heading="General">
         <general-config></general-config>
     </tab>

@@ -37,7 +37,7 @@ function nuevoPhysician(newPhysician, callback) {
 
 function listarPhysicians(callback) {
     physicianModel
-    .find({}, "name department npi")
+    .find({}, "name department npi email")
     .sort("name")
     .exec(callback);
 }
