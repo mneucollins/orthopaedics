@@ -3,9 +3,13 @@ angular.module('layoutOptionsModule')
 	return {
 		replace : true,
 		restrict : 'E',
-		// scope : {},
+		scope : {
+			items1 : "=",
+			items2 : "=",
+			layout : "="
+		},
 		templateUrl : '/app/modules/layout-options/layout-options.html',
-		controller:['$scope', '$timeout', 'LayoutService', 'dragulaService', function($scope, $timeout, LayoutService, dragulaService){
+		controller:['$scope', /*'$timeout', 'LayoutService', */'dragulaService', function($scope, /*$timeout, LayoutService, */dragulaService){
 
 			dragulaService.options($scope, 'bag-one', {
 				moves : function(el, source, handle, sibling){
@@ -29,31 +33,18 @@ angular.module('layoutOptionsModule')
 				}
 			});
 
-			$scope.items1 = [];
-			$scope.items2 = [];
+			// $scope.items1 = [];
+			// $scope.items2 = [];
 
-			$scope.selectedItems = $scope.items2.length;
+			// $scope.selectedItems = $scope.items2.length;
 
-			// $scope.$on('bag-one.drag',function(e,el){
-				
+			// $timeout(function(){
+			// 	$scope.layout = LayoutService.getLayoutUser();
+			// 	$scope.items2 = LayoutService.getActiveColumns();
 
-			// 	$scope.selectedItems = $scope.items2.length;
+			// 	$scope.items1 = LayoutService.getInactiveColumns();
 
-			// 	dragulaService.options($scope,'bag-one',{
-			// 		moves : function();
-			// 	});
-
-			// 	//alert('hey, myVar has changed!');
-			// });
-
-
-			$timeout(function(){
-				$scope.layout = LayoutService.getLayoutUser();
-				$scope.items2 = LayoutService.getActiveColumns();
-
-				$scope.items1 = LayoutService.getInactiveColumns();
-
-			} , 500);
+			// } , 500);
 
 
 						

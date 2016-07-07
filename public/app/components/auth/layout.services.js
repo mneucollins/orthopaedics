@@ -24,29 +24,29 @@ angular.module("appCommons")
 
     function getTitleName (directiveName){
 
-    	var imaging = {title:"Imaging",style:"imagingRowSmall",len:6};
-    	var labs = {title:"Labs",style:"labsRowSmall",len:6};
+    	var imaging = {name:"imaging-column",title:"Imaging",style:"imagingRowSmall",len:6};
+    	var labs = {name:"labs-column",title:"Labs",style:"labsRowSmall",len:6};
 
     	if(isImaging){
-    		imaging = {title:"Imaging",style:"imagingRow",len:14};
-			labs = {title:"Labs",style:"labsRow",len:14};    		
+    		imaging = {name:"imaging-column",title:"Imaging",style:"imagingRow",len:14};
+			labs = {name:"labs-column",title:"Labs",style:"labsRow",len:14};    		
     	}
 
         switch (directiveName){
-            case "action-column" : return {title:"Button",style:"buttonRow",len:11};
-            case "age-column" : return {title:"Age",style:"ageRow",len:5};
-            case "appt-time-column" : return {title:"Appt Time",style:"apptTimeRow",len:10};
-            case "appt-type-column" : return {title:"Type",style:"typeRow",len:6};
-            case "at-column" : return {title:"AT Entry",style:"atRow",len:10};
-            case "fp-column" : return {title:"FP Entry",style:"fpRow",len:10};
-            case "fc-column" : return {title:"FC",style:"fcRow",len:5};
+            case "action-column" : return {name:"action-column",title:"Button",style:"buttonRow",len:11};
+            case "age-column" : return {name:"age-column",title:"Age",style:"ageRow",len:5};
+            case "appt-time-column" : return {name:"appt-time-column",title:"Appt Time",style:"apptTimeRow",len:10};
+            case "appt-type-column" : return {name:"appt-type-column",title:"Type",style:"typeRow",len:6};
+            case "at-column" : return {name:"at-column",title:"AT Entry",style:"atRow",len:10};
+            case "fp-column" : return {name:"fp-column",title:"FP Entry",style:"fpRow",len:10};
+            case "fc-column" : return {name:"fc-column",title:"FC",style:"fcRow",len:5};
             case "imaging-column" : return imaging;
             case "labs-column" : return labs;
-            case "name-column" : return {title:"Name",style:"nameRow",len:13};
-            case "physician-column" : return {title:"Physician",style:"physicianRow",len:13};
-            case "room-number-column" : return {title:"Room",style:"roomRow",len:5};
-            case "wait-status-column" : return {title:"Status",style:"statusRow",len:12};
-            case "wait-total-column" : return {title:"Total",style:"totalRow",len:6};
+            case "name-column" : return {name:"name-column",title:"Name",style:"nameRow",len:13};
+            case "physician-column" : return {name:"physician-column",title:"Physician",style:"physicianRow",len:13};
+            case "room-number-column" : return {name:"room-number-column",title:"Room",style:"roomRow",len:5};
+            case "wait-status-column" : return {name:"wait-status-column",title:"Status",style:"statusRow",len:12};
+            case "wait-total-column" : return {name:"wait-total-column",title:"Total",style:"totalRow",len:6};
             default : return;
 
         }

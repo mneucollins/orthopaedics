@@ -1,0 +1,11 @@
+.layout-button {
+	padding-top: .9em;
+	/*transition: all 0.5s;*/
+	width: 5%;
+}
+
+.layout-button-large {
+	padding-top: .9em;
+	/*transition: all 0.5s;*/
+	width: 10%;
+}

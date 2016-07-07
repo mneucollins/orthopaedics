@@ -21,9 +21,3 @@
     cursor: -moz-grabbing;
     cursor: -webkit-grabbing;
 }
-
-.layout-button {
-	padding-top: .9em;
-	/*transition: all 0.5s;*/
-	width: 5%;
-}
