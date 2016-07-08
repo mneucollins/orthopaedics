@@ -20,7 +20,10 @@ angular.module("adminModule")
         	get: configResource.get,
         	update: configResource.update,
         	reload: loadConfig,
-        	getFrontdeskBanner: function () {
+            getCallbackInterval: function () {
+                return sysConfig.callbackInterval;
+            },
+            getFrontdeskBanner: function () {
         		return sysConfig.frontdeskBanner;
         	},
         	getLongWaitMinutes: function () {

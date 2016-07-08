@@ -7,8 +7,8 @@ angular.module('patientRowModule')
 			patient : "="
 		},
 		templateUrl : '/app/modules/patient-row/action-column.html',
-		controller:['$scope', '$rootScope', '$modal', '$log', 'Patient', 'Alerts', 
-		function($scope, $rootScope, $modal, $log, Patient, Alerts){
+		controller:['$scope', '$rootScope', '$modal', '$log', 'Patient', 'Alerts', 'Config',
+		function($scope, $rootScope, $modal, $log, Patient, Alerts, Config){
 
 		    $scope.restoreDischargedPatient = function (patient) {
 		        var resp = confirm("Are you sure you would like to restore this patient?");
@@ -66,17 +66,9 @@ angular.module('patientRowModule')
 		                    // }
 
 		                    setTimeout(function () {
-		                        if(!patient.callbackEnabled)
-		                            Patient.update({patientId: patient.id}, 
-		                                {callbackEnabled: true}, 
-		                                function (updatedPatient) {
-		                                    // var index = $scope.patientList.indexOf(patient); 
-		                                    // if(index >= 0) {
-		                                        $scope.patient.callbackEnabled = updatedPatient.callbackEnabled;
-		                                    // }
-		                                }
-		                            );
-		                    }, 5 * 60 * 1000);
+		                        if(!$scope.patient.callbackEnabled)
+		                            $scope.patient.callbackEnabled = true;
+		                    }, Config.getCallbackInterval() * 60 * 1000);
 		                }
 		            );
 		        }, function () {

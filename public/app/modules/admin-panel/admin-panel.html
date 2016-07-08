@@ -7,59 +7,15 @@
 <div  style="padding: 2%;">
   <tabset>
     <tab heading="Users" select="loadUsers()">
-        <div class="row">
-            <p class="col-sm-6 ">
-                <find-list listado="result"></find-list>
-            </p>
-            <p class="col-sm-6 ">
-                <div class="col-sm-5 " ng-if="selectedItem">
-                    <span>Name: </span>
-                    <input type="text" class="form-control" ng-model="selectedItem.name">
-                    <span>Username: </span>
-                    <input type="text" class="form-control" ng-model="selectedItem.username">
-                    <span>Password: </span>
-                    <input type="password" class="form-control" ng-model="selectedItem.password">
-                    <span>Role: </span>
-                    <select class="form-control" ng-model="selectedItem.role" ng-options="role.name for role in roles track by role._id"></select>
-                    <span>Email: </span>
-                    <input type="text" class="form-control" ng-model="selectedItem.email">
-                    <input type="checkbox" ng-model="selectedItem.isActive" class="ng-pristine ng-valid ng-touched"> Is Active<br>
-                    <button class="btn btn-primary circled" ng-click="saveUserChanges()" style="float: right;">Save</button>
-                    <button class="btn btn-default circled" ng-click="cancelChanges()" style="float: right;">Cancel</button>
-                </div>
-            </p>
-        </div>
+        <user-config></user-config>
     </tab>
 
     <tab heading="Roles">
-        Static content Roles
+        Static content Roles...
     </tab>
 
     <tab heading="Physicians" select="loadPhysicians()">
-        <div class="row">
-            <p class="col-sm-6 ">
-                <find-list listado="resultPhys"></find-list>
-            </p>
-            <p class="col-sm-6 ">
-                <div class="col-sm-5 " ng-if="selectedItem">
-                    <span>First Name: </span>
-                    <input type="text" class="form-control" ng-model="selectedItem.firstName">
-                    <span>Last Name: </span>
-                    <input type="text" class="form-control" ng-model="selectedItem.lastName">
-                    <span>Name: </span>
-                    <input type="text" class="form-control" ng-model="selectedItem.name">
-                    <span>Department: </span>
-                    <input type="text" class="form-control" ng-model="selectedItem.department">
-                    <span>Email: </span>
-                    <input type="text" class="form-control" ng-model="selectedItem.email">
-                    <span>NPI: </span>
-                    <input type="text" class="form-control" ng-model="selectedItem.npi">
-                    <input type="checkbox" ng-model="selectedItem.isActive" class="ng-pristine ng-valid ng-touched"> Is Active<br>
-                    <button class="btn btn-primary circled" ng-click="savePhysChanges()" style="float: right;">Save</button>
-                    <button class="btn btn-default circled" ng-click="cancelChanges()" style="float: right;">Cancel</button>
-                </div>
-            </p>
-        </div>
+        <physician-config></physician-config>
     </tab>
 
     <tab heading="Messages">
