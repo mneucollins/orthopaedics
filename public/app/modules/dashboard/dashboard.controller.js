@@ -57,9 +57,10 @@ angular.module('dashboardModule')
         $scope.hidePhysicians = $rootScope.selectedPhysicians.length == 1 && role == "Physician";
         $scope.layout = LayoutService.getLayoutUser();
         $scope.titles=[];
-        for(var directive in $scope.layout.columns){
-            $scope.titles.push(LayoutService.getTitleName($scope.layout.columns[directive]));
-        }
+        $scope.titles = LayoutService.getActiveColumns();
+        // for(var directive in $scope.layout.columns){
+        //     $scope.titles.push(LayoutService.getTitleName($scope.layout.columns[directive]));
+        // }
     });
 
     // $scope.retrieveClinicDelays = function() {

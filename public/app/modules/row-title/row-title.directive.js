@@ -4,7 +4,7 @@ angular.module('rowTitleModule')
 		replace : true,
 		restrict : 'E',
 		scope : {
-			hidePhysicians:"=",
+			titleData:"=",
 		},
 		templateUrl : '/app/modules/row-title/row-title.html',
 		controller:['$scope', function($scope){

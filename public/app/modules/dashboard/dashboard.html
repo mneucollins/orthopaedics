@@ -30,7 +30,7 @@
             <user-layout id="collapseLayout" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseLayout" user="user"></user-layout>
             <!-- <div class="col-sm-1 buttonRow"></div>
  -->
-            
+            <!-- <row-title ng-repeat="titleData in titles" title-data="titleData" ng-click="filteringActive(titleData.title)"></row-title> -->
                 <div ng-repeat="titleData in titles" class="col-sm-1 {{titleData.style}}" ng-click="filteringActive(titleData.title)" ng-class="{'blueFilter': colFilter=='{{titleData.title}}','blackFilter': colFilter!='{{titleData.title}}'}">{{titleData.title}}<span ng-class="{'glyphicon glyphicon-chevron-down': colFilter=='{{titleData.title}}' && arrowDirection=='1', 'glyphicon glyphicon-chevron-up': colFilter=='{{titleData.title}}' && arrowDirection=='0'}" aria-hidden="true"/></div>
             
         </div>

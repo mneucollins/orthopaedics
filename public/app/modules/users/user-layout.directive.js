@@ -41,7 +41,12 @@ angular.module('usersModule')
 	            	newUser, 
 	                function (argument) {
 	               		Alerts.addAlert("success", "your layout has been updated!");
-	               		DashboardService.retrieveClinicDelays();
+	               		// DashboardService.retrieveClinicDelays();
+	               		user.isCustomLayout = true;
+	               		user.layout = newLayout;
+	               		AuthService.setCurrentUser(user);
+	               		// $scope.$apply();
+
 	            	}, function (err) {
 	                	Alerts.addAlert("warning", "Error");
 	            });

@@ -9,7 +9,7 @@ angular.module('layoutOptionsModule')
 			layout : "="
 		},
 		templateUrl : '/app/modules/layout-options/layout-options.html',
-		controller:['$scope', /*'$timeout', 'LayoutService', */'dragulaService', function($scope, /*$timeout, LayoutService, */dragulaService){
+		controller:['$scope', 'dragulaService', function($scope, dragulaService){
 
 			dragulaService.options($scope, 'bag-one', {
 				moves : function(el, source, handle, sibling){
