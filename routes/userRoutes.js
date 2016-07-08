@@ -49,7 +49,7 @@ module.exports = function (router) {
                 return;
             }
 
-            console.log("new user added");
+            console.log("user updated");
             res.json(data);
         });
     })
@@ -60,7 +60,7 @@ module.exports = function (router) {
                 return;
             }
 
-            console.log("new user added");
+            console.log("user deleted");
             res.json(data);
         });
     });

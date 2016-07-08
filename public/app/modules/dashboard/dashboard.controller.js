@@ -1,7 +1,7 @@
 
 angular.module('dashboardModule')
-.controller('dashboardCtrl', ['$scope', '$location', '$rootScope', '$log', '$interval', '$timeout', '$modal', 'Patient', 'Messages', 'Physician', 'WaitTime', 'AuthService', 'LayoutService',
-  function($scope, $location, $rootScope, $log, $interval, $timeout, $modal, Patient, Messages, Physician, WaitTime, AuthService, LayoutService) {
+.controller('dashboardCtrl', ['$scope', '$location', '$rootScope', '$log', '$interval', '$timeout', '$modal', 'Patient', 'Messages', 'Physician', 'WaitTime', 'AuthService', 'LayoutService', 'DashboardService',
+  function($scope, $location, $rootScope, $log, $interval, $timeout, $modal, Patient, Messages, Physician, WaitTime, AuthService, LayoutService, DashboardService) {
 
     $("nav").removeClass("hidden");
     $("body").removeClass("body-login");
@@ -19,7 +19,7 @@ angular.module('dashboardModule')
 
     $rootScope.$watch("selectedPhysicians", function (newValue, oldValue) {
         retrievePatients(newValue);
-        retrieveClinicDelays();
+        DashboardService.retrieveClinicDelays();
     });
 
     $scope.getPhysicianTime = function (physician) {
@@ -62,18 +62,18 @@ angular.module('dashboardModule')
         }
     });
 
-    function retrieveClinicDelays () {  
-        var physicianIds = _.map($rootScope.selectedPhysicians, function (phy) {
-            return phy._id;
-        });
-        Physician.getClinicDelays({phyList: physicianIds}, function (delays) {
-            _.each($rootScope.selectedPhysicians, function (element, index, list) {
-                element.clinicDelay = delays[element._id] ? delays[element._id] : 0;
-            });
-        });
-    }
+    // $scope.retrieveClinicDelays = function() {
+    //     var physicianIds = _.map($rootScope.selectedPhysicians, function (phy) {
+    //         return phy._id;
+    //     });
+    //     Physician.getClinicDelays({phyList: physicianIds}, function (delays) {
+    //         _.each($rootScope.selectedPhysicians, function (element, index, list) {
+    //             element.clinicDelay = delays[element._id] ? delays[element._id] : 0;
+    //         });
+    //     });
+    // }
 
-    $interval(retrieveClinicDelays, 5 * 60 * 1000);
+    $interval(DashboardService.retrieveClinicDelays, 5 * 60 * 1000);
 
     // Sync
     ///////////////////////////////////////////////////////////////////////////////////////////////
