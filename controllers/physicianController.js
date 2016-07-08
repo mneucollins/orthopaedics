@@ -13,6 +13,7 @@ module.exports = {
     getClinicDelay: getClinicDelay,
     getNextPatientWaitTime: getNextPatientWaitTime,
     addPatientToAvgDelay: addPatientToAvgDelay,
+    clearAvgDelayAll: clearAvgDelayAll,
     clearAvgDelay: clearAvgDelay,
     getAvgDelay: getAvgDelay,
     isPhysicianInBreak: isPhysicianInBreak
@@ -161,6 +162,13 @@ function clearAvgDelay (physicianId, callback) {
         if (err) callback(err);
         else callback(null, physician);
     })
+}
+
+function clearAvgDelayAll (callback) {
+    physicianModel.update({}, {$unset: {patientsClinicDelay: ""}}, {multi: true}
+    , function (err, rawRes) {
+        callback(err, rawRes);
+    });
 }
 
 function getAvgDelay (physicianId, seed, callback) {
