@@ -3,6 +3,7 @@ var moment = require('moment');
 
 var tools = require('../tools');
 var patientModel = require('../models/patientModel');
+var configController = require('./configController');
 
 module.exports = {
     nuevoPatient: nuevoPatient,
@@ -159,26 +160,33 @@ function actualizarPatient(id, updPatient, callback) {
                     if(priorApptPatient) {
                         physicianController.addPatientToAvgDelay(dbPatient.physician, dbPatient, function (err) {
                             if (err) callback(err);
-                            else updatePatient (updPatient);
+                            else updatePatient (updPatient, true);
                         });
                     }
                     else {
                         physicianController.clearAvgDelay(dbPatient.physician, function (err) {
                             if (err) callback(err);
-                            else updatePatient (updPatient);
+                            else updatePatient (updPatient, true);
                         });
                     }
                 });
             });
         });
     }
-    else 
-        updatePatient (updPatient);
+    else if(updPatient.currentState == "WR") {
+        var sysConfig = configController.obtenerConfigSync();
+        setTimeout(function () {
+            updatePatient ({callbackEnabled: true}, false);
+        }, sysConfig.callbackInterval * 60 * 1000);
 
-    function updatePatient (updPatient) {
+        updatePatient (updPatient, true);
+    }
+    else 
+        updatePatient (updPatient, true);
+
+    function updatePatient (updPatient, doCallback) {
         patientModel.findByIdAndUpdate(id, updPatient, function (err, patient) {
-            if (err) callback(err);
-            else callback(null, patient);
+            if (doCallback) callback(err, patient);
         });
     }
 }
