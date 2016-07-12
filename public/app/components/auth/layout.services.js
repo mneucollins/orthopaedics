@@ -86,8 +86,15 @@ angular.module("appCommons")
 			return layout.highlightNewPatients;
 		},
 
-		getActiveColumns : function(){
-			if(layout){
+		getActiveColumns : function(externalLayout){
+			if(externalLayout){
+				var totalColumns = externalLayout.columns;
+				var activeColumns = [];
+				for(var i in totalColumns){
+					activeColumns.push(getTitleName(totalColumns[i]));
+				}
+				return activeColumns;
+			} else if(layout){
 				var totalColumns = layout.columns;
 				var activeColumns = [];
 				for(var i in totalColumns){
@@ -99,8 +106,17 @@ angular.module("appCommons")
 			}
 		},
 
-		getInactiveColumns : function(){
-			if(layout){
+		getInactiveColumns : function(externalLayout){
+			if(externalLayout){
+				var totalColumns = externalLayout.columns;
+				var inactiveColumns = [];
+				for(var i in columns){
+					if(totalColumns.indexOf(columns[i]) == -1){
+						inactiveColumns.push(getTitleName(columns[i]));
+					}
+				}
+				return inactiveColumns;
+			} else if(layout){
 				var totalColumns = layout.columns;
 				var inactiveColumns = [];
 				for(var i in columns){

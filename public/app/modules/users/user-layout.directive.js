@@ -45,7 +45,7 @@ angular.module('usersModule')
 	               		user.isCustomLayout = true;
 	               		user.layout = newLayout;
 	               		AuthService.setCurrentUser(user);
-	               		// $scope.$apply();
+	               		location.reload();
 
 	            	}, function (err) {
 	                	Alerts.addAlert("warning", "Error");

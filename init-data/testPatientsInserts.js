@@ -10,9 +10,9 @@ var nPlusHours = 0;
 
 var initYear = 2016,
 	initMonth = 6,
-	initDay = 8,
-	initHours = 18,
-	initMinutes = 40;
+	initDay = 11,
+	initHours = 10,
+	initMinutes = 00;
 
 
 var testPatients = [{
