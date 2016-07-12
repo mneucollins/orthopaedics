@@ -17,10 +17,10 @@ angular.module('patientRowModule')
 		        var labsStateIcon = "";
 
 		        if(patient.needsLabs)
-		            if(patient.labsTimestamp){
-		                labsStateIcon = "/img/ok1icon-labs.svg";  
+		            if(patient.labsTimestamp) {
+		                labsStateIcon = "/img/ok1icon-labs.png";  
 		            }
-		            else{
+		            else {
 		                labsStateIcon = "/img/yicon-labs.png";
 		            }
 		        else
