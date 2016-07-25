@@ -24,7 +24,7 @@ var PatientSchema = new Schema({
 	},
 	currentState: {
 		type: String,
-		enum: "NCI WR EX DC".split(" "), // Not Checked In, Waiting Room, Exam Room, Discharged
+		enum: "NCI WR EX DC PR".split(" "), // Not Checked In, Waiting Room, Exam Room, Discharged
 		default: "NCI"
 	},
 	isDeleted: {
@@ -41,6 +41,7 @@ var PatientSchema = new Schema({
 	WRTimestamp: Date,
 	EXTimestamp: Date,
 	DCTimestamp: Date,
+	PRTimestamp: Date,
 	clinicDelay: Number,
 	
 	//Imaging

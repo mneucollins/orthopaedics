@@ -29,6 +29,9 @@ angular.module("appCommons")
 
     	if(isImaging){
     		imaging = {name:"imaging-column",title:"Imaging",style:"imagingRow",len:14};
+    	}
+
+    	if(isLabs){
 			labs = {name:"labs-column",title:"Labs",style:"labsRow",len:14};    		
     	}
 

@@ -4,6 +4,7 @@ var moment = require('moment');
 var tools = require('../tools');
 var patientModel = require('../models/patientModel');
 var configController = require('./configController');
+var fuse = require('../node_modules/fuse.js/src/fuse.min.js');
 
 module.exports = {
     nuevoPatient: nuevoPatient,
@@ -17,7 +18,8 @@ module.exports = {
     listPatientsbyPhysician: listPatientsbyPhysician,
     listPatientsbyPhysicianToday: listPatientsbyPhysicianToday,
     listPatientsTodayByState: listPatientsTodayByState,
-    listPatientsTomorrow: listPatientsTomorrow
+    listPatientsTomorrow: listPatientsTomorrow,
+    listPatientsToday: listPatientsToday
 }
 
 function nuevoPatient(newPatient, callback) {
@@ -300,4 +302,58 @@ function listPatientsTomorrow(callback) {
             if (err) callback(err);
             else callback(null, patients);
     });
+}
+
+function findPatientByNameDOB(patient, callback){
+
+    console.log("***********************" + JSON.stringify(patient));
+
+    var cant = 0;
+
+    var optionsDOB = {
+        keys: ['dateBirth'],   // keys to search in
+        threshold: 0.0
+        //id: 'name'                     // return a list of identifiers only
+    }
+
+    var optionsLastName = {
+        keys: ['lastName'],   // keys to search in
+        threshold: 0.2
+        //id: 'name'                     // return a list of identifiers only
+    }
+
+    var optionsFirstName = {
+        keys: ['firstName'],   // keys to search in
+        threshold: 0.2
+        //id: 'name'                     // return a list of identifiers only
+    }
+
+    listPatientsToday(function (err, patients){
+        if(err) callback(err);
+        else {
+            console.log(JSON.stringify(patients));
+            callback(null,0);
+            // if(patients.length == 0) callback(null,0);
+            // else {
+            //     var matchDOB = _.filter(patients,function(pat){
+            //         return pat.
+            //     });
+
+
+
+
+            //     var matchDOB = new Fuse(patients, optionsDOB);
+            //     if(matchDOB.length == 0) callback(null,0);
+            //     else{
+            //         var matchLastName = new Fuse(matchDOB, optionsLastName);
+            //         if(matchLastName.length == 0) callback(null,0);
+            //         else {
+            //             var matchFirstName = new Fuse(matchLastName, optionsFirstName);
+            //             callback(null,matchFirstName);
+            //         }
+            //     }
+            // }
+        }
+    });
+
 }

@@ -10,7 +10,7 @@ var nPlusHours = 0;
 
 var initYear = 2016,
 	initMonth = 6,
-	initDay = 11,
+	initDay = 25,
 	initHours = 10,
 	initMinutes = 00;
 

@@ -57,6 +57,11 @@
         }
       })
 
+      .when('/kiosk', {
+        templateUrl: '/app/modules/kiosk/kiosk.html',
+        controller: 'kioskCtrl'
+      })
+
       .otherwise({
         redirectTo: '/'
       });

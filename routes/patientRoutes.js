@@ -50,6 +50,20 @@ module.exports = function (router, io) {
         });
     });
 
+    router.route('/patients/search')
+    .post(function(req, res) {
+        var patient = req.body; 
+        patientController.findPatientByNameDOB(patient,function (err, data) {
+            if(err) {
+                tools.sendServerError(err, req, res);
+                return;
+            }
+
+            console.log("Patient listed");
+            res.json(data);
+        });
+    });
+
     router.route('/patients/:patientId')
     .get(function(req, res) {
         patientController.obtenerPatient(req.params.patientId, function (err, data) {
