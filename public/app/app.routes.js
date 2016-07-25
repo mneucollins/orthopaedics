@@ -49,6 +49,11 @@
         }
       })
 
+      .when('/faq', {
+        templateUrl: '/app/modules/faq/faq.html',
+        controller: 'faqCtrl'
+      })
+
       .when('/admin', {
         templateUrl: '/app/modules/admin-panel/admin-panel.html',
         controller: 'adminCtrl',
