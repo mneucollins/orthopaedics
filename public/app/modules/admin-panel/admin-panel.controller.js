@@ -1,7 +1,10 @@
 
 angular.module('adminModule')
-.controller('adminCtrl', ['$scope', '$location', '$rootScope', '$log', 'User', 'Physician','Alerts','Role', 'LayoutService',
-  function($scope, $location, $rootScope, $log, User, Physician, Alerts, Role, LayoutService) {
+.controller('adminCtrl', ['$scope', '$location', '$rootScope', '$log', 'User', 'Physician','Alerts','Role', 'AuthService', 'LayoutService',
+  function($scope, $location, $rootScope, $log, User, Physician, Alerts, Role, AuthService, LayoutService) {
+
+    if(!AuthService.isLoggedIn())
+        $location.path("/");
 
     var fusePhysicians;
     var options;

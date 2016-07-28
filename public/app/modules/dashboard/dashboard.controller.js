@@ -3,6 +3,9 @@ angular.module('dashboardModule')
 .controller('dashboardCtrl', ['$scope', '$location', '$rootScope', '$log', '$interval', '$timeout', '$modal', 'Patient', 'Messages', 'Physician', 'WaitTime', 'AuthService', 'LayoutService', 'DashboardService',
   function($scope, $location, $rootScope, $log, $interval, $timeout, $modal, Patient, Messages, Physician, WaitTime, AuthService, LayoutService, DashboardService) {
 
+    if(!AuthService.isLoggedIn())
+        $location.path("/");
+
     $("nav").removeClass("hidden");
     $("body").removeClass("body-login");
     $scope.currentTime = new Date();
@@ -10,9 +13,6 @@ angular.module('dashboardModule')
     $interval(function minuteUpdate () {
         $scope.currentTime = new Date();
     }, 500);
-
-
-
 
     // Physician managment
     ///////////////////////////////////////////////////////////////////////////////////////////////

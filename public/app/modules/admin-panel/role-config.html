@@ -1,19 +1,19 @@
 <div class="row">
     <p class="col-sm-4 ">
-        <find-list listado="roles"></find-list>
+        <find-list listado="roles" elemento="'Role'"></find-list>
     </p>
     <p class="col-sm-8 ">
         <div class="col-sm-7 " ng-if="selectedItem">
             <span>Name: </span>
-            <input type="text" class="form-control" ng-model="selectedItem.name">
-            <input type="checkbox" ng-model="selectedItem.adminUsers" class="ng-pristine ng-valid ng-touched"> Admin Users<br>
-            <input type="checkbox" ng-model="selectedItem.adminRoles" class="ng-pristine ng-valid ng-touched"> Admin Roles<br>
-            <input type="checkbox" ng-model="selectedItem.adminLanguage" class="ng-pristine ng-valid ng-touched"> Admin Language<br>
-            <input type="checkbox" ng-model="selectedItem.adminGeneral" class="ng-pristine ng-valid ng-touched"> Admin General<br>
-            <input type="checkbox" ng-model="selectedItem.generateReports" class="ng-pristine ng-valid ng-touched"> Generate Reports<br>
-            <input type="checkbox" ng-model="selectedItem.isImaging" class="ng-pristine ng-valid ng-touched"> Is Imaging<br>
-            <input type="checkbox" ng-model="selectedItem.isLabs" class="ng-pristine ng-valid ng-touched"> Is Labs<br>
-            <input type="checkbox" ng-model="selectedItem.isFrontdesk" class="ng-pristine ng-valid ng-touched"> If Frontdesk<br>
+            <input type="text" class="form-control" ng-model="selectedItem.name"><br>
+            <input type="checkbox" ng-model="selectedItem.adminUsers" class="ng-pristine ng-valid ng-touched"> Admin Users<br><br>
+            <input type="checkbox" ng-model="selectedItem.adminRoles" class="ng-pristine ng-valid ng-touched"> Admin Roles<br><br>
+            <input type="checkbox" ng-model="selectedItem.adminLanguage" class="ng-pristine ng-valid ng-touched"> Admin Language<br><br>
+            <input type="checkbox" ng-model="selectedItem.adminGeneral" class="ng-pristine ng-valid ng-touched"> Admin General<br><br>
+            <input type="checkbox" ng-model="selectedItem.generateReports" class="ng-pristine ng-valid ng-touched"> Generate Reports<br><br>
+            <input type="checkbox" ng-model="selectedItem.isImaging" class="ng-pristine ng-valid ng-touched"> Can Start/Stop Imaging State<br><br>
+            <input type="checkbox" ng-model="selectedItem.isLabs" class="ng-pristine ng-valid ng-touched"> Can Start/Stop Labs State<br><br>
+            <input type="checkbox" ng-model="selectedItem.isFrontdesk" class="ng-pristine ng-valid ng-touched"> Can See Frontdesk Message<br><br>
             <br>
             <layout-options items1="items1" items2="items2" layout="layout"></layout-options>
             <br>

@@ -34,6 +34,10 @@ var ConfigSchema = new Schema({
         type: String,
         required: true
     },
+    kioskMsgText: {
+        type: String,
+        required: true
+    },
     firstWaitMsgText: {
         type: String,
         required: true
@@ -78,6 +82,7 @@ configModel.count({}, function counter (err, count) {
                 dangerWaitMinutes: 45,
                 welcomeMsgDelayText: "Welcome %PAT-FIRSTNAME%, %PHY-NAME% is currently running approximately %PHY-DELAY% minutes behind schedule. We will keep you informed about waits and delays as a part of a desire to be sensitive to your needs as a patient.",
                 welcomeMsgNoDelayText: "Welcome %PAT-FIRSTNAME%, %PHY-NAME% is currently running on schedule. We will keep you informed about waits and delays as a part of a desire to be sensitive to your needs as a patient.",
+                kioskMsgText: "Welcome %PAT-FIRSTNAME%, please proceed to the waiting room. You'll be called to the front desk once available.",
                 firstWaitMsgText: "We would like to update you every %SYS-MSGINTERVAL% minutes in regards to your wait time. %PHY-NAME% is now running approximately %PHY-DELAY% minutes behind. Please keep in mind that this is just an estimate. Thank you for your patience and understanding, and for choosing Emory Healthcare.",
                 waitMsgText: "%PHY-NAME% is now running approximately %PHY-DELAY% minutes behind, we will continue to provide updates.",
                 longWaitMsgText: "Please contact the front desk if you would like to leave the area temporarily.",

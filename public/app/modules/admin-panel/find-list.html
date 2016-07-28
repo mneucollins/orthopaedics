@@ -1,11 +1,11 @@
 <div>
     <div class="col-sm-8 ">
-        <input ng-model="findUser" class="form-control circled search-field" type="search" placeholder="Find a User" ng-keyup="search(findUser)">
+        <input ng-model="findElement" class="form-control circled search-field" type="search" placeholder="Find a {{ elemento }}" ng-keyup="search(findElement)">
     </div>
     <div class="col-sm-4 ">
-        <button class="btn btn-primary circled" ng-click="newUser()" >New User</button>
+        <button class="btn btn-primary circled" ng-click="newElem()" >New {{ elemento }}</button>
     </div>
     <div class="col-sm-12 " style="height: 350px; overflow-y: scroll;">
-        <div ng-repeat="user in result" ng-click="loadRegister(user)" style="border-style: solid; border-radius: 7px; padding: 5px; margin: 7px;  width: 90%; cursor:pointer;">{{ user.name }} </div>
+        <div ng-repeat="elem in result" ng-click="loadRegister(elem)" style="border-style: solid; border-radius: 7px; padding: 5px; margin: 7px;  width: 90%; cursor:pointer;"> {{ elem.name }} </div>
     </div>
 </div>

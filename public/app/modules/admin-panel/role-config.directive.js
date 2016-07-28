@@ -11,7 +11,7 @@ angular.module('adminModule')
 			// $scope.items2 = [];
 
 			$scope.saveRoleChanges = function () {
-				var selectedRole = $scope.selectedItem.role;
+				var selectedRole = $scope.selectedItem;
 		        if($scope.newUser == true)
 		        {
 		            User.save($scope.selectedItem, 
@@ -25,7 +25,7 @@ angular.module('adminModule')
 		        }
 		        else
 		        {
-		            $scope.selectedItem.role = $scope.selectedItem.role._id;
+		            $scope.selectedItem.role = $scope.selectedItem._id;
 		            User.update({userId: $scope.selectedItem._id}, 
 		                $scope.selectedItem, 
 		                function (argument) {
