@@ -307,7 +307,10 @@ function listPatientsTomorrow(callback) {
 }
 
 function preRegisterPatient(id,callback){
-    patientModel.findByIdAndUpdate(id, { currentState : 'PR' }, function (err, patient) {
+    patientModel.findByIdAndUpdate(id, { 
+        currentState : 'PR', 
+        PRTimestamp: new Date()
+    }, function (err, patient) {
         callback(err, patient);
     });
 }
@@ -353,11 +356,8 @@ function findPatientByNameDOB(patient, callback){
                 patientsMatch = firstNameMatch.search(patient.patient.firstName);
 
 
-
                 callback(null,patientsMatch);
             }
-            
-
         }
     });
 

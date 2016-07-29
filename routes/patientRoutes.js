@@ -53,7 +53,7 @@ module.exports = function (router, io) {
     router.route('/patients/search')
     .post(function(req, res) {
         var patient = req.body; 
-        patientController.findPatientByNameDOB(patient,function (err, data) {
+        patientController.findPatientByNameDOB(patient, function (err, data) {
             if(err) {
                 tools.sendServerError(err, req, res);
                 return;
@@ -64,11 +64,11 @@ module.exports = function (router, io) {
         });
     });
 
-    router.route('/patients/register')
+    router.route('/patients/preregister')
     .post(function(req, res) {
         var id = req.body;
         console.log(JSON.stringify(id));
-        patientController.preRegisterPatient(id,function(err,data){
+        patientController.preRegisterPatient(id, function(err,data){
             if(err){
                 tools.sendServerError(err, req, res);
                 return;

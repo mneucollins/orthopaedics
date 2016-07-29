@@ -1,5 +1,5 @@
 <div>
-	<div ng-if="!card" class="roundMiniBox" ng-class="{'timer-not-started': patient.currentState == 'DC' || patient.currentState == 'NCI' || getTotalTime(patient) < 0}">{{ $root.getTotalTime(patient) }}</div>
+	<div ng-if="!card" class="roundMiniBox" ng-class="{'timer-not-started': patient.currentState == 'DC' || patient.currentState == 'NCI' || patient.currentState == 'PR' || getTotalTime(patient) < 0}">{{ $root.getTotalTime(patient) }}</div>
 
     <div ng-if="card" class="col-sm-3 col-xs-3 priorTotalCol"><div class="roundMiniBox"><div class="patienInfoFocus" style="color: #0099F0">{{ $root.getTotalTime(patient) }}</div></div></div>
 </div>

@@ -4,9 +4,9 @@ angular.module('kioskModule')
     $scope.patients = patients;
 
     $scope.confirm = function(){
-        Patient.register({},{id: $scope.selPat.id}, function(patient){
+        Patient.preregister({},{id: $scope.selPat.id}, function(patient){
             if(patient){
-                Alerts.addAlert("success", "register completed");
+                Alerts.addAlert("success", "register complete");
             } else {
                 Alerts.addAlert("warning", "register not completed");
 
@@ -18,10 +18,9 @@ angular.module('kioskModule')
 
 
 
-        Patient.register({},{patientId: $scope.selPat.id}, 
+        Patient.preregister({},{patientId: $scope.selPat.id}, 
             {
-                currentState: "PR",
-                PRTimestamp: new Date()
+                currentState: "PR"
             }, 
             function patientDischarged (updatedPatient) {
                 // var index = $scope.patientList.indexOf(patient); 

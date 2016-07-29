@@ -10,7 +10,8 @@ orthopaedicsServices.factory('WaitTime', ["Config", function(Config){
     
     function getWRTime(patient) {
 
-        if(patient.currentState == "NCI") return 0;
+        if(patient.currentState == "NCI" || patient.currentState == "PR") 
+            return 0;
 
         var wrDate = new Date(patient.WRTimestamp).getTime();
         var apptDate = new Date(patient.apptTime).getTime();
@@ -62,7 +63,8 @@ orthopaedicsServices.factory('WaitTime', ["Config", function(Config){
 
     function getEXTime(patient) {
 
-        if(patient.currentState == "NCI" || patient.currentState == "WR") return 0;
+        if(patient.currentState == "NCI" || patient.currentState == "WR" || patient.currentState == "PR") 
+            return 0;
 
         var exDate = new Date(patient.EXTimestamp);
         var dcDate = new Date(patient.DCTimestamp);
@@ -76,7 +78,8 @@ orthopaedicsServices.factory('WaitTime', ["Config", function(Config){
 
     function getTotalTime(patient){
 
-        if(patient.currentState == "NCI") return 0;  
+        if(patient.currentState == "NCI" || patient.currentState == "PR") 
+            return 0;  
 
         var wrDate = new Date(patient.WRTimestamp);
         var apptDate = new Date(patient.apptTime);
@@ -96,12 +99,12 @@ orthopaedicsServices.factory('WaitTime', ["Config", function(Config){
         var nMins = 0;
 
         if(type == "WR") {
-            if(patient.currentState == "NCI" || patient.currentState == "EX" || patient.currentState == "DC") 
+            if(patient.currentState == "NCI" || patient.currentState == "EX" || patient.currentState == "DC" || patient.currentState == "PR") 
                 return "timer-not-started";
             nMins = getWRTime(patient);
         }
         else if(type == "EX") {
-            if(patient.currentState == "NCI" || patient.currentState == "WR" || patient.currentState == "DC") 
+            if(patient.currentState == "NCI" || patient.currentState == "WR" || patient.currentState == "DC" || patient.currentState == "PR") 
                 return "timer-not-started";
             nMins = getEXTime(patient);
         }
