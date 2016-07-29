@@ -66,8 +66,7 @@ module.exports = function (router, io) {
 
     router.route('/patients/preregister')
     .post(function(req, res) {
-        var id = req.body;
-        console.log(JSON.stringify(id));
+        var id = req.body.patientId;
         patientController.preRegisterPatient(id, function(err,data){
             if(err){
                 tools.sendServerError(err, req, res);
@@ -78,6 +77,23 @@ module.exports = function (router, io) {
             res.json(data);
         })
     });
+
+    router.route('/patients/updCellphone')
+    .post(function(req, res) {
+        var id = req.body.patientId;
+        var cellphone = req.body.cellphone;
+        patientController.updateCellphone(id, cellphone, function(err,data){
+            if(err){
+                tools.sendServerError(err, req, res);
+                return;
+            }
+
+            console.log("cellphone updated");
+            res.json(data);
+        })
+    });
+
+    
 
     router.route('/patients/:patientId')
     .get(function(req, res) {

@@ -4,11 +4,11 @@ angular.module('kioskModule')
     $scope.patients = patients;
 
     $scope.confirm = function(){
-        Patient.preregister({},{id: $scope.selPat.id}, function(patient){
+        Patient.preregister({},{patientId: $scope.selPat.id}, function(patient){
             if(patient){
-                Alerts.addAlert("success", "register complete");
+                $log.info('register complete');
             } else {
-                Alerts.addAlert("warning", "register not completed");
+                Alerts.addAlert("warning", "your register could not be completed, please try again");
 
             }
             
@@ -16,21 +16,6 @@ angular.module('kioskModule')
             $log.info('error in dtabase');
         });
 
-
-
-        Patient.preregister({},{patientId: $scope.selPat.id}, 
-            {
-                currentState: "PR"
-            }, 
-            function patientDischarged (updatedPatient) {
-                // var index = $scope.patientList.indexOf(patient); 
-                // if(index >= 0) {
-                //     $scope.patient.currentState = updatedPatient.currentState;
-                //     $scope.patient.DCTimestamp = updatedPatient.DCTimestamp;
-                //     $scope.patient.exitTimestamp = updatedPatient.exitTimestamp;
-                // // }
-            }
-        );
         $modalInstance.close($scope.selPat);
     }
 

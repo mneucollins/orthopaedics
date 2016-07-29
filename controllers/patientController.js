@@ -21,7 +21,8 @@ module.exports = {
     listPatientsTomorrow: listPatientsTomorrow,
     listPatientsToday: listPatientsToday,
     findPatientByNameDOB: findPatientByNameDOB,
-    preRegisterPatient: preRegisterPatient
+    preRegisterPatient: preRegisterPatient,
+    updateCellphone: updateCellphone
 }
 
 function nuevoPatient(newPatient, callback) {
@@ -310,6 +311,14 @@ function preRegisterPatient(id,callback){
     patientModel.findByIdAndUpdate(id, { 
         currentState : 'PR', 
         PRTimestamp: new Date()
+    }, function (err, patient) {
+        callback(err, patient);
+    });
+}
+
+function updateCellphone(id,number,callback){
+    patientModel.findByIdAndUpdate(id, { 
+        cellphone : number
     }, function (err, patient) {
         callback(err, patient);
     });

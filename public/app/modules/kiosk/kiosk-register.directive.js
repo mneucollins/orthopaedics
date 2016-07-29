@@ -38,9 +38,9 @@ angular.module('kioskModule')
 		    $scope.confirmPatient = function (patients) {
 		        
 		        var modalInstance = $modal.open({
-		            templateUrl: '/app/modules/kiosk/confirm-patient.dialog.html',
-		            controller: 'confirmPatientCtrl',
-		            resolve: {
+		            templateUrl : '/app/modules/kiosk/confirm-patient.dialog.html',
+		            controller : 'confirmPatientCtrl',
+		            resolve : {
 		                patients: function () {
 		                    return patients;
 		                }
@@ -48,10 +48,30 @@ angular.module('kioskModule')
 		        });
 
 		        modalInstance.result.then(function (updPatient) {
-		            $log.info('modal closed'+updPatient.firstName);
+		            $scope.askCellphone(updPatient);
 		        }, function () {
 		            $log.info('Message Modal dismissed at: ' + new Date());
 		        });
+		    }
+
+		    $scope.askCellphone = function (patient){
+
+		    	var modalInstance = $modal.open({
+		    		templateUrl : '/app/modules/kiosk/ask-cellphone.dialog.html',
+		    		controller : 'askCellphoneCtrl',
+		    		resolve : {
+		    			patient : function () {
+		    				return patient;
+		    			}
+		    		}
+		    	});
+
+		    	modalInstance.result.then(function(updPatient){
+		    		$log.info('modal closed, cellphone: '+patient.cellphone);
+		    	}, function(){
+		    		$log.info('modal dismissed, no cellphone');
+		    	})
+
 		    }
 
 
