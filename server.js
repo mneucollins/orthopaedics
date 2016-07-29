@@ -64,6 +64,8 @@ require('./routes/passportRoutes')(authRouter, passport);
 router.use(function (req, res, next) {
     if (req.url == "/messages/response")
         next();
+    if (req.url == "/messages/kiosk")
+        next();
     if (req.url == "/patients/search")
         next();
     else if (tools.isLoggedIn(req, res))

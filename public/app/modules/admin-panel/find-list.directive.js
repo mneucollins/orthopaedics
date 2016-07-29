@@ -13,7 +13,7 @@ angular.module('adminModule')
 
 			$scope.listado;
 			$scope.findElement = "";
-			
+
 			if($scope.elemento == 'User')
 				var options2 = {
 			      keys: ['name','username'], // keys to search in
@@ -30,7 +30,7 @@ angular.module('adminModule')
 			      threshold: 0.2
 			    }
 		    	
-		    setTimeout(cargarLista,300);
+		    setTimeout(cargarLista, 300);
 
 		    function cargarLista()
 		    {
