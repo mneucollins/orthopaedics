@@ -68,6 +68,8 @@ router.use(function (req, res, next) {
         next();
     if (req.url == "/patients/search")
         next();
+    if (req.url == "/patients/register")
+        next();
     else if (tools.isLoggedIn(req, res))
         next();
     // else

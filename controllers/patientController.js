@@ -20,7 +20,8 @@ module.exports = {
     listPatientsTodayByState: listPatientsTodayByState,
     listPatientsTomorrow: listPatientsTomorrow,
     listPatientsToday: listPatientsToday,
-    findPatientByNameDOB: findPatientByNameDOB
+    findPatientByNameDOB: findPatientByNameDOB,
+    preRegisterPatient: preRegisterPatient
 }
 
 function nuevoPatient(newPatient, callback) {
@@ -305,6 +306,12 @@ function listPatientsTomorrow(callback) {
     });
 }
 
+function preRegisterPatient(id,callback){
+    patientModel.findByIdAndUpdate(id, { currentState : 'PR' }, function (err, patient) {
+        callback(err, patient);
+    });
+}
+
 function findPatientByNameDOB(patient, callback){
     
 
@@ -351,28 +358,6 @@ function findPatientByNameDOB(patient, callback){
             }
             
 
-
-
-            // if(patients.length == 0) callback(null,0);
-            // else {
-            //     var matchDOB = _.filter(patients,function(pat){
-            //         return pat.
-            //     });
-
-
-
-
-            //     var matchDOB = new Fuse(patients, optionsDOB);
-            //     if(matchDOB.length == 0) callback(null,0);
-            //     else{
-            //         var matchLastName = new Fuse(matchDOB, optionsLastName);
-            //         if(matchLastName.length == 0) callback(null,0);
-            //         else {
-            //             var matchFirstName = new Fuse(matchLastName, optionsFirstName);
-            //             callback(null,matchFirstName);
-            //         }
-            //     }
-            // }
         }
     });
 

@@ -26,13 +26,12 @@ angular.module('kioskModule')
 		        	if(patients.length==0){
 		        		Alerts.addAlert("warning", "please check your information");
 		        	} else {
-		        		//Alerts.addAlert("warning", "information ok");
 		        		$scope.confirmPatient(patients);
 
 		        	}
 		        	
 		        }, function(err){
-		            alert("error :=(");
+		            $log.info('error in database');
 		        });
 		    }
 

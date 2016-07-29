@@ -64,6 +64,21 @@ module.exports = function (router, io) {
         });
     });
 
+    router.route('/patients/register')
+    .post(function(req, res) {
+        var id = req.body;
+        console.log(JSON.stringify(id));
+        patientController.preRegisterPatient(id,function(err,data){
+            if(err){
+                tools.sendServerError(err, req, res);
+                return;
+            }
+
+            console.log("patient registered");
+            res.json(data);
+        })
+    });
+
     router.route('/patients/:patientId')
     .get(function(req, res) {
         patientController.obtenerPatient(req.params.patientId, function (err, data) {

@@ -5,6 +5,7 @@ angular.module("patientsModule")
             update: {method: "PUT"},
             queryToday: {method: "GET", url: "/api/patients/today", isArray: true},
             getHistory: {method: "GET", url: "/api/patients/:patientId/history", isArray: true},
-            search: {method: "POST", url: "/api/patients/search", isArray: true}
+            search: {method: "POST", url: "/api/patients/search", isArray: true},
+            register: {method: "POST", url: "/api/patients/register", isArray: false}
     });
 }]);

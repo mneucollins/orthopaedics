@@ -1,13 +1,24 @@
 angular.module('kioskModule')
-.controller('confirmPatientCtrl', ['$scope', '$modalInstance', 'Messages', 'Patient', 'Alerts', 'patients',
-  function($scope, $modalInstance, Messages, Patient, Alerts, patients) {
+.controller('confirmPatientCtrl', ['$scope', '$modalInstance', '$log', 'Messages', 'Patient', 'Alerts', 'patients',
+  function($scope, $modalInstance, $log, Messages, Patient, Alerts, patients) {
     $scope.patients = patients;
 
     $scope.confirm = function(){
-        // alert(JSON.stringify($scope.selPat));
-        // $scope.selPat.currentState = "PR";
-        // selPat.PRTimestamp.push(new Date());
-        Patient.update({patientId: $scope.selPat.id}, 
+        Patient.register({},{id: $scope.selPat.id}, function(patient){
+            if(patient){
+                Alerts.addAlert("success", "register completed");
+            } else {
+                Alerts.addAlert("warning", "register not completed");
+
+            }
+            
+        }, function(err){
+            $log.info('error in dtabase');
+        });
+
+
+
+        Patient.register({},{patientId: $scope.selPat.id}, 
             {
                 currentState: "PR",
                 PRTimestamp: new Date()
