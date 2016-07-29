@@ -10,15 +10,27 @@ var nPlusHours = 0;
 
 var initYear = 2016,
 	initMonth = 6,
-	initDay = 25,
+	initDay = 28,
 	initHours = 10,
 	initMinutes = 00;
 
 
 var testPatients = [{
 	firstName: "Doug",
+	lastName: "Morres",
+	dateBirth: new Date(2016,06,28),
+	cellphone: "4042170976",
+	medicalRecordNumber: "111122223333",
+	apptType: "New",
+	currentState: "NCI",
+	apptTime: new Date().setMinutes(new Date().getMinutes() + nPlusHours*60),
+	apptDuration: 15,
+	email: "doug@mail.com",
+	adress: "20 Est 23rd Street New York City"
+},{
+	firstName: "Doug",
 	lastName: "Morris",
-	dateBirth: new Date(1987,11,26),
+	dateBirth: new Date(2016,06,28),
 	cellphone: "4042170976",
 	medicalRecordNumber: "111122223333",
 	apptType: "New",

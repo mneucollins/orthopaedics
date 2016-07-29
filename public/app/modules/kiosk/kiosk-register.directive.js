@@ -8,8 +8,8 @@ angular.module('kioskModule')
 		// 	showTab : "="
 		// },
 		templateUrl : '/app/modules/kiosk/kiosk-register.html',
-		controller:['$scope', 'Patient', 'Alerts', 
-			function($scope, Patient, Alerts){
+		controller:['$scope', '$modal', '$log', 'Patient', 'Alerts', 
+			function($scope, $modal, $log, Patient, Alerts){
 
 			$scope.dobOpened = false;
 
@@ -23,11 +23,35 @@ angular.module('kioskModule')
 		    $scope.searchPatient = function(){
 		        
 		        Patient.search({},{patient:$scope.patient}, function(patients){
-		        	if(patients===0){
-		        		alert("funcionooooooo");
+		        	if(patients.length==0){
+		        		Alerts.addAlert("warning", "please check your information");
+		        	} else {
+		        		//Alerts.addAlert("warning", "information ok");
+		        		$scope.confirmPatient(patients);
+
 		        	}
+		        	
 		        }, function(err){
-		            
+		            alert("error :=(");
+		        });
+		    }
+
+		    $scope.confirmPatient = function (patients) {
+		        
+		        var modalInstance = $modal.open({
+		            templateUrl: '/app/modules/kiosk/confirm-patient.dialog.html',
+		            controller: 'confirmPatientCtrl',
+		            resolve: {
+		                patients: function () {
+		                    return patients;
+		                }
+		            }
+		        });
+
+		        modalInstance.result.then(function (updPatient) {
+		            $log.info('modal closed'+updPatient.firstName);
+		        }, function () {
+		            $log.info('Message Modal dismissed at: ' + new Date());
 		        });
 		    }
 

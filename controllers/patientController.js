@@ -4,7 +4,7 @@ var moment = require('moment');
 var tools = require('../tools');
 var patientModel = require('../models/patientModel');
 var configController = require('./configController');
-var fuse = require('../node_modules/fuse.js/src/fuse.min.js');
+var Fuse = require('../node_modules/fuse.js/src/fuse.min.js');
 
 module.exports = {
     nuevoPatient: nuevoPatient,
@@ -19,7 +19,8 @@ module.exports = {
     listPatientsbyPhysicianToday: listPatientsbyPhysicianToday,
     listPatientsTodayByState: listPatientsTodayByState,
     listPatientsTomorrow: listPatientsTomorrow,
-    listPatientsToday: listPatientsToday
+    listPatientsToday: listPatientsToday,
+    findPatientByNameDOB: findPatientByNameDOB
 }
 
 function nuevoPatient(newPatient, callback) {
@@ -305,34 +306,53 @@ function listPatientsTomorrow(callback) {
 }
 
 function findPatientByNameDOB(patient, callback){
-
-    console.log("***********************" + JSON.stringify(patient));
-
-    var cant = 0;
-
-    var optionsDOB = {
-        keys: ['dateBirth'],   // keys to search in
-        threshold: 0.0
-        //id: 'name'                     // return a list of identifiers only
-    }
+    
 
     var optionsLastName = {
+        caseSensitive: false,
         keys: ['lastName'],   // keys to search in
         threshold: 0.2
         //id: 'name'                     // return a list of identifiers only
     }
 
     var optionsFirstName = {
+        caseSensitive: false,
         keys: ['firstName'],   // keys to search in
         threshold: 0.2
         //id: 'name'                     // return a list of identifiers only
     }
 
     listPatientsToday(function (err, patients){
+        var patientsMatch = [];
+        var DOB = new Date(patient.patient.dateBirth);
         if(err) callback(err);
         else {
-            console.log(JSON.stringify(patients));
-            callback(null,0);
+
+            if(patients.length==0) callback(null,patientsMatch);
+            else {
+                patientsMatch = _.filter(patients, function(pat){
+                    
+                    return pat.dateBirth.getFullYear() == DOB.getFullYear()
+                        && pat.dateBirth.getMonth() == DOB.getMonth()
+                        && pat.dateBirth.getDate() == DOB.getDate();
+                });
+
+                var lastNameMatch = new Fuse(patientsMatch, optionsLastName);
+
+                patientsMatch = lastNameMatch.search(patient.patient.lastName);
+
+                var firstNameMatch = new Fuse(patientsMatch, optionsFirstName);
+
+                patientsMatch = firstNameMatch.search(patient.patient.firstName);
+
+
+
+                callback(null,patientsMatch);
+            }
+            
+
+
+
             // if(patients.length == 0) callback(null,0);
             // else {
             //     var matchDOB = _.filter(patients,function(pat){
