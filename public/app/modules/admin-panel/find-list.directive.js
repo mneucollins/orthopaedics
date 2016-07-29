@@ -4,22 +4,33 @@ angular.module('adminModule')
 		replace : true,
 		restrict : 'E',
 		scope: {
-			listado: "="
+			listado: "=",
+			elemento: "=" // User, Role, Physician (might be any of these)
 		},
 		templateUrl : '/app/modules/admin-panel/find-list.html',
 		controller:['$scope', '$rootScope', '$modal', '$log', 'Config', 'Alerts',
 		function($scope, $rootScope, $modal, $log, Config, Alerts) {
 
 			$scope.listado;
-			$scope.findUser = "";
-			
-			var options2 = {
-		      keys: ['name','username'],   // keys to search in
-		      threshold: 0.2
-		      //id: 'name'                     // return a list of identifiers only
-		    }
+			$scope.findElement = "";
+
+			if($scope.elemento == 'User')
+				var options2 = {
+			      keys: ['name','username'], // keys to search in
+			      threshold: 0.2
+			    }
+			else if($scope.elemento == 'Role')
+				var options2 = {
+			      keys: ['name'], // keys to search in
+			      threshold: 0.2
+			    }
+			else if($scope.elemento == 'Physician')
+				var options2 = {
+			      keys: ['name', 'firstName', 'lastName', 'department', 'email', 'npi'], // keys to search in
+			      threshold: 0.2
+			    }
 		    	
-		    setTimeout(cargarLista,300);
+		    setTimeout(cargarLista, 300);
 
 		    function cargarLista()
 		    {
@@ -30,15 +41,15 @@ angular.module('adminModule')
 		    	}
 		    	else
 		    	{
-		    		$scope.fuseUsers = new Fuse($scope.listado, options2);
+		    		$scope.fuseList = new Fuse($scope.listado, options2);
 		    	}
 		    }
 
 			$scope.search = function (findElement) {
-		        $scope.result = $scope.fuseUsers.search(findElement);
+		        $scope.result = $scope.fuseList.search(findElement);
 		    }
 
-		    $scope.newUser = function(){
+		    $scope.newElem = function(){
 		        var selectedItem = {};
 		        $scope.$emit('listado', {listado: selectedItem});
 		    }
@@ -46,8 +57,7 @@ angular.module('adminModule')
 		    $scope.loadRegister = function (register) {
 		    	$scope.$emit('listado', {listado: register});
 		    }
-
-		    
+ 
 		}]
 	}
 });

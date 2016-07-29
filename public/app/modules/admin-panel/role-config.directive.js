@@ -4,20 +4,26 @@ angular.module('adminModule')
 		replace : true,
 		restrict : 'E',
 		templateUrl : '/app/modules/admin-panel/role-config.html',
-		controller:['$scope', '$rootScope', '$modal', '$log', 'Config', 'Alerts', 'User',
-		function($scope, $rootScope, $modal, $log, Config, Alerts, User) {
+		controller:['$scope', '$rootScope', '$modal', '$log', 'Config', 'Alerts', 'Role',
+		function($scope, $rootScope, $modal, $log, Config, Alerts, Role) {
 
 			// $scope.items1 = [];
 			// $scope.items2 = [];
 
 			$scope.saveRoleChanges = function () {
-				var selectedRole = $scope.selectedItem.role;
-		        if($scope.newUser == true)
-		        {
-		            User.save($scope.selectedItem, 
+				var savingRole = $scope.selectedItem;
+
+				var newLayout = $scope.layout;
+				newLayout.columns = [];
+				for(var i in $scope.items2){
+					newLayout.columns.push($scope.items2[i].name);
+				}
+				savingRole.layout = newLayout;
+
+		        if($scope.newUser == true) {
+		            Role.save(savingRole, 
 		               function (argument) {
-		               Alerts.addAlert("success", "User created!");
-		               $scope.selectedItem.role = selectedRole;
+		               Alerts.addAlert("success", "Role created!");
 		               $scope.newUser = false;
 		            }, function (err) {
 		                Alerts.addAlert("warning", "Error");
@@ -25,19 +31,16 @@ angular.module('adminModule')
 		        }
 		        else
 		        {
-		            $scope.selectedItem.role = $scope.selectedItem.role._id;
-		            User.update({userId: $scope.selectedItem._id}, 
-		                $scope.selectedItem, 
+		            Role.update({roleId: savingRole._id}, 
+		                savingRole, 
 		                function (argument) {
-			               Alerts.addAlert("success", "User updated!");
-			               $scope.selectedItem.role = selectedRole;
+			               Alerts.addAlert("success", "Role updated!");
 			               $scope.newUser = false;
 		            }, function (err) {
 		                Alerts.addAlert("warning", "Error");
 		            });
 		        }
 		    }
-
 		}]
 	}
 });

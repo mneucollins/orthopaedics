@@ -1,21 +1,44 @@
 <!-- Navigation -->
 <app-navbar></app-navbar>
-
-
 <div class="col-sm-10 col-sm-offset-1">
-    <accordion close-others="true">
-        <accordion-group heading="Question 1">
-          Answer 1
-        </accordion-group>
-        <accordion-group heading="Question 2">
-          Answer 2
-        </accordion-group>
-        <accordion-group heading="Question 3">
-          Answer 3
-        </accordion-group>
-    </accordion>
+    <h2>F.A.Q.</h2>
 </div>
-<div class="panel col-sm-10 col-sm-offset-2">
-    <h2>Still have some questions?</h2>
-    <button class="btn btn-default circled" ng-click="$root.openHelpModal()">Contact Us</button>
+<br>
+<br>
+<div class="row">
+    <div class="col-sm-10 col-sm-offset-1">
+        <accordion close-others="false">
+            <accordion-group ng-init="q1open=true" is-open="q1open">
+                <accordion-heading>
+                    Question 1 <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': q1open, 'glyphicon-chevron-right': !q1open}"></i>
+                </accordion-heading>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </accordion-group>
+            <accordion-group ng-init="q2open=true" is-open="q2open">
+                <accordion-heading>
+                    Question 2 <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': q2open, 'glyphicon-chevron-right': !q2open}"></i>
+                </accordion-heading>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </accordion-group>
+            <accordion-group ng-init="q3open=true" is-open="q3open">
+                <accordion-heading>
+                    Question 3 <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': q3open, 'glyphicon-chevron-right': !q3open}"></i>
+                </accordion-heading>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </accordion-group>
+        </accordion>
+    </div>
+</div>
+
+<div class="row">
+    <div class="panel col-sm-10 col-sm-offset-1">
+        <div class="panel-body">
+            <div class="col-sm-5 col-sm-offset-3">
+                <p style="vertical-align: top; font-size: 30px">Still have some questions?</p>
+            </div>
+            <div class="col-sm-3">
+                <button class="btn btn-primary btn-lg circled" ng-click="$root.openHelpModal()">Contact Us</button>
+            </div>
+        </div>
+    </div>
 </div>

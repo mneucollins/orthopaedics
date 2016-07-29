@@ -1,7 +1,10 @@
 
 angular.module('adminModule')
-.controller('adminCtrl', ['$scope', '$location', '$rootScope', '$log', 'User', 'Physician','Alerts','Role', 'LayoutService',
-  function($scope, $location, $rootScope, $log, User, Physician, Alerts, Role, LayoutService) {
+.controller('adminCtrl', ['$scope', '$location', '$rootScope', '$log', 'User', 'Physician','Alerts','Role', 'AuthService', 'LayoutService',
+  function($scope, $location, $rootScope, $log, User, Physician, Alerts, Role, AuthService, LayoutService) {
+
+    if(!AuthService.isLoggedIn())
+        $location.path("/");
 
     var fusePhysicians;
     var options;
@@ -25,6 +28,8 @@ angular.module('adminModule')
     }
 
     $scope.loadRoles = function (){
+        $scope.result = "";
+        $scope.findUser = "";
         inRoles = true;
     }
 
@@ -44,25 +49,21 @@ angular.module('adminModule')
 
     $scope.$on('listado', function(event, args){
         $scope.selectedItem = args.listado;
-        if(inRoles)
-        {
-            $scope.items1 = [];
-            $scope.items2 = [];
-            $scope.layout = LayoutService.getLayoutUser();
+        if(inRoles) {
+            $scope.layout = $scope.selectedItem.layout;
             $scope.items2 = LayoutService.getActiveColumns($scope.selectedItem.layout);
             $scope.items1 = LayoutService.getInactiveColumns($scope.selectedItem.layout);
         }
         
-        if(jQuery.isEmptyObject(args.listado) )
+        if(jQuery.isEmptyObject(args.listado))
             $scope.newUser = true;
         else
             $scope.newUser = false;
-    })
+    });
     
     $scope.cancelChanges = function(){
         $scope.selectedItem = null;
         $scope.newUser = false;
     }
-
 
 }]);

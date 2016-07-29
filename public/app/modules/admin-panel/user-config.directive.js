@@ -7,8 +7,13 @@ angular.module('adminModule')
 		controller:['$scope', '$rootScope', '$modal', '$log', 'Config', 'Alerts', 'User',
 		function($scope, $rootScope, $modal, $log, Config, Alerts, User) {
 
+			
+
+
 			$scope.saveUserChanges = function () {
 				var selectedRole = $scope.selectedItem.role;
+		        $scope.selectedItem.role = $scope.selectedItem.role._id;
+
 		        if($scope.newUser == true)
 		        {
 		            User.save($scope.selectedItem, 
@@ -22,7 +27,6 @@ angular.module('adminModule')
 		        }
 		        else
 		        {
-		            $scope.selectedItem.role = $scope.selectedItem.role._id;
 		            User.update({userId: $scope.selectedItem._id}, 
 		                $scope.selectedItem, 
 		                function (argument) {

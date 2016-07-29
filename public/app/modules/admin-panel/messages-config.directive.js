@@ -18,6 +18,7 @@ angular.module('adminModule')
 					welcomeMsgNoDelayText: $scope.config.welcomeMsgNoDelayText,
 					welcomeMsgDelayText: $scope.config.welcomeMsgDelayText,
 					firstWaitMsgText: $scope.config.firstWaitMsgText,
+					kioskMsgText: $scope.config.kioskMsgText,
 					waitMsgText: $scope.config.waitMsgText,
 					longWaitMsgText: $scope.config.longWaitMsgText,
 					longWaitMsgMinutes: $scope.config.longWaitMsgMinutes,
