@@ -22,12 +22,22 @@
     </div><br>
     <div class="row">
         <div class="col-sm-4">
-            <span class="admin-title">KIOSK Welcome Message: </span>
+            <span class="admin-title">KIOSK Confirmation Message: </span>
             <br><br>
             <span class="admin-description">Remember you can use tokens that will be replaced with the correct data. Allowed tokens are <kbd>%PAT-FIRSTNAME%</kbd>, <kbd>%PAT-LASTNAME%</kbd>, <kbd>%PHY-NAME%</kbd> and <kbd>%PHY-DELAY%</kbd></span>
         </div>
         <div class="col-sm-5">
             <textarea rows=5 class="form-control" ng-model="config.kioskMsgText"></textarea>
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-sm-4">
+            <span class="admin-title">KIOSK Call Message: </span>
+            <br><br>
+            <span class="admin-description">Remember you can use tokens that will be replaced with the correct data. Allowed tokens are <kbd>%PAT-FIRSTNAME%</kbd>, <kbd>%PAT-LASTNAME%</kbd>, <kbd>%PHY-NAME%</kbd> and <kbd>%PHY-DELAY%</kbd></span>
+        </div>
+        <div class="col-sm-5">
+            <textarea rows=5 class="form-control" ng-model="config.kioskCallMsgText"></textarea>
         </div>
     </div><br>
     <div class="row">

@@ -63,17 +63,10 @@ require('./routes/passportRoutes')(authRouter, passport);
 
 router.use(function (req, res, next) {
     if (req.url == "/messages/response" || 
-        req.url == "/messages/kiosk" || 
+        req.url == "/messages/kiosk-confirmation" || 
         req.url == "/patients/preregister" || 
-        req.url == "/patients/search" || 
-        req.url == "/patients/updCellphone")
+        req.url == "/patients/search")
         next();
-    // if (req.url == "/messages/kiosk")
-    //     next();
-    // if (req.url == "/patients/preregister")
-    //     next();
-    // if (req.url == "/patients/search")
-    //     next();
     else if (tools.isLoggedIn(req, res))
         next();
     // else

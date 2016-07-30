@@ -23,62 +23,57 @@ angular.module('kioskModule')
 		    $scope.searchPatient = function(){
 		        
 		        Patient.search({},{patient:$scope.patient}, function(patients){
-		        	if(patients.length==0){
-		        		Alerts.addAlert("warning", "please check your information");
+		        	if(patients.length==0) {
+		        		Alerts.addAlert("warning", "Please check your Information for typo errors");
 		        	} else {
-		        		$scope.confirmPatient(patients);
-
+		        		$scope.patients = patients;
+		        		$scope.confirm();
 		        	}
-		        	
+
 		        }, function(err){
 		            $log.info('error in database');
 		        });
 		    }
 
-		    $scope.confirmPatient = function (patients) {
+		    // $scope.confirmPatient = function (patients) {
 		        
-		        var modalInstance = $modal.open({
-		            templateUrl : '/app/modules/kiosk/confirm-patient.dialog.html',
-		            controller : 'confirmPatientCtrl',
-		            resolve : {
-		                patients: function () {
-		                    return patients;
-		                }
-		            }
-		        });
+		    //     var modalInstance = $modal.open({
+		    //         templateUrl : '/app/modules/kiosk/confirm-patient.dialog.html',
+		    //         controller : 'confirmPatientCtrl',
+		    //         resolve : {
+		    //             patients: function () {
+		    //                 return patients;
+		    //             }
+		    //         }
+		    //     });
 
-		        modalInstance.result.then(function (updPatient) {
-		            $scope.askCellphone(updPatient);
-		        }, function () {
-		            $log.info('Message Modal dismissed at: ' + new Date());
-		        });
-		    }
+		    //     modalInstance.result.then(function (updPatient) {
+		    //         $scope.askCellphone(updPatient);
+		    //     }, function () {
+		    //         $log.info('Message Modal dismissed at: ' + new Date());
+		    //     });
+		    // }
 
-		    $scope.askCellphone = function (patient){
+		    // $scope.askCellphone = function (patient){
 
-		    	var modalInstance = $modal.open({
-		    		templateUrl : '/app/modules/kiosk/ask-cellphone.dialog.html',
-		    		controller : 'askCellphoneCtrl',
-		    		resolve : {
-		    			patient : function () {
-		    				return patient;
-		    			}
-		    		}
-		    	});
+		    // 	var modalInstance = $modal.open({
+		    // 		templateUrl : '/app/modules/kiosk/ask-cellphone.dialog.html',
+		    // 		controller : 'askCellphoneCtrl',
+		    // 		resolve : {
+		    // 			patient : function () {
+		    // 				return patient;
+		    // 			}
+		    // 		}
+		    // 	});
 
-		    	modalInstance.result.then(function(updPatient){
-		    		$log.info('modal closed, cellphone: '+patient.cellphone);
-		    	}, function(){
-		    		$log.info('modal dismissed, no cellphone');
-		    	})
+		    // 	modalInstance.result.then(function(updPatient){
+		    // 		$log.info('modal closed, cellphone: '+patient.cellphone);
+		    // 	}, function(){
+		    // 		$log.info('modal dismissed, no cellphone');
+		    // 	})
 
-		    }
-
-
-
-		    
+		    // }
 
 		}]
-
 	};
 });

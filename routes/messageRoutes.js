@@ -35,11 +35,11 @@ module.exports = function (router) {
         });
     });
 
-    router.route('/messages/kiosk')
+    router.route('/messages/kiosk-confirmation')
     .post(function(req, res) { 
         
-        var msgData = req.body;
-        messageController.sendKioskMessage(msgData, function (err, data) {
+        var patient = req.body;
+        messageController.sendKioskConfirmationMessage(patient, function (err, data) {
             if(err) {
                 tools.sendServerError(err, req, res);
                 return;

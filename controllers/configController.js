@@ -45,6 +45,8 @@ function actualizarConfig(newConfig, callback) {
             config.welcomeMsgNoDelayText = newConfig.welcomeMsgNoDelayText;
         if(newConfig.kioskMsgText) 
             config.kioskMsgText = newConfig.kioskMsgText;
+        if(newConfig.kioskCallMsgText) 
+            config.kioskCallMsgText = newConfig.kioskCallMsgText;
         if(newConfig.firstWaitMsgText) 
             config.firstWaitMsgText = newConfig.firstWaitMsgText;
         if(newConfig.waitMsgText) 

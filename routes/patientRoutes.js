@@ -53,6 +53,7 @@ module.exports = function (router, io) {
     router.route('/patients/search')
     .post(function(req, res) {
         var patient = req.body; 
+
         patientController.findPatientByNameDOB(patient, function (err, data) {
             if(err) {
                 tools.sendServerError(err, req, res);
@@ -66,8 +67,8 @@ module.exports = function (router, io) {
 
     router.route('/patients/preregister')
     .post(function(req, res) {
-        var id = req.body.patientId;
-        patientController.preRegisterPatient(id, function(err,data){
+        var patient = req.body;
+        patientController.preRegisterPatient(patient, function(err,data){
             if(err){
                 tools.sendServerError(err, req, res);
                 return;

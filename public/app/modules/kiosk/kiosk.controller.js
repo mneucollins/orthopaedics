@@ -8,6 +8,16 @@ angular.module('kioskModule')
     var theUser;
     $scope.panelStatus = 'welcome';
 
+
+    $scope.final = function(phoneStatus){
+        $scope.phoneStatus = phoneStatus;
+        $scope.panelStatus = 'final';
+    };
+
+    $scope.confirm = function(){
+        $scope.panelStatus = 'confirmation';
+    };
+
     $scope.register = function(){
         $scope.panelStatus = 'register';
     };

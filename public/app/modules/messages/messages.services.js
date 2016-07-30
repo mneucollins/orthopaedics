@@ -4,7 +4,7 @@ angular.module("messagesModule")
         return $resource('/api/messages/:messageId', {messageId: "@_id"}, {
             sendMessage: {method: "POST"},
             sendWelcomeMessage: {method: "POST", url: '/api/messages/welcome'},
-            sendKioskMessage: {method: "POST", url: '/api/messages/kiosk'},
+            sendKioskConfirmationMessage: {method: "POST", url: '/api/messages/kiosk-confirmation'},
             sendBulkMessages: {method: "POST", url: '/api/messages/bulk'}
         });
 }]);

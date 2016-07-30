@@ -1,8 +1,9 @@
 <div class="body-login">
 
-	<kiosk-welcome ng-if="panelStatus=='welcome'"></kiosk-welcome>
+	<kiosk-welcome ng-show="panelStatus=='welcome'"></kiosk-welcome>
 	
-	<kiosk-register ng-if="panelStatus=='register'"></kiosk-register>
-
+	<kiosk-register ng-show="panelStatus=='register'"></kiosk-register>
+	
+	<kiosk-confirmation ng-show="panelStatus=='confirmation'"></kiosk-confirmation>
 
 </div>

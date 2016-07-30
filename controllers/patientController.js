@@ -307,16 +307,28 @@ function listPatientsTomorrow(callback) {
     });
 }
 
-function preRegisterPatient(id,callback){
-    patientModel.findByIdAndUpdate(id, { 
-        currentState : 'PR', 
-        PRTimestamp: new Date()
-    }, function (err, patient) {
-        callback(err, patient);
+function preRegisterPatient(patient, callback) {
+
+    patientModel.findById(patient._id, function (err, dbPatient) {
+        if(err) return callback(err);
+
+        dbPatient.currentState = "PR";
+        dbPatient.PRTimestamp = new Date();
+
+        dbPatient.save(function (err, savedPatient) {
+            if(patient.cellphone) {
+                savedPatient.cellphone = patient.cellphone;
+                messageController.sendKioskConfirmationMessage(savedPatient, function (err, data) {
+                    return callback(err, savedPatient);
+                });
+            }
+            else
+                return callback(err, patient);
+        });
     });
 }
 
-function updateCellphone(id,number,callback){
+function updateCellphone(id, number, callback){
     patientModel.findByIdAndUpdate(id, { 
         cellphone : number
     }, function (err, patient) {
@@ -342,10 +354,10 @@ function findPatientByNameDOB(patient, callback){
     }
 
     listPatientsToday(function (err, patients){
-        var patientsMatch = [];
-        var DOB = new Date(patient.patient.dateBirth);
-        if(err) callback(err);
+        if(err || !patient.patient.dateBirth) callback(err);
         else {
+            var patientsMatch = [];
+            var DOB = new Date(patient.patient.dateBirth);
 
             if(patients.length==0) callback(null,patientsMatch);
             else {

@@ -11,7 +11,8 @@ module.exports = {
 	getReminderMessagesByPatient: getReminderMessagesByPatient,
 	sendMessage: sendMessage,
 	sendWelcomeMessage: sendWelcomeMessage,
-	sendKioskMessage: sendKioskMessage,
+	sendKioskConfirmationMessage: sendKioskConfirmationMessage,
+	sendKioskCallMessage: sendKioskCallMessage,
 	sendBulkMessages: sendBulkMessages,
 	sendTwimlResponse: sendTwimlResponse,
 	sendCustomMessage: sendCustomMessage
@@ -190,40 +191,27 @@ function sendWelcomeMessage (msgData, callback) {
 	});	
 }
 
-function sendKioskMessage (msgData, callback) {
-
-	getMessage("kiosk", msgData.patient, function (err, theMessage) {
+function sendKioskConfirmationMessage (patient, callback) {
+	getMessage("kiosk", patient, function (err, theMessage) {
 		if(err) return callback(err);
 
-		var toNumber = msgData.patient.cellphone;
-		if(!toNumber) 
-			return callback("Patient has no phone number!");
+		var msgData = {};
+		msgData.patient = patient;
+		msgData.msjType = "kiosk";
+		msgData.message = theMessage;
+		sendMessage(msgData, function (err, message) {
+			callback(err, message);
+		});
+	});	
+}
 
-		toNumber = toNumber.indexOf("+") > -1 ? toNumber : config.numberPrefix + toNumber;
+function sendKioskCallMessage (msgData, callback) {
+	getMessage("kiosk-call", msgData.patient, function (err, theMessage) {
+		if(err) return callback(err);
 
-		var client = twilio(config.accountSid, config.authToken);
-
-		client.messages.create({
-			body: theMessage,
-			to: toNumber,
-			from: config.fromNumber,
-		}, function(err, message) {
-			if(err) {
-				console.log(err);
-				callback(err);
-			} 
-			else {
-				newMessage = new messageModel();
-				newMessage.message = theMessage;
-				newMessage.sid = message.sid;
-				newMessage.patient = msgData.patient._id;
-				newMessage.msjType = "kiosk";
-
-				newMessage.save(function messageSaved (err, message, numberAffected) {
-					if(err) callback(err);
-					else callback(null, message);
-				});
-			}
+		msgData.msjType = "kiosk-call";
+		sendMessage(msgData, function (err, message) {
+			callback(err, message);
 		});
 	});	
 }
@@ -318,6 +306,12 @@ function getMessage(msgType, patient, callback) {
 			else if(msgType == "kiosk") {
 				console.log(patient.firstName + " is getting a kiosk registration message");
 				theMessage = replaceTokens(sysConfig.kioskMsgText, patient, phyWaitTime);
+
+				callback(null, theMessage);
+			}
+			else if(msgType == "kiosk-call") {
+				console.log(patient.firstName + " is getting a kiosk call message");
+				theMessage = replaceTokens(sysConfig.kioskCallMsgText, patient, phyWaitTime);
 
 				callback(null, theMessage);
 			}

@@ -1,0 +1,28 @@
+<div>
+	<div class="row">
+		<div class="col-sm-12" style="text-align: center; margin: 0.5em; color: #FFF; font-size: 3em">
+			Please Confirm your Registration
+		</div>
+		<div class="col-sm-12" style="text-align: center; margin: 0.5em; color: #FFF; font-size: 1em">
+			Tap on your name, and confirm your phone number
+		</div>
+	</div>
+	<br>
+	<div class="row">
+		<div class="btn-group-vertical col-xs-12 col-sm-offset-2 col-sm-8">
+			<button ng-repeat="value in patients" class="btn btn-lg btn-default" ng-class="{'btn-success': $parent.selPat._id == value._id}" type="button" ng-model="$parent.selPat" btn-radio="value" style="margin-bottom: 1em">{{value.firstName}} {{value.lastName}}</button>
+	    </div>
+	    <br><br>
+		<div ng-show="selPat" class="form-group col-xs-offset-4 col-xs-4">
+			<span class="loginText">Cellphone Number (leave blank if you don't have one): </span>
+			<input type="text" class="form-control" ng-model="selPat.cellphone">
+		</div>
+		<br>
+		<div class="col-sm-offset-2 col-sm-8">
+			<br><br><br>
+			<button ng-click="confirmRegister()" class="btn btn-lg btn-success col-xs-8 col-xs-offset-2">Confirm</button>
+			<br><br><br>
+			<button class="btn btn-lg btn-primary col-xs-4 col-xs-offset-4" ng-click="register()">Return</button>
+		</div> 
+	</div>
+</div>
