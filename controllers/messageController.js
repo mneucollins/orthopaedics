@@ -2,7 +2,6 @@ var twilio = require('twilio');
 var _ = require('underscore');
 
 var messageModel = require('../models/messageModel');
-var patientController = require('./patientController');
 var physicianController = require("./physicianController");
 var configController = require("./configController");
 var config = require("../config.json");
@@ -23,6 +22,8 @@ module.exports = {
 ////////////////////////////////////////////////////////////
 
 setInterval(function () {
+
+	var patientController = require('./patientController');
 	var now = new Date();
 	var sysConfig = configController.obtenerConfigSync();
 

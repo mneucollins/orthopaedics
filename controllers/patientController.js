@@ -2,8 +2,11 @@ var _ = require('underscore');
 var moment = require('moment');
 
 var tools = require('../tools');
+
 var patientModel = require('../models/patientModel');
+var messageController = require('./messageController');
 var configController = require('./configController');
+
 var Fuse = require('../node_modules/fuse.js/src/fuse.min.js');
 
 module.exports = {

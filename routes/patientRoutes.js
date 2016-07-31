@@ -67,7 +67,7 @@ module.exports = function (router, io) {
 
     router.route('/patients/preregister')
     .post(function(req, res) {
-        var patient = req.body;
+        var patient = req.body.patient;
         patientController.preRegisterPatient(patient, function(err,data){
             if(err){
                 tools.sendServerError(err, req, res);

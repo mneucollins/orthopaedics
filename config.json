@@ -3,15 +3,13 @@
 	"expressPort": 8182,
 	"databaseURL": "mongodb://orthoworkflow.org:27017/orthotest",
 	"tmpFolder": "tmp/",
-	"reportTemplatePath": "/opt/nodeServer/Orthopaedics/reports/report_template.xlsx",
-	"reportsFolderPath": "/opt/nodeServer/Orthopaedics/gen_reports/",
-	"excelFeedPath": "/Documents/DesarrolloImbas/orthopaedics/HL7.xlsx",
-	"excelFeedScriptPath": "/Documents/DesarrolloImbas/orthopaedics/hl7feeder.sh",
+	"reportTemplatePath": "/Users/ezabaw/Documents/orthopaedics/reports/report_template.xlsx",
+	"reportsFolderPath": "/Users/ezabaw/Documents/orthopaedics/gen_reports/",
+	"excelFeedPath": "/Users/ezabaw/Documents/orthopaedics/HL7.xlsx",
+	"excelFeedScriptPath": "/Users/ezabaw/Documents/orthopaedics/hl7feeder.sh",
 	"accountSid": "ACf2babfb32a4c493396b47efd3e7e39ec",
 	"authToken": "a1a8faab9e27ca826e5485420df0b208",
 	"fromNumber": "+14043342413",
 	"numberPrefix": "+57",
-	"adminPhone": "+573185757889",
-	"adminEmail": "david.rodriguez@imbassolutions.com",
-	"verifierEmails":"ezael.bello@imbassolutions.com,camilo.rodriguez@imbassolutions.com,david.rodriguez@imbassolutions.com"
+	"adminEmail": "ezabaw@gmail.com"
 }

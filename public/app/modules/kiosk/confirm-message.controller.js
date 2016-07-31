@@ -1,5 +1,5 @@
 angular.module('kioskModule')
-.controller('confirmPatientCtrl', ['$scope', '$modalInstance', '$log', 'Messages', 'Patient', 'Alerts', 'patients',
+.controller('confirmPatientCtrl', ['$scope', '$modalInstance', '$log', 'Messages', 'Patient', 'Alerts', 'patient',
   function($scope, $modalInstance, $log, Messages, Patient, Alerts, patient) {
 
     $scope.denial = false;
@@ -27,7 +27,6 @@ angular.module('kioskModule')
         }, function(err){
             $log.info('error in dtabase');
         });
-
     }
 
     $scope.cancel = function () {
