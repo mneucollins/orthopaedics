@@ -65,6 +65,7 @@ router.use(function (req, res, next) {
     if (req.url == "/messages/response" || 
         req.url == "/messages/kiosk-confirmation" || 
         req.url == "/patients/preregister" || 
+        req.url == "/patients/updCellphone" || 
         req.url == "/patients/search")
         next();
     else if (tools.isLoggedIn(req, res))
