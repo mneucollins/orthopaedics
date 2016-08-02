@@ -12,10 +12,14 @@ module.exports = {
 }
 
 function sendServerError(err, req, res) {
-  console.log("Error en sendServerError");
-  console.log(err);
-  res.set('Content-Type', 'text/plain');
-  res.sendStatus(500);
+    console.log("Error en sendServerError");
+    console.log(err);
+    res.set('Content-Type', 'text/plain');
+
+    if(err.message)
+        res.status(500).send(err.message);
+    else
+        res.sendStatus(500);
 }
 
 function sendUnauthorized(req, res) {
