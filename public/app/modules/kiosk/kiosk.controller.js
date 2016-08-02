@@ -7,6 +7,7 @@ angular.module('kioskModule')
 
     var theUser;
     $scope.panelStatus = 'welcome';
+    $scope.phoneStatus = false;
 
 
     $scope.final = function(phoneStatus){
@@ -16,6 +17,10 @@ angular.module('kioskModule')
 
     $scope.confirm = function(){
         $scope.panelStatus = 'confirmation';
+
+        if($scope.patients && $scope.patients.length == 1) {
+            $scope.selPat = $scope.patients[0];
+        }
     };
 
     $scope.register = function(){

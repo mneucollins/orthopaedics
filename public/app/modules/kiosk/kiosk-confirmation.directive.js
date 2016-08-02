@@ -10,10 +10,6 @@ angular.module('kioskModule')
 		templateUrl : '/app/modules/kiosk/kiosk-confirmation.html',
 		controller:['$scope', '$log', '$modal', 'Patient', 'Alerts', function($scope, $log, $modal, Patient, Alerts){
 
-			if($scope.patients && $scope.patients.length == 1) {
-				$scope.selPat = $scope.patients[0];
-			}
-
 			$scope.confirmRegister = function() {
 		        Patient.preregister({},{patient: $scope.selPat}, function(patient){
 		            if(patient) {
@@ -29,10 +25,13 @@ angular.module('kioskModule')
 		            } else {
 		                Alerts.addAlert("warning", "your register could not be completed, please try again");
 		            }
-		            
 		        }, function(err){
-		            Alerts.addAlert("warning", "your register could not be completed, please try again");
-		            $log.info('error in dtabase');
+		            if(err.data != "Internal Server Error")
+		            	Alerts.addAlert("warning", err.data + ". Please try again");
+		            else
+		            	Alerts.addAlert("warning", "your register could not be completed, please try again");
+
+		            // $log.info('error in dtabase');
 		        });
 
 
@@ -51,8 +50,8 @@ angular.module('kioskModule')
 		            }
 		        });
 
-		        confirmModal.result.then(function (phoneStatus) {
-		            $scope.final(phoneStatus);
+		        confirmModal.result.then(function (status) {
+		            $scope.final(status.msgStatus);
 		        }, function () {
 		            $log.info('Message Modal dismissed at: ' + new Date());
 		        });
