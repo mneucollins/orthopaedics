@@ -149,6 +149,36 @@ angular.module('patientRowModule')
 		            }); 
 		    }
 
+		    $scope.preRegister = function(patient){
+
+		    	if(patient.WTRPressed){
+		    		alert("waiting to register pressed");
+		    	} else{
+		    		patient.WTRPressed = true;
+		    		var css = {
+		                "transition": "all 3s linear",
+		                "background-color": "#428bca"
+		            }
+		            $('.pat_' + patient._id + " .btnCallBack").css(css);
+		            function disableCallback (patient) {
+		                setTimeout(function () {
+		                    if($('.pat_' + patient._id + " .btnCallBack").hasClass("btn-primary")) 
+		                        return;
+
+		                    patient.WTRPressed = false;
+		                    var css = {
+		                        "transition": "all 0.3s linear",
+		                        "background-color": "#fff"
+		                    }
+		                    $('.pat_' + patient._id + " .btnCallBack").css(css);
+		                }, 3000);
+		            }
+		            disableCallback(patient);
+
+		    	}
+
+		    }
+
 		    // var dischargePressed = false;
 		    $scope.discharge = function (patient) {
 

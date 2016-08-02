@@ -3,4 +3,5 @@
     <button type="button" ng-show="patient.currentState == 'EX'" class="btn btn-default circled btnDischarge" ng-class="patient._id" ng-click="discharge(patient)">Discharge</button>
     <button type="button" class="btn circled btnCallBack" ng-class="{'btn-primary': patient.callbackEnabled, 'btn-default': !patient.callbackEnabled}" ng-show="patient.currentState == 'WR'" ng-click="callBack(patient)" ng-disabled="patient.fcStartedTimestamp && !patient.fcFinishedTimestamp">Call Back</button>
     <button type="button" class="btn btn-default circled" ng-show="patient.currentState == 'NCI'" ng-click="register(patient)">Register</button>
+    <button type="button" class="btn circled btnCallBack" ng-class="{'btn-primary': patient.callbackEnabled, 'btn-default': !patient.callbackEnabled}" ng-show="patient.currentState == 'PR'" ng-click="preRegister(patient)" ng-disabled="patient.fcStartedTimestamp && !patient.fcFinishedTimestamp">W. to Register</button>
 </div>
