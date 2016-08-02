@@ -160,10 +160,8 @@ angular.module('patientRowModule')
 		            	currentState : "NCI",
 		            }, 
 		                function (updatedPatient) {
-		                    // var index = $scope.patientList.indexOf(patient); 
-		                    // if(index >= 0) {
-		                        $scope.patient.currentState = updatedPatient.currentState;
-		                    // }
+		                	$log.info(JSON.stringify(updatedPatient));
+		                    $scope.patient.currentState = "NCI";
 		                }
 		            );
 		    	} else{

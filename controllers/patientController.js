@@ -191,6 +191,7 @@ function actualizarPatient(id, updPatient, callback) {
     } else if(updPatient.currentState == "NCI"){
         patientModel.findById(id, function (err, dbPatient) {
             dbPatient.currentState = updPatient.currentState;
+            // console.log("*****************"+JSON.stringify(dbPatient));
             messageController.sendKioskCallMessage(dbPatient, function (err, data) {
 
                 if(err) callback(err);
