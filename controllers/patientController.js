@@ -188,6 +188,25 @@ function actualizarPatient(id, updPatient, callback) {
         }, sysConfig.callbackInterval * 60 * 1000);
 
         updatePatient (updPatient, true);
+    } else if(updPatient.currentState == "NCI"){
+        patientModel.findById(id, function (err, dbPatient) {
+            dbPatient.currentState = updPatient.currentState;
+            messageController.sendKioskCallMessage(dbPatient, function (err, data) {
+
+                if(err) callback(err);
+                else updatePatient(dbPatient, true);
+                
+            });
+
+        });
+
+        
+        // messageController.sendKioskCallMessage(updPatient, function (err, data) {
+
+        //     if(err) callback(err);
+        //     else updatePatient(updPatient, true);
+            
+        // });
     }
     else 
         updatePatient (updPatient, true);

@@ -206,11 +206,14 @@ function sendKioskConfirmationMessage (patient, callback) {
 	});	
 }
 
-function sendKioskCallMessage (msgData, callback) {
-	getMessage("kiosk-call", msgData.patient, function (err, theMessage) {
+function sendKioskCallMessage (patient, callback) {
+	getMessage("kiosk-call", patient, function (err, theMessage) {
 		if(err) return callback(err);
+		var msgData = {};
+		msgData.patient = patient;
 
 		msgData.msjType = "kiosk-call";
+		msgData.message = theMessage;
 		sendMessage(msgData, function (err, message) {
 			callback(err, message);
 		});

@@ -152,7 +152,20 @@ angular.module('patientRowModule')
 		    $scope.preRegister = function(patient){
 
 		    	if(patient.WTRPressed){
-		    		alert("waiting to register pressed");
+
+		    		$log.info('wtr pressed');
+
+		    		
+		            Patient.update({patientId: patient.id}, {
+		            	currentState : "NCI",
+		            }, 
+		                function (updatedPatient) {
+		                    // var index = $scope.patientList.indexOf(patient); 
+		                    // if(index >= 0) {
+		                        $scope.patient.currentState = updatedPatient.currentState;
+		                    // }
+		                }
+		            );
 		    	} else{
 		    		patient.WTRPressed = true;
 		    		var css = {
