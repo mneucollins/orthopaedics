@@ -94,6 +94,22 @@ module.exports = function (router, io) {
         })
     });
 
+    router.route('/patients/searchPreRegistered')
+    .post(function(req, res) {
+        patientController.findPreRegisteredPatientsToday(function(err,data){
+            if(err){
+                tools.sendServerError(err, req, res);
+                return;
+            }
+
+            console.log("pre registered patients listed");
+            res.json(data);
+        })
+    });
+
+
+    
+
     
 
     router.route('/patients/:patientId')

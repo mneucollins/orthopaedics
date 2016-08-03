@@ -18,6 +18,7 @@ angular.module("appCommons")
         "name-column",
         "physician-column",
         "room-number-column",
+        "pre-register-column",
         "wait-status-column",
         "wait-total-column"
     ];
@@ -48,6 +49,7 @@ angular.module("appCommons")
             case "name-column" : return {name:"name-column",title:"Name",style:"nameRow",len:13};
             case "physician-column" : return {name:"physician-column",title:"Physician",style:"physicianRow",len:13};
             case "room-number-column" : return {name:"room-number-column",title:"Room",style:"roomRow",len:5};
+            case "pre-register-column" : return {name:"pre-register-column",title:"Pre register",style:"prRow",len:5};
             case "wait-status-column" : return {name:"wait-status-column",title:"Status",style:"statusRow",len:12};
             case "wait-total-column" : return {name:"wait-total-column",title:"Total",style:"totalRow",len:6};
             default : return;

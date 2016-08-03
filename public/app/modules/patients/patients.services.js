@@ -7,6 +7,7 @@ angular.module("patientsModule")
             getHistory: {method: "GET", url: "/api/patients/:patientId/history", isArray: true},
             search: {method: "POST", url: "/api/patients/search", isArray: true},
             preregister: {method: "POST", url: "/api/patients/preregister", isArray: false},
-            updCellphone: {method: "POST", url: "/api/patients/updCellphone", isArray: false}
+            updCellphone: {method: "POST", url: "/api/patients/updCellphone", isArray: false},
+            searchPreRegistered : {method: "POST", url: "/api/patients/searchPreRegistered", isArray: true}
     });
 }]);

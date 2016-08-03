@@ -25,7 +25,8 @@ module.exports = {
     listPatientsToday: listPatientsToday,
     findPatientByNameDOB: findPatientByNameDOB,
     preRegisterPatient: preRegisterPatient,
-    updateCellphone: updateCellphone
+    updateCellphone: updateCellphone,
+    findPreRegisteredPatientsToday: findPreRegisteredPatientsToday
 }
 
 function nuevoPatient(newPatient, callback) {
@@ -405,4 +406,33 @@ function findPatientByNameDOB(patient, callback){
         }
     });
 
+}
+
+function findPreRegisteredPatientsToday(callback){
+   
+
+    listPatientsToday(function (err, patients){
+        if(err) callback(err);
+        else {
+            var patientsMatch = [];
+
+            if(patients.length==0) callback(null,patientsMatch);
+            else {
+                patientsMatch = _.filter(patients, function(pat){
+                    
+                    return pat.currentState=="PR";
+
+                });
+                _.sortBy(patientsMatch, 'PRTimestamp');
+
+                var patIds = [];
+
+                for(var i in patientsMatch){
+                    patIds.push(patientsMatch[i].id);
+                }
+
+                callback(null,patIds);
+            }
+        }
+    });
 }
