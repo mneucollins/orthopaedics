@@ -1,6 +1,6 @@
 angular.module('kioskModule')
-.controller('kioskCtrl', ['$scope',
-	function($scope) {
+.controller('kioskCtrl', ['$scope', '$timeout',
+	function($scope, $timeout) {
 
     $("nav").addClass("hidden");
     $("body").addClass("body-login");
@@ -13,6 +13,13 @@ angular.module('kioskModule')
     $scope.final = function(phoneStatus){
         $scope.phoneStatus = phoneStatus;
         $scope.panelStatus = 'final';
+
+        $timeout(function () {
+            $scope.patient = {};
+            $scope.selPat = {};
+            $scope.phoneStatus = false;
+            $scope.panelStatus = 'welcome';
+        }, 7 * 1000);
     };
 
     $scope.confirm = function(){
