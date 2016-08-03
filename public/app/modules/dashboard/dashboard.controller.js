@@ -152,12 +152,12 @@ angular.module('dashboardModule')
                 var pList = _.sortBy(patients, function(patient){ return new Date(patient.apptTime).getTime(); });  // sort by appt time (hours)
                 _.each(pList, function (element, index, list) {
                     list[index].messageSelectorPos = 1;
-                    Patient.getHistory({patientId: list[index].id}, function (history) {
-                        if (history && history.length > 0){
-                            list[index].history = history;
-                            list[index].previousDate = history[0];
-                        }
-                    });
+                    // Patient.getHistory({patientId: list[index].id}, function (history) {
+                    //     if (history && history.length > 0){
+                    //         list[index].history = history;
+                    //         list[index].previousDate = history[0];
+                    //     }
+                    // });
                 });
                 $scope.patientList = $scope.patientList.concat(pList);
                 pList = _.sortBy($scope.patientList, function(patient){ return new Date(patient.apptTime).getTime(); }); 
