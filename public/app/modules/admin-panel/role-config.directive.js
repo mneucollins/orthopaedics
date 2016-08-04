@@ -20,6 +20,8 @@ angular.module('adminModule')
 				}
 				savingRole.layout = newLayout;
 
+				$log.info(JSON.stringify(savingRole));
+
 		        if($scope.newUser == true) {
 		            Role.save(savingRole, 
 		               function (argument) {

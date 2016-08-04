@@ -50,9 +50,23 @@ angular.module('adminModule')
     $scope.$on('listado', function(event, args){
         $scope.selectedItem = args.listado;
         if(inRoles) {
-            $scope.layout = $scope.selectedItem.layout;
-            $scope.items2 = LayoutService.getActiveColumns($scope.selectedItem.layout);
-            $scope.items1 = LayoutService.getInactiveColumns($scope.selectedItem.layout);
+            if ($scope.selectedItem.layout){
+                $scope.layout = $scope.selectedItem.layout;
+            } else {
+                $scope.layout = {
+                    "coloredPriorTime" : false,
+                    "highlightNewPatients" : false,
+                    "columns" : [ 
+                        "action-column", 
+                        "appt-time-column", 
+                        "name-column", 
+                        "wait-status-column", 
+                        "wait-total-column"
+                    ]
+                }
+            }
+            $scope.items2 = LayoutService.getActiveColumns($scope.layout);
+            $scope.items1 = LayoutService.getInactiveColumns($scope.layout);
         }
         
         if(jQuery.isEmptyObject(args.listado))

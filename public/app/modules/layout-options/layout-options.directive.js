@@ -14,7 +14,7 @@ angular.module('layoutOptionsModule')
 			dragulaService.options($scope, 'bag-one', {
 				moves : function(el, source, handle, sibling){
 
-					if(el.id==="Button" || el.id==="Name" || el.id==="Appt Time" || el.id==="Status" || el.id==="Total"){
+					if(el.id=="Button" || el.id=="Name" || el.id=="Appt Time" || el.id=="Status" || el.id=="Total"){
 						return false;
 					}
 
@@ -32,6 +32,10 @@ angular.module('layoutOptionsModule')
 					return true;
 				}
 			});
+
+			$scope.isFixed = function(title){
+				return title=="Button" || title=="Name" || title=="Appt Time" || title=="Status" || title=="Total";
+			}
 
 			// $scope.items1 = [];
 			// $scope.items2 = [];

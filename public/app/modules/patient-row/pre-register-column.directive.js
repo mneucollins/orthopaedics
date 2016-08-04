@@ -17,7 +17,9 @@ angular.module('patientRowModule')
 
 	        		$log.info(JSON.stringify(prPatients));
 
-	        		$scope.index = prPatients.indexOf($scope.patient.id) == -1 ? "-" : prPatients.indexOf($scope.patient.id)+1;
+	        		$scope.patient.prIndex = prPatients.indexOf($scope.patient.id) == -1 ? "-" : prPatients.indexOf($scope.patient.id)+1;
+
+
 
 
 	        	}

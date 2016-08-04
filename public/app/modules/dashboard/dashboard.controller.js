@@ -201,6 +201,9 @@ angular.module('dashboardModule')
             case "room-number-column":
                 pList = _.sortBy($scope.patientList, function(patient){ return patient.roomNumber; }); 
                 break;
+            case "pre-register-column":
+                pList = _.sortBy($scope.patientList, function(patient){ return patient.prIndex; }); 
+                break;
             case 4:
                 pList = _.sortBy($scope.patientList, function(patient){ return patient.dateBirth; });
                 break;

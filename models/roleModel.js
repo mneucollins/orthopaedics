@@ -59,6 +59,7 @@ var RoleSchema = new Schema({
                 "name-column",
                 "physician-column",
                 "room-number-column",
+                "pre-register-column",
                 "wait-status-column",
                 "wait-total-column"
             ]

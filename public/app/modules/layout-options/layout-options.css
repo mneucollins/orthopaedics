@@ -21,3 +21,7 @@
     cursor: -moz-grabbing;
     cursor: -webkit-grabbing;
 }
+
+.fixed-columns {
+	background-color: #8C8C8C;
+}

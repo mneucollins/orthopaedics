@@ -11,7 +11,8 @@ module.exports = {
 function nuevoRole(newRole, callback) {
 
     var role = new roleModel();
-    role._id = newRole._id;
+    // role._id = newRole._id;
+    role.name = newRole.name;
     role.adminUsers = newRole.adminUsers;
     role.adminRoles = newRole.adminRoles;
     role.adminLanguage = newRole.adminLanguage;
@@ -21,6 +22,8 @@ function nuevoRole(newRole, callback) {
     role.isLabs = newRole.isLabs;
     role.isFrontdesk = newRole.isFrontdesk;
     role.layout = newRole.layout;
+
+
 
     role.save(function(err, laRole) {
         callback(err, laRole);
