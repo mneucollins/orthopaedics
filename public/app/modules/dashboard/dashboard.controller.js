@@ -340,7 +340,10 @@ angular.module('dashboardModule')
         _.each(physicians, function (element, index, list) {
             list[index].selected = false;
         });
-        $scope.physicianList = physicians;
+        $scope.physicianList = _.filter(physicians, function (phy) {
+            return phy.isActive;
+        });
+        // $scope.physicianList = physicians;
     });
 
 }]);
