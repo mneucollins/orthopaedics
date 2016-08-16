@@ -1,3 +1,4 @@
+(function(){
 angular.module('kioskModule')
 .directive('kioskConfirmation',function(){
 	return {
@@ -51,11 +52,22 @@ angular.module('kioskModule')
 		        });
 
 		        confirmModal.result.then(function (status) {
+
 		            $scope.final(status.msgStatus);
-		        }, function () {
-		            $log.info('Message Modal dismissed at: ' + new Date());
+
+		        }, function (reason) {
+
+		        	if(reason == "retry") {
+		        		$scope.messageTries++;
+		        		if($scope.messageTries >= 3) {
+		            		$scope.final(false);
+		        		}
+		        	}
+		            $log.info('Message Modal bc %s dismissed at: ' + new Date(), reason);
 		        });
 		    }
 		}]
 	};
 });
+
+})();

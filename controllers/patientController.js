@@ -362,6 +362,8 @@ function updateCellphone(id, number, callback){
 
 function findPatientByNameDOB(patient, callback){
     
+    if(!patient.patient)
+        return callback(null, []);
 
     var optionsLastName = {
         caseSensitive: false,

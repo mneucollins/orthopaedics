@@ -26,7 +26,7 @@ new CronJob('00 00 01 * * *', function() {
 // DAILY FEED
 /////////////////////////////////////////////////////////
 
-// Try bringind the HL7 file for the first time
+// Try bringing the HL7 file for the first time
 new CronJob('00 00 20 * * *', function() {
 
 	var excelRetrievalJob = spawn('sh', [config.excelFeedScriptPath]);
@@ -40,7 +40,7 @@ new CronJob('00 00 20 * * *', function() {
 	
 }, null, true, 'America/Detroit');
 
-// Try bringind the HL7 file for the second time time, in case first failed
+// Try bringing the HL7 file for the second time time, in case first failed
 new CronJob('00 15 20 * * *', function() {
 
 	var excelRetrievalJob = spawn('sh', [config.excelFeedScriptPath]);

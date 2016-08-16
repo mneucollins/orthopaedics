@@ -1,7 +1,7 @@
 $(window).resize(function () { 
 	setTimeout(function () {
 		resizePhybar();
-	}, 100);
+	}, 200);
 });
 
 $(window).scroll(function() {

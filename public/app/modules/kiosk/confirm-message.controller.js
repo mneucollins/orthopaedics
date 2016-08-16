@@ -8,9 +8,9 @@ angular.module('kioskModule')
         $modalInstance.dismiss('retry');
     }
 
-    $scope.denied = function () {
-        $modalInstance.close({msgStatus: false});
-    }
+    // $scope.denied = function () {
+    //     $modalInstance.close({msgStatus: false});
+    // }
 
     $scope.confirmed = function() {
 

@@ -1,0 +1,33 @@
+
+
+.body-kiosk {
+	background-color: #fff;
+	color: #5375a3;
+	background-image: url("/img/bgk-kiosk.jpg");
+	background-position: right bottom; /*Positioning*/
+	background-repeat: no-repeat; /*Prevent showing multiple background images*/
+}
+
+.kiosk-title-1 {
+	text-align: center; 
+	margin-top: 1em; 
+	margin-bottom: 0.3em; 
+	font-size: 3em;
+}
+
+.kiosk-title-2 {
+	text-align: center; 
+	margin: 0.5em; 
+	font-size: 3em;
+}
+
+.kiosk-title-3 {
+	text-align: center; 
+	margin: 0.5em; 
+	font-size: 1.5em;
+}
+
+.kiosk-title-4 {
+	text-align: center; 
+	font-style: italic;
+}
