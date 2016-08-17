@@ -337,10 +337,12 @@ angular.module('dashboardModule')
     $rootScope.hidePhysiciansList = false;
 
     Physician.query(function (physicians) {
+
         _.each(physicians, function (element, index, list) {
             list[index].selected = false;
         });
         $scope.physicianList = physicians;
+        //$scope.physicianList = _.filter(physicians, function(phys){ return phys.isActive == true; });
     });
 
 }]);
