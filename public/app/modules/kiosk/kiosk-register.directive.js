@@ -24,7 +24,14 @@ angular.module('kioskModule')
 		        
 		        Patient.search({},{patient:$scope.patient}, function(patients){
 		        	if(patients.length==0) {
-		        		Alerts.addAlert("warning", "Please check your Information for typo errors");
+		        		// Alerts.addAlert("warning", "We are sorry for this inconvenience, but it seems we are having difficulty locating your information. Please go back to review the information you entered is correct or speak to a front-desk associate so they can check you in manually. Thank you.");
+        				
+        				$scope.messageTries++;
+		        		if($scope.messageTries > 3) {
+		            		$scope.final(false);
+		        		}
+		        		else
+		        			$modal.open({templateUrl : 'noPatientModal.html'});
 		        	} else {
 		        		$scope.patients = patients;
 		        		$scope.confirm();
@@ -34,6 +41,15 @@ angular.module('kioskModule')
 		            $log.info('error in database');
 		        });
 		    }
+
+		    $scope.$watch("patient.dateBirthStr", function (newVal) {
+		    	// if(!_.isDate($scope.patient.dateBirth))
+		    	$scope.patient.dateBirth = newVal;
+		    });
+		    $scope.$watch("patient.dateBirth", function (newVal) {
+		    	if($scope.patient.dateBirthStr != $scope.patient.dateBirth)
+		    		$scope.patient.dateBirthStr = moment(newVal).format("MM/DD/YYYY");
+		    });
 
 		    // $scope.confirmPatient = function (patients) {
 		        

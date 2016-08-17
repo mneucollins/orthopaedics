@@ -341,8 +341,15 @@ angular.module('dashboardModule')
         _.each(physicians, function (element, index, list) {
             list[index].selected = false;
         });
+<<<<<<< HEAD
         $scope.physicianList = physicians;
         //$scope.physicianList = _.filter(physicians, function(phys){ return phys.isActive == true; });
+=======
+        $scope.physicianList = _.filter(physicians, function (phy) {
+            return phy.isActive;
+        });
+        // $scope.physicianList = physicians;
+>>>>>>> 7710c73bdc9ecdfc1a97675a775e46872bafd8b9
     });
 
 }]);

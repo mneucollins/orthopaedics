@@ -1,11 +1,12 @@
 <div>
-	<div class="row">
-		<div ng-if="phoneStatus" class="col-sm-10 col-sm-offset-1" style="text-align: center; margin: 0.5em; color: #FFF; font-size: 3em">
-			Please proceed to the waiting room. <br>
-			You'll receive a text message to approach to the frontdesk.
+	<br>
+	<div class="row kiosk-title-2">
+		<div ng-if="phoneStatus" class="col-sm-10 col-sm-offset-1">
+			Please take a seat, you will receive a text message as soon as possible to approach the front desk to finish your check-in process shortly
 		</div>
-		<div ng-if="!phoneStatus" class="col-sm-10 col-sm-offset-1" style="text-align: center; margin: 0.5em; color: #FFF; font-size: 3em">
-			Please proceed to the line in the front desk.
+		<div ng-if="!phoneStatus" class="col-sm-10 col-sm-offset-1">
+			Thank you for completing the self-check in process! <br>
+			Please proceed to the line at the front desk
 		</div>
 	</div>
 </div>

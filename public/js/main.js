@@ -1,7 +1,7 @@
 $(window).resize(function () { 
 	setTimeout(function () {
 		resizePhybar();
-	}, 100);
+	}, 200);
 });
 
 $(window).scroll(function() {
@@ -11,9 +11,9 @@ $(window).scroll(function() {
 function resizePhybar () {
 
 	if(screen.width > 767) {
-		$(".physiciansSidebar").css("height", window.innerHeight - 71);
-	    $(".physiciansList").css("height", window.innerHeight - 71);
-	    $("#physicianSearchList").css("height", window.innerHeight - 300);
+		$(".physiciansSidebar").css("height", window.innerHeight - 90);
+	    $(".physiciansList").css("height", window.innerHeight - 90);
+	    $("#physicianSearchList").css("height", window.innerHeight - 320);
 	}
 	else {
 		$(".physiciansSidebar").css("height", window.innerHeight - 50);
@@ -26,5 +26,5 @@ function resizePhybar () {
 }	
 
 function scrollPhybar () {
-	$(".physiciansList").css("top", $(window).scrollTop() + 71);
+	$(".physiciansList").css("top", $(window).scrollTop() + 90);
 }

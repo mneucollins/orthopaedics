@@ -7,8 +7,8 @@ angular.module('patientRowModule')
 			patient : "="
 		},
 		templateUrl : '/app/modules/patient-row/action-column.html',
-		controller:['$scope', '$rootScope', '$modal', '$log', 'Patient', 'Alerts', 'Config',
-		function($scope, $rootScope, $modal, $log, Patient, Alerts, Config){
+		controller:['$scope', '$rootScope', '$modal', '$log', '$timeout', 'Patient', 'Alerts', 'Config',
+		function($scope, $rootScope, $modal, $log, $timeout, Patient, Alerts, Config){
 
 		    $scope.restoreDischargedPatient = function (patient) {
 		        var resp = confirm("Are you sure you would like to restore this patient?");
@@ -57,13 +57,12 @@ angular.module('patientRowModule')
 		                    noPhone: patient.noPhone
 		                }, 
 		                function patientWaitingRoom (updatedPatient) {
-		                    // var index = $scope.patientList.indexOf(patient); 
-		                    // if(index >= 0) {
+		                    $timeout(function () {
 		                        $scope.patient.currentState = updatedPatient.currentState;
 		                        $scope.patient.WRTimestamp = updatedPatient.WRTimestamp;
 		                        $scope.patient.cellphone = updatedPatient.cellphone;
 		                        $scope.patient.noPhone = updatedPatient.noPhone;
-		                    // }
+		                    }, 5);
 
 		                    setTimeout(function () {
 		                        if(!$scope.patient.callbackEnabled)
@@ -158,12 +157,12 @@ angular.module('patientRowModule')
 		    		
 		            Patient.update({patientId: patient.id}, {
 		            	currentState : "NCI",
-		            }, 
-		                function (updatedPatient) {
+		            }, function (updatedPatient) {
+		            	$timeout(function () {
 		                	$log.info(JSON.stringify(updatedPatient));
 		                    $scope.patient.currentState = "NCI";
-		                }
-		            );
+		            	});
+		            });
 		    	} else{
 		    		patient.WTRPressed = true;
 		    		var css = {

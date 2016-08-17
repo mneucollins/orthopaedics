@@ -1,18 +1,39 @@
 angular.module('kioskModule')
-.controller('kioskCtrl', ['$scope', '$timeout',
-	function($scope, $timeout) {
-
-    $("nav").addClass("hidden");
-    $("body").addClass("body-login");
+.controller('kioskCtrl', ['$scope', '$timeout', '$interval',
+	function($scope, $timeout, $interval) {
 
     var theUser;
+    $scope.theTime = new Date();
+    $scope.messageTries = 0;
     $scope.panelStatus = 'welcome';
     $scope.phoneStatus = false;
 
+    $scope.final = final;
+    $scope.confirm = confirm;
+    $scope.register = register;     
+    $scope.return = returnFunction;
 
-    $scope.final = function(phoneStatus){
+    activate();
+
+    //////////////
+
+    function activate(argument) {
+        $("body").css({"padding-top": 0});
+        $("body").addClass("body-kiosk");
+
+        var dateInterval = $interval(function() {
+            $scope.theTime = new Date();
+        }, 1000);
+
+        $scope.$on("$destroy", function () {
+            $interval.stop(dateInterval);
+        });
+    }
+
+    function final (phoneStatus){
         $scope.phoneStatus = phoneStatus;
         $scope.panelStatus = 'final';
+        $scope.messageTries = 0;
 
         $timeout(function () {
             $scope.patient = {};
@@ -22,20 +43,24 @@ angular.module('kioskModule')
         }, 7 * 1000);
     };
 
-    $scope.confirm = function(){
+
+    function confirm(){
         $scope.panelStatus = 'confirmation';
+        $scope.messageTries = 0;
 
         if($scope.patients && $scope.patients.length == 1) {
             $scope.selPat = $scope.patients[0];
         }
     };
 
-    $scope.register = function(){
+    function register(){
         $scope.panelStatus = 'register';
+        $scope.messageTries = 0;
     };
 
-    $scope.return = function(){
+    function returnFunction(){
         $scope.panelStatus = 'welcome';
+        $scope.messageTries = 0;
     };
 
 
