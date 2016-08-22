@@ -1,8 +1,8 @@
 
-var patientController = require('./controllers/patientController');
-var emailController = require('./controllers/emailController');
+var patientController = require('../controllers/patientController');
+var emailController = require('../controllers/emailController');
 var mongoose     = require('mongoose');
-var config = require('./config');
+var config = require('../config');
 
 module.exports = {
 	validatePatientCharge : validatePatientCharge
