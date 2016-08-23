@@ -16,7 +16,8 @@ module.exports = {
     clearAvgDelayAll: clearAvgDelayAll,
     clearAvgDelay: clearAvgDelay,
     getAvgDelay: getAvgDelay,
-    isPhysicianInBreak: isPhysicianInBreak
+    isPhysicianInBreak: isPhysicianInBreak,
+    preRegisterClinicDelay: preRegisterClinicDelay
 }
 
 function nuevoPhysician(newPhysician, callback) {
@@ -230,4 +231,26 @@ function isPhysicianInBreak (physicianId, callback) {
             callback(err, isBreak); 
         }
     });
-}       
+}    
+
+function preRegisterClinicDelay (preRegisterList, callback){
+
+    var physicians = _.pluck(preRegisterList,'physician');
+    physicians = _.pluck(physicians,'_id');
+    physicians = _.uniq(physicians);
+
+    var physDelay = [];
+
+    for(index in physicians){
+        getNextPatientWaitTime(physicians[index],function(err,data){
+            if(!err){
+                physDelay.push({physician:physicians[index], delay:data});
+            }
+        });
+    }
+    setTimeout(function() {
+        callback(null,physDelay);
+    }, 500);
+    
+
+}

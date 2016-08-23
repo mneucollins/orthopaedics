@@ -6,6 +6,7 @@ var tools = require('../tools');
 var patientModel = require('../models/patientModel');
 var messageController = require('./messageController');
 var configController = require('./configController');
+var physicianController = require("./physicianController");
 
 var Fuse = require('../node_modules/fuse.js/src/fuse.min.js');
 
@@ -150,7 +151,7 @@ function obtenerPatient(id, callback) {
 function actualizarPatient(id, updPatient, callback) {
 
     if(updPatient.currentState == "EX") {
-        var physicianController = require("./physicianController");
+        // var physicianController = require("./physicianController");
         patientModel.findById(id, function (err, dbPatient) {
             if (err) callback(err);
             else listPatientsbyPhysicianByStateToday(dbPatient.physician, "WR", function (err, phyPatients) {
@@ -411,6 +412,8 @@ function findPatientByNameDOB(patient, callback){
 }
 
 function findPreRegisteredPatientsToday(callback){
+
+    // var physicianController = require("./physicianController");
    
 
     listPatientsToday(function (err, patients){
@@ -425,15 +428,38 @@ function findPreRegisteredPatientsToday(callback){
                     return pat.currentState=="PR";
 
                 });
-                _.sortBy(patientsMatch, 'PRTimestamp');
 
-                var patIds = [];
 
-                for(var i in patientsMatch){
-                    patIds.push(patientsMatch[i].id);
-                }
+                physicianController.preRegisterClinicDelay(patientsMatch,function(err,data){
+                    _.sortBy(patientsMatch, function(pat){
+                        var delay = 0;
+                        for(index in data){
+                            if(data[index].physician == pat.physician._id){
+                                delay = data[index].delay;
+                            }
+                        }
+                        return pat.PRTimestamp.getTime() + delay; 
+                    });
 
-                callback(null,patIds);
+                    var patIds = [];
+
+                    for(var i in patientsMatch){
+                        patIds.push(patientsMatch[i].id);
+                    }
+
+                    callback(null,patIds);
+                    
+                });
+
+                // _.sortBy(patientsMatch, 'PRTimestamp');
+
+                // var patIds = [];
+
+                // for(var i in patientsMatch){
+                //     patIds.push(patientsMatch[i].id);
+                // }
+
+                // callback(null,patIds);
             }
         }
     });

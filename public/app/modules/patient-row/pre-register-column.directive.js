@@ -15,7 +15,7 @@ angular.module('patientRowModule')
 	        		$log.info('no pre registered patients found');
 	        	} else {
 
-	        		$log.info(JSON.stringify(prPatients));
+	        		// $log.info(JSON.stringify(prPatients));
 
 	        		$scope.patient.prIndex = prPatients.indexOf($scope.patient.id) == -1 ? "-" : prPatients.indexOf($scope.patient.id)+1;
 

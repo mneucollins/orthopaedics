@@ -22,7 +22,7 @@ angular.module('layoutOptionsModule')
 					for(var i in $scope.items2){
 						totalLength += $scope.items2[i].len;
 					}
-					if(totalLength>90){
+					if(totalLength>85){
 						if(el.parentElement.id==="inactiveElements"){
 							return false;
 						}
