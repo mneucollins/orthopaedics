@@ -11,6 +11,7 @@ angular.module('adminModule')
 			// $scope.items2 = [];
 
 			$scope.saveRoleChanges = function () {
+
 				var savingRole = $scope.selectedItem;
 
 				var newLayout = $scope.layout;
@@ -20,13 +21,12 @@ angular.module('adminModule')
 				}
 				savingRole.layout = newLayout;
 
-				$log.info(JSON.stringify(savingRole));
-
 		        if($scope.newUser == true) {
 		            Role.save(savingRole, 
-		               function (argument) {
-		               Alerts.addAlert("success", "Role created!");
-		               $scope.newUser = false;
+		               	function (argument) {
+		               	$scope.roles.push(savingRole);
+		            	Alerts.addAlert("success", "Role created!");
+		               	$scope.newUser = false;
 		            }, function (err) {
 		                Alerts.addAlert("warning", "Error");
 		            });

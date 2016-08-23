@@ -9,7 +9,7 @@ angular.module('layoutOptionsModule')
 			layout : "="
 		},
 		templateUrl : '/app/modules/layout-options/layout-options.html',
-		controller:['$scope', 'dragulaService', function($scope, dragulaService){
+		controller:['$scope', 'dragulaService', 'LayoutService', function($scope, dragulaService, LayoutService){
 
 			dragulaService.options($scope, 'bag-one', {
 				moves : function(el, source, handle, sibling){
@@ -17,19 +17,28 @@ angular.module('layoutOptionsModule')
 					if(el.id=="Button" || el.id=="Name" || el.id=="Appt Time" || el.id=="Status" || el.id=="Total"){
 						return false;
 					}
-
+					return true;
+				},
+				accepts : function(el, target, source, sibling){
+					var columnData = LayoutService.getColumnData();
+					var elementLenght = 0;
+					for(var i in columnData){
+						if(columnData[i].title == el.innerHTML){
+							elementLenght = columnData[i].len;
+						}
+					}
 					var totalLength = 0;
 					for(var i in $scope.items2){
 						totalLength += $scope.items2[i].len;
 					}
-					if(totalLength>85){
+					totalLength+=elementLenght;
+					if(totalLength>100){
 						if(el.parentElement.id==="inactiveElements"){
 							return false;
 						}
 					}
-
-					// el.addClass("draggable-cursor");
 					return true;
+
 				}
 			});
 

@@ -13,7 +13,7 @@ angular.module('adminModule')
                     Physician.save($scope.selectedItem, 
                        function (argument) {
                        Alerts.addAlert("success", "Physician created!");
-                       //$scope.selectedItem = null;
+                       $scope.resultPhys.push($scope.selectedItem);
                        $scope.newUser = false;
                     }, function (err) {
                         Alerts.addAlert("warning", "Error");

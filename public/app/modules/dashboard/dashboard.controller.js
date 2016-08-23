@@ -58,6 +58,31 @@ angular.module('dashboardModule')
         $scope.layout = LayoutService.getLayoutUser();
         $scope.titles=[];
         $scope.titles = LayoutService.getActiveColumns();
+
+        //var columnData = LayoutService.getColumnData();
+
+        var totalLenght = 0;
+        var newLenght = 0;
+
+        for(var i in $scope.titles){
+            totalLenght+=$scope.titles[i].len;
+        }
+
+        if(totalLenght<97){
+            //var newLenght = 0;
+            var newLenght = 97-totalLenght+13;
+            var columnData = LayoutService.getColumnData();
+            columnData["name-column"]["len"]=newLenght;
+            LayoutService.setColumnData(columnData);
+        }
+
+        //$log.info(JSON.stringify($scope.titles));
+
+        // var total = 0;
+        // for(var i in $scope.titles){
+        //     total+=columnData[$scope.titles[i]];
+        // }
+
         // for(var directive in $scope.layout.columns){
         //     $scope.titles.push(LayoutService.getTitleName($scope.layout.columns[directive]));
         // }

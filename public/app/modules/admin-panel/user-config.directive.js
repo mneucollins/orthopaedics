@@ -20,6 +20,7 @@ angular.module('adminModule')
 		               function (argument) {
 		               Alerts.addAlert("success", "User created!");
 		               $scope.selectedItem.role = selectedRole;
+		                $scope.result.push($scope.selectedItem);
 		               $scope.newUser = false;
 		            }, function (err) {
 		                Alerts.addAlert("warning", "Error");
