@@ -79,8 +79,7 @@ module.exports = function (router) {
                 tools.sendServerError(err, req, res);
                 return;
             }
-
-            console.log("Physician's clinic delay listed");
+            
             res.json(data);
         });
     }); 

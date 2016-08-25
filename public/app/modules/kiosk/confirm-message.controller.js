@@ -16,7 +16,7 @@ angular.module('kioskModule')
 
         Patient.updCellphone({},{patientId: patient._id, cellphone: patient.cellphone}, function(patient){
             if(patient) {
-                Alerts.addAlert("success", "Preregister complete, please continue to the waiting room");
+                // Alerts.addAlert("success", "Preregister complete, please continue to the waiting room");
                 $modalInstance.close({msgStatus: true});
             } else {
                 Alerts.addAlert("warning", "Preregister could not be completed, please try again");

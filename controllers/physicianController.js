@@ -70,16 +70,25 @@ function getClinicDelay (physicianIdArray, callback) {
     var results = {};
 
     _.each(physicianIdArray, function (element, index, list) {
+        // console.log("guat ._.");
         getNextPatientWaitTime(element, function (err, phyWaitTime) {
-            if(err) callback(err);
-            else isPhysicianInBreak(element, function (err, isBreakAppt) {
-                if(err) callback(err);
-                else {
-                    phyWaitTime = isBreakAppt ? Math.floor(phyWaitTime / 2) : phyWaitTime;
-                    results[element] = phyWaitTime;
+            if(err) return callback(err);
+            isPhysicianInBreak(element, function (err, isBreakAppt) {
+                if(err) return callback(err);
 
-                    if(index >= list.length-1)
-                        callback(err, results);
+                phyWaitTime = isBreakAppt ? Math.floor(phyWaitTime / 2) : phyWaitTime;
+                results[element] = phyWaitTime;
+
+                    // console.log("index = " + index);
+                    // console.log("results.size = " + _.size(results));
+                    // console.log("results = " + JSON.stringify(results));
+
+                if(_.size(results) >= list.length) {
+                    // console.log("List.l = " + list.length);
+                    // console.log("index = " + index);
+                    // console.log("results.size = " + _.size(results));
+                    // console.log("results = " + JSON.stringify(results));
+                    callback(null, results);
                 }
             });         
         });

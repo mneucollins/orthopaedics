@@ -20,6 +20,7 @@ angular.module('kioskModule')
     function activate(argument) {
         $("body").css({"padding-top": 0});
         $("body").addClass("body-kiosk");
+        $(".backgroundMobile").css({background: "none"});
 
         var dateInterval = $interval(function() {
             $scope.theTime = new Date();
