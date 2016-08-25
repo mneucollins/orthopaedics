@@ -5,5 +5,6 @@ angular.module("physiciansModule")
         	update: {method: "PUT"},
             getPatientsToday: {method: "GET", url: "/api/physicians/:physicianId/patients/today", isArray: true},
             getClinicDelays: {method: "POST", url: "/api/physicians/waittime"},
+            getPatientsTodayByList: {method: "POST", isArray: true, url: "/api/physicians/patients/today"}
         });
 }]);

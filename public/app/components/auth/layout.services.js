@@ -39,7 +39,6 @@ angular.module("appCommons")
         "pre-register-column":{name:"pre-register-column",title:"Pre register",style:"prRow",len:7},
         "wait-status-column":{name:"wait-status-column",title:"Status",style:"statusRow",len:12},
         "wait-total-column":{name:"wait-total-column",title:"Total",style:"totalRow",len:6}
-
     };
 
     function getTitleName (directiveName){
@@ -79,11 +78,12 @@ angular.module("appCommons")
 			if(user){
 				isImaging = user.role.isImaging;
 				isLabs = user.role.isLabs;
-				if(user.isCustomLayout){
+				if(user.isCustomLayout) {
 					layout = user.layout;
 				} else {
 					layout = user.role.layout;
 				}
+				// $(".nameRow").css({width: calc+"%"});
 			}
 		},
 		getLayoutUser : function (){

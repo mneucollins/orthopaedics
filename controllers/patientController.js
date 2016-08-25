@@ -21,6 +21,7 @@ module.exports = {
     listPatientsBetweenDates : listPatientsBetweenDates,
     listPatientsbyPhysician: listPatientsbyPhysician,
     listPatientsbyPhysicianToday: listPatientsbyPhysicianToday,
+    listPatientsbyPhysicianListToday: listPatientsbyPhysicianListToday,
     listPatientsTodayByState: listPatientsTodayByState,
     listPatientsTomorrow: listPatientsTomorrow,
     listPatientsToday: listPatientsToday,
@@ -200,7 +201,6 @@ function actualizarPatient(id, updPatient, callback) {
                 else updatePatient(dbPatient, true);
                 
             });
-
         });
 
         
@@ -214,10 +214,23 @@ function actualizarPatient(id, updPatient, callback) {
     else 
         updatePatient (updPatient, true);
 
-    function updatePatient (updPatient, doCallback) {
-        patientModel.findByIdAndUpdate(id, updPatient, function (err, patient) {
-            if (doCallback) callback(err, patient);
-        });
+    function updatePatient (patientObj, doCallback) {
+
+        console.log(JSON.stringify(patientObj));
+
+        if(patientObj.constructor && 
+            patientObj.constructor.name =="patients") {
+            console.log("constructor name ok");
+            patientObj.save(function (err, patient) {
+                console.log(JSON.stringify(patient).pretty());
+                if (doCallback) callback(err, patient);
+            });
+        }
+        else
+            patientModel.findByIdAndUpdate(id, patientObj, {new: true}, function (err, patient) {
+                console.log(JSON.stringify(patient));
+                if (doCallback) callback(err, patient);
+            });
     }
 }
 
@@ -278,6 +291,35 @@ function listPatientsbyPhysicianToday(physicianId, callback) {
     console.log(highDate.toDateString());
 
     patientModel.find({physician: physicianId, apptTime: {$gte: lowDate, $lt: highDate}})
+    .populate("physician")
+    .exec(function(err, patients) {
+        if (err) callback(err);
+        else callback(null, patients);
+    });
+}
+
+function listPatientsbyPhysicianListToday(physicians, callback) {
+
+    var lowDate = moment();
+    lowDate.hours(0);
+    lowDate.minutes(0);
+    lowDate.seconds(0);
+    lowDate.subtract(1, 'seconds');
+    lowDate = lowDate.toDate();
+
+    var highDate = new Date();
+    highDate.setHours(0);
+    highDate.setMinutes(0);
+    highDate.setSeconds(0);
+    highDate.setDate(highDate.getDate()+1);
+
+    console.log(lowDate.toDateString());
+    console.log(highDate.toDateString());
+
+    patientModel.find({
+        physician: {$in: physicians}, 
+        apptTime: {$gte: lowDate, $lt: highDate}
+    })
     .populate("physician")
     .exec(function(err, patients) {
         if (err) callback(err);
@@ -356,7 +398,7 @@ function preRegisterPatient(patient, callback) {
 function updateCellphone(id, number, callback){
     patientModel.findByIdAndUpdate(id, { 
         cellphone : number
-    }, function (err, patient) {
+    }, {new: true}, function (err, patient) {
         callback(err, patient);
     });
 }

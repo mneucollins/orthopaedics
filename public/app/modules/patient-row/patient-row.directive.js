@@ -13,6 +13,11 @@ angular.module('patientRowModule')
 			function($scope, $rootScope, $modal, $log, Patient, Alerts, AuthService, LayoutService){
 
 
+			$scope.$watch("patient", function (newValue) {
+				if(newValue)
+					console.log("patientRow: " + newValue.needsImaging);
+			})
+
 		    // Patient History
 		    ///////////////////////////////////////////////////////////////////////////////////////////////
 

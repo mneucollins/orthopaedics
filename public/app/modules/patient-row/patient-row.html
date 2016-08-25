@@ -2,7 +2,7 @@
     
     <action-column ng-if="columnName=='action-column'" class="col-xs-3 col-sm-1" patient="patient"></action-column>
     <appt-time-column ng-if="columnName=='appt-time-column'" class="hidden-xs col-sm-1 patientData bordered apptTimeRow" patient="patient"></appt-time-column>
-    <name-column ng-if="columnName=='name-column'" class="hidden-xs col-sm-1 patientData bordered nameRow" style="font-weight: bold;" patient="patient" colored-prior-time="coloredPriorTime()"></name-column>
+    <name-column ng-if="columnName=='name-column'" class="hidden-xs col-sm-1 patientData bordered nameRow" patient="patient" colored-prior-time="coloredPriorTime()"></name-column>
     <appt-type-column ng-if="columnName=='appt-type-column'" class="hidden-xs col-sm-1 patientData bordered typeRow" patient="patient"></appt-type-column>
     <physician-column ng-if="columnName=='physician-column'" class="hidden-xs col-sm-1 patientData bordered physicianRow" patient="patient"></physician-column>
     <room-number-column ng-if="columnName=='room-number-column'" class="hidden-xs col-sm-1 patientData bordered roomRow" patient="patient"></room-number-column>

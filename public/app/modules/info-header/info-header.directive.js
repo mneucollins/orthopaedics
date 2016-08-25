@@ -5,9 +5,12 @@ angular.module('infoHeaderModule')
 		restrict : 'E',
 		// scope : {},
 		templateUrl : '/app/modules/info-header/info-header.html',
-		// controller:['$scope', function($scope){
+		controller:['$scope', 'PhysicianListService', 
+		function($scope, PhysicianListService){
 
-		// }]
+			$scope.selectedPhysicians = PhysicianListService.getPhysicianList;
+
+		}]
 
 	};
 });

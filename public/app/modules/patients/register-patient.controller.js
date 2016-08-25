@@ -1,7 +1,8 @@
 angular.module('patientsModule')
-.controller('registerPatientCtrl', ['$scope', '$modalInstance', 'Messages', 'Patient', 'Alerts', 'patient', 'physicians', 'modalFunction',
-  function($scope, $modalInstance, Messages, Patient, Alerts, patient, physicians, modalFunction) {
+.controller('registerPatientCtrl', ['$scope', '$modalInstance', 'Messages', 'Patient', 'Alerts', 'PhysicianListService', 'patient', 'modalFunction',
+  function($scope, $modalInstance, Messages, Patient, Alerts, PhysicianListService, patient, modalFunction) {
 
+    var physicians = PhysicianListService.getPhysicianList();
     $scope.physicians = physicians;
     $scope.modalFunction = modalFunction;
     $scope.apptTimeLabel = {};

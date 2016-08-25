@@ -12,15 +12,12 @@ angular.module('patientRowModule')
 
 			Patient.searchPreRegistered({},{}, function(prPatients){
 	        	if(prPatients.length==0) {
-	        		$log.info('no pre registered patients found');
+	        		// $log.info('no pre registered patients found');
 	        	} else {
 
 	        		// $log.info(JSON.stringify(prPatients));
 
 	        		$scope.patient.prIndex = prPatients.indexOf($scope.patient.id) == -1 ? "-" : prPatients.indexOf($scope.patient.id)+1;
-
-
-
 
 	        	}
 

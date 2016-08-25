@@ -98,6 +98,20 @@ module.exports = function (router) {
         });
     });
 
+    router.route('/physicians/patients/today')
+    .post(function(req, res) {
+        var physicians = req.body.physicians;
+        patientController.listPatientsbyPhysicianListToday(physicians, function (err, data) {
+            if(err) {
+                tools.sendServerError(err, req, res);
+                return;
+            }
+
+            console.log("Physician's list patients listed");
+            res.json(data);
+        });
+    }); 
+
     router.route('/physicians/:physicianId/patients/today')
     .get(function(req, res) {
         patientController.listPatientsbyPhysicianToday(req.params.physicianId, function (err, data) {

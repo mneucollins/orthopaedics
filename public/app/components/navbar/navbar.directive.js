@@ -1,15 +1,24 @@
+(function () {
+    
+    angular
+        .module("appCommons")
+        .directive('appNavbar', appNavbar);
 
-angular.module("appCommons")
-.directive('appNavbar', function(){
-	return {
-	    replace: true,
-	    restrict:'E',
-	    scope: {
-	    },
-	    templateUrl: '/app/components/navbar/navbar.html',
-	    controller:['$scope', '$rootScope', '$location', '$interval', '$timeout', '$modal', '$log', 'AuthService', 'Config',
-        function($scope, $rootScope, $location, $interval, $timeout, $modal, $log, AuthService, Config) {
-            
+    function appNavbar(){
+    	return {
+    	    replace: true,
+    	    restrict:'E',
+    	    scope: {
+    	    },
+    	    templateUrl: '/app/components/navbar/navbar.html',
+    	    controller: appNavbarController
+        };
+
+        appNavbarController.$inject = ['$scope', '$rootScope', '$location', '$interval', 
+        '$timeout', '$modal', '$log', 'AuthService', 'PatientStoreService', 'Config'];
+        function appNavbarController($scope, $rootScope, $location, $interval, $timeout, 
+            $modal, $log, AuthService, PatientStoreService, Config) {
+                
             $scope.showTab = "info"; // info, msg, prior, notes
             $scope.showMessage = false;
             $scope.showMessageAux = false;
@@ -128,9 +137,6 @@ angular.module("appCommons")
                         patient: function () {
                             return null;
                         },
-                        physicians: function () {
-                            return $rootScope.selectedPhysicians;
-                        },
                         modalFunction: function () {
                             return "new";
                         }
@@ -138,9 +144,7 @@ angular.module("appCommons")
                 });
 
                 modalInstance.result.then(function (patient) {
-                    $scope.patientList.push(patient);
-                    $scope.filteringActive($scope.colFilter);
-                    $scope.filteringActive($scope.colFilter);
+                    PatientStoreService.addPatient(patient);
                 }, function () {
                     $log.info('Message Modal dismissed at: ' + new Date());
                 });
@@ -188,6 +192,7 @@ angular.module("appCommons")
                     $log.info('Message Modal dismissed at: ' + new Date());
                 });  
             }
-        }]
+        }
     }
-});
+
+})();

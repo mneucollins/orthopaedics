@@ -8,7 +8,13 @@ angular.module('patientRowModule')
 			isImaging : "="
 		},
 		templateUrl : '/app/modules/patient-row/imaging-column.html',
-		controller:['$scope', 'Patient', function($scope, Patient){
+		controller:['$scope', 'Patient', 'PatientStoreService',
+		function($scope, Patient, PatientStoreService){
+
+			$scope.$watch("patient", function (newValue) {
+				if(newValue)
+					console.log("imagingColumn: " + newValue.needsImaging);
+			})
 
 		    // Imaging Management
 		    ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,11 +58,18 @@ angular.module('patientRowModule')
 		            // var index = $scope.patientList.indexOf(patient); 
 		            $scope.patient.needsImaging = updatedPatient.needsImaging;
 		            $scope.patient.imagingTimestamp = updatedPatient.imagingTimestamp;
+		            
+            		PatientStoreService.updatePatient(updatedPatient);
+		            console.log("Se termina callback de patientImagingUpdateConfirmation");
+		            console.log("needsImaging: " + $scope.patient.needsImaging);
 		        }
 
 		        function patientImagingUpdated (updatedPatient) {
 		            // var index = $scope.patientList.indexOf(patient); 
 		            $scope.patient.needsImaging = updatedPatient.needsImaging;
+            		PatientStoreService.updatePatient(updatedPatient);
+		            console.log("Se termina callback de patientImagingUpdated");
+		            console.log("El nuevo valor de imaging es: " + updatedPatient.needsImaging);
 		        }
 		    }    
 
@@ -97,6 +110,7 @@ angular.module('patientRowModule')
 		        Patient.update({patientId: patient.id}, {imagingTimestamp: new Date()}, function (updatedPatient) {
 		            //var index = $scope.patientList.indexOf(patient); 
 		            $scope.patient.imagingTimestamp = updatedPatient.imagingTimestamp;
+            		PatientStoreService.updatePatient(updatedPatient);
 		        });
 		    }
 
@@ -104,6 +118,7 @@ angular.module('patientRowModule')
 		        Patient.update({patientId: patient.id}, {imagingStartedTimestamp: new Date()}, function (updatedPatient) {
 		            //var index = $scope.patientList.indexOf(patient); 
 		            $scope.patient.imagingStartedTimestamp = updatedPatient.imagingStartedTimestamp;
+            		PatientStoreService.updatePatient(updatedPatient);
 		        });
 		    }
 

@@ -3,7 +3,7 @@
         <div class="panel-default" role="tab" id="headingOne">
             <div class="row">
                 <div class="visible-xs col-xs-3 menuPhysicians retinaContainer">
-                    <img src="../img/Doctor_Selected.png" ng-click="$root.tooglePhysiciansList()"/>
+                    <img src="../img/Doctor_Selected.png" ng-click="reloadPatients()"/>
                 </div>
                 <div class="col-xs-8 col-sm-5 col-md-4 clock">
                     <h3>{{ currentTime | date: 'h:mm a MMMM d, yyyy'}}</h3>
@@ -22,11 +22,9 @@
         <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
             <div class="panel-body">
                 <h3 class="physiciansHeader">
-                    <span class="col-xs-6 col-sm-6 col-md-4 mobilePhysicians" ng-repeat="physician in selectedPhysicians">
-                        
+                    <span class="col-xs-6 col-sm-6 col-md-4 mobilePhysicians" ng-repeat="physician in selectedPhysicians()">
 
                         <physician-header physician="physician"></physician-header>
-
 
                     </span>
                 </h3>

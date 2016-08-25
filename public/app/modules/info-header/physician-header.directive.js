@@ -7,8 +7,7 @@ angular.module('infoHeaderModule')
 			physician : "="
 		},
 		templateUrl : '/app/modules/info-header/physician-header.html',
-		// controller:['$scope', function($scope){
-
+		// controller:['$scope', function($scope) {
 		// }]
 
 	};

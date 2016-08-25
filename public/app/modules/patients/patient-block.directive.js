@@ -3,13 +3,20 @@ angular.module('patientsModule')
 	return {
 		replace : true,
 		restrict : 'E',
-		scope : {
-			patient : "=",
-			patientList : "=",
-			layout : "="
-		},
+		// scope: {
+		// 	patient : "=",
+		// 	patientList : "=",
+		// 	layout : "="
+		// },
 		templateUrl : '/app/modules/patients/patient-block.html',
-		controller:['$scope', function($scope){}]
+		controller:['$scope',
+		function($scope){
+
+			$scope.$watch("patient", function (newValue) {
+				if(newValue)
+					console.log("patientBlock: " + newValue.needsImaging);
+			})
+		}]
 
 	};
 });
