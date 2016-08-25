@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module("dashboardModule")
+		.module("patientsModule")
 		.factory('PatientStoreService', PatientStoreService);
 
 	PatientStoreService.$inject = ['$interval', 'PhysicianListService', 'WaitTime', 'Physician']; 
