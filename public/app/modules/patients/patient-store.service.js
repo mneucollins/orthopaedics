@@ -5,12 +5,13 @@
 		.module("patientsModule")
 		.factory('PatientStoreService', PatientStoreService);
 
-	PatientStoreService.$inject = ['$interval', 'PhysicianListService', 'WaitTime', 'Physician']; 
-	function PatientStoreService($interval, PhysicianListService, WaitTime, Physician){
+	PatientStoreService.$inject = ['$interval', '$log', 'PhysicianListService', 'WaitTime', 'Physician']; 
+	function PatientStoreService($interval, $log, PhysicianListService, WaitTime, Physician){
 
 		var patientList = [];
 		var sortValue = 'appt-time-column';
 		var isReverseOrder = false;
+		var preRegisteredPatients = null;
 
         $interval(retrievePatients, 5 * 60 * 1000);
 
@@ -21,7 +22,8 @@
 			getPatientByIndex: getPatientByIndex,
 			retrievePatients: retrievePatients,
 			updatePatient: updatePatient,
-			orderList: orderList
+			orderList: orderList,
+			getPreRegisteredPatients: getPreRegisteredPatients
 		};
 
 		/////////////
@@ -64,6 +66,24 @@
 	                // });
 	            });
 	            patientList = patientList.concat(patients);
+
+	            preRegisteredPatients = _.filter(patientList, function(patient){
+	            	return patient.currentState == 'PR' && patient.cellphone;
+	            });
+
+	            preRegisteredPatients = _.sortBy(preRegisteredPatients, function(patient){
+
+	            	var patientPhysician = _.find(physicians, function(phys){
+	            		return phys._id == patient.physician._id;
+	            	});
+
+	            	var preRegisterTimestamp = (new Date(patient.PRTimestamp)).getTime();
+
+	            	return preRegisterTimestamp + patientPhysician.clinicDelay;
+	            });
+
+
+
 	            // $scope.filteringActive($scope.colFilter, 0);
 
 	            // patientList = _.sortBy(patientList, function(patient){ 
@@ -225,5 +245,11 @@
 	        else
 	            patientList = pList;
         }
+
+        function getPreRegisteredPatients(){
+        	return preRegisteredPatients;
+        }
+
+
 	}
 })();
