@@ -63,20 +63,20 @@
 	                //         list[index].previousDate = history[0];
 	                //     }
 	                // });
-	                if(element.state = "PR") {
+	                if(element.currentState == "PR") {
 	                	setPatientPROrder(element);
 	                }
 	            });
 
 	            patientList = patientList.concat(patients);
-	            orderList(sortValue, isReverseOrder);
 	            orderPRPatients();
+	            orderList(sortValue, isReverseOrder);
 	        });
 		}
 
 		function orderPRPatients() {
 			prPatientList = _.filter(patientList, function (pat) {
-            	return pat.state == "PR";
+            	return pat.currentState == "PR";
             });
             prPatientList = _.sortBy(prPatientList, 'prOrder');
 
@@ -240,7 +240,12 @@
 
         function setPatientPROrder(patient) {
         	var physician = PhysicianListService.getPhysicianById(patient.physician._id);
-        	patient.prOrder = moment(patient.PRTimestamp).add(physician.clinicDelay, 'minutes').milliseconds();
+        	var dateDummy = moment(patient.apptTime)
+        		.add(physician.clinicDelay, 'minutes');
+
+        	// console.log("Clinic Delay: " + physician.name + " - " + physician.clinicDelay);
+        	// console.log("PR calculation: " + dateDummy.format("HH:mm"));
+        	patient.prOrder = dateDummy.toDate().getTime();
         }
 	}
 })();

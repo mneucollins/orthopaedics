@@ -22,10 +22,12 @@
 	/* @ngInject */
 	function preRegisterColumnController($scope, PatientStoreService){
 
-		var preRegisteredPatients = PatientStoreService.getPreRegisteredPatients();
-		var preRegisteredPatientsIds = _.pluck(preRegisteredPatients, "_id");
+		$scope.prIndex = !!$scope.patient.prIndex ?
+			$scope.patient.prIndex : '-';
+		// var preRegisteredPatients = PatientStoreService.getPreRegisteredPatients();
+		// var preRegisteredPatientsIds = _.pluck(preRegisteredPatients, "_id");
 
-		$scope.patient.prIndex = preRegisteredPatientsIds.indexOf($scope.patient.id) == -1 ? "-" : preRegisteredPatientsIds.indexOf($scope.patient.id) + 1 ;
+		// $scope.patient.prIndex = preRegisteredPatientsIds.indexOf($scope.patient.id) == -1 ? "-" : preRegisteredPatientsIds.indexOf($scope.patient.id) + 1 ;
 	
 
 	}

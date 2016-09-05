@@ -21,28 +21,28 @@
 
 		function getPhysicianById(id) {
 			return _.find(physicianList, function (phy) {
-				return phy._id = id;
+				return phy._id == id;
 			});
 		}
 
 		function getPhysicianList() {
 			return physicianList;
 		}
-		function setPhysicianList(list) {
+		function setPhysicianList(list, callback) {
 			physicianList = list;
-			retrieveClinicDelays();
+			retrieveClinicDelays(callback);
 		}
 
-		function retrieveClinicDelays() {
+		function retrieveClinicDelays(callback) {
 			if(physicianList.length == 0) return;
 
-	        var physicianIds = _.map(physicianList, function (phy) {
-	            return phy._id;
-	        });
+	        var physicianIds = _.pluck(physicianList, '_id');
 	        Physician.getClinicDelays({phyList: physicianIds}, function (delays) {
 	            _.each(physicianList, function (element, index, list) {
 	                list[index].clinicDelay = delays[element._id] ? delays[element._id] : 0;
 	            });
+
+	            callback();
 	        });
 	    }
 	}

@@ -45,10 +45,10 @@ angular.module('dashboardModule')
 		        }); 
 
 		        // $rootScope.selectedPhysicians = selectedPhysicians;
-		        PhysicianListService.setPhysicianList(selectedPhysicians);
-		        $scope.hidePhysiciansList = true;
-
-		        $scope.$emit("selectedPhysiciansChanged", selectedPhysicians);
+		        PhysicianListService.setPhysicianList(selectedPhysicians, function() {
+			        $scope.$emit("selectedPhysiciansChanged", selectedPhysicians);
+		        });
+			    $scope.hidePhysiciansList = true;
 		    }
 
 		    function selectAll() {
