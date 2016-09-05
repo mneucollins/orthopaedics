@@ -1,37 +1,33 @@
-angular.module('patientRowModule')
-.directive('preRegisterColumn',function(){
-	return {
-		replace : true,
-		restrict : 'E',
-		scope : {
-			patient : "="
-		},
-		templateUrl : '/app/modules/patient-row/pre-register-column.html',
-		controller:['$scope', '$log', '$timeout', 'Patient', function($scope, $log, $timeout, Patient){
-		    
-		    $scope.patient.prIndex = $scope.patient.prIndex ? 
-    			$scope.patient.prIndex : "-"; 
+(function() {
+	'use strict';
 
-			// Patient.searchPreRegistered({},{}, function(prPatients){
-	  //       	if(prPatients.length==0) {
-	  //       		// $log.info('no pre registered patients found');
-	  //       	} else {
+	angular
+		.module('patientRowModule')
+		.directive('preRegisterColumn',preRegisterColumn);
 
-	  //       		// $log.info(JSON.stringify(prPatients));
+	function preRegisterColumn(){
+		return {
+			replace : true,
+			restrict : 'E',
+			scope : {
+				patient : "="
+			},
+			templateUrl : '/app/modules/patient-row/pre-register-column.html',
+			controller : preRegisterColumnController
 
-	  //       		$scope.patient.prIndex = 
-	  //       			prPatients.indexOf($scope.patient.id) == -1 ? 
-	  //       				"-" : 
-	  //       				prPatients.indexOf($scope.patient.id)+1;
+		};
 
-	  //       	}
+	}
 
-	  //       }, function(err){
-	  //           $log.info('error in database');
-	  //       });
-	        
-			
-		}]
+	/* @ngInject */
+	function preRegisterColumnController($scope, PatientStoreService){
 
-	};
-});
+		var preRegisteredPatients = PatientStoreService.getPreRegisteredPatients();
+		var preRegisteredPatientsIds = _.pluck(preRegisteredPatients, "_id");
+
+		$scope.patient.prIndex = preRegisteredPatientsIds.indexOf($scope.patient.id) == -1 ? "-" : preRegisteredPatientsIds.indexOf($scope.patient.id) + 1 ;
+	
+
+	}
+
+})();
