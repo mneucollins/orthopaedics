@@ -455,24 +455,20 @@ function findPatientByNameDOB(patient, callback){
 
 function findPreRegisteredPatientsToday(callback){
 
-    // var physicianController = require("./physicianController");
-   
-
-    listPatientsToday(function (err, patients){
+    listPatientsTodayByState("PR",function (err, patients){
         if(err) callback(err);
         else {
             var patientsMatch = [];
 
             if(patients.length==0) callback(null,patientsMatch);
             else {
-                patientsMatch = _.filter(patients, function(pat){
+                patientsMatch = patients;
+                var physicians = _.pluck(patientsMatch, 'physician');
+                physicians = _.pluck(physicians, '_id');
+                physicians = _.uniq(physicians);
+
+                physicianController.getClinicDelay(physicians, function(err,data){
                     
-                    return pat.currentState=="PR";
-
-                });
-
-
-                physicianController.preRegisterClinicDelay(patientsMatch,function(err,data){
                     _.sortBy(patientsMatch, function(pat){
                         var delay = 0;
                         for(index in data){
@@ -490,7 +486,6 @@ function findPreRegisteredPatientsToday(callback){
                     }
 
                     callback(null,patIds);
-                    
                 });
 
                 // _.sortBy(patientsMatch, 'PRTimestamp');

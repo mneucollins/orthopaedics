@@ -32,13 +32,7 @@
 					<div class="form-group col-xs-offset-3 col-xs-4">
 						<span class="">DOB: </span>
 						<div class="input-group">
-							<!-- <input type="text" class="form-control" datepicker-popup="MM/dd/yy" ng-model="patient.dateBirth" is-open="dobOpened" datepicker-options="dateOptions" close-text="Close" placeholder="MM/DD/YYYY" />
-				              <span class="input-group-btn">
-				                <button type="button" class="btn btn-default" ng-click="openDOB($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-				              </span> -->
-
-
-							<input type="text" class="form-control" ng-model="patient.dateBirthStr" placeholder="MM/DD/YYYY"/>
+							<input type="text" class="form-control" ng-model="patient.dateBirthStr" placeholder="MM/DD/YYYY" ng-change="formatDate()"/>
 						    <div style="display:inline-block; min-height:290px;">
 						        <datepicker ng-model="patient.dateBirth" datepicker-options="dateOptions" class="well well-sm"></datepicker>
 						    </div>

@@ -12,13 +12,18 @@
 		$interval(retrieveClinicDelays, 5 * 60 * 1000);
 
 		return {
+			getPhysicianById: getPhysicianById,
 			getPhysicianList: getPhysicianList,
-			setPhysicianList: setPhysicianList,
-			
+			setPhysicianList: setPhysicianList
 		};
 
 		/////////////
 
+		function getPhysicianById(id) {
+			return _.find(physicianList, function (phy) {
+				return phy._id = id;
+			});
+		}
 
 		function getPhysicianList() {
 			return physicianList;

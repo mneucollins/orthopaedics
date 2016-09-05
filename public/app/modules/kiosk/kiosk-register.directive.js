@@ -42,6 +42,12 @@ angular.module('kioskModule')
 		        });
 		    }
 
+		    $scope.formatDate = function () {
+		    	if($scope.patient.dateBirthStr.length == 2
+		    	|| $scope.patient.dateBirthStr.length == 5)
+		    		$scope.patient.dateBirthStr += "/";
+		    }
+
 		    $scope.$watch("patient.dateBirthStr", function (newVal) {
 		    	// if(!_.isDate($scope.patient.dateBirth))
 		    	$scope.patient.dateBirth = newVal;
@@ -51,44 +57,7 @@ angular.module('kioskModule')
 		    		$scope.patient.dateBirthStr = moment(newVal).format("MM/DD/YYYY");
 		    });
 
-		    // $scope.confirmPatient = function (patients) {
-		        
-		    //     var modalInstance = $modal.open({
-		    //         templateUrl : '/app/modules/kiosk/confirm-patient.dialog.html',
-		    //         controller : 'confirmPatientCtrl',
-		    //         resolve : {
-		    //             patients: function () {
-		    //                 return patients;
-		    //             }
-		    //         }
-		    //     });
 
-		    //     modalInstance.result.then(function (updPatient) {
-		    //         $scope.askCellphone(updPatient);
-		    //     }, function () {
-		    //         $log.info('Message Modal dismissed at: ' + new Date());
-		    //     });
-		    // }
-
-		    // $scope.askCellphone = function (patient){
-
-		    // 	var modalInstance = $modal.open({
-		    // 		templateUrl : '/app/modules/kiosk/ask-cellphone.dialog.html',
-		    // 		controller : 'askCellphoneCtrl',
-		    // 		resolve : {
-		    // 			patient : function () {
-		    // 				return patient;
-		    // 			}
-		    // 		}
-		    // 	});
-
-		    // 	modalInstance.result.then(function(updPatient){
-		    // 		$log.info('modal closed, cellphone: '+patient.cellphone);
-		    // 	}, function(){
-		    // 		$log.info('modal dismissed, no cellphone');
-		    // 	})
-
-		    // }
 
 		}]
 	};

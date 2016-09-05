@@ -9,6 +9,7 @@
 	function PatientStoreService($interval, PhysicianListService, WaitTime, Physician){
 
 		var patientList = [];
+		var prPatientList = [];
 		var sortValue = 'appt-time-column';
 		var isReverseOrder = false;
 
@@ -62,15 +63,26 @@
 	                //         list[index].previousDate = history[0];
 	                //     }
 	                // });
+	                if(element.state = "PR") {
+	                	setPatientPROrder(element);
+	                }
 	            });
-	            patientList = patientList.concat(patients);
-	            // $scope.filteringActive($scope.colFilter, 0);
 
-	            // patientList = _.sortBy(patientList, function(patient){ 
-	            // 	return new Date(patient.apptTime).getTime(); 
-	            // });
+	            patientList = patientList.concat(patients);
 	            orderList(sortValue, isReverseOrder);
+	            orderPRPatients();
 	        });
+		}
+
+		function orderPRPatients() {
+			prPatientList = _.filter(patientList, function (pat) {
+            	return pat.state == "PR";
+            });
+            prPatientList = _.sortBy(prPatientList, 'prOrder');
+
+            _.each(prPatientList, function (pat, index) {
+            	pat.prIndex = index + 1;
+            });
 		}
 
 		function updatePatient(updPatient) {
@@ -224,6 +236,11 @@
 	            patientList = pList.reverse();
 	        else
 	            patientList = pList;
+        }
+
+        function setPatientPROrder(patient) {
+        	var physician = PhysicianListService.getPhysicianById(patient.physician._id);
+        	patient.prOrder = moment(patient.PRTimestamp).add(physician.clinicDelay, 'minutes').milliseconds();
         }
 	}
 })();

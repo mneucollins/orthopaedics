@@ -8,22 +8,27 @@ angular.module('patientRowModule')
 		},
 		templateUrl : '/app/modules/patient-row/pre-register-column.html',
 		controller:['$scope', '$log', '$timeout', 'Patient', function($scope, $log, $timeout, Patient){
-		       
+		    
+		    $scope.patient.prIndex = $scope.patient.prIndex ? 
+    			$scope.patient.prIndex : "-"; 
 
-			Patient.searchPreRegistered({},{}, function(prPatients){
-	        	if(prPatients.length==0) {
-	        		// $log.info('no pre registered patients found');
-	        	} else {
+			// Patient.searchPreRegistered({},{}, function(prPatients){
+	  //       	if(prPatients.length==0) {
+	  //       		// $log.info('no pre registered patients found');
+	  //       	} else {
 
-	        		// $log.info(JSON.stringify(prPatients));
+	  //       		// $log.info(JSON.stringify(prPatients));
 
-	        		$scope.patient.prIndex = prPatients.indexOf($scope.patient.id) == -1 ? "-" : prPatients.indexOf($scope.patient.id)+1;
+	  //       		$scope.patient.prIndex = 
+	  //       			prPatients.indexOf($scope.patient.id) == -1 ? 
+	  //       				"-" : 
+	  //       				prPatients.indexOf($scope.patient.id)+1;
 
-	        	}
+	  //       	}
 
-	        }, function(err){
-	            $log.info('error in database');
-	        });
+	  //       }, function(err){
+	  //           $log.info('error in database');
+	  //       });
 	        
 			
 		}]
