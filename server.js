@@ -14,7 +14,7 @@ var cookieParser = require('cookie-parser');
 var session      = require('express-session');
 var socketio 	 = require('socket.io');
 
-var config = require("./config.json");
+var config = require('./config.json');
 var tools = require('./tools');
 
 // START THE SERVER

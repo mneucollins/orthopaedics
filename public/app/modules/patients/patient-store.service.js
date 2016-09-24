@@ -80,6 +80,22 @@
             });
             prPatientList = _.sortBy(prPatientList, 'prOrder');
 
+            var listaPrioritaria = [];
+            var listaNormal = [];
+
+            _.each(prPatientList, function(prPatinet){
+            	if(moment(prPatinet.PRTimestamp).add(30,'minutes').isBefore(moment())){
+            		listaPrioritaria.push(prPatinet);
+            	} else {
+            		listaNormal.push(prPatinet);
+            	}
+
+            });
+
+            listaPrioritaria = _.sortBy(listaPrioritaria, 'PRTimestamp');
+
+            prPatientList = listaPrioritaria.concat(listaNormal);
+
             _.each(prPatientList, function (pat, index) {
             	pat.prIndex = index + 1;
             });

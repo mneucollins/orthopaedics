@@ -81,16 +81,20 @@ orthopaedicsServices.factory('WaitTime', ["Config", function(Config){
         if(patient.currentState == "NCI" || patient.currentState == "PR") 
             return 0;  
 
+
+        var prDate = patient.PRTimestamp ? new Date(patient.PRTimestamp) : false;
         var wrDate = new Date(patient.WRTimestamp);
         var apptDate = new Date(patient.apptTime);
         var dcDate = new Date(patient.DCTimestamp);
         var nowDate = new Date();
         var totalTime = 0;
 
+        var countTime = prDate ? prDate : wrDate ;
+
         if(patient.currentState == "EX" || patient.currentState == "WR")
-            totalTime = Math.round((nowDate.getTime() - wrDate.getTime()) / (60*1000));
+            totalTime = Math.round((nowDate.getTime() - countTime.getTime()) / (60*1000));
         else 
-            totalTime = Math.round((dcDate.getTime() - wrDate.getTime()) / (60*1000));
+            totalTime = Math.round((dcDate.getTime() - countTime.getTime()) / (60*1000));
 
         return totalTime > 0 ? totalTime : 0;
     }

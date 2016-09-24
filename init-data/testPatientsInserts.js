@@ -9,7 +9,7 @@ mongoose.connect(config.databaseURL);
 var nPlusHours = 0;
 
 var initYear = 2016,
-	initMonth = 7,
+	initMonth = 8,
 	initDay = 23,
 	initHours = 10,
 	initMinutes = 00;
