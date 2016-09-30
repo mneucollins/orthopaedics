@@ -260,6 +260,4 @@ function preRegisterClinicDelay (preRegisterList, callback){
     setTimeout(function() {
         callback(null,physDelay);
     }, 500);
-    
-
 }

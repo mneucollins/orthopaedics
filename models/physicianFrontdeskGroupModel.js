@@ -1,9 +1,9 @@
 var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
-var PhysicianFrontDeskSchema = new Schema({
+var PhysicianFrontDeskGroupSchema = new Schema({
     physicians: [{
-        type: Schema.ObjectId;
+        type: Schema.ObjectId,
         ref:'physicians',
     }],
     name: {
@@ -14,4 +14,4 @@ var PhysicianFrontDeskSchema = new Schema({
 });
 
 
-module.exports = mongoose.model('physicianFrontDesk', PhysicianFrontDeskSchema);
+module.exports = mongoose.model('physicianFrontDeskGroup', PhysicianFrontDeskGroupSchema);

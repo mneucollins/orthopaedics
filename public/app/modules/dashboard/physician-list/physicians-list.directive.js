@@ -8,10 +8,6 @@ angular.module('dashboardModule')
 		controller:['$scope', '$rootScope', 'AuthService', 'Physician', 'PhysicianListService', 
 		function($scope, $rootScope, AuthService, Physician, PhysicianListService){
 
-			$scope.hidePhysiciansList = false;
-
-			$rootScope.tooglePhysiciansList = tooglePhysiciansList;
-			$scope.fillSchedules = fillSchedules;
 			$scope.selectAll = selectAll;
 			$scope.selectPhysician = selectPhysician;
 
@@ -33,23 +29,11 @@ angular.module('dashboardModule')
 			    });
 			}
 
+		    $scope.$on("fillSchedules", function () {
+		        fillSchedules();
+		    });
+
 			//////////////////
-
-		    function tooglePhysiciansList() {
-		        $scope.hidePhysiciansList = !$scope.hidePhysiciansList;
-		    }
-
-		    function fillSchedules() {
-		        var selectedPhysicians = _.filter($scope.physicianList, function (physician) {
-		            return physician.selected;
-		        }); 
-
-		        // $rootScope.selectedPhysicians = selectedPhysicians;
-		        PhysicianListService.setPhysicianList(selectedPhysicians, function() {
-			        $scope.$emit("selectedPhysiciansChanged", selectedPhysicians);
-		        });
-			    $scope.hidePhysiciansList = true;
-		    }
 
 		    function selectAll() {
 		        if ($scope.phySelectAll) $scope.phySelectAll = true;
@@ -69,7 +53,18 @@ angular.module('dashboardModule')
 		            return physician.selected;
 		        });
 		        $scope.phySelectAll = selectedPhysicians.length == $scope.physicianList.length;
-		    };
+		    }
+
+		    function fillSchedules() {
+		        var selectedPhysicians = _.filter($scope.physicianList, function (physician) {
+		            return physician.selected;
+		        }); 
+
+		        // $rootScope.selectedPhysicians = selectedPhysicians;
+		        PhysicianListService.setPhysicianList(selectedPhysicians, function() {
+		            $scope.$emit("selectedPhysiciansChanged", selectedPhysicians);
+		        });
+		    }
 
 		}]
 	};

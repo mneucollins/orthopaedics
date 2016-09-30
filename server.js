@@ -79,6 +79,7 @@ require("./routes/userRoutes")(router);
 require("./routes/roleRoutes")(router, io);
 require("./routes/patientRoutes")(router, io);
 require("./routes/physicianRoutes")(router);
+require("./routes/physicianFrontDeskGroupRoutes")(router);
 require("./routes/messageRoutes")(router);
 require("./routes/reportsRoutes")(router);
 require("./routes/configRoutes")(router);

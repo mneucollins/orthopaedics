@@ -7,13 +7,17 @@ angular.module('dashboardModule')
         $location.path("/");
 
     var socket;
+
     $scope.arrowDirection = 0;
     $scope.colFilter  = "appt-time-column";
     $scope.hidePhysicians = false;
+    $scope.hidePhysiciansList = false;
     $scope.highlightNewPatients = LayoutService.highlightNewPatients();
     $scope.titles = LayoutService.getActiveColumns();
     $scope.layout = LayoutService.getLayoutUser();
 
+    $rootScope.tooglePhysiciansList = tooglePhysiciansList;
+    $scope.fillSchedules = fillSchedules;
     $scope.reloadPatients = reloadPatients;
     $scope.filteringActive = filteringActive;
     $scope.getPatientList = PatientStoreService.getPatientList;
@@ -49,6 +53,20 @@ angular.module('dashboardModule')
         reloadPatients();
         $scope.hidePhysicians = physicians.length == 1;
     });
+
+    function tooglePhysiciansList() {
+        $scope.hidePhysiciansList = !$scope.hidePhysiciansList;
+    }
+
+    function fillSchedules() {
+        $scope.$broadcast("fillSchedules");
+        $timeout(function () {
+            reloadPatients();
+            $scope.hidePhysicians = physicians.length == 1;
+        }, 100);
+
+        $scope.hidePhysiciansList = true;
+    }
 
     function reloadPatients() {
         PatientStoreService.retrievePatients();

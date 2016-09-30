@@ -1,6 +1,6 @@
-<div class="col-sm-4 physiciansList" ng-class="{physiciansListHidden: hidePhysiciansList}">
+<div>
     <h3>PHYSICIANS</h3>
-    <form role="form" ng-submit="fillSchedules()">
+    <form role="form">
         <div class="row form-group panel-body">
             <input id="physicianSearch" ng-model="phySearch" class="form-control circled" type="search" placeholder="Find a Physician"/>
         </div>
@@ -11,13 +11,10 @@
             <div class="row list-group-item" ng-class="{selectedPhysician: physician.selected}" ng-click="selectPhysician(physician)" ng-repeat="physician in physicianList | filter: phySearch">
                 
 
-            <physicians-mini physician="physician"></physicians-mini>
+                <physicians-mini physician="physician"></physicians-mini>
 
 
             </div>
-        </div>
-        <div class="row">
-            <button type="submit" class="btn btn-primary col-sm-10 col-sm-offset-1 circled buttonSchedules" style="font-family: 'ProximaNova'; ">View Schedules</button>
         </div>
     </form>
 </div>
