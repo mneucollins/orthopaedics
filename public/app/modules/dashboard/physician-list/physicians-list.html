@@ -1,13 +1,13 @@
 <div>
-    <h3>PHYSICIANS</h3>
+    <!-- <h3>PHYSICIANS</h3> -->
     <form role="form">
         <div class="row form-group panel-body">
-            <input id="physicianSearch" ng-model="phySearch" class="form-control circled" type="search" placeholder="Find a Physician"/>
+            <input ng-model="phySearch" class="physicianSearch form-control circled" type="search" placeholder="Find a Physician"/>
         </div>
         <div class="row checkbox text-right">
             <label class="col-sm-12"><input type="checkbox" ng-model="phySelectAll" ng-click="selectAll()">Select All</label>
         </div>
-        <div id="physicianSearchList" class="list-group">
+        <div class="list-group physicianSearchList">
             <div class="row list-group-item" ng-class="{selectedPhysician: physician.selected}" ng-click="selectPhysician(physician)" ng-repeat="physician in physicianList | filter: phySearch">
                 
 

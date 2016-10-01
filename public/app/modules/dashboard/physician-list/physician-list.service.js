@@ -42,7 +42,7 @@
 	                list[index].clinicDelay = delays[element._id] ? delays[element._id] : 0;
 	            });
 
-	            callback();
+	            if(callback) callback();
 	        });
 	    }
 	}

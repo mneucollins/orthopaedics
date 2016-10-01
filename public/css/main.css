@@ -183,6 +183,7 @@ body {
 }
 
 .avatar {
+	color: #4d9de0;
 	width: 70px;
 }
 
@@ -190,19 +191,23 @@ body {
 	background-color: #E3EFFA;
 }
 
-#physicianSearch{
+.physicianSearch{
     background-image: url("../img/searchIcon.svg");
     background-repeat: no-repeat;
     padding-left: 2em;
 }
 
-#physicianSearchList {
+.physicianSearchList {
 	overflow-x: hidden;
 	overflow-y: scroll;
 }
 
-#physicianSearchList .row {
+.physicianSearchList .row {
 	cursor: pointer;
+}
+
+.nav-tabs>li>a {
+	font-size: 1.7em;
 }
 
 /* 

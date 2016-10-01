@@ -60,10 +60,10 @@ angular.module('dashboardModule')
 
     function fillSchedules() {
         $scope.$broadcast("fillSchedules");
-        $timeout(function () {
-            reloadPatients();
-            $scope.hidePhysicians = physicians.length == 1;
-        }, 100);
+        // $timeout(function () {
+        //     reloadPatients();
+        //     $scope.hidePhysicians = physicians.length == 1;
+        // }, 100);
 
         $scope.hidePhysiciansList = true;
     }

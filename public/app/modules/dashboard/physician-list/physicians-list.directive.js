@@ -46,7 +46,6 @@ angular.module('dashboardModule')
 
 		    function selectPhysician(physician) {
 		         
-		        var role = AuthService.currentUser().role;
 		        physician.selected = !physician.selected;
 		        
 		        var selectedPhysicians = _.filter($scope.physicianList, function (physician) {

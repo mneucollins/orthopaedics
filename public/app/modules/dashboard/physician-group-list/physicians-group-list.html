@@ -1,0 +1,20 @@
+<div>
+    <!-- <h3>PHYSICIAN'S GROUP</h3> -->
+    <form role="form">
+        <div class="row form-group panel-body">
+            <input ng-model="groupSearch" class="physicianSearch form-control circled" type="search" placeholder="Find a Group"/>
+        </div>
+        <div class="row checkbox text-right">
+            <label class="col-sm-12"><input type="checkbox" ng-model="phySelectAll" ng-click="selectAll()">Select All</label>
+        </div>
+        <div class="list-group physicianSearchList">
+            <div class="row list-group-item" ng-class="{selectedPhysician: group.selected}" ng-click="selectGroup(group)" ng-repeat="group in physicianGroupList | filter: groupSearch">
+                
+
+                <physicians-group-mini group="group"></physicians-group-mini>
+
+
+            </div>
+        </div>
+    </form>
+</div>

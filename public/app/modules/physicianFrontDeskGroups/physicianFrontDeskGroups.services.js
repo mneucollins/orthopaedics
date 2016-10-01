@@ -1,5 +1,5 @@
 angular.module("physicianFrontDeskGroupsModule")
-.factory('physicianFrontDeskGroup', ['$resource',
+.factory('PhysicianFrontDeskGroup', ['$resource',
     function($resource){
         return $resource('/api/physicianFrontDeskGroups/:physicianGroupId', {physicianId: "@_id"}, {
         	update: {method: "PUT"},

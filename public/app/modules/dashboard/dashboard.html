@@ -12,7 +12,16 @@
     </div>
 
     <div class="col-sm-4 physiciansList" ng-class="{physiciansListHidden: hidePhysiciansList}">
-        <physicians-list></physicians-list>
+
+        <tabset>
+            <tab heading="Physicians">
+                <physicians-list></physicians-list>
+            </tab>
+            <tab heading="Physician's Groups">
+                <physicians-group-list></physicians-group-list>
+            </tab>
+        </tabset>
+
         <div class="row">
             <button  ng-click="fillSchedules()" class="btn btn-primary col-sm-10 col-sm-offset-1 circled buttonSchedules" style="font-family: 'ProximaNova'; ">View Schedules</button>
         </div>

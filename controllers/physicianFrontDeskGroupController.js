@@ -45,8 +45,10 @@ function actualizarPhysicianFrontDeskGroup(id, newGroup, callback) {
     .findById(id)
     .exec(function(err, physicianFrontDeskGroup) {
 
-        physicianFrontDeskGroup.physicians = newGroup.physicians;
-        physicianFrontDeskGroup.name = newGroup.name;
+        if(newGroup.physicians)
+            physicianFrontDeskGroup.physicians = newGroup.physicians;
+        if(newGroup.name)
+            physicianFrontDeskGroup.name = newGroup.name;
         
         physicianFrontDeskGroup.save(function (err, data) {
             return callback(err, data);
