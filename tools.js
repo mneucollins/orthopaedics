@@ -5,6 +5,7 @@ module.exports = {
 	sendUnauthorized: sendUnauthorized,
 	isLoggedIn: isLoggedIn,
 	isAdmin: isAdmin,
+    getPRTime: getPRTime,
 	getWRTime: getWRTime,
 	getEXTime: getEXTime,
 	getTotalTime: getTotalTime,
@@ -57,6 +58,20 @@ function isAdmin (req, res, next) {
 		return false;
 	}
 }
+
+function getPRTime (patient) {
+
+    if(!patient.PRTimestamp) return 0;
+
+    var prDate = new Date(patient.PRTimestamp);
+    var wrDate = new Date(patient.WRTimestamp);
+    var nowDate = new Date();
+
+    if(patient.currentState == "PR")
+        return Math.round((nowDate.getTime() - prDate.getTime()) / (60*1000));
+    else 
+        return Math.round((wrDate.getTime() - prDate.getTime()) / (60*1000));
+}   
 
 function getWRTime (patient) {
 

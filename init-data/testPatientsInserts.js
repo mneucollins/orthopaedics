@@ -9,10 +9,10 @@ mongoose.connect(config.databaseURL);
 var nPlusHours = 0;
 
 var initYear = 2016,
-	initMonth = 8,
-	initDay = 23,
-	initHours = 10,
-	initMinutes = 00;
+	initMonth = 9,
+	initDay = 1,
+	initHours = 01,
+	initMinutes = 10;
 
 
 var testPatients = [{

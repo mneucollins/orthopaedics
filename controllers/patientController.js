@@ -22,6 +22,8 @@ module.exports = {
     listPatientsbyPhysician: listPatientsbyPhysician,
     listPatientsbyPhysicianToday: listPatientsbyPhysicianToday,
     listPatientsbyPhysicianListToday: listPatientsbyPhysicianListToday,
+    listPatientsbyPhysicianByStateToday: listPatientsbyPhysicianByStateToday,
+    listPatientsbyPhysicianListByStateToday: listPatientsbyPhysicianListByStateToday,
     listPatientsTodayByState: listPatientsTodayByState,
     listPatientsTomorrow: listPatientsTomorrow,
     listPatientsToday: listPatientsToday,
@@ -342,6 +344,31 @@ function listPatientsbyPhysicianByStateToday(physicianId, state, callback) {
 
     patientModel.find({
         physician: physicianId, 
+        currentState: state,
+        apptTime: {$gte: lowDate, $lt: highDate}
+    })
+    .populate("physician")
+    .exec(function(err, patients) {
+        if (err) callback(err);
+        else callback(null, patients);
+    });
+}
+
+function listPatientsbyPhysicianListByStateToday(physicianIdList, state, callback) {
+
+    var lowDate = new Date();
+    lowDate.setHours(0);
+    lowDate.setMinutes(0);
+    lowDate.setSeconds(0);
+
+    var highDate = new Date();
+    highDate.setHours(0);
+    highDate.setMinutes(0);
+    highDate.setSeconds(0);
+    highDate.setDate(highDate.getDate()+1);
+
+    patientModel.find({
+        physician: {$in: physicianIdList}, 
         currentState: state,
         apptTime: {$gte: lowDate, $lt: highDate}
     })

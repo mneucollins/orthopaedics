@@ -1,7 +1,10 @@
 var _ = require('underscore');
+var moment = require('moment');
 
 var tools = require('../tools')
-var physicianFrontDeskGroupModel = require('../models/physicianFrontDeskGroupModel');
+var physicianFrontDeskGroupModel = require('../models/physicianFrontdeskGroupModel');
+var physicianController = require('./physicianController');
+var patientController = require('./patientController');
 
 module.exports = {
     nuevoPhysicianFrontDeskGroup: nuevoPhysicianFrontDeskGroup,
@@ -9,8 +12,7 @@ module.exports = {
     obtenerPhysicianFrontDeskGroup: obtenerPhysicianFrontDeskGroup,
     actualizarPhysicianFrontDeskGroup: actualizarPhysicianFrontDeskGroup,
     eliminarPhysicianFrontDeskGroup: eliminarPhysicianFrontDeskGroup,
-    getClinicDelay: getClinicDelay,
-    getNextPatientWaitTime: getNextPatientWaitTime
+    getGroupMetrics: getGroupMetrics
 }
 
 function nuevoPhysicianFrontDeskGroup(newGroup, callback) {
@@ -28,6 +30,13 @@ function listarPhysicianFrontDeskGroups(callback) {
     physicianFrontDeskGroupModel
     .find({})
     .sort("name")
+    .exec(callback);
+}
+
+function listarPhysicianFrontDeskGroupsByIdList(idList, callback) {
+    physicianFrontDeskGroupModel
+    .find({_id: {$in: idList}})
+    // .sort("name")
     .exec(callback);
 }
 
@@ -64,95 +73,70 @@ function eliminarPhysicianFrontDeskGroup(id, callback) {
     });
 }
 
-function getClinicDelay (physicianFrontDeskGroupIdArray, callback) {
+function getGroupMetrics (physicianFrontDeskGroupIdArray, callback) {
     
     var results = {};
+    // console.log("entra a getGroupMetrics");
+    listarPhysicianFrontDeskGroupsByIdList(physicianFrontDeskGroupIdArray, function (err, physicianGroupList) {
+        if(err) return callback(err);
+        var phyGroupCounter = 0;
+        // console.log("objetos consultados! comenzando recorrer");
+        if(physicianGroupList.length == 0 ) 
+            return callback(null, results);
 
-    _.each(physicianFrontDeskGroupIdArray, function (element, index, list) {
-        // console.log("guat ._.");
-        getNextPatientWaitTime(element, function (err, phyWaitTime) {
-            if(err) return callback(err);
-            isPhysicianFrontDeskGroupInBreak(element, function (err, isBreakAppt) {
+        _.each(physicianGroupList, function (phyGroup, i, lst) {
+
+            results[phyGroup._id] = {
+                sumMinutes: 0,
+                numPatients: 0,
+                threshold: -500
+            };
+
+            physicianController
+            .getClinicDelay(phyGroup.physicians, function (err, clinicDelays) {
                 if(err) return callback(err);
+                // console.log("clinic delay listado para grupo " + phyGroupCounter);
+                // console.log("phyGroup.physicians " + JSON.stringify(phyGroup.physicians));
 
-                phyWaitTime = isBreakAppt ? Math.floor(phyWaitTime / 2) : phyWaitTime;
-                results[element] = phyWaitTime;
+                patientController
+                .listPatientsbyPhysicianListByStateToday(phyGroup.physicians, 'PR', 
+                function (err, patients) {
+                    if(err) return callback(err);
 
-                    // console.log("index = " + index);
-                    // console.log("results.size = " + _.size(results));
-                    // console.log("results = " + JSON.stringify(results));
+                    // console.log("Patients listados para grupo " + phyGroupCounter + " total patients: " + patients.length);
+                    _.each(patients, function (pat, i, lst) {
+                        // console.log("i: " + i);
+                        var prTime = tools.getPRTime(pat);
+                        var appt = moment(pat.apptTime);
+                        var clinicDelay = clinicDelays[pat.physician._id];
+                        // var prTimestamp = moment(pat.PRTimestamp);
+                        // var prDelay = (new Date().getTime() - new Date(pat.PRTimestamp).getTime()) / (60 * 1000);
+                        // console.log("Init ");
+                        // var threshold = prTimestamp.add(prDelay, "minutes").dif...
+                        var threshold = moment().diff(appt.add(clinicDelay, "minutes"), "minutes");
+                        // console.log("Calc ");
 
-                if(_.size(results) >= list.length) {
-                    // console.log("List.l = " + list.length);
-                    // console.log("index = " + index);
-                    // console.log("results.size = " + _.size(results));
-                    // console.log("results = " + JSON.stringify(results));
-                    callback(null, results);
-                }
-            });         
+                        results[phyGroup._id].sumMinutes += prTime;
+                        results[phyGroup._id].numPatients++;
+                        if(threshold > results[phyGroup._id].threshold)
+                            results[phyGroup._id].threshold  = threshold;
+
+
+                        console.log("Patient " + i + ": " + 
+                            results[phyGroup._id].sumMinutes +  "-" + 
+                            results[phyGroup._id].numPatients +  "-" + 
+                            results[phyGroup._id].threshold);
+                    });
+
+                    phyGroupCounter++;
+                    console.log("counter: " + phyGroupCounter);
+                    if(phyGroupCounter >= physicianGroupList.length) {
+                        console.log("calling back!!");
+                        return callback(null, results);
+                    }
+
+                });
+            });
         });
     });
-}
-
-function getNextPatientWaitTime (physicianFrontDeskGroupId, callback) {
-	var lowDate = new Date();
-    lowDate.setHours(0);
-    lowDate.setMinutes(0);
-    lowDate.setSeconds(0);
-
-    var highDate = new Date();
-    highDate.setHours(0);
-    highDate.setMinutes(0);
-    highDate.setSeconds(0);
-    highDate.setDate(highDate.getDate()+1);
-
-	patientModel
-	.find({
-        physicianFrontDeskGroup: physicianFrontDeskGroupId,
-        apptTime: {$gte: lowDate, $lt: highDate},
-        isDeleted: false,
-        $or: [{currentState: "WR"}, {currentState: "EX"}]
-    })
-	.sort({WRTimestamp: 1})
-    .populate("physicianFrontDeskGroup")
-	.exec(function (err, patients) {
-		if (err) callback(err);
-		else if(patients.length > 0) {
-
-            //WR patients are separated from EX patients
-            var searchList = _.groupBy(patients, function (patient) { return patient.currentState; })
-            // gets que last called back patient
-            var lastEXCalled = _.max(searchList.EX, function (patient) { return patient.EXTimestamp.getTime(); });
-            
-            // final list contains all WR patient + last called back patient
-            if(!searchList.WR) searchList.WR = [];
-            searchList.WR.push(lastEXCalled);
-            searchList = searchList.WR;
-
-            if(searchList.length <= 0) callback(null, 0);
-
-            var wrTimePatient = _.max(searchList, function (item) {
-                return tools.getWRTime(item);
-            });
-            var wrTime = tools.getWRTime(wrTimePatient);
-            wrTime = wrTime > 0 ? wrTime : 0;
-
-            if(wrTimePatient.physicianFrontDeskGroup.patientsClinicDelay.length > 0)
-                getAvgDelay(physicianFrontDeskGroupId, wrTime, function (err, avg) {
-                    if (err) callback(err);
-                    else callback(null, avg);
-                });
-            else if(lastEXCalled.clinicDelay) {
-                if(wrTimePatient.currentState == "WR")
-                    callback(null, wrTime < lastEXCalled.clinicDelay ? lastEXCalled.clinicDelay : wrTime);
-                else
-                    callback(null, lastEXCalled.clinicDelay);
-            }
-            else {
-                callback(null, wrTime);
-            }
-		}
-        else callback(null, 0);
-        // isPhysicianFrontDeskGroupInBreak
-	});
 }

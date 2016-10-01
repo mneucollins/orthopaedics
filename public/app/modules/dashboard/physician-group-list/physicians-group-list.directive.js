@@ -8,10 +8,10 @@ angular.module('dashboardModule')
 		controller: physiciansGroupListController
 	};
 
-	physiciansGroupListController.$inject = ['$scope', 'AuthService', 'PhysicianFrontDeskGroup', 'PhysicianListService'];
-	function physiciansGroupListController($scope, AuthService, PhysicianFrontDeskGroup, PhysicianListService){
+	physiciansGroupListController.$inject = ['$scope', 'AuthService', 'PhysicianFrontDeskGroup', 'PhysicianGroupListService'];
+	function physiciansGroupListController($scope, AuthService, PhysicianFrontDeskGroup, PhysicianGroupListService){
 
-		$scope.selectAll = selectAll;
+		$scope.selectAllGroup = selectAllGroup;
 		$scope.selectGroup = selectGroup;
 
 		activate();
@@ -35,12 +35,12 @@ angular.module('dashboardModule')
 
 		//////////////////
 
-	    function selectAll() {
-	        if ($scope.phySelectAll) $scope.phySelectAll = true;
-	        else $scope.phySelectAll = false;
+	    function selectAllGroup() {
+	        if ($scope.groupSelectAll) $scope.groupSelectAll = true;
+	        else $scope.groupSelectAll = false;
 
 	        angular.forEach($scope.physicianGroupList, function (group) {
-	            group.selected = $scope.phySelectAll;
+	            group.selected = $scope.groupSelectAll;
 	        });
 	    }
 

@@ -26,6 +26,7 @@ angular.module('dashboardModule')
 			            return phy.isActive;
 			        });
 			        // $scope.physicianList = physicians;
+			        resizePhybar(); // método en js/main.js
 			    });
 			}
 

@@ -38,10 +38,10 @@ var PatientSchema = new Schema({
 	deletedTimestamp: Date,
 
 	// Timing
+	PRTimestamp: Date,
 	WRTimestamp: Date,
 	EXTimestamp: Date,
 	DCTimestamp: Date,
-	PRTimestamp: Date,
 	clinicDelay: Number,
 	
 	//Imaging

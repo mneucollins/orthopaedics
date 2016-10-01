@@ -71,10 +71,10 @@ module.exports = function (router) {
         });
     });
 
-    router.route('/physicianFrontDeskGroups/waittime')
+    router.route('/physicianFrontDeskGroups/metrics')
     .post(function(req, res) {
-        var phyList = req.body.phyList;
-        physicianFrontDeskGroupController.getClinicDelay(phyList, function (err, data) {
+        var groupList = req.body.groupList;
+        physicianFrontDeskGroupController.getGroupMetrics(groupList, function (err, data) {
             if(err) {
                 tools.sendServerError(err, req, res);
                 return;
@@ -84,16 +84,4 @@ module.exports = function (router) {
         });
     }); 
 
-    router.route('/physicianFrontDeskGroups/:physicianFrontDeskGroupId/waittime')
-    .get(function(req, res) {
-        physicianFrontDeskGroupController.getNextPatientWaitTime(req.params.physicianFrontDeskGroupId, function (err, data) {
-            if(err) {
-                tools.sendServerError(err, req, res);
-                return;
-            }
-
-            console.log("PhysicianFrontDeskGroup's " + req.params.physicianFrontDeskGroupId + " clinic delay listed");
-            res.json(data);
-        });
-    }); 
 }

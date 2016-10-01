@@ -21,7 +21,21 @@
         </div>
         <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
             <div class="panel-body">
-                <h3 class="physiciansHeader">
+                <div style="font-size: 1.5em">Physician Groups</div>
+                <br>
+                <h3 class="physiciansHeader row" ng-if="selectedPhysicianGroups().length > 0">
+                    <span class="col-xs-12 col-sm-12 col-md-6 mobilePhysicians" ng-repeat="group in selectedPhysicianGroups()">
+
+                        <physician-group-header group="group"></physician-group-header>
+
+                    </span>
+                    <br>
+                    <br>
+                    <br>
+                </h3>
+                <div style="font-size: 1.5em">Physicians</div>
+                <br>
+                <h3 class="physiciansHeader row">
                     <span class="col-xs-6 col-sm-6 col-md-4 mobilePhysicians" ng-repeat="physician in selectedPhysicians()">
 
                         <physician-header physician="physician"></physician-header>
