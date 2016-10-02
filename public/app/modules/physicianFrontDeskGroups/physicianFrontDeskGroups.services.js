@@ -1,7 +1,7 @@
 angular.module("physicianFrontDeskGroupsModule")
 .factory('PhysicianFrontDeskGroup', ['$resource',
     function($resource){
-        return $resource('/api/physicianFrontDeskGroups/:physicianGroupId', {physicianId: "@_id"}, {
+        return $resource('/api/physicianFrontDeskGroups/:physicianGroupId', {physicianGroupId: "@_id"}, {
         	update: {method: "PUT"},
             getGroupMetrics: {method: "POST", url: "/api/physicianFrontDeskGroups/metrics"},
             getPhysicianMetrics: {method: "POST", url: "/api/physicians/metrics"},

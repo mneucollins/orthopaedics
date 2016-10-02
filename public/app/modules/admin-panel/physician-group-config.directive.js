@@ -1,18 +1,18 @@
 angular.module('adminModule')
-.directive('physicianConfig',function(){
+.directive('physicianGroupConfig',function(){
     return {
         replace : true,
         restrict : 'E',
-        templateUrl : '/app/modules/admin-panel/physician-config.html',
-        controller:['$scope', '$rootScope', '$modal', '$log', 'Config', 'Alerts', 'Physician',
-        function($scope, $rootScope, $modal, $log, Config, Alerts, Physician) {
+        templateUrl : '/app/modules/admin-panel/physician-group-config.html',
+        controller:['$scope', '$rootScope', '$modal', '$log', 'Config', 'Alerts', 'PhysicianFrontDeskGroup',
+        function($scope, $rootScope, $modal, $log, Config, Alerts, PhysicianFrontDeskGroup) {
 
-            $scope.savePhysChanges = function () {
+            $scope.savePhyGroupChanges = function () {
                 if($scope.newUser == true)
                 {
-                    Physician.save($scope.selectedItem, 
+                    PhysicianFrontDeskGroup.save($scope.selectedItem, 
                        function (argument) {
-                       Alerts.addAlert("success", "Physician created!");
+                       Alerts.addAlert("success", "Physician Group created!");
                        $scope.resultPhys.push($scope.selectedItem);
                        $scope.newUser = false;
                     }, function (err) {
@@ -21,10 +21,10 @@ angular.module('adminModule')
                 }
                 else
                 {
-                    Physician.update({userId: $scope.selectedItem._id}, 
+                    PhysicianFrontDeskGroup.update({physicianGroupId: $scope.selectedItem._id}, 
                         $scope.selectedItem, 
                         function (argument) {
-                       Alerts.addAlert("success", "Physician updated!");
+                       Alerts.addAlert("success", "Physician Group updated!");
                        //$scope.selectedItem = null;
                        $scope.newUser = false;
                     }, function (err) {

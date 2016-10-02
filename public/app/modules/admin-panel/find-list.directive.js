@@ -16,19 +16,25 @@ angular.module('adminModule')
 
 			if($scope.elemento == 'User')
 				var options2 = {
-			      keys: ['name','username'], // keys to search in
-			      threshold: 0.2
+			    	keys: ['name','username'], // keys to search in
+			    	threshold: 0.2
 			    }
 			else if($scope.elemento == 'Role')
 				var options2 = {
-			      keys: ['name'], // keys to search in
-			      threshold: 0.2
+			    	keys: ['name'], // keys to search in
+			    	threshold: 0.2
 			    }
 			else if($scope.elemento == 'Physician')
 				var options2 = {
-			      keys: ['name', 'firstName', 'lastName', 'department', 'email', 'npi'], // keys to search in
-			      threshold: 0.2
+			    	keys: ['name', 'firstName', 'lastName', 'department', 'email', 'npi'], // keys to search in
+			    	threshold: 0.2
 			    }
+			else if($scope.elemento == 'Physician Group')
+				var options2 = {
+			    	keys: ['name'], // keys to search in
+			    	threshold: 0.2
+			    }
+			
 		    	
 		    setTimeout(cargarLista, 300);
 

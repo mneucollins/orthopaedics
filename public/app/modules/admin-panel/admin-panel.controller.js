@@ -1,7 +1,7 @@
 
 angular.module('adminModule')
-.controller('adminCtrl', ['$scope', '$location', '$rootScope', '$log', 'User', 'Physician','Alerts','Role', 'AuthService', 'LayoutService',
-  function($scope, $location, $rootScope, $log, User, Physician, Alerts, Role, AuthService, LayoutService) {
+.controller('adminCtrl', ['$scope', '$location', '$rootScope', '$log', 'User', 'Physician', 'PhysicianFrontDeskGroup', 'Alerts','Role', 'AuthService', 'LayoutService',
+  function($scope, $location, $rootScope, $log, User, Physician, PhysicianFrontDeskGroup, Alerts, Role, AuthService, LayoutService) {
 
     if(!AuthService.isLoggedIn())
         $location.path("/");
@@ -26,6 +26,13 @@ angular.module('adminModule')
         $scope.selectedItem = null;
         inRoles = false;
     }
+    
+    $scope.loadPhysicianGroups = function(){
+        $scope.result = "";
+        $scope.findUser = "";
+        $scope.selectedItem = null;
+        inRoles = false;
+    }
 
     $scope.loadRoles = function (){
         $scope.result = "";
@@ -35,15 +42,19 @@ angular.module('adminModule')
 
     $scope.fuseUsers;// = new Fuse($scope.usersArray, options);
     
-    User.query(function(data, err) {
+    User.query(function(data) {
       $scope.result = data;
     });
 
-    Physician.query(function(data, err) {
+    Physician.query(function(data) {
         $scope.resultPhys = data;
     });
 
-    Role.query(function(data, err) {
+    PhysicianFrontDeskGroup.query(function(data) {
+        $scope.resultPhyGroups = data;
+    });
+
+    Role.query(function(data) {
         $scope.roles = data;
     });
 
