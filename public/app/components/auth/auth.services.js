@@ -71,6 +71,13 @@ angular.module("appCommons")
                 return false;
             }
         },
+        isFrontdeskAdmin: function(){
+            if(currentUser){
+                return currentUser.role.isFrontdeskAdmin;
+            } else {
+                return false;
+            }
+        },
         isImaging: function(){
             if(currentUser){
                 return currentUser.role.isImaging;

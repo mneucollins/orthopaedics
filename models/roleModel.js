@@ -35,6 +35,10 @@ var RoleSchema = new Schema({
         type: Boolean,
         default: false
     },
+    isFrontdeskAdmin: {
+        type: Boolean,
+        default: false
+    },
     layout: {
         coloredPriorTime: {
             type: Boolean,

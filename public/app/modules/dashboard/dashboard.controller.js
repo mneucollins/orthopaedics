@@ -12,6 +12,7 @@ angular.module('dashboardModule')
     $scope.colFilter  = "appt-time-column";
     $scope.hidePhysicians = false;
     $scope.hidePhysiciansList = false;
+    $scope.isFrontdeskAdmin = AuthService.isFrontdeskAdmin;
     $scope.highlightNewPatients = LayoutService.highlightNewPatients();
     $scope.titles = LayoutService.getActiveColumns();
     $scope.layout = LayoutService.getLayoutUser();

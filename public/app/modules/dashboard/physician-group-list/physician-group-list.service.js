@@ -30,10 +30,10 @@
 		}
 
 		function retrieveGroupMetrics(callback) {
+			retrieveCurrentPhysiciansMetrics();
 			if(physicianGroupList.length == 0) return;
 
 	        var groupIds = _.pluck(physicianGroupList, '_id');
-			retrieveCurrentPhysiciansMetrics();
 	        
 	        PhysicianFrontDeskGroup.getGroupMetrics({groupList: groupIds}, function (metrics) {
 	            _.each(physicianGroupList, function (elem, index, list) {
@@ -54,6 +54,8 @@
 	        
 	        PhysicianFrontDeskGroup.getPhysicianMetrics({phyList: phyList}, function (metrics) {
 	            currentPhisiciansMetrics.groupMetrics = metrics;
+	                if(currentPhisiciansMetrics.groupMetrics.threshold == -500)
+	                	currentPhisiciansMetrics.groupMetrics.threshold = "-";
 
 	            if(_.isFunction(callback)) callback();
 	        });

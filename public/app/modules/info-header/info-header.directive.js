@@ -5,12 +5,12 @@ angular.module('infoHeaderModule')
 		restrict : 'E',
 		// scope : {},
 		templateUrl : '/app/modules/info-header/info-header.html',
-		controller:['$scope', 'PhysicianListService', 'PhysicianGroupListService',
-		function($scope, PhysicianListService, PhysicianGroupListService){
+		controller:['$scope', 'AuthService', 'PhysicianListService', 'PhysicianGroupListService',
+		function($scope, AuthService, PhysicianListService, PhysicianGroupListService){
 
 			$scope.selectedPhysicians = PhysicianListService.getPhysicianList;
 			$scope.selectedPhysicianGroups = PhysicianGroupListService.getPhysicianGroupList;
-
+			$scope.isFrontdeskAdmin = AuthService.isFrontdeskAdmin;
 		}]
 
 	};

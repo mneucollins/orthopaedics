@@ -20,6 +20,7 @@ function nuevoRole(newRole, callback) {
     role.generateReports = newRole.generateReports;
     role.isImaging = newRole.isImaging;
     role.isLabs = newRole.isLabs;
+    role.isFrontdeskAdmin = newRole.isFrontdeskAdmin;
     role.isFrontdesk = newRole.isFrontdesk;
     role.layout = newRole.layout;
 

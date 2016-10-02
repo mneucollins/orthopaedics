@@ -17,7 +17,7 @@
             <tab heading="Physicians">
                 <physicians-list></physicians-list>
             </tab>
-            <tab heading="Physician's Groups">
+            <tab heading="Physician's Groups" ng-if="isFrontdeskAdmin()">
                 <physicians-group-list></physicians-group-list>
             </tab>
         </tabset>
