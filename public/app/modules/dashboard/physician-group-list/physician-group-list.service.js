@@ -5,11 +5,14 @@
 		.module("dashboardModule")
 		.factory('PhysicianGroupListService', PhysicianListService);
 
-	PhysicianListService.$inject = ['$interval', 'PhysicianFrontDeskGroup']; 
-	function PhysicianListService($interval, PhysicianFrontDeskGroup){
+	PhysicianListService.$inject = ['$interval', 'PhysicianFrontDeskGroup', 'PhysicianListService']; 
+	function PhysicianListService($interval, PhysicianFrontDeskGroup, PhysicianListService){
 
+		var currentPhisiciansMetrics = {
+			name: "Current"
+		};
 		var physicianGroupList = [];
-		$interval(retrieveGroupMetrics, 60 * 1000);
+		$interval(retrieveGroupMetrics, 30 * 1000);
 
 		return {
 			getPhysicianGroupList: getPhysicianGroupList,
@@ -19,7 +22,7 @@
 		/////////////
 
 		function getPhysicianGroupList() {
-			return physicianGroupList;
+			return [currentPhisiciansMetrics].concat(physicianGroupList);
 		}
 		function setPhysicianGroupList(list, callback) {
 			physicianGroupList = list;
@@ -30,6 +33,8 @@
 			if(physicianGroupList.length == 0) return;
 
 	        var groupIds = _.pluck(physicianGroupList, '_id');
+			retrieveCurrentPhysiciansMetrics();
+	        
 	        PhysicianFrontDeskGroup.getGroupMetrics({groupList: groupIds}, function (metrics) {
 	            _.each(physicianGroupList, function (elem, index, list) {
 	                list[index].groupMetrics = metrics[elem._id];
@@ -37,7 +42,20 @@
 	                	list[index].groupMetrics.threshold = "-";
 	            });
 
-	            if(callback) callback();
+	            if(_.isFunction(callback)) callback();
+	        });
+	    }
+
+		function retrieveCurrentPhysiciansMetrics(callback) {
+
+			var phyList = _.pluck(PhysicianListService.getPhysicianList(), "_id");
+
+			if(phyList.length == 0) return;
+	        
+	        PhysicianFrontDeskGroup.getPhysicianMetrics({phyList: phyList}, function (metrics) {
+	            currentPhisiciansMetrics.groupMetrics = metrics;
+
+	            if(_.isFunction(callback)) callback();
 	        });
 	    }
 	}

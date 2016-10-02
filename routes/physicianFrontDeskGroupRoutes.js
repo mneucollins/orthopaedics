@@ -82,6 +82,21 @@ module.exports = function (router) {
             
             res.json(data);
         });
-    }); 
+    });
+
+    router.route('/physicians/metrics')
+    .post(function(req, res) {
+        var phyList = req.body.phyList;
+        physicianFrontDeskGroupController.getPhysicianListMetrics(phyList, function (err, data) {
+            if(err) {
+                tools.sendServerError(err, req, res);
+                return;
+            }
+            
+            res.json(data);
+        });
+    });
+
+     
 
 }
