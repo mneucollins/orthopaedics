@@ -1,7 +1,7 @@
 
 angular.module('adminModule')
-.controller('adminCtrl', ['$scope', '$location', '$rootScope', '$log', 'User', 'Physician', 'PhysicianFrontDeskGroup', 'Alerts','Role', 'AuthService', 'LayoutService',
-  function($scope, $location, $rootScope, $log, User, Physician, PhysicianFrontDeskGroup, Alerts, Role, AuthService, LayoutService) {
+.controller('adminCtrl', ['$scope', '$location', '$rootScope', '$log', '$timeout', 'User', 'Physician', 'PhysicianFrontDeskGroup', 'Alerts','Role', 'AuthService', 'LayoutService',
+  function($scope, $location, $rootScope, $log, $timeout, User, Physician, PhysicianFrontDeskGroup, Alerts, Role, AuthService, LayoutService) {
 
     if(!AuthService.isLoggedIn())
         $location.path("/");
@@ -9,6 +9,7 @@ angular.module('adminModule')
     var fusePhysicians;
     var options;
     var inRoles = false;
+    var inPhyGroup = false;
     $scope.newUser = false;
     $scope.selectedItem = null;
     $scope.items1 = [];
@@ -18,6 +19,7 @@ angular.module('adminModule')
         $scope.result = "";
         $scope.findUser = "";
         inRoles = false;
+        inPhyGroup = false;
     }
     
     $scope.loadPhysicians = function(){
@@ -25,6 +27,7 @@ angular.module('adminModule')
         $scope.findUser = "";
         $scope.selectedItem = null;
         inRoles = false;
+        inPhyGroup = false;
     }
     
     $scope.loadPhysicianGroups = function(){
@@ -32,12 +35,14 @@ angular.module('adminModule')
         $scope.findUser = "";
         $scope.selectedItem = null;
         inRoles = false;
+        inPhyGroup = true;
     }
 
     $scope.loadRoles = function (){
         $scope.result = "";
         $scope.findUser = "";
         inRoles = true;
+        inPhyGroup = false;
     }
 
     $scope.fuseUsers;// = new Fuse($scope.usersArray, options);
@@ -84,6 +89,15 @@ angular.module('adminModule')
             $scope.newUser = true;
         else
             $scope.newUser = false;
+
+        // se carga lista de physician en el caso de que sea un grupo
+        if($scope.selectedItem.physicians)
+            $scope.$broadcast('setSelectedPhysicians', $scope.selectedItem.physicians);
+        //     $timeout(function () {
+        //     }, 300);
+        if(!$scope.selectedItem.physicians && inPhyGroup)
+            $scope.$broadcast('setSelectedPhysicians', []);
+
     });
     
     $scope.cancelChanges = function(){

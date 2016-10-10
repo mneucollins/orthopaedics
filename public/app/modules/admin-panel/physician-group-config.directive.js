@@ -7,7 +7,16 @@ angular.module('adminModule')
         controller:['$scope', '$rootScope', '$modal', '$log', 'Config', 'Alerts', 'PhysicianFrontDeskGroup',
         function($scope, $rootScope, $modal, $log, Config, Alerts, PhysicianFrontDeskGroup) {
 
-            $scope.savePhyGroupChanges = function () {
+
+            $scope.savePhyGroupChanges = savePhyGroupChanges;
+
+            ///////////////////
+            
+            $scope.$on("selectedPhysiciansChanged", function (ev, phyList) {
+                $scope.selectedItem.physicians = phyList;
+            });
+
+            function savePhyGroupChanges () {
                 if($scope.newUser == true)
                 {
                     PhysicianFrontDeskGroup.save($scope.selectedItem, 

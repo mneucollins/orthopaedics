@@ -50,7 +50,7 @@ angular.module('dashboardModule')
         filteringActive($scope.colFilter); 
     }
 
-    $scope.$on("selectedPhysiciansChanged", function (physicians) {
+    $scope.$on("onPhysiciansSelected", function (physicians) {
         reloadPatients();
         $scope.hidePhysicians = physicians.length == 1;
     });

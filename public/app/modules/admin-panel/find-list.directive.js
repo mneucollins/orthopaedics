@@ -61,7 +61,7 @@ angular.module('adminModule')
 		    }
 
 		    $scope.loadRegister = function (register) {
-		    	$log.info(JSON.stringify(register));
+		    	// $log.info(JSON.stringify(register));
 		    	$scope.$emit('listado', {listado: register});
 		    }
  
