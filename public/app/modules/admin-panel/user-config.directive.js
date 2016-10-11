@@ -7,9 +7,6 @@ angular.module('adminModule')
 		controller:['$scope', '$rootScope', '$modal', '$log', 'Config', 'Alerts', 'User',
 		function($scope, $rootScope, $modal, $log, Config, Alerts, User) {
 
-			
-
-
 			$scope.saveUserChanges = function () {
 				var selectedRole = $scope.selectedItem.role;
 		        $scope.selectedItem.role = $scope.selectedItem.role._id;
@@ -39,6 +36,7 @@ angular.module('adminModule')
 		            });
 		        }
 		    }
+
 
 		}]
 	}

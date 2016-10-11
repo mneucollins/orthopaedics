@@ -40,7 +40,7 @@ angular.module('adminModule')
 
 		    function cargarLista()
 		    {
-		    	$scope.result = $scope.listado;
+		    	$scope.result = _.sortBy($scope.listado, function(elem){ return elem.name });
 		    	if($scope.listado == "")
 		    	{
 		    		setTimeout(cargarLista,300);
@@ -52,7 +52,7 @@ angular.module('adminModule')
 		    }
 
 			$scope.search = function (findElement) {
-		        $scope.result = $scope.fuseList.search(findElement);
+		        $scope.result = _.sortBy($scope.fuseList.search(findElement) , function(elem){ return elem.name });
 		    }
 
 		    $scope.newElem = function(){

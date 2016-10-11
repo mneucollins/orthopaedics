@@ -10,6 +10,7 @@ angular.module('adminModule')
     var options;
     var inRoles = false;
     var inPhyGroup = false;
+    var selectedRow;
     $scope.newUser = false;
     $scope.selectedItem = null;
     $scope.items1 = [];
@@ -65,6 +66,7 @@ angular.module('adminModule')
 
     $scope.$on('listado', function(event, args){
         $scope.selectedItem = args.listado;
+        selectedRow = JSON.parse(JSON.stringify(args.listado));
         if(inRoles) {
             if ($scope.selectedItem.layout){
                 $scope.layout = $scope.selectedItem.layout;
@@ -101,8 +103,18 @@ angular.module('adminModule')
     });
     
     $scope.cancelChanges = function(){
-        $scope.selectedItem = null;
+        $scope.selectedItem = selectedRow;
         $scope.newUser = false;
     }
+
+    $scope.onEdit = false;
+    $scope.editing = function(){
+        $scope.onEdit = true;
+    }
+
+    $scope.$on('$routeChangeStart', function(next, current) { 
+        if($scope.onEdit)
+            Alerts.addAlert("warning", "You are leaving this screen with pending changes, are you sure?");
+    });
 
 }]);
