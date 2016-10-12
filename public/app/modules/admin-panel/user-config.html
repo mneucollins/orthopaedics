@@ -5,7 +5,7 @@
     <p class="col-sm-6 ">
         <div class="col-sm-5 " ng-if="selectedItem">
             <span>Name: </span>
-            <input type="text" class="form-control" ng-model="selectedItem.name">
+            <input type="text" class="form-control" ng-model="selectedItem.name" ng-change="editing()">
             <span>Username: </span>
             <input type="text" class="form-control" ng-model="selectedItem.username">
             <span>Password: </span>
