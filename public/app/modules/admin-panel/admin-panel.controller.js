@@ -43,19 +43,19 @@ angular.module('adminModule')
     $scope.fuseUsers;// = new Fuse($scope.usersArray, options);
     
     User.query(function(data) {
-      $scope.result = data;
+      $scope.result = _.sortBy(data, 'name');
     });
 
     Physician.query(function(data) {
-        $scope.resultPhys = data;
+        $scope.resultPhys = _.sortBy(data, 'lastName');
     });
 
     PhysicianFrontDeskGroup.query(function(data) {
-        $scope.resultPhyGroups = data;
+        $scope.resultPhyGroups = _.sortBy(data, 'name');
     });
 
     Role.query(function(data) {
-        $scope.roles = data;
+        $scope.roles = _.sortBy(data, 'name');
     });
 
     $scope.$on('listado', function(event, args){
