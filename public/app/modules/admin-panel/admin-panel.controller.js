@@ -16,9 +16,41 @@ angular.module('adminModule')
     $scope.items1 = [];
     $scope.items2 = [];
 
-    $scope.loadUsers = function(){
+    $scope.tabs = [
+        {title:'Users', selecOpt:'loadUsers()', active:true},
+        {title:'Roles', selecOpt:'loadRoles()', active:false},
+        {title:'Physicians', selecOpt:'loadPhysicians()', active:false},
+        {title:'Physician Groups', selecOpt:'loadPhysicianGroups()', active:false},
+        {title:'Messages', selecOpt:'', active:false},
+        {title:'General', selecOpt:'', active:false},
+    ];
+
+    $scope.selectOption = function(tab){
+
+    }
+
+    $scope.loadUsers = function(actualTab){
+        // for(var i in $scope.tabs){
+        //     if($scope.tabs[i].active && $scope.tabs[i].title!=actualTab){
+        //         alert("activa: "+$scope.tabs[i].title);
+        //     }
+        // }
+
+        var salir = confirm("unsaved changes will not persist, do you want to continue?");
+        
+        if (!salir){
+            $timeout(function(){
+                _.each($scope.tabs, function(elem,index,list){
+                    if(elem.title == actualTab) list[index].active = true;
+                    else list[index].active = false;
+                });
+
+            }, 500);
+        }
+
         $scope.result = "";
         $scope.findUser = "";
+        $scope.selectedItem = null;
         inRoles = false;
         inPhyGroup = false;
     }
@@ -42,6 +74,7 @@ angular.module('adminModule')
     $scope.loadRoles = function (){
         $scope.result = "";
         $scope.findUser = "";
+        $scope.selectedItem = null;
         inRoles = true;
         inPhyGroup = false;
     }

@@ -6,7 +6,16 @@
 
 <div  style="padding: 2%;">
   <tabset>
-    <tab heading="Users" select="loadUsers()">
+    <tab ng-repeat="tab in tabs" active="tab.active" heading="{{tab.title}}" deselect="loadUsers(tab.title)">
+        <br>
+        <user-config ng-if="tab.title=='Users'"></user-config>
+        <role-config ng-if="tab.title=='Roles'"></role-config>
+        <physician-config ng-if="tab.title=='Physicians'"></physician-config>
+        <physician-group-config ng-if="tab.title=='Physician Groups'"></physician-group-config>
+        <messages-config ng-if="tab.title=='Messages'"></messages-config>
+        <general-config ng-if="tab.title=='General'"></general-config>
+    </tab>
+    <!-- <tab heading="Users" select="loadUsers()">
         <br>
         <user-config></user-config>
     </tab>
@@ -31,6 +40,6 @@
 
     <tab heading="General">
         <general-config></general-config>
-    </tab>
+    </tab> -->
   </tabset>
 </div>
