@@ -81,6 +81,21 @@
                 });
             }
 
+            $scope.showPhysicianSummaryDialog = function () {
+                var modalInstance = $modal.open({
+                    templateUrl: '/app/modules/reports/show-physician-summary.dialog.html',
+                    controller: 'showPhysicianSummaryCtrl',
+                    resolve: {
+                    }
+                });
+
+                modalInstance.result.then(function () {
+                    $log.info('reports generated!');
+                }, function () {
+                    $log.info('Message Modal dismissed at: ' + new Date());
+                });
+            }
+
             $scope.usersReportsDialog = function () {
                 var modalInstance = $modal.open({
                     templateUrl: '/app/modules/users/users-report.dialog.html',
