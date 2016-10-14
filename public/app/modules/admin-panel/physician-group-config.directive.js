@@ -13,16 +13,16 @@ angular.module('adminModule')
             ///////////////////
             
             $scope.$on("selectedPhysiciansChanged", function (ev, phyList) {
-                $scope.selectedItem.physicians = phyList;
+                $scope.auxItem.physicians = phyList;
             });
 
             function savePhyGroupChanges () {
                 if($scope.newUser == true)
                 {
-                    PhysicianFrontDeskGroup.save($scope.selectedItem, 
+                    PhysicianFrontDeskGroup.save($scope.auxItem, 
                        function (argument) {
                        Alerts.addAlert("success", "Physician Group created!");
-                       $scope.resultPhys.push($scope.selectedItem);
+                       $scope.resultPhys.push($scope.auxItem);
                        $scope.newUser = false;
                     }, function (err) {
                         Alerts.addAlert("warning", "Error");
@@ -30,11 +30,11 @@ angular.module('adminModule')
                 }
                 else
                 {
-                    PhysicianFrontDeskGroup.update({physicianGroupId: $scope.selectedItem._id}, 
-                        $scope.selectedItem, 
+                    PhysicianFrontDeskGroup.update({physicianGroupId: $scope.auxItem._id}, 
+                        $scope.auxItem, 
                         function (argument) {
+                       $scope.selectedItem = $scope.auxItem;
                        Alerts.addAlert("success", "Physician Group updated!");
-                       //$scope.selectedItem = null;
                        $scope.newUser = false;
                     }, function (err) {
                         Alerts.addAlert("warning", "Error");

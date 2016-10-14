@@ -12,7 +12,7 @@ angular.module('adminModule')
 
 			$scope.saveRoleChanges = function () {
 
-				var savingRole = $scope.selectedItem;
+				var savingRole = $scope.auxItem;
 
 				var newLayout = $scope.layout;
 				newLayout.columns = [];

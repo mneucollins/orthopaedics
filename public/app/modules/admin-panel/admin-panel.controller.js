@@ -30,29 +30,31 @@ angular.module('adminModule')
     }
 
     $scope.loadUsers = function(actualTab){
-        // for(var i in $scope.tabs){
-        //     if($scope.tabs[i].active && $scope.tabs[i].title!=actualTab){
-        //         alert("activa: "+$scope.tabs[i].title);
-        //     }
-        // }
-
-        var salir = confirm("unsaved changes will not persist, do you want to continue?");
-        
-        if (!salir){
-            $timeout(function(){
-                _.each($scope.tabs, function(elem,index,list){
-                    if(elem.title == actualTab) list[index].active = true;
-                    else list[index].active = false;
-                });
-
-            }, 500);
+        var newTab = "";
+        for(var i in $scope.tabs){
+            if($scope.tabs[i].active && $scope.tabs[i].title!=actualTab){
+                newTab = $scope.tabs[i].title;
+            }
         }
+
+        // var salir = confirm("unsaved changes will not persist, do you want to continue?");
+        
+        // if (!salir){
+        //     $timeout(function(){
+        //         _.each($scope.tabs, function(elem,index,list){
+        //             if(elem.title == actualTab) list[index].active = true;
+        //             else list[index].active = false;
+        //         });
+
+        //     }, 250);
+        // }
 
         $scope.result = "";
         $scope.findUser = "";
         $scope.selectedItem = null;
-        inRoles = false;
-        inPhyGroup = false;
+        $scope.auxItem = null;
+        inRoles = newTab == "Roles";
+        inPhyGroup = newTab == "Physician Groups";
     }
     
     $scope.loadPhysicians = function(){
@@ -99,7 +101,6 @@ angular.module('adminModule')
 
     $scope.$on('listado', function(event, args){
         $scope.selectedItem = args.listado;
-        selectedRow = JSON.parse(JSON.stringify(args.listado));
         if(inRoles) {
             if ($scope.selectedItem.layout){
                 $scope.layout = $scope.selectedItem.layout;
@@ -132,6 +133,8 @@ angular.module('adminModule')
         //     }, 300);
         if(!$scope.selectedItem.physicians && inPhyGroup)
             $scope.$broadcast('setSelectedPhysicians', []);
+
+        $scope.auxItem = angular.copy($scope.selectedItem);
 
     });
     

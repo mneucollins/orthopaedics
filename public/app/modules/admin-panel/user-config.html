@@ -3,18 +3,18 @@
         <find-list listado="result" elemento="'User'"></find-list>
     </p>
     <p class="col-sm-6 ">
-        <div class="col-sm-5 " ng-if="selectedItem">
+        <div class="col-sm-5 " ng-if="auxItem">
             <span>Name: </span>
-            <input type="text" class="form-control" ng-model="selectedItem.name" ng-change="editing()">
+            <input type="text" class="form-control" ng-model="auxItem.name" ng-change="editing()">
             <span>Username: </span>
-            <input type="text" class="form-control" ng-model="selectedItem.username">
+            <input type="text" class="form-control" ng-model="auxItem.username">
             <span>Password: </span>
-            <input type="password" class="form-control" ng-model="selectedItem.password">
+            <input type="password" class="form-control" ng-model="auxItem.password">
             <span>Role: </span>
-            <select class="form-control" ng-model="selectedItem.role" ng-options="role.name for role in roles track by role._id"></select>
+            <select class="form-control" ng-model="auxItem.role" ng-options="role.name for role in roles track by role._id"></select>
             <span>Email: </span>
-            <input type="text" class="form-control" ng-model="selectedItem.email">
-            <input type="checkbox" ng-model="selectedItem.isActive" class="ng-pristine ng-valid ng-touched"> Is Active<br>
+            <input type="text" class="form-control" ng-model="auxItem.email">
+            <input type="checkbox" ng-model="auxItem.isActive" class="ng-pristine ng-valid ng-touched"> Is Active<br>
             <button class="btn btn-primary circled" ng-click="saveUserChanges()" style="float: right;">Save</button>
             <button class="btn btn-default circled" ng-click="cancelChanges()" style="float: right;">Cancel</button>
         </div>

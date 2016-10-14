@@ -10,10 +10,10 @@ angular.module('adminModule')
             $scope.savePhysChanges = function () {
                 if($scope.newUser == true)
                 {
-                    Physician.save($scope.selectedItem, 
+                    Physician.save($scope.auxItem, 
                        function (argument) {
                        Alerts.addAlert("success", "Physician created!");
-                       $scope.resultPhys.push($scope.selectedItem);
+                       $scope.resultPhys.push($scope.auxItem);
                        $scope.newUser = false;
                     }, function (err) {
                         Alerts.addAlert("warning", "Error");
@@ -21,8 +21,8 @@ angular.module('adminModule')
                 }
                 else
                 {
-                    Physician.update({userId: $scope.selectedItem._id}, 
-                        $scope.selectedItem, 
+                    Physician.update({userId: $scope.auxItem._id}, 
+                        $scope.auxItem, 
                         function (argument) {
                        Alerts.addAlert("success", "Physician updated!");
                        //$scope.selectedItem = null;

@@ -13,6 +13,7 @@ angular.module('adminModule')
 
 			$scope.listado;
 			$scope.findElement = "";
+			$scope.inactiveData = false;
 
 			if($scope.elemento == 'User')
 				var options2 = {
@@ -38,21 +39,33 @@ angular.module('adminModule')
 		    	
 		    setTimeout(cargarLista, 300);
 
-		    function cargarLista()
-		    {
+		    function cargarLista() {
 		    	$scope.result = _.sortBy($scope.listado, function(elem){ return elem.name });
-		    	if($scope.listado == "")
-		    	{
+		    	if($scope.listado == "") {
 		    		setTimeout(cargarLista,300);
-		    	}
-		    	else
-		    	{
+		    	} else {
 		    		$scope.fuseList = new Fuse($scope.listado, options2);
 		    	}
 		    }
 
 			$scope.search = function (findElement) {
 		        $scope.result = _.sortBy($scope.fuseList.search(findElement) , function(elem){ return elem.name });
+		        if(!$scope.inactiveData){
+		        	alert("data is inactive");
+		        	$scope.result = _.filter($scope.result,function(elem){
+		    			return elem.isActive;
+		    		});
+		        }
+		    }
+
+		    $scope.showInactive = function (findElement){
+		    	if(!$scope.inactiveData){
+		    		$scope.result = _.filter($scope.result,function(elem){
+		    			return elem.isActive;
+		    		});
+		    	} else {
+		    		$scope.result = _.sortBy($scope.fuseList.search(findElement) , function(elem){ return elem.name });
+		    	}
 		    }
 
 		    $scope.newElem = function(){
