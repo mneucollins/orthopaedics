@@ -21,7 +21,7 @@ angular.module('adminModule')
 		               Alerts.addAlert("success", "User created!");
 		               // $scope.selectedItem.role = selectedRole;
 		                $scope.result.push($scope.auxItem);
-		               $scope.newUser = false;
+		               // $scope.newUser = false;
 		            }, function (err) {
 		                Alerts.addAlert("warning", "Error");
 		            });
@@ -31,7 +31,7 @@ angular.module('adminModule')
 		                function (argument) {
 			               Alerts.addAlert("success", "User updated!");
 			               // $scope.selectedItem.role = selectedRole;
-			               $scope.newUser = false;
+			               // $scope.newUser = false;
 		            }, function (err) {
 		                Alerts.addAlert("warning", "Error");
 		            });
