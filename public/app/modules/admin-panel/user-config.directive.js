@@ -15,6 +15,11 @@ angular.module('adminModule')
 		  		// console.log(JSON.stringify($scope.selectedItem));
 		  		// console.log(JSON.stringify($scope.auxItem));
 
+		  		if(!$scope.auxItem.name || !$scope.auxItem.username || !$scope.auxItem.password) {
+                    Alerts.warn("Please enter at least a name and a password");
+                    return;
+                }
+
 		        if($scope.newUser == true) {
 		            User.save($scope.auxItem, 
 		               function (argument) {

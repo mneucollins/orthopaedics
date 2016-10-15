@@ -8,6 +8,12 @@ angular.module('adminModule')
         function($scope, $rootScope, $modal, $log, Config, Alerts, Physician) {
 
             $scope.savePhysChanges = function () {
+
+                if(!$scope.auxItem.name || !$scope.auxItem.npi) {
+                    Alerts.warn("Please enter at least a name and a NPI number");
+                    return;
+                }
+
                 if($scope.newUser == true)
                 {
                     Physician.save($scope.auxItem, 
