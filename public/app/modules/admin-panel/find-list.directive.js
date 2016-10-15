@@ -11,69 +11,86 @@ angular.module('adminModule')
 		controller:['$scope', '$rootScope', '$modal', '$log', 'Config', 'Alerts',
 		function($scope, $rootScope, $modal, $log, Config, Alerts) {
 
-			$scope.listado;
-			$scope.findElement = "";
-			$scope.inactiveData = false;
+			var options2;
 
-			if($scope.elemento == 'User')
-				var options2 = {
-			    	keys: ['name','username'], // keys to search in
-			    	threshold: 0.2
-			    }
-			else if($scope.elemento == 'Role')
-				var options2 = {
-			    	keys: ['name'], // keys to search in
-			    	threshold: 0.2
-			    }
-			else if($scope.elemento == 'Physician')
-				var options2 = {
-			    	keys: ['name', 'firstName', 'lastName', 'department', 'email', 'npi'], // keys to search in
-			    	threshold: 0.2
-			    }
-			else if($scope.elemento == 'Physician Group')
-				var options2 = {
-			    	keys: ['name'], // keys to search in
-			    	threshold: 0.2
-			    }
-			
-		    	
-		    setTimeout(cargarLista, 300);
+			$scope.findElement = "";
+			$scope.activeData = true;
+
+		    $scope.loadRegister = loadRegister;
+		    $scope.newElem = newElem;
+		    $scope.toggleInactive = toggleInactive;
+			$scope.search = search;
+
+			activate();
+
+			function activate() {
+
+				if($scope.elemento == 'User')
+					options2 = {
+				    	keys: ['name','username'], // keys to search in
+				    	threshold: 0.2
+				    }
+				else if($scope.elemento == 'Role')
+					options2 = {
+				    	keys: ['name'], // keys to search in
+				    	threshold: 0.2
+				    }
+				else if($scope.elemento == 'Physician')
+					options2 = {
+				    	keys: ['name', 'firstName', 'lastName', 'department', 'email', 'npi'], // keys to search in
+				    	threshold: 0.2
+				    }
+				else if($scope.elemento == 'Physician Group')
+					options2 = {
+				    	keys: ['name'], // keys to search in
+				    	threshold: 0.2
+				    }
+
+			    	
+			    setTimeout(cargarLista, 300);
+			}
 
 		    function cargarLista() {
-		    	$scope.result = _.sortBy($scope.listado, function(elem){ return elem.name });
+
 		    	if($scope.listado == "") {
-		    		setTimeout(cargarLista,300);
+		    		setTimeout(cargarLista, 300);
 		    	} else {
 		    		$scope.fuseList = new Fuse($scope.listado, options2);
+		    		search();
 		    	}
 		    }
 
-			$scope.search = function (findElement) {
-		        $scope.result = _.sortBy($scope.fuseList.search(findElement) , function(elem){ return elem.name });
-		        if(!$scope.inactiveData){
-		        	alert("data is inactive");
-		        	$scope.result = _.filter($scope.result,function(elem){
-		    			return elem.isActive;
-		    		});
+			function search() {
+				if($scope.findElement != "")
+		        	$scope.result = $scope.fuseList.search($scope.findElement);
+		        else
+		        	$scope.result = $scope.listado;
+
+		        if($scope.elemento == 'User' || $scope.elemento == 'Physician') {
+			        if($scope.activeData) {
+			        	$scope.result = _.filter($scope.result,function(elem){
+			    			return elem.isActive;
+			    		});
+			        }
+			        else {
+			        	$scope.result = _.filter($scope.result,function(elem){
+			    			return !elem.isActive;
+			    		});	
+			        }
 		        }
 		    }
 
-		    $scope.showInactive = function (findElement){
-		    	if(!$scope.inactiveData){
-		    		$scope.result = _.filter($scope.result,function(elem){
-		    			return elem.isActive;
-		    		});
-		    	} else {
-		    		$scope.result = _.sortBy($scope.fuseList.search(findElement) , function(elem){ return elem.name });
-		    	}
+		    function toggleInactive() {
+		    	$scope.activeData = !$scope.activeData;
+		    	search();
 		    }
 
-		    $scope.newElem = function(){
+		    function newElem() {
 		        var selectedItem = {};
 		        $scope.$emit('listado', {listado: selectedItem});
 		    }
 
-		    $scope.loadRegister = function (register) {
+		    function loadRegister(register) {
 		    	// $log.info(JSON.stringify(register));
 		    	$scope.$emit('listado', {listado: register});
 		    }
