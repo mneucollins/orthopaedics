@@ -6,30 +6,30 @@
 
 <div  style="padding: 2%;">
   <tabset>
-    <tab heading="Users" select="loadUsers()">
+    <tab heading="Users" select="loadUsers()" ng-if="isAdminUsers()">
         <br>
         <user-config></user-config>
     </tab>
 
-    <tab heading="Roles" select="loadRoles()">
+    <tab heading="Roles" select="loadRoles()" ng-if="isAdminRoles()">
         <br>
         <role-config></role-config>
     </tab>
 
-    <tab heading="Physicians" select="loadPhysicians()">
+    <tab heading="Physicians" select="loadPhysicians()" ng-if="isAdminPhysicians()">
         <br>
         <physician-config></physician-config>
     </tab>
 
-    <tab heading="Physician Groups" select ="loadPhysicianGroups()">
+    <tab heading="Physician Groups" select ="loadPhysicianGroups()" ng-if="isFrontdeskAdmin()">
         <physician-group-config></physician-group-config>
     </tab>
 
-    <tab heading="Messages">
+    <tab heading="Messages" ng-if="isAdminLanguage()">
         <messages-config></messages-config>
     </tab>
 
-    <tab heading="General">
+    <tab heading="General" ng-if="isAdminGeneral()">
         <general-config></general-config>
     </tab>
   </tabset>

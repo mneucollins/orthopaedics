@@ -7,6 +7,10 @@ var RoleSchema = new Schema({
         type: Boolean,
         default: false
     },
+    adminPhysicians: {
+        type: Boolean,
+        default: false
+    },
     adminRoles: {
         type: Boolean,
         default: false

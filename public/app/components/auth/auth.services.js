@@ -64,9 +64,44 @@ angular.module("appCommons")
 	            callback(user);
 	        });
 	    },
-        isFrontdesk: function(){
+        isAdminUsers: function(){
             if(currentUser){
-                return currentUser.role.isFrontdesk;
+                return currentUser.role.adminUsers;
+            } else {
+                return false;
+            }
+        },
+        isAdminPhysicians: function(){
+            if(currentUser){
+                return currentUser.role.adminPhysicians;
+            } else {
+                return false;
+            }
+        },
+        isAdminRoles: function(){
+            if(currentUser){
+                return currentUser.role.adminRoles;
+            } else {
+                return false;
+            }
+        },
+        isAdminLanguage: function(){
+            if(currentUser){
+                return currentUser.role.adminLanguage;
+            } else {
+                return false;
+            }
+        },
+        isAdminGeneral: function(){
+            if(currentUser){
+                return currentUser.role.adminGeneral;
+            } else {
+                return false;
+            }
+        },
+        canGenerateReports: function(){
+            if(currentUser){
+                return currentUser.role.generateReports;
             } else {
                 return false;
             }
@@ -74,6 +109,13 @@ angular.module("appCommons")
         isFrontdeskAdmin: function(){
             if(currentUser){
                 return currentUser.role.isFrontdeskAdmin;
+            } else {
+                return false;
+            }
+        },
+        isFrontdesk: function(){
+            if(currentUser){
+                return currentUser.role.isFrontdesk;
             } else {
                 return false;
             }

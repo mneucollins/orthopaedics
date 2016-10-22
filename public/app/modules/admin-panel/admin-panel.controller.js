@@ -14,54 +14,104 @@ angular.module('adminModule')
     $scope.selectedItem = null;
     $scope.items1 = [];
     $scope.items2 = [];
+    $scope.fuseUsers = [];// = new Fuse($scope.usersArray, options);
 
-    $scope.loadUsers = function(){
+    $scope.loadUsers = loadUsers;
+    $scope.loadPhysicians = loadPhysicians;
+    $scope.loadPhysicianGroups = loadPhysicianGroups;
+    $scope.loadRoles = loadRoles; 
+    $scope.cancelChanges = cancelChanges;
+    $scope.isAdminUsers = AuthService.isAdminUsers;
+    $scope.isAdminPhysicians = AuthService.isAdminPhysicians;
+    $scope.isAdminRoles = AuthService.isAdminRoles;
+    $scope.isAdminLanguage = AuthService.isAdminLanguage;
+    $scope.isAdminGeneral = AuthService.isAdminGeneral;
+    $scope.canGenerateReports = AuthService.canGenerateReports;
+    $scope.isFrontdeskAdmin = AuthService.isFrontdeskAdmin;
+
+    activate();
+
+    function activate() {
+
+        User.query(function(data) {
+          $scope.result = data;
+        });
+
+        Physician.query(function(data) {
+            $scope.resultPhys = data;
+        });
+
+        PhysicianFrontDeskGroup.query(function(data) {
+            $scope.resultPhyGroups = data;
+        });
+
+        Role.query(function(data) {
+            $scope.roles = data;
+        });
+    }
+
+    //////////////////////////////
+
+    function loadUsers(){
         $scope.result = "";
         $scope.findUser = "";
         inRoles = false;
         inPhyGroup = false;
+
+        if($scope.result.length == 0) {
+            User.query(function(data) {
+              $scope.result = data;
+            });
+        }
     }
-    
-    $scope.loadPhysicians = function(){
+
+    function loadPhysicians(){
         $scope.result = "";
         $scope.findUser = "";
         $scope.selectedItem = null;
         inRoles = false;
         inPhyGroup = false;
+
+        if($scope.resultPhys.length == 0) {
+            Physician.query(function(data) {
+                $scope.resultPhys = data;
+            });
+        }
     }
     
-    $scope.loadPhysicianGroups = function(){
+    function loadPhysicianGroups(){
         $scope.result = "";
         $scope.findUser = "";
         $scope.selectedItem = null;
         inRoles = false;
         inPhyGroup = true;
+
+        if($scope.resultPhyGroups.length == 0) {
+            PhysicianFrontDeskGroup.query(function(data) {
+                $scope.resultPhyGroups = data;
+            });
+        }
     }
 
-    $scope.loadRoles = function (){
+    function loadRoles(){
         $scope.result = "";
         $scope.findUser = "";
         inRoles = true;
         inPhyGroup = false;
+
+        if($scope.roles.length == 0) {
+            Role.query(function(data) {
+                $scope.roles = data;
+            });
+        }
+    }
+    
+    function cancelChanges(){
+        $scope.selectedItem = null;
+        $scope.newUser = false;
     }
 
-    $scope.fuseUsers;// = new Fuse($scope.usersArray, options);
-    
-    User.query(function(data) {
-      $scope.result = data;
-    });
-
-    Physician.query(function(data) {
-        $scope.resultPhys = data;
-    });
-
-    PhysicianFrontDeskGroup.query(function(data) {
-        $scope.resultPhyGroups = data;
-    });
-
-    Role.query(function(data) {
-        $scope.roles = data;
-    });
+    //////////////////////////////
 
     $scope.$on('listado', function(event, args){
         $scope.selectedItem = args.listado;
@@ -99,10 +149,5 @@ angular.module('adminModule')
             $scope.$broadcast('setSelectedPhysicians', []);
 
     });
-    
-    $scope.cancelChanges = function(){
-        $scope.selectedItem = null;
-        $scope.newUser = false;
-    }
 
 }]);

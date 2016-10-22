@@ -14,6 +14,7 @@ function nuevoRole(newRole, callback) {
     // role._id = newRole._id;
     role.name = newRole.name;
     role.adminUsers = newRole.adminUsers;
+    role.adminPhysicians = newRole.adminPhysicians;
     role.adminRoles = newRole.adminRoles;
     role.adminLanguage = newRole.adminLanguage;
     role.adminGeneral = newRole.adminGeneral;

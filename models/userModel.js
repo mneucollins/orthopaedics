@@ -1,3 +1,4 @@
+var _            = require('underscore');
 var mongoose     = require('mongoose');
 var bcrypt       = require('bcrypt-nodejs');
 var Schema       = mongoose.Schema;
@@ -74,6 +75,14 @@ var UsersSchema = new Schema({
     }
 });
 
+UsersSchema.set('toJSON', {
+    virtuals: true
+});
+
+UsersSchema.set('toObject', {
+    virtuals: true
+});
+
 
 UsersSchema.methods.generateHash = function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
@@ -83,4 +92,38 @@ UsersSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.password);
 };
 
-module.exports = mongoose.model('users', UsersSchema);
+
+
+//////////////////////////////////////////////////////////////////////////////
+////////////////////////////// Virtual Fields ////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
+UsersSchema.virtual('isAdmin').get(function () {
+    console.log("entered isAdmin field: ");
+
+    if(_.isObject(this.role)) {
+        console.log("user has role obj!");
+        console.log(this.role.adminUsers
+            || this.role.adminLanguage
+            || this.role.adminGeneral
+            || this.role.isFrontdeskAdmin
+            || this.role.adminRoles);
+
+        return this.role.adminUsers
+            || this.role.adminLanguage
+            || this.role.adminGeneral
+            || this.role.isFrontdeskAdmin
+            || this.role.adminRoles;
+    }
+    else {
+        console.log(false);
+        return false;
+    }
+
+});
+
+/////////////
+
+var userModel = mongoose.model('users', UsersSchema);
+module.exports = userModel;
+
