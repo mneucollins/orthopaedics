@@ -59,7 +59,7 @@ angular.module('dashboardModule')
 		    function selectAll() {
 		        if ($scope.phySelectAll) {
 		        	$scope.phySelectAll = true;
-		        	$scope.emit("selectedPhysiciansChanged", $scope.physicianList);
+		        	$scope.$emit("selectedPhysiciansChanged", $scope.physicianList);
 		        }
 		        else {
 		        	$scope.phySelectAll = false;

@@ -1,7 +1,7 @@
 
 angular.module('reportsModule')
-.controller('showPhysicianSummaryCtrl', ['$scope', '$modalInstance', 'Physician',
-  function($scope, $modalInstance, Physician) {
+.controller('showPhysicianSummaryCtrl', ['$scope', '$modalInstance', 'Physician', 'PhysicianListService', 
+  function($scope, $modalInstance, Physician, PhysicianListService) {
 
     $scope.physicians = PhysicianListService.getPhysicianList();
     $scope.dateOptions = {
@@ -9,7 +9,7 @@ angular.module('reportsModule')
         startingDay: 1
     };
 
-
+    activate();
 
     function activate() {
         Physician.query(function (physicians) {
