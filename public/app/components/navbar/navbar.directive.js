@@ -24,6 +24,7 @@
             $scope.showMessageAux = false;
             $rootScope.hideDischarged = true;
             $rootScope.hideDeleted = true;
+            $scope.canGenerateReports = AuthService.canGenerateReports;
             
             $timeout(function () {
                 $scope.showFrontDeskMessage = AuthService.isFrontdesk();
@@ -70,6 +71,21 @@
                 var modalInstance = $modal.open({
                     templateUrl: '/app/modules/reports/show-reports.dialog.html',
                     controller: 'showReportsCtrl',
+                    resolve: {
+                    }
+                });
+
+                modalInstance.result.then(function () {
+                    $log.info('reports generated!');
+                }, function () {
+                    $log.info('Message Modal dismissed at: ' + new Date());
+                });
+            }
+
+            $scope.showPhysicianSummaryDialog = function () {
+                var modalInstance = $modal.open({
+                    templateUrl: '/app/modules/reports/show-physician-summary.dialog.html',
+                    controller: 'showPhysicianSummaryCtrl',
                     resolve: {
                     }
                 });

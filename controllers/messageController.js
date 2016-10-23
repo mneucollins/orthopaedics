@@ -143,7 +143,7 @@ function sendCustomMessage (toNumber, message, callback) {
 			newMessage = new messageModel();
 			newMessage.message = msgData.message;
 			newMessage.sid = msgData.sid;
-			newMessage.patient = msgData.patient._id;
+			if(msgData.patient) newMessage.patient = msgData.patient._id;
 			if(msgData.msjType) newMessage.msjType = msgData.msjType;
 
 			newMessage.save(function messageSaved (err, message, numberAffected) {

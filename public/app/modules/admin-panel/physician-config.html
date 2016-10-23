@@ -3,20 +3,20 @@
         <find-list listado="resultPhys" elemento="'Physician'"></find-list>
     </p>
     <p class="col-sm-6 ">
-        <div class="col-sm-5 " ng-if="selectedItem">
+        <div class="col-sm-5 " ng-if="auxItem">
             <span>First Name: </span>
-            <input type="text" class="form-control" ng-model="selectedItem.firstName">
+            <input type="text" class="form-control" ng-model="auxItem.firstName">
             <span>Last Name: </span>
-            <input type="text" class="form-control" ng-model="selectedItem.lastName">
+            <input type="text" class="form-control" ng-model="auxItem.lastName">
             <span>Name: </span>
-            <input type="text" class="form-control" ng-model="selectedItem.name">
+            <input type="text" class="form-control" ng-model="auxItem.name">
             <span>Department: </span>
-            <input type="text" class="form-control" ng-model="selectedItem.department">
+            <input type="text" class="form-control" ng-model="auxItem.department">
             <span>Email: </span>
-            <input type="text" class="form-control" ng-model="selectedItem.email">
+            <input type="text" class="form-control" ng-model="auxItem.email">
             <span>NPI: </span>
-            <input type="text" class="form-control" ng-model="selectedItem.npi">
-            <input type="checkbox" ng-model="selectedItem.isActive" class="ng-pristine ng-valid ng-touched"> Is Active<br>
+            <input type="text" class="form-control" ng-model="auxItem.npi">
+            <input type="checkbox" ng-model="auxItem.isActive" class="ng-pristine ng-valid ng-touched"> Is Active<br>
             <button class="btn btn-primary circled" ng-click="savePhysChanges()" style="float: right;">Save</button>
             <button class="btn btn-default circled" ng-click="cancelChanges()" style="float: right;">Cancel</button>
         </div>

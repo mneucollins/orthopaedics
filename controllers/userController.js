@@ -21,7 +21,7 @@ function nuevoUser(newUser, callback) {
     var user = new userModel();
     user.name = newUser.name;
     user.username = newUser.username;
-    user.password = user.generateHash(newUser.posicion);
+    user.password = user.generateHash(newUser.password);
     user.role = newUser.role;
     user.email = newUser.email;
     user.isActive = newUser.isActive;

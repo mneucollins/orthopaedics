@@ -30,9 +30,12 @@
 		</div>
 		<div class="row form-group">
 			<div class="col-sm-3" ng-style="apptTimeLabel">Appointment Time</div>
-			<div class="col-sm-7 input-group">
-				<timepicker ng-model="patient.apptTime" minute-step="5" ng-if="!fieldsDisabled"></timepicker>
-				<input type="text" class="form-control" ng-model="patient.apptTime " ng-disabled="fieldsDisabled" ng-if="fieldsDisabled" required>
+			<div class="col-sm-7 input-group" ng-if="!fieldsDisabled">
+				<timepicker ng-model="patient.apptTime" minute-step="5"></timepicker>
+				<input type="text" class="form-control" ng-model="patient.apptTime" ng-if="fieldsDisabled" required>
+			</div>
+			<div class="col-sm-7" ng-if="fieldsDisabled">
+				<h4>{{patient.apptTime | date:'h:mm a'}}</h4>
 			</div>
 		</div>
 		<div class="row form-group">

@@ -1,7 +1,7 @@
 
 angular.module('dashboardModule')
-.controller('dashboardCtrl', ['$scope', '$location', '$rootScope', '$log', '$interval', '$timeout', '$modal', 'Patient', 'Messages', 'Physician', 'AuthService', 'LayoutService', 'DashboardService', 'PatientStoreService',
-  function($scope, $location, $rootScope, $log, $interval, $timeout, $modal, Patient, Messages, Physician, AuthService, LayoutService, DashboardService, PatientStoreService) {
+.controller('dashboardCtrl', ['$scope', '$location', '$rootScope', '$log', '$interval', '$timeout', '$modal', 'Patient', 'Messages', 'Physician', 'AuthService', 'LayoutService', 'DashboardService', 'PatientStoreService', 'PhysicianGroupListService',
+  function($scope, $location, $rootScope, $log, $interval, $timeout, $modal, Patient, Messages, Physician, AuthService, LayoutService, DashboardService, PatientStoreService, PhysicianGroupListService) {
 
     if(!AuthService.isLoggedIn())
         $location.path("/");
@@ -71,6 +71,7 @@ angular.module('dashboardModule')
 
     function reloadPatients() {
         PatientStoreService.retrievePatients();
+        PhysicianGroupListService.retrieveCurrentPhysiciansMetrics();
         $scope.$apply();
     }
 

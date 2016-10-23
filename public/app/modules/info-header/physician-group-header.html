@@ -1,6 +1,7 @@
 <div>
-	<span class="col-xs-6 col-sm-6 col-md-7">{{ group.name }}</span>
+	<span class="col-xs-5 col-sm-5 col-md-6">{{ group.name }}</span>
 	<span class="col-sm-2 col-md-1 roundMiniBox">{{ group.groupMetrics.sumMinutes }}</span>
 	<span class="col-sm-2 col-md-1 roundMiniBox">{{ group.groupMetrics.numPatients }}</span>
 	<span class="col-sm-2 col-md-2 roundMiniBox" ng-class="{'timer-delay-45': group.groupMetrics.threshold>0}">{{ group.groupMetrics.threshold }}</span>
+	<span class="col-xs-1 col-sm-1 col-md-1">;</span>
 </div>

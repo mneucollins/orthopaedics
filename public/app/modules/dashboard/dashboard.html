@@ -51,7 +51,7 @@
             <patient-block ng-class="{'oddRow': $odd}"></patient-block>
             <!-- <patient-block ng-class="{'oddRow': $odd}" patient="patient" patient-list="getPatientList()" layout="layout"></patient-block> -->
         </div>
-        <div ng-if="highlightNewPatients" class="row patientRow {{'pat_' + patient._id}}" ng-repeat="patient in patientList | dischargePatientsFilter: $root.hideDischarged | deletedPatientsFilter: $root.hideDeleted">
+        <div ng-if="highlightNewPatients" class="row patientRow {{'pat_' + patient._id}}" ng-repeat="patient in getPatientList() | dischargePatientsFilter: $root.hideDischarged | deletedPatientsFilter: $root.hideDeleted">
             <patient-block ng-class="{'oddRow': $odd, newPatientColor: patient.apptType=='New'}" patient="patient" patient-list="getPatientList()" layout="layout"></patient-block>
             <!-- <patient-block ng-if="patient.apptType=='New'" class="newPatientColor" patient="patient" patient-list="patientList" layout="layout"></patient-block> -->
         </div>

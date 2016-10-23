@@ -3,20 +3,21 @@
 
 	angular
 		.module("dashboardModule")
-		.factory('PhysicianGroupListService', PhysicianListService);
+		.factory('PhysicianGroupListService', PhysicianGroupListService);
 
-	PhysicianListService.$inject = ['$interval', 'PhysicianFrontDeskGroup', 'PhysicianListService']; 
-	function PhysicianListService($interval, PhysicianFrontDeskGroup, PhysicianListService){
+	PhysicianGroupListService.$inject = ['$interval', 'PhysicianFrontDeskGroup', 'PhysicianListService']; 
+	function PhysicianGroupListService($interval, PhysicianFrontDeskGroup, PhysicianListService){
 
 		var currentPhisiciansMetrics = {
-			name: "Current"
+			name: "Selected Physicians"
 		};
 		var physicianGroupList = [];
 		$interval(retrieveGroupMetrics, 30 * 1000);
 
 		return {
 			getPhysicianGroupList: getPhysicianGroupList,
-			setPhysicianGroupList: setPhysicianGroupList
+			setPhysicianGroupList: setPhysicianGroupList,
+			retrieveCurrentPhysiciansMetrics: retrieveCurrentPhysiciansMetrics
 		};
 
 		/////////////

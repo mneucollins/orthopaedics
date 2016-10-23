@@ -3,11 +3,11 @@
         <find-list listado="resultPhyGroups" elemento="'Physician Group'"></find-list>
     </p>
     <p class="col-sm-6">
-        <div class="col-sm-5 " ng-if="selectedItem">
+        <div class="col-sm-5 " ng-if="auxItem">
             <span>Group Name: </span>
-            <input type="text" class="form-control" ng-model="selectedItem.name">
+            <input type="text" class="form-control" ng-model="auxItem.name">
             <br>
-            <physicians-list selected-phys="selectedItem.physicians"></physicians-list>
+            <physicians-list selected-phys="auxItem.physicians"></physicians-list>
             <br>
             <button class="btn btn-primary circled" ng-click="savePhyGroupChanges()" style="float: right;">Save</button>
             <button class="btn btn-default circled" ng-click="cancelChanges()" style="float: right;">Cancel</button>

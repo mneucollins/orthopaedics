@@ -3,19 +3,20 @@
         <find-list listado="roles" elemento="'Role'"></find-list>
     </p>
     <p class="col-sm-8 ">
-        <div class="col-sm-7 " ng-if="selectedItem">
+        <div class="col-sm-7 " ng-if="auxItem">
             <span>Name: </span>
-            <input type="text" class="form-control" ng-model="selectedItem.name"><br>
-            <input type="checkbox" ng-model="selectedItem.adminUsers" class="ng-pristine ng-valid ng-touched"> Admin Users<br><br>
-            <input type="checkbox" ng-model="selectedItem.adminPhysicians" class="ng-pristine ng-valid ng-touched"> Admin Physicians<br><br>
-            <input type="checkbox" ng-model="selectedItem.adminRoles" class="ng-pristine ng-valid ng-touched"> Admin Roles<br><br>
-            <input type="checkbox" ng-model="selectedItem.adminLanguage" class="ng-pristine ng-valid ng-touched"> Admin Language<br><br>
-            <input type="checkbox" ng-model="selectedItem.adminGeneral" class="ng-pristine ng-valid ng-touched"> Admin General<br><br>
-            <input type="checkbox" ng-model="selectedItem.generateReports" class="ng-pristine ng-valid ng-touched"> Generate Reports<br><br>
-            <input type="checkbox" ng-model="selectedItem.isFrontdeskAdmin" class="ng-pristine ng-valid ng-touched"> Is Front Desk Admin<br><br>
-            <input type="checkbox" ng-model="selectedItem.isImaging" class="ng-pristine ng-valid ng-touched"> Can Start/Stop Imaging State<br><br>
-            <input type="checkbox" ng-model="selectedItem.isLabs" class="ng-pristine ng-valid ng-touched"> Can Start/Stop Labs State<br><br>
-            <input type="checkbox" ng-model="selectedItem.isFrontdesk" class="ng-pristine ng-valid ng-touched"> Can See Frontdesk Message<br><br>
+
+            <input type="text" class="form-control" ng-model="auxItem.name"><br>
+            <input type="checkbox" ng-model="auxItem.adminUsers" class="ng-pristine ng-valid ng-touched"> Admin Users<br><br>
+            <input type="checkbox" ng-model="auxItem.adminPhysicians" class="ng-pristine ng-valid ng-touched"> Admin Physicians<br><br>
+            <input type="checkbox" ng-model="auxItem.adminRoles" class="ng-pristine ng-valid ng-touched"> Admin Roles<br><br>
+            <input type="checkbox" ng-model="auxItem.adminLanguage" class="ng-pristine ng-valid ng-touched"> Admin Language<br><br>
+            <input type="checkbox" ng-model="auxItem.adminGeneral" class="ng-pristine ng-valid ng-touched"> Admin General<br><br>
+            <input type="checkbox" ng-model="auxItem.generateReports" class="ng-pristine ng-valid ng-touched"> Generate Reports<br><br>
+            <input type="checkbox" ng-model="auxItem.isFrontdeskAdmin" class="ng-pristine ng-valid ng-touched"> Is Front Desk Admin<br><br>
+            <input type="checkbox" ng-model="auxItem.isImaging" class="ng-pristine ng-valid ng-touched"> Can Start/Stop Imaging State<br><br>
+            <input type="checkbox" ng-model="auxItem.isLabs" class="ng-pristine ng-valid ng-touched"> Can Start/Stop Labs State<br><br>
+            <input type="checkbox" ng-model="auxItem.isFrontdesk" class="ng-pristine ng-valid ng-touched"> Can See Frontdesk Message<br><br>
             <br>
             <layout-options items1="items1" items2="items2" layout="layout"></layout-options>
             <br>

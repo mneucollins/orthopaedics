@@ -26,8 +26,9 @@
                     <ul class="dropdown-menu" role="menu">
                         <li>
                             <a href="#" ng-click="showAdminPanel()">Administration Panel</a>
-                            <a href="#"  ng-click="showReportsDialog()">Patients Report</a>
-                            <a href="#" ng-click="usersReportsDialog()">Users Report</a>
+                            <a href="#" ng-if="canGenerateReports()" ng-click="showReportsDialog()">Patients Report</a>
+                            <a href="#" ng-if="canGenerateReports()" ng-click="showPhysicianSummaryDialog()">Physician Summary</a>
+                            <a href="#" ng-if="canGenerateReports()" ng-click="usersReportsDialog()">Users Report</a>
                         </li>
                     </ul>
                 </li>

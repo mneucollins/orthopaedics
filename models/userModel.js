@@ -99,16 +99,8 @@ UsersSchema.methods.validPassword = function(password) {
 //////////////////////////////////////////////////////////////////////////////
 
 UsersSchema.virtual('isAdmin').get(function () {
-    console.log("entered isAdmin field: ");
 
     if(_.isObject(this.role)) {
-        console.log("user has role obj!");
-        console.log(this.role.adminUsers
-            || this.role.adminLanguage
-            || this.role.adminGeneral
-            || this.role.isFrontdeskAdmin
-            || this.role.adminRoles);
-
         return this.role.adminUsers
             || this.role.adminLanguage
             || this.role.adminGeneral
@@ -116,7 +108,6 @@ UsersSchema.virtual('isAdmin').get(function () {
             || this.role.adminRoles;
     }
     else {
-        console.log(false);
         return false;
     }
 
