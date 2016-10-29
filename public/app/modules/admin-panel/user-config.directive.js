@@ -22,6 +22,10 @@ function userConfigDirective(){
                 Alerts.warn("Please enter at least a name and a username");
                 return;
             }
+            if(!validateEmail($scope.auxItem.email)) {
+                Alerts.warn("Please enter a valid email");
+                return;
+            }
 
 	        if($scope.isNew == true) {
 	            User.save($scope.auxItem, 
@@ -58,6 +62,11 @@ function userConfigDirective(){
 	        $scope.isNew = false;
 	        $scope.$parent.isEditing = false;
 	    }
+
+	    function validateEmail(email) {
+		    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		    return re.test(email);
+		}
 
 	    //////////////////////////////
 

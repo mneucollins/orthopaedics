@@ -211,7 +211,7 @@ function listarUsuarios(callback){
 
 function generatePhySummary(iniDate, endDate, phyName, daysOfWeek, callback) {
 
-	generatePatientReportDaySelection(iniDate, endDate, daysOfWeek, function (err, filename) {
+	generatePatientReportBetweenDates(iniDate, endDate, function (err, filename) {
 		if(err) console.log(err);
 
 		var outFile = config.reportsFolderPath + 'summary_' + moment().format("MM-DD-YY_HHmmss") + ".xlsm";

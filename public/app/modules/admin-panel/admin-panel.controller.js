@@ -91,7 +91,7 @@ angular.module('adminModule')
 
     $scope.$on('$locationChangeStart', function (event, next, current) {
         if ($scope.isEditing) {
-            var answer = confirm("Are you sure you want to navigate away from this page?");
+            var anwer = confirm("Are you sure you want to navigate away from this page? Please note that you will lose any unsaved work.");
             if (!answer) {
                 event.preventDefault();
             }
