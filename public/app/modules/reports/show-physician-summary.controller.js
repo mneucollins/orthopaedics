@@ -3,6 +3,7 @@ angular.module('reportsModule')
 .controller('showPhysicianSummaryCtrl', ['$scope', '$modalInstance', 'Physician', 'PhysicianListService', 
   function($scope, $modalInstance, Physician, PhysicianListService) {
 
+    $scope.isLoading = false;
     $scope.physicians = PhysicianListService.getPhysicianList();
     $scope.dateOptions = {
         formatYear: 'yy',
@@ -18,10 +19,13 @@ angular.module('reportsModule')
     }
 
     $scope.submit = function () {
+
+        $scope.isLoading = true;
+        
         window.open("/api/reports/physician-summary?" +
             "iniDate=" + $scope.reportGen.iniDate.toISOString() +
             "&endDate=" + $scope.reportGen.iniDate.toISOString() +
-            "&phySummary=" + $scope.reportGen.physician.name);
+            "&phyName=" + $scope.reportGen.physician.name);
         // Reports.generate($scope.reportGen, function (data) {
         $modalInstance.close();
         // });

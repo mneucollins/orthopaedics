@@ -3,4 +3,5 @@ public/thumbs
 public/assets
 physicianInserts.js
 node_modules
+gen_reports
 HL7.xlsx

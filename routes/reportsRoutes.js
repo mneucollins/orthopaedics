@@ -14,7 +14,9 @@ module.exports = function (router) {
 
         var reportParams = req.params;
 
-        excelController.escribirExcel(req.param("iniDate"), req.param("endDate"),
+        excelController.generatePatientReportBetweenDates(
+            req.param("iniDate"), 
+            req.param("endDate"),
         function (err, data) {
             if(err) {
                 tools.sendServerError(err, req, res);
@@ -52,17 +54,21 @@ module.exports = function (router) {
     
     router.route('/reports/physician-summary')
     .get(function(req, res) { 
-
+        
         var reportParams = req.params;
 
-        excelController.escribirExcel(req.param("iniDate"), req.param("endDate"),
+        excelController.generatePhySummary(
+            req.param("iniDate"), 
+            req.param("endDate"),
+            req.param("phyName"),
+            req.param("daysOfWeek").split(","),
         function (err, data) {
             if(err) {
                 tools.sendServerError(err, req, res);
                 return;
             }
 
-            var file = config.reportsFolderPath + data;
+            var file = data;
             res.download(file);
             // var filename = path.basename(file);
             // var mimetype = mime.lookup(file);

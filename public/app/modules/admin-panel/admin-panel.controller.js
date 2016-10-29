@@ -49,7 +49,7 @@ angular.module('adminModule')
 
     //////////////////////////////
 
-    function loadUsers(){
+    function loadUsers() {
         $scope.result = "";
         $scope.findUser = "";
 
@@ -60,7 +60,7 @@ angular.module('adminModule')
         }
     }
 
-    function loadPhysicians(){
+    function loadPhysicians() {
 
         if($scope.resultPhys.length == 0) {
             Physician.query(function(data) {
@@ -69,7 +69,7 @@ angular.module('adminModule')
         }
     }
     
-    function loadPhysicianGroups(){
+    function loadPhysicianGroups() {
 
         if($scope.resultPhyGroups.length == 0) {
             PhysicianFrontDeskGroup.query(function(data) {
@@ -98,7 +98,7 @@ angular.module('adminModule')
         }    
     });
 
-    $scope.$on('listado', function(event, args){
+    $scope.$on('listado', function(event, args) {
         $scope.isEditing = true;
     });
 }]);

@@ -5,6 +5,7 @@
 	"tmpFolder": "tmp/",
 	"reportTemplatePath": "/Users/ezabaw/Documents/orthopaedics/reports/report_template.xlsx",
 	"reportsFolderPath": "/Users/ezabaw/Documents/orthopaedics/gen_reports/",
+	"phySummaryScriptPath": "/Users/ezabaw/Documents/orthopaedics/scripts/phy-summary.0.2.py",
 	"excelFeedPath": "/Users/ezabaw/Documents/orthopaedics/HL7.xlsx",
 	"excelFeedScriptPath": "/Users/ezabaw/Documents/orthopaedics/hl7feeder.sh",
 	"accountSid": "ACf2babfb32a4c493396b47efd3e7e39ec",
