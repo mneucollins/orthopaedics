@@ -1,0 +1,11 @@
+to update forked repository from imbas go to your local repo and issue the following commands
+git fetch upstream
+git merge upstream/master
+
+If you are getting changes that were committed to a particular branch, I believe you will need to change to that branch on your local machine and issue these same commands (swapping out "master" with the name of the branch), for example
+git branch new-master
+git fetch upstream
+git merge upstream/new-master
+
+That will update the local copy which then needs to be pushed up to the forked copy on github
+git push
